@@ -1,0 +1,606 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 4.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     14486,        472]*)
+(*NotebookOutlinePosition[     15130,        494]*)
+(*  CellTagsIndexPosition[     15086,        490]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(TraditionalForm\`<< CodingTheory`\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`H = {{1, 1, 1, 1}, {1, 1, 0, 1}, {1, 0, 1, 
+          0}}\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?AugmentedCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`AugmentedCode[H]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?BinaryGaloisField\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; 
+    BinaryGaloisField[g, x, b, a]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?BinaryIrreduciblePolynomials\)\)], "Input"],
+
+Cell[BoxData[
+    \(n = 5; BinaryIrreduciblePolynomials[n, x]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?BurstRectangularCodeVector\)\)], "Input"],
+
+Cell[BoxData[
+    \(n = 3; m = 4; inf = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; 
+    BurstRectangularCodeVector[n, m, inf]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?CyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(g = 1 + x + x^3; n = 7; CyclicCode[g, n, x]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?DecHammingCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(m = 3; w = {1, 1, 1, 1, 0, 1, 1}; DecHammingCode[m, w]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?DecRectangularCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(n = 2; m = 3; w = {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1}; 
+    DecRectangularCode[n, m, w]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?DimensionCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(\(H = {{1, 1, 1, 1}, {1, 1, 0, 1}};\)\), "\[IndentingNewLine]", 
+    \(DimensionCode[H]\)}], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?DistanceCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(DistanceCode[H]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?DualCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(DualCode[H]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?EquivalentCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(q = {1, 2, 4, 3}; EquivalentCode[H, q]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ErrorTrappingDecodeBCHCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(w = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
+    ErrorTrappingDecodeBCHCode[w]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ErrorTrappingDecodeHammingCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(w = {1, 1, 1, 1, 0, 1, 0}; 
+    ErrorTrappingDecodeHammingCode[w, x]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ExpurgatingCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`H = {{1, 1, 1, 1}, {1, 1, 0, 1}, {1, 0, 1, 
+          0}}\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`ExpurgatingCode[H]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ExtendedCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`H\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`ExtendedCode[H]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?GeneratorMatrix\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`H\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`GeneratorMatrix[H]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?GeneratorPolynomials\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`n = 7; GeneratorPolynomials[n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?GilbertVarshamovBound\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 10; k = 2; d = 3; 
+    GilbertVarshamovBound[n, k, d];\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; k = 2; Clear[d]; 
+    GilbertVarshamovBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; Clear[k]; d = 3; 
+    GilbertVarshamovBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n]; k = 2; d = 3; 
+    GilbertVarshamovBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n, k]; d = 3; 
+    GilbertVarshamovBound[n, k, d]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?HammingBound\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 10; k = 2; d = 3; 
+    HammingBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; k = 2; Clear[d]; 
+    HammingBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; Clear[k]; d = 3; 
+    HammingBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n]; k = 2; d = 3; 
+    HammingBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n, k]; d = 3; HammingBound[n, k, d]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?HammingCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\(\(m = 
+        3\) \)\(;\)\(\(inf = {1, 1, 1, 0}\) \)\(;\)\(HammingCode[m, 
+      inf]\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?HammingMatrix\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`m = 3; HammingMatrix[m]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?McWilliamsIdentity\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`f = 1 + x^7; n = 7; 
+    McWilliamsIdentity[f, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?MeggittDecode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; n = 7; w = {1, 1, 0, 1, 0, 1, 0}; 
+    MeggittDecode[g, w, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?NonsystematicEncodeCyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; n = 7; inf = {1, 1, 0, 1}; 
+    NonsystematicEncodeCyclicCode[g, inf, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ParityCheckMatrix\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`G = {{1, 1, 1}, {1, 0, 1}}\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`ParityCheckMatrix[G]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?PuncturedCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 2; H\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`PuncturedCode[H, n]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?RectangularCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`inf = {1, 1, 1, 1, 0, 1}; n = 3; m = 2; 
+    RectangularCode[n, m, inf]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowBinaryGaloisField\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^4; 
+    ShowBinaryGaloisField[g, x, b, a]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowBurstRectangularCodeVector\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 5; m = 2; 
+    inf = {1, 1, 0, 0, 1, 1, 0, 0, 1, 1};\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`ShowBurstRectangularCodeVector[n, m, inf, 
+      X]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowCorrectBurstRectangularCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 5; m = 2; 
+    w = {1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 
+        1};\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`ShowCorrectBurstRectangularCode[n, m, w, 
+      X]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowCyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(g = 1 + x + x^3; n = 7; ShowCyclicCode[g, n, x]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowDecHammingCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(m = 3; w = {1, 1, 1, 1, 0, 1, 1}; ShowDecHammingCode[m, w]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowDecRectangularCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(n = 2; m = 3; w = {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1}; 
+    ShowDecRectangularCode[n, m, w]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowErrorTrappingDecoderBCHCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`ShowErrorTrappingDecoderBCHCode\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowHammingCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\(\(m = 
+        3\) \)\(;\)\(\(inf = {1, 1, 1, 0}\) \)\(;\)\(ShowHammingCode[m, 
+      inf]\)\(\ \)\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowMeggittDecoder\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; n = 7; 
+    ShowMeggittDecoder[g, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowNonsystematicEncoderCyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; n = 7; 
+    ShowNonsystematicEncoderCyclicCode[g, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowReconstructInformRectangularCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(n = 2; m = 3; 
+    w = {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1};\), "\[IndentingNewLine]", 
+    \(ShowReconstructInformRectangularCode[n, m, w, X]\)}], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowRectangularCode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(n = 2; m = 3; inf = {1, 1, 0, 1, 1, 1};\), "\[IndentingNewLine]", 
+    \(ShowRectangularCode[n, m, inf, X]\)}], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowStandardArrays\)\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        RowBox[{"H", "=", 
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+                {"1", "1", "1", "1"},
+                {"1", "1", "0", "1"},
+                {"1", "0", "1", "0"}
+                },
+              ColumnAlignments->{Decimal}], "\[NoBreak]", ")"}]}], 
+        ";", \(w = {1, 1, 0, 1}\), ";", \(ShowStandardArrays[H, w]\)}], 
+      TraditionalForm]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowSystematicEncode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(\(H = {{0, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 1, 1, 0, 
+            1}};\)\), "\[IndentingNewLine]", 
+    \(inf = {1, 0, 0, 1, 1}; ShowSystematicEncode[H, inf, x]\)}], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        RowBox[{"M", "=", "\[InvisibleSpace]", 
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+                {"0", "1", "1", "0", "1", "1", "0"},
+                {"1", "1", "1", "0", "1", "0", "1"}
+                },
+              ColumnAlignments->{Decimal}], "\[NoBreak]", ")"}]}], 
+        ";", \(ShowSystematicEncode[M, inf, x]\)}], TraditionalForm]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowSystematicEncoderCyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(g = 1 + x + x^3; n = 7; 
+    ShowSystematicEncoderCyclicCode[g, n, x]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowTableMult\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`n = 8; ShowTableMult[n]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?ShowTablePlus\)\)], "Input"],
+
+Cell[BoxData[
+    \(ShowTablePlus[n]\)], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?SingletonBound\)\)], "Input"],
+
+Cell[BoxData[{
+    \(TraditionalForm\`n = 10; k = 2; d = 3; 
+    SingletonBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; k = 2; Clear[d]; 
+    SingletonBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`n = 10; Clear[k]; d = 3; 
+    SingletonBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n]; k = 2; d = 3; 
+    SingletonBound[n, k, d]\), "\[IndentingNewLine]", 
+    \(TraditionalForm\`Clear[n, k]; d = 3; 
+    SingletonBound[n, k, d]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"H", "=", "\[InvisibleSpace]", 
+        RowBox[{"(", "\[NoBreak]", GridBox[{
+              {"0", "1", "1", "0", "1", "1", "0"},
+              {"1", "1", "1", "0", "1", "0", "1"}
+              },
+            ColumnAlignments->{Decimal}], "\[NoBreak]", ")"}]}], 
+      ";", \(v = {1, 1, 1, 1, 1, 1, 1}\), ";", \(Syndrome[H, v]\)}]], "Input",\
+
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?SystematicEncode\)\)], "Input"],
+
+Cell[BoxData[{
+    \(\(H = {{0, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 1, 1, 0, 
+            1}};\)\), "\[IndentingNewLine]", 
+    \(inf = {1, 0, 0, 1, 1}; SystematicEncode[H, inf, x]\)}], "Input",
+  FormatType->TraditionalForm],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?SystematicEncodeCyclicCode\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`g = 1 + x + x^3; inf = {1, 1, 0, 1}; n = 7; 
+    SystematicEncodeCyclicCode[g, inf, n, x]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?VEC\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`VEC[1000, 10]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(?WeightPolynomial\)\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\(\(H = HammingMatrix[3]\) \)\(;\)\(WeightPolynomial[
+      H, x]\)\(\ \)\)\)], "Input"]
+},
+FrontEndVersion->"4.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 695}},
+WindowSize->{588, 599},
+WindowMargins->{{14, Automatic}, {0, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 66, 1, 29, "Input"],
+Cell[1823, 54, 107, 2, 29, "Input"],
+Cell[1933, 58, 68, 1, 29, "Input"],
+Cell[2004, 61, 66, 1, 29, "Input"],
+Cell[2073, 64, 72, 1, 29, "Input"],
+Cell[2148, 67, 101, 2, 29, "Input"],
+Cell[2252, 71, 83, 1, 29, "Input"],
+Cell[2338, 74, 105, 2, 30, "Input"],
+Cell[2446, 78, 81, 1, 29, "Input"],
+Cell[2530, 81, 164, 3, 50, "Input"],
+Cell[2697, 86, 65, 1, 29, "Input"],
+Cell[2765, 89, 107, 2, 30, "Input"],
+Cell[2875, 93, 69, 1, 29, "Input"],
+Cell[2947, 96, 118, 2, 30, "Input"],
+Cell[3068, 100, 73, 1, 29, "Input"],
+Cell[3144, 103, 152, 3, 50, "Input"],
+Cell[3299, 108, 68, 1, 29, "Input"],
+Cell[3370, 111, 153, 3, 50, "Input"],
+Cell[3526, 116, 67, 1, 29, "Input"],
+Cell[3596, 119, 79, 2, 30, "Input"],
+Cell[3678, 123, 63, 1, 29, "Input"],
+Cell[3744, 126, 75, 2, 30, "Input"],
+Cell[3822, 130, 69, 1, 29, "Input"],
+Cell[3894, 133, 102, 2, 30, "Input"],
+Cell[3999, 137, 81, 1, 29, "Input"],
+Cell[4083, 140, 149, 3, 50, "Input"],
+Cell[4235, 145, 85, 1, 29, "Input"],
+Cell[4323, 148, 132, 3, 30, "Input"],
+Cell[4458, 153, 70, 1, 29, "Input"],
+Cell[4531, 156, 178, 3, 48, "Input"],
+Cell[4712, 161, 67, 1, 29, "Input"],
+Cell[4782, 164, 119, 2, 48, "Input"],
+Cell[4904, 168, 70, 1, 29, "Input"],
+Cell[4977, 171, 122, 2, 48, "Input"],
+Cell[5102, 175, 75, 1, 29, "Input"],
+Cell[5180, 178, 83, 1, 29, "Input"],
+Cell[5266, 181, 76, 1, 29, "Input"],
+Cell[5345, 184, 548, 10, 124, "Input"],
+Cell[5896, 196, 67, 1, 29, "Input"],
+Cell[5966, 199, 497, 9, 124, "Input"],
+Cell[6466, 210, 66, 1, 29, "Input"],
+Cell[6535, 213, 150, 3, 29, "Input"],
+Cell[6688, 218, 68, 1, 29, "Input"],
+Cell[6759, 221, 73, 1, 29, "Input"],
+Cell[6835, 224, 73, 1, 29, "Input"],
+Cell[6911, 227, 102, 2, 29, "Input"],
+Cell[7016, 231, 68, 1, 29, "Input"],
+Cell[7087, 234, 131, 2, 29, "Input"],
+Cell[7221, 238, 84, 1, 29, "Input"],
+Cell[7308, 241, 142, 2, 48, "Input"],
+Cell[7453, 245, 72, 1, 29, "Input"],
+Cell[7528, 248, 149, 2, 48, "Input"],
+Cell[7680, 252, 68, 1, 29, "Input"],
+Cell[7751, 255, 130, 2, 48, "Input"],
+Cell[7884, 259, 70, 1, 29, "Input"],
+Cell[7957, 262, 121, 2, 29, "Input"],
+Cell[8081, 266, 76, 1, 29, "Input"],
+Cell[8160, 269, 105, 2, 29, "Input"],
+Cell[8268, 273, 85, 1, 29, "Input"],
+Cell[8356, 276, 210, 4, 48, "Input"],
+Cell[8569, 282, 86, 1, 29, "Input"],
+Cell[8658, 285, 240, 5, 48, "Input"],
+Cell[8901, 292, 69, 1, 29, "Input"],
+Cell[8973, 295, 111, 2, 30, "Input"],
+Cell[9087, 299, 73, 1, 29, "Input"],
+Cell[9163, 302, 122, 2, 30, "Input"],
+Cell[9288, 306, 77, 1, 29, "Input"],
+Cell[9368, 309, 156, 3, 50, "Input"],
+Cell[9527, 314, 86, 1, 29, "Input"],
+Cell[9616, 317, 81, 1, 29, "Input"],
+Cell[9700, 320, 70, 1, 29, "Input"],
+Cell[9773, 323, 154, 3, 29, "Input"],
+Cell[9930, 328, 73, 1, 29, "Input"],
+Cell[10006, 331, 106, 2, 29, "Input"],
+Cell[10115, 335, 89, 1, 29, "Input"],
+Cell[10207, 338, 122, 2, 29, "Input"],
+Cell[10332, 342, 91, 1, 29, "Input"],
+Cell[10426, 345, 208, 4, 50, "Input"],
+Cell[10637, 351, 74, 1, 29, "Input"],
+Cell[10714, 354, 172, 3, 50, "Input"],
+Cell[10889, 359, 73, 1, 29, "Input"],
+Cell[10965, 362, 422, 11, 63, "Input"],
+Cell[11390, 375, 75, 1, 29, "Input"],
+Cell[11468, 378, 222, 4, 70, "Input"],
+Cell[11693, 384, 408, 9, 45, "Input"],
+Cell[12104, 395, 86, 1, 29, "Input"],
+Cell[12193, 398, 133, 3, 30, "Input"],
+Cell[12329, 403, 68, 1, 29, "Input"],
+Cell[12400, 406, 73, 1, 29, "Input"],
+Cell[12476, 409, 68, 1, 29, "Input"],
+Cell[12547, 412, 80, 2, 30, "Input"],
+Cell[12630, 416, 69, 1, 29, "Input"],
+Cell[12702, 419, 512, 10, 124, "Input"],
+Cell[13217, 431, 413, 10, 41, "Input"],
+Cell[13633, 443, 71, 1, 29, "Input"],
+Cell[13707, 446, 218, 4, 70, "Input"],
+Cell[13928, 452, 81, 1, 29, "Input"],
+Cell[14012, 455, 139, 2, 48, "Input"],
+Cell[14154, 459, 58, 1, 29, "Input"],
+Cell[14215, 462, 63, 1, 29, "Input"],
+Cell[14281, 465, 71, 1, 29, "Input"],
+Cell[14355, 468, 127, 2, 29, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
