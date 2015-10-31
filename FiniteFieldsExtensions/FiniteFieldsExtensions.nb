@@ -10,19 +10,20 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     33500,        953]
-NotebookOptionsPosition[     32449,        919]
-NotebookOutlinePosition[     32784,        934]
-CellTagsIndexPosition[     32741,        931]
+NotebookDataLength[     33556,        954]
+NotebookOptionsPosition[     32505,        920]
+NotebookOutlinePosition[     32840,        935]
+CellTagsIndexPosition[     32797,        932]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell["\<\
-https://mathematica.stackexchange.com/questions/16159/how-to-do-the-\
+Zdroj: https://mathematica.stackexchange.com/questions/16159/how-to-do-the-\
 polynomial-stuff-over-finite-fields-extensions-fast\
 \>", "Text",
- CellChangeTimes->{{3.655279369607932*^9, 3.655279386229916*^9}}],
+ CellChangeTimes->{{3.655279369607932*^9, 3.655279386229916*^9}, {
+  3.655310111795518*^9, 3.655310113315805*^9}}],
 
 Cell["\<\
 I do not have functionality to cover anywhere near e.g. factorization (except \
@@ -918,7 +919,7 @@ field.\
  CellChangeTimes->{3.655279717087317*^9}]
 },
 WindowSize->{720, 808},
-WindowMargins->{{130, Automatic}, {Automatic, -8}},
+WindowMargins->{{120, Automatic}, {Automatic, -8}},
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -933,28 +934,28 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 211, 4, 55, "Text"],
-Cell[772, 26, 609, 11, 187, "Text"],
-Cell[1384, 39, 1571, 46, 165, "Input"],
-Cell[2958, 87, 66, 1, 33, "Text"],
-Cell[3027, 90, 1422, 43, 187, "Input"],
-Cell[4452, 135, 301, 7, 99, "Text"],
-Cell[4756, 144, 2337, 66, 297, "Input"],
-Cell[7096, 212, 68, 1, 33, "Text"],
-Cell[7167, 215, 598, 14, 99, "Input"],
-Cell[7768, 231, 306, 6, 77, "Text"],
-Cell[8077, 239, 680, 17, 99, "Input"],
-Cell[8760, 258, 97, 1, 33, "Text"],
-Cell[8860, 261, 679, 16, 99, "Input"],
-Cell[9542, 279, 137, 3, 33, "Text"],
-Cell[9682, 284, 1075, 37, 143, "Input"],
-Cell[10760, 323, 468, 8, 99, "Text"],
-Cell[11231, 333, 4124, 109, 429, "Input"],
-Cell[15358, 444, 79, 1, 33, "Text"],
-Cell[15440, 447, 4176, 102, 473, "Input"],
-Cell[19619, 551, 5124, 146, 3047, "Text"],
-Cell[24746, 699, 6425, 190, 385, "Input"],
-Cell[31174, 891, 1271, 26, 473, "Text"]
+Cell[558, 20, 267, 5, 55, "Text"],
+Cell[828, 27, 609, 11, 187, "Text"],
+Cell[1440, 40, 1571, 46, 165, "Input"],
+Cell[3014, 88, 66, 1, 33, "Text"],
+Cell[3083, 91, 1422, 43, 187, "Input"],
+Cell[4508, 136, 301, 7, 99, "Text"],
+Cell[4812, 145, 2337, 66, 297, "Input"],
+Cell[7152, 213, 68, 1, 33, "Text"],
+Cell[7223, 216, 598, 14, 99, "Input"],
+Cell[7824, 232, 306, 6, 77, "Text"],
+Cell[8133, 240, 680, 17, 99, "Input"],
+Cell[8816, 259, 97, 1, 33, "Text"],
+Cell[8916, 262, 679, 16, 99, "Input"],
+Cell[9598, 280, 137, 3, 33, "Text"],
+Cell[9738, 285, 1075, 37, 143, "Input"],
+Cell[10816, 324, 468, 8, 99, "Text"],
+Cell[11287, 334, 4124, 109, 429, "Input"],
+Cell[15414, 445, 79, 1, 33, "Text"],
+Cell[15496, 448, 4176, 102, 473, "Input"],
+Cell[19675, 552, 5124, 146, 3047, "Text"],
+Cell[24802, 700, 6425, 190, 385, "Input"],
+Cell[31230, 892, 1271, 26, 473, "Text"]
 }
 ]
 *)
