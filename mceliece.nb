@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     32922,        887]
-NotebookOptionsPosition[     30824,        818]
-NotebookOutlinePosition[     31185,        834]
-CellTagsIndexPosition[     31142,        831]
+NotebookDataLength[     41725,       1113]
+NotebookOptionsPosition[     39315,       1036]
+NotebookOutlinePosition[     39705,       1053]
+CellTagsIndexPosition[     39662,       1050]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -84,16 +84,9 @@ Cell["Vojt\[EHacek]ch Myslivec, FIT \[CapitalCHacek]VUT v Praze, 2015 ", \
  Magnification->1.,
  Background->None],
 
-Cell[BoxData[{
+Cell[BoxData[
  RowBox[{
-  RowBox[{"SetDirectory", "[", 
-   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Get", "[", "\"\<CodingTheory/CodingTheory.m\>\"", "]"}], 
-  ";"}]}], "Input",
- CellChangeTimes->{{3.653810941599771*^9, 3.653810981115061*^9}, {
-  3.6538110686677227`*^9, 3.6538110758584137`*^9}}],
+  RowBox[{"Needs", "[", "\"\<FiniteFields`\>\"", "]"}], ";"}]], "Input"],
 
 Cell[CellGroupData[{
 
@@ -159,7 +152,7 @@ Cell[TextData[{
  Cell[BoxData[
   FormBox["t", TraditionalForm]]],
  " chyb.\n",
- StyleBox["TODO -- pou\[ZHacek]ity Hammingovy k\.b4ody opravuj\[IAcute]c\
+ StyleBox["TODO -- pou\[ZHacek]ity Hammingovy k\[OAcute]dy opravuj\[IAcute]c\
 \[IAcute] 1 chybu.",
   FontColor->RGBColor[1, 0, 0]]
 }], "Text",
@@ -169,7 +162,220 @@ Cell[TextData[{
   3.653648503407836*^9, 3.653648537279201*^9}, {3.653648573662838*^9, 
   3.653648612469419*^9}, {3.6536494391878557`*^9, 3.653649541395586*^9}, {
   3.653649572354273*^9, 3.653649595471339*^9}, {3.653812532923646*^9, 
-  3.653812550739196*^9}}],
+  3.653812550739196*^9}, {3.654926535467*^9, 3.654926536595471*^9}}],
+
+Cell["\<\
+Du\[AAcute]ln\[IAcute] k\[OAcute]d -- pou\[ZHacek]\[IAcute]v\[AAcute] se pro \
+z\[IAcute]sk\[AAcute]n\[IAcute] generuj\[IAcute]c\[IAcute] matice z kontroln\
+\[IAcute] a obr\[AAcute]cen\[EHacek]\
+\>", "Text",
+ CellChangeTimes->{{3.6549266931107187`*^9, 3.654926719707959*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dualniKod", "[", "M_List", "]"}], ":=", 
+  RowBox[{"NullSpace", "[", 
+   RowBox[{"M", ",", 
+    RowBox[{"Modulus", "\[Rule]", "2"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6549266043916817`*^9, 3.6549266308888187`*^9}, {
+  3.654926682591304*^9, 3.654926689798951*^9}}],
+
+Cell[TextData[{
+ "Kontroln\[IAcute] matice Hammingova k\[OAcute]du ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    RowBox[{"n", ",", "k"}], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", kde ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"n", "=", 
+    RowBox[{
+     SuperscriptBox["2", "r"], "-", "1"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " a ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"k", "=", 
+    RowBox[{"n", "-", "r"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " "
+}], "Text",
+ CellChangeTimes->{{3.654926044062674*^9, 3.6549261607724943`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"hamminguvKod", "[", 
+   RowBox[{"r_Integer", "/;", 
+    RowBox[{"r", ">", "1"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"gf", ",", "h", ",", "mnozina"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"teleso", " ", "GF", 
+      RowBox[{"(", 
+       SuperscriptBox["2", "r"], ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    
+    RowBox[{
+     RowBox[{"gf", "=", 
+      RowBox[{"GF", "[", 
+       RowBox[{"2", ",", "r"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "vsechny", " ", "prvky", " ", "z", " ", "daneho", " ", "telesa", " ", 
+       RowBox[{"(", 
+        RowBox[{"x", " ", "je", " ", "generator"}], ")"}]}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"mnozina", "=", 
+      RowBox[{
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"gf", "[", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1"}], "}"}], "]"}], "#"], "&"}], "/@", 
+       RowBox[{"Range", "[", 
+        RowBox[{
+         SuperscriptBox["2", "r"], "-", "1"}], "]"}]}]}], " ", ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{"aby", " ", "1", " ", "byla", " ", "prvni"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"mnozina", "=", 
+      RowBox[{"RotateRight", "[", "mnozina", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "kontrolni", " ", "matice", " ", "je", " ", "jen", " ", "prohozeni", 
+       " ", "sloupcu", " ", "a", " ", "radku"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"h", "=", 
+      RowBox[{"mnozina", "\[LeftDoubleBracket]", 
+       RowBox[{"All", ",", "1"}], "\[RightDoubleBracket]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"h", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"Reverse", "/@", 
+        RowBox[{"Reverse", "[", "h", "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "h"}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.654926029614159*^9, 3.654926041390765*^9}, {
+  3.6549261656521187`*^9, 3.6549263366972017`*^9}, {3.654926410118905*^9, 
+  3.6549264607982473`*^9}, {3.654927019271607*^9, 3.654927036679406*^9}, {
+  3.654927367146187*^9, 3.6549274489202223`*^9}, {3.654927482703526*^9, 
+  3.654927483086174*^9}, {3.654927670692319*^9, 3.6549276910183268`*^9}, {
+  3.6549277445699453`*^9, 3.654927745586578*^9}, {3.6549277835703583`*^9, 
+  3.654927793601219*^9}, {3.654927850136427*^9, 3.6549279088080072`*^9}, {
+  3.6549279761037292`*^9, 3.654928009299677*^9}, {3.654928087445187*^9, 
+  3.6549281067311687`*^9}}],
+
+Cell[TextData[{
+ "Dek\[OAcute]duje slovo z Hammingova k\[OAcute]du. Delka ",
+ Cell[BoxData[
+  FormBox["r", TraditionalForm]]],
+ " (viz hamminguvKod) je zjistena z velikosti slova ",
+ Cell[BoxData[
+  FormBox["c", TraditionalForm]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.6549267644194937`*^9, 3.654926816947589*^9}, {
+  3.654926854211533*^9, 3.654926877802631*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dekodujHamminguvKod", "[", "c_List", "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "n", ",", "k", ",", "r", ",", "h", ",", "s", ",", "e", ",", "d"}], "}"}],
+     ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "delka", " ", "a", " ", "redundance", " ", "pouziteho", " ", "kodu"}], 
+     " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"n", "=", 
+      RowBox[{"Length", "[", "c", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"r", "=", 
+      RowBox[{"Log", "[", 
+       RowBox[{"2", ",", 
+        RowBox[{"1", "+", "n"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"k", "=", 
+      RowBox[{"n", "-", "r"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"h", "=", 
+      RowBox[{"hamminguvKod", "[", "r", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"s", "=", 
+      RowBox[{"dot", "[", 
+       RowBox[{"c", ",", 
+        RowBox[{"h", "\[Transpose]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{"Pokud", " ", "nedoslo", " ", "k", " ", "chybe"}], ",", " ", 
+       RowBox[{
+        RowBox[{"skonci", " ", "--"}], " ", "neni", " ", "treba"}], ",", " ", 
+       
+       RowBox[{"jen", " ", "setri", " ", "vykon"}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"s", "\[Equal]", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"0", "&"}], "/@", 
+          RowBox[{"Range", "[", "r", "]"}]}], ")"}]}], ",", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"neni", " ", "chyba"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"e", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"0", "&"}], "/@", 
+          RowBox[{"Range", "[", "n", "]"}]}], ")"}]}], ",", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"oprava", " ", "1", " ", "chyby"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"chyba", " ", "nastala", " ", "tam"}], ",", " ", 
+         RowBox[{
+         "kde", " ", "se", " ", "shoduje", " ", "se", " ", "sloupcem", " ", 
+          "kontrolni", " ", "matice"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       
+       RowBox[{"e", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"s", "\[Equal]", "#"}], "&"}], "/@", 
+          RowBox[{"(", 
+           RowBox[{"h", "\[Transpose]"}], ")"}]}], "/.", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"True", "\[Rule]", "1"}], ",", 
+           RowBox[{"False", "\[Rule]", "0"}]}], "}"}]}]}]}], 
+      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"d", "=", 
+      RowBox[{"plus", "[", 
+       RowBox[{"c", ",", "e"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Reverse", "[", 
+         RowBox[{"Take", "[", 
+          RowBox[{"d", ",", 
+           RowBox[{"-", "k"}]}], "]"}], "]"}], ",", "e"}], "}"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.6549267474674273`*^9, 3.654926762780868*^9}, {
+  3.654926880130886*^9, 3.654926900282206*^9}, {3.65492701507148*^9, 
+  3.6549271189511757`*^9}, {3.654927312571746*^9, 3.6549273632726107`*^9}, {
+  3.654929234596978*^9, 3.654929369093149*^9}}],
+
+Cell["Generujici matice pro pou\[ZHacek]it\[IAcute] v McEliece", "Text",
+ CellChangeTimes->{{3.654926503450719*^9, 3.654926525234601*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -210,8 +416,8 @@ Cell[BoxData[
 - k\)]\)-1 = n! Napr n=7,k=4\>\"", "]"}], ";", 
         RowBox[{"Return", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
      "\[IndentingNewLine]", 
-     RowBox[{"DualCode", "[", 
-      RowBox[{"HammingMatrix", "[", 
+     RowBox[{"dualniKod", "[", 
+      RowBox[{"hamminguvKod", "[", 
        RowBox[{"n", "-", "k"}], "]"}], "]"}]}]}], "\[IndentingNewLine]", 
    "]"}]}]], "Input",
  CellChangeTimes->{{3.653647677661592*^9, 3.653647742813533*^9}, {
@@ -222,7 +428,9 @@ Cell[BoxData[
    3.653811133264629*^9, 3.653811161427902*^9}, {3.653811764859768*^9, 
    3.653811812228314*^9}, {3.653811865962229*^9, 3.653812001319695*^9}, {
    3.653812141316971*^9, 3.6538121438108597`*^9}, {3.653812519294271*^9, 
-   3.65381251934822*^9}, 3.653812572276976*^9}],
+   3.65381251934822*^9}, 3.653812572276976*^9, 3.654926494679249*^9, {
+   3.654926827077334*^9, 3.654926828355817*^9}, {3.6552008562238417`*^9, 
+   3.6552008767590847`*^9}}],
 
 Cell[TextData[{
  "Dek\[OAcute]duje slovo ",
@@ -268,14 +476,13 @@ Cell[BoxData[
          ";", "\[IndentingNewLine]", 
         RowBox[{"Return", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
      "\[IndentingNewLine]", 
-     RowBox[{"DecHammingCode", "[", 
-      RowBox[{
-       RowBox[{"n", "-", "k"}], ",", "c"}], "]"}]}]}], "\[IndentingNewLine]", 
-   "]"}]}]], "Input",
+     RowBox[{"dekodujHamminguvKod", "[", "c", "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
  CellChangeTimes->{{3.653812011375367*^9, 3.653812038894103*^9}, {
   3.653812108244125*^9, 3.653812149731614*^9}, {3.6538122455380163`*^9, 
   3.653812437854732*^9}, {3.653812767024284*^9, 3.6538127793187323`*^9}, {
-  3.6538129644523*^9, 3.653812964954895*^9}}],
+  3.6538129644523*^9, 3.653812964954895*^9}, {3.654926840627409*^9, 
+  3.6549268467552757`*^9}}],
 
 Cell[TextData[{
  "N\[AAcute]hodn\[AAcute] permuta\[CHacek]n\[IAcute] matice ",
@@ -330,12 +537,12 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"{", 
      RowBox[{
-      RowBox[{"d", "=", "0"}], ",", "M"}], "}"}], ",", "\[IndentingNewLine]", 
-    
+      RowBox[{"r", "=", "0"}], ",", "M", ",", 
+      RowBox[{"i", "=", "0"}]}], "}"}], ",", "\[IndentingNewLine]", 
     RowBox[{
      RowBox[{"While", "[", "\[IndentingNewLine]", 
       RowBox[{
-       RowBox[{"d", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"r", "\[NotEqual]", "k"}], ",", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{"M", "=", 
          RowBox[{"RandomChoice", "[", 
@@ -345,19 +552,26 @@ Cell[BoxData[
            RowBox[{"{", 
             RowBox[{"k", ",", "k"}], "}"}]}], "]"}]}], ";", 
         "\[IndentingNewLine]", 
-        RowBox[{"d", "=", 
-         RowBox[{"Det", "[", 
+        RowBox[{"r", "=", 
+         RowBox[{"MatrixRank", "[", 
           RowBox[{"M", ",", 
-           RowBox[{"Modulus", "\[Rule]", "2"}]}], "]"}]}]}]}], 
-      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", "M"}]}], 
-   "\[IndentingNewLine]", "]"}]}]], "Input",
+           RowBox[{"Modulus", "\[Rule]", "2"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"i", "++"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"{", 
+       RowBox[{"M", ",", "i"}], "}"}], "*)"}], "\[IndentingNewLine]", "M"}]}],
+    "\[IndentingNewLine]", "]"}]}]], "Input",
  CellChangeTimes->{{3.653647677661592*^9, 3.653647742813533*^9}, {
   3.653647784094371*^9, 3.653647803205123*^9}, {3.6536481000646763`*^9, 
   3.653648102303525*^9}, {3.653648450065443*^9, 3.6536484709852858`*^9}, {
   3.653648503407836*^9, 3.653648537279201*^9}, {3.653648573662838*^9, 
   3.653648612469419*^9}, {3.6536494391878557`*^9, 3.653649553949822*^9}, {
   3.6538134981745872`*^9, 3.653813514902121*^9}, {3.65392973472838*^9, 
-  3.6539297361598063`*^9}, {3.653931602264111*^9, 3.653931606471373*^9}}],
+  3.6539297361598063`*^9}, {3.653931602264111*^9, 3.653931606471373*^9}, {
+  3.655200884278255*^9, 3.655200895357853*^9}, {3.6552011398200502`*^9, 
+  3.655201220022389*^9}, {3.6552064729868298`*^9, 3.655206484482192*^9}}],
 
 Cell[TextData[{
  "N\[AAcute]hodn\[YAcute] vektor d\[EAcute]lky n (nad ",
@@ -758,7 +972,7 @@ Cell[BoxData[{
   RowBox[{"hatm", "=", 
    RowBox[{
     RowBox[{"dekoduj", "[", 
-     RowBox[{"G", ",", "hatc"}], "]"}], "\[LeftDoubleBracket]", "2", 
+     RowBox[{"G", ",", "hatc"}], "]"}], "\[LeftDoubleBracket]", "1", 
     "\[RightDoubleBracket]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"m", "=", 
   RowBox[{"dot", "[", 
@@ -771,19 +985,21 @@ Cell[BoxData[{
    3.653652110368943*^9, 3.653652110566141*^9}, {3.653652573406355*^9, 
    3.653652617933343*^9}, {3.653812670923972*^9, 3.653812671663965*^9}, {
    3.653812975091044*^9, 3.653812979234729*^9}, {3.6538130491696653`*^9, 
-   3.653813052903908*^9}, {3.653813140654736*^9, 3.6538131899731216`*^9}}],
+   3.653813052903908*^9}, {3.653813140654736*^9, 3.6538131899731216`*^9}, {
+   3.65492940311578*^9, 3.654929403266553*^9}}],
 
 Cell[BoxData[
  RowBox[{"ClearAll", "[", 
   RowBox[{
   "n", ",", "k", ",", "t", ",", "hatG", ",", "G", ",", "S", ",", "P", ",", 
-   "invS", ",", "invP", ",", "m"}], "]"}]], "Input",
+   "invS", ",", "invP", ",", "m", ",", "hatc", ",", "hatm"}], "]"}]], "Input",\
+
  CellChangeTimes->{{3.6536489906649427`*^9, 3.6536490170055943`*^9}, {
    3.653650410946135*^9, 3.653650427305296*^9}, {3.653650898864809*^9, 
    3.653650910559847*^9}, {3.653651034493864*^9, 3.6536510434459257`*^9}, {
    3.653652495560688*^9, 3.6536524966073217`*^9}, 3.653652548442374*^9, {
    3.653652626100892*^9, 3.653652628909134*^9}, {3.653652665412472*^9, 
-   3.6536526665713177`*^9}}]
+   3.6536526665713177`*^9}, {3.654929420194784*^9, 3.654929423746299*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -812,13 +1028,16 @@ Cell[BoxData[{
  CellChangeTimes->{{3.653929718271284*^9, 3.653929719823001*^9}, {
   3.653929756336919*^9, 3.653929884225915*^9}, {3.6539302736300163`*^9, 
   3.6539302795554943`*^9}, {3.653931002071138*^9, 3.653931007915127*^9}, {
-  3.653931542433872*^9, 3.653931549544725*^9}}]
+  3.653931542433872*^9, 3.653931549544725*^9}, {3.6547924060366077`*^9, 
+  3.65479240629799*^9}, {3.655199719853181*^9, 3.655199720882638*^9}, {
+  3.655200264167966*^9, 3.6552002646208*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
 WindowToolbars->"EditBar",
-WindowSize->{720, 808},
-WindowMargins->{{-9, Automatic}, {Automatic, -8}},
+WindowSize->{1440, 809},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>1.5 Inherited,
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -837,56 +1056,63 @@ Cell[558, 20, 1901, 64, 28, "Text",
  Evaluatable->False,
  CellOpen->True,
  CellGroupingRules->"NormalGrouping"],
-Cell[2462, 86, 359, 9, 55, "Input"],
+Cell[2462, 86, 96, 2, 45, "Input"],
 Cell[CellGroupData[{
-Cell[2846, 99, 91, 1, 96, "Title"],
-Cell[2940, 102, 220, 4, 33, "Text"],
+Cell[2583, 92, 91, 1, 144, "Title"],
+Cell[2677, 95, 220, 4, 49, "Text"],
 Cell[CellGroupData[{
-Cell[3185, 110, 109, 1, 67, "Section"],
-Cell[3297, 113, 138, 1, 33, "Text"],
-Cell[3438, 116, 600, 12, 32, "Input"],
-Cell[4041, 130, 463, 6, 33, "Text"],
-Cell[4507, 138, 550, 11, 32, "Input"],
-Cell[5060, 151, 838, 20, 55, "Text"],
-Cell[5901, 173, 2076, 51, 345, "Input"],
-Cell[7980, 226, 666, 14, 33, "Text"],
-Cell[8649, 242, 1456, 35, 231, "Input"],
-Cell[10108, 279, 627, 12, 33, "Text"],
-Cell[10738, 293, 688, 11, 32, "Input"],
-Cell[11429, 306, 741, 17, 33, "Text"],
-Cell[12173, 325, 1478, 34, 209, "Input"],
-Cell[13654, 361, 737, 15, 33, "Text"],
-Cell[14394, 378, 1527, 33, 121, "Input"],
-Cell[15924, 413, 145, 2, 33, "Text"]
+Cell[2922, 103, 109, 1, 100, "Section"],
+Cell[3034, 106, 138, 1, 49, "Text"],
+Cell[3175, 109, 600, 12, 47, "Input"],
+Cell[3778, 123, 463, 6, 49, "Text"],
+Cell[4244, 131, 550, 11, 47, "Input"],
+Cell[4797, 144, 885, 20, 82, "Text"],
+Cell[5685, 166, 285, 5, 49, "Text"],
+Cell[5973, 173, 307, 7, 47, "Input"],
+Cell[6283, 182, 596, 22, 49, "Text"],
+Cell[6882, 206, 2658, 64, 409, "Input"],
+Cell[9543, 272, 365, 10, 49, "Text"],
+Cell[9911, 284, 3577, 90, 743, "Input"],
+Cell[13491, 376, 138, 1, 49, "Text"],
+Cell[13632, 379, 2202, 53, 310, "Input"],
+Cell[15837, 434, 666, 14, 49, "Text"],
+Cell[16506, 450, 1457, 34, 308, "Input"],
+Cell[17966, 486, 627, 12, 49, "Text"],
+Cell[18596, 500, 688, 11, 47, "Input"],
+Cell[19287, 513, 741, 17, 49, "Text"],
+Cell[20031, 532, 1845, 41, 337, "Input"],
+Cell[21879, 575, 737, 15, 49, "Text"],
+Cell[22619, 592, 1527, 33, 163, "Input"],
+Cell[24149, 627, 145, 2, 49, "Text"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[16106, 420, 142, 1, 67, "Section"],
-Cell[16251, 423, 953, 28, 99, "Text"],
+Cell[24331, 634, 142, 1, 100, "Section"],
+Cell[24476, 637, 953, 28, 147, "Text"],
 Cell[CellGroupData[{
-Cell[17229, 455, 1161, 28, 165, "Input",
+Cell[25454, 669, 1161, 28, 220, "Input",
  CellGroupingRules->{GroupTogetherGrouping, 10000.}],
-Cell[18393, 485, 1601, 36, 259, "Input",
+Cell[26618, 699, 1601, 36, 347, "Input",
  CellGroupingRules->{GroupTogetherGrouping, 10000.}]
 }, Open  ]],
-Cell[20009, 524, 800, 24, 41, "Text"],
-Cell[20812, 550, 885, 23, 99, "Input"],
-Cell[21700, 575, 512, 9, 32, "Input"]
+Cell[28234, 738, 800, 24, 60, "Text"],
+Cell[29037, 764, 885, 23, 104, "Input"],
+Cell[29925, 789, 512, 9, 45, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[22249, 589, 176, 2, 67, "Section"],
-Cell[22428, 593, 1225, 34, 84, "Text"],
-Cell[23656, 629, 1827, 50, 209, "Input"],
-Cell[25486, 681, 522, 9, 32, "Input"]
+Cell[30474, 803, 176, 2, 100, "Section"],
+Cell[30653, 807, 1225, 34, 122, "Text"],
+Cell[31881, 843, 1827, 50, 278, "Input"],
+Cell[33711, 895, 522, 9, 45, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26045, 695, 220, 3, 67, "Section"],
-Cell[26268, 700, 1249, 33, 105, "Text"],
-Cell[27520, 735, 1601, 38, 187, "Input"],
-Cell[29124, 775, 574, 10, 32, "Input"]
+Cell[34270, 909, 220, 3, 100, "Section"],
+Cell[34493, 914, 1249, 33, 153, "Text"],
+Cell[35745, 949, 1650, 39, 249, "Input"],
+Cell[37398, 990, 648, 11, 45, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[29735, 790, 281, 3, 67, "Section"],
-Cell[30019, 795, 777, 19, 55, "Input"]
+Cell[38083, 1006, 281, 3, 100, "Section"],
+Cell[38367, 1011, 920, 21, 75, "Input"]
 }, Open  ]]
 }, Open  ]]
 }

@@ -1,0 +1,962 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     33500,        953]
+NotebookOptionsPosition[     32449,        919]
+NotebookOutlinePosition[     32784,        934]
+CellTagsIndexPosition[     32741,        931]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+https://mathematica.stackexchange.com/questions/16159/how-to-do-the-\
+polynomial-stuff-over-finite-fields-extensions-fast\
+\>", "Text",
+ CellChangeTimes->{{3.655279369607932*^9, 3.655279386229916*^9}}],
+
+Cell["\<\
+I do not have functionality to cover anywhere near e.g. factorization (except \
+over prime fields). I will provide code that I use for some of the simpler \
+tasks though. I will assume that the reader (probably taking flight by the \
+next line or so) is familiar with basics of representing elements in \
+extrension fields, e.g. as polynomials of degree less than that of a given \
+defining polynomial.
+
+First we\[CloseCurlyQuote]ll want a way to define an extension field. For \
+that we need, at minimum, an irreducible of the correct degree.\
+\>", "Text",
+ CellChangeTimes->{3.655279408839456*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"randpoly", "[", 
+    RowBox[{"x_", ",", "p_", ",", "deg_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Random", "[", 
+        RowBox[{"Integer", ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"p", "-", "1"}]}], "}"}]}], "]"}], ",", 
+       RowBox[{"{", "deg", "}"}]}], "]"}], ".", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"x", "^", "j"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", "0", ",", 
+         RowBox[{"deg", "-", "1"}]}], "}"}]}], "]"}]}], "+", 
+    RowBox[{"x", "^", "deg"}]}]}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"getIrreducible", "[", 
+   RowBox[{"x_", ",", "p_", ",", "deg_"}], "]"}], ":=", 
+  RowBox[{"Catch", "[", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "poly", "}"}], ",", 
+     RowBox[{"While", "[", 
+      RowBox[{"True", ",", 
+       RowBox[{
+        RowBox[{"poly", "=", 
+         RowBox[{"randpoly", "[", 
+          RowBox[{"x", ",", "p", ",", "deg"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", 
+            RowBox[{"FactorList", "[", 
+             RowBox[{"poly", ",", 
+              RowBox[{"Modulus", "\[Rule]", "p"}]}], "]"}], "]"}], "\[Equal]",
+            "2"}], ",", 
+          RowBox[{"Throw", "[", "poly", "]"}]}], "]"}], ";"}]}], "]"}]}], 
+    "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.65527941719086*^9, 3.6552794172150517`*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{3.655279424323711*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"p", "=", "293"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"deg", "=", "15"}], ";"}], "\n", 
+ RowBox[{"SeedRandom", "[", "1111", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"irred", "=", 
+   RowBox[{"getIrreducible", "[", 
+    RowBox[{"x", ",", "p", ",", "deg"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"38", "+", 
+    RowBox[{"117", " ", "x"}], "+", 
+    RowBox[{"244", " ", 
+     RowBox[{"x", "^", "2"}]}], "+", 
+    RowBox[{"234", " ", 
+     RowBox[{"x", "^", "3"}]}], "+", 
+    RowBox[{"212", " ", 
+     RowBox[{"x", "^", "4"}]}], "+", 
+    RowBox[{"142", " ", 
+     RowBox[{"x", "^", "5"}]}], "+", 
+    RowBox[{"103", " ", 
+     RowBox[{"x", "^", "6"}]}], "+", 
+    RowBox[{"60", " ", 
+     RowBox[{"x", "^", "7"}]}], "+", 
+    RowBox[{"203", " ", 
+     RowBox[{"x", "^", "8"}]}], "+", 
+    RowBox[{"124", " ", 
+     RowBox[{"x", "^", "9"}]}], "+", 
+    RowBox[{"183", " ", 
+     RowBox[{"x", "^", "10"}]}], "+", 
+    RowBox[{"96", " ", 
+     RowBox[{"x", "^", "11"}]}], "+", 
+    RowBox[{"225", " ", 
+     RowBox[{"x", "^", "12"}]}], "+", 
+    RowBox[{"123", " ", 
+     RowBox[{"x", "^", "13"}]}], "+", 
+    RowBox[{"251", " ", 
+     RowBox[{"x", "^", "14"}]}], "+", 
+    RowBox[{"x", "^", "15"}]}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.655279429063863*^9, 3.655279446035989*^9}, {
+  3.6552795920731077`*^9, 3.655279595016807*^9}}],
+
+Cell["\<\
+I use an explicit polynomial representation above but for practical purposes \
+I\[CloseCurlyQuote]d work instead with the list of coefficients.
+
+If you want to use the Zech logs representation then a primitive polynomial \
+is required.\
+\>", "Text",
+ CellChangeTimes->{3.655279459660424*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"isPrimitive", "[", 
+    RowBox[{"lin_", ",", "poly_", ",", "p_", ",", "deg_", ",", "facs_"}], 
+    "]"}], ":=", 
+   RowBox[{"Catch", "[", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"j", "=", "1"}], ",", 
+        RowBox[{"j", "\[LessEqual]", 
+         RowBox[{"Length", "[", "facs", "]"}]}], ",", 
+        RowBox[{"j", "++"}], ",", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"PolynomialMod", "[", 
+             RowBox[{
+              RowBox[{"lin", "^", 
+               RowBox[{"facs", "[", 
+                RowBox[{"[", "j", "]"}], "]"}]}], ",", 
+              RowBox[{"{", 
+               RowBox[{"poly", ",", "p"}], "}"}]}], "]"}], "===", "1"}], ",", 
+           
+           RowBox[{"Throw", "[", "False", "]"}]}], "]"}], ";"}]}], "]"}], ";",
+       "\[IndentingNewLine]", "True"}], ")"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"getPrimitivePolynomial", "[", 
+   RowBox[{"x_", ",", "p_", ",", "deg_"}], "]"}], ":=", 
+  RowBox[{"Catch", "[", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"j", ",", "irred", ",", "facs"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"facs", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"p", "^", "deg"}], "-", "1"}], ")"}], "/", 
+        RowBox[{"Map", "[", 
+         RowBox[{"First", ",", 
+          RowBox[{"FactorInteger", "[", 
+           RowBox[{
+            RowBox[{"p", "^", "deg"}], "-", "1"}], "]"}]}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"While", "[", 
+       RowBox[{"True", ",", 
+        RowBox[{
+         RowBox[{"irred", "=", 
+          RowBox[{"getIrreducible", "[", 
+           RowBox[{"x", ",", "p", ",", "deg"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"isPrimitive", "[", 
+            RowBox[{"x", ",", "irred", ",", "p", ",", "deg", ",", "facs"}], 
+            "]"}], ",", 
+           RowBox[{"Throw", "[", 
+            RowBox[{"CoefficientList", "[", 
+             RowBox[{"irred", ",", "x"}], "]"}], "]"}]}], "]"}]}]}], "]"}], 
+      ";"}]}], "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.655279465342471*^9, 3.655279465363106*^9}}],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{3.6552794729379873`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"defpoly", "=", 
+   RowBox[{"getPrimitivePolynomial", "[", 
+    RowBox[{"x", ",", "p", ",", "deg"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"{", 
+    RowBox[{
+    "183", ",", "163", ",", "260", ",", "257", ",", "142", ",", "15", ",", 
+     "36", ",", "65", ",", "110", ",", "80", ",", "138", ",", "143", ",", 
+     "19", ",", "188", ",", "221", ",", "1"}], "}"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.655279476930697*^9, 3.655279478923182*^9}, {
+  3.6552796001052856`*^9, 3.6552796064808702`*^9}}],
+
+Cell["\<\
+Here I will show how to find a multiplicative inverse when we use defpoly to \
+represent our extension field (I will use the standard representation, not \
+Zech logs). We\[CloseCurlyQuote]ll take a random element in the extension \
+field.\
+\>", "Text",
+ CellChangeTimes->{3.6552795136993237`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"r1", "=", 
+   RowBox[{
+    RowBox[{"randomListPoly", "[", 
+     RowBox[{"1", ",", "deg", ",", "p"}], "]"}], "[", 
+    RowBox[{"[", "1", "]"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"{", 
+    RowBox[{
+    "142", ",", "155", ",", "24", ",", "238", ",", "167", ",", "267", ",", 
+     "184", ",", "133", ",", "264", ",", "96", ",", "171", ",", "85", ",", 
+     "280", ",", "242", ",", "266"}], "}"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.655279517787232*^9, 3.655279517810388*^9}, {
+  3.655279570792959*^9, 3.6552795715535383`*^9}, {3.655279608489246*^9, 
+  3.655279613134356*^9}}],
+
+Cell["Now I invert it.", "Text",
+ CellChangeTimes->{{3.655279567958025*^9, 3.65527957319279*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"r1inv", "=", 
+   RowBox[{
+    RowBox[{"Algebra`PolynomialExtendedGCDModList", "[", 
+     RowBox[{"r1", ",", "defpoly", ",", "p"}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{"2", ",", "1"}], "]"}], "]"}]}], "\n", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"{", 
+    RowBox[{
+    "34", ",", "171", ",", "230", ",", "158", ",", "48", ",", "127", ",", 
+     "202", ",", "151", ",", "212", ",", "56", ",", "257", ",", "119", ",", 
+     "168", ",", "58", ",", "290"}], "}"}], "*)"}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.655279579987431*^9, 3.6552795800120983`*^9}, {
+  3.65527961588034*^9, 3.6552796218086452`*^9}}],
+
+Cell["\<\
+Quick check using ordinary polynomial representation and PolynomialMod:\
+\>", "Text",
+ CellChangeTimes->{3.655279650920652*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rpoly", "=", 
+   RowBox[{"r1", ".", 
+    RowBox[{"x", "^", 
+     RowBox[{"Range", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{
+        RowBox[{"Length", "[", "r1", "]"}], "-", "1"}]}], "]"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"invpoly", "=", 
+   RowBox[{"r1inv", ".", 
+    RowBox[{"x", "^", 
+     RowBox[{"Range", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{
+        RowBox[{"Length", "[", "r1inv", "]"}], "-", "1"}]}], "]"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"defpoly2", "=", 
+   RowBox[{"defpoly", ".", 
+    RowBox[{"x", "^", 
+     RowBox[{"Range", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{
+        RowBox[{"Length", "[", "defpoly", "]"}], "-", "1"}]}], "]"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"PolynomialMod", "[", 
+   RowBox[{
+    RowBox[{"rpoly", "*", "invpoly"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"defpoly2", ",", "p"}], "}"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", "1", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.6552796553459463`*^9, 3.655279655369709*^9}}],
+
+Cell["\<\
+Next we move on to univariate polynomials over this field GF(p^deg). Treat \
+them as a coefficient list where each coeff is a \
+\[OpenCurlyDoubleQuote]polynomial\[CloseCurlyDoubleQuote] representing an \
+element in GF(p^deg). We use lists for these as well. The code below will \
+multiply a pair of these polynomials modulo the defining equation (an \
+irreducible) for the field and the characteristic.\
+\>", "Text",
+ CellChangeTimes->{3.655279665040971*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"polynomialMultiplyMod", "[", 
+    RowBox[{"l1_", ",", "l2_", ",", "irred_", ",", "p_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "ndim1", ",", "ndim2", ",", "ntot", ",", "flatl1", ",", "flatl2", ",", 
+       "prod", ",", "res", ",", 
+       RowBox[{"deg", "=", 
+        RowBox[{"Length", "[", "irred", "]"}]}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"ndim1", "=", 
+       RowBox[{
+        RowBox[{"Dimensions", "[", "l1", "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"ndim2", "=", 
+       RowBox[{
+        RowBox[{"Dimensions", "[", "l2", "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"ntot", "=", 
+       RowBox[{"ndim1", "+", "ndim2", "-", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"flatl1", "=", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"PadRight", "[", 
+            RowBox[{"#", ",", "ntot"}], "]"}], "&"}], ",", "l1", ",", 
+          RowBox[{"{", "1", "}"}]}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"flatl2", "=", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"PadRight", "[", 
+            RowBox[{"#", ",", "ntot"}], "]"}], "&"}], ",", "l2", ",", 
+          RowBox[{"{", "1", "}"}]}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"prod", "=", 
+       RowBox[{"Algebra`PolynomialTimesModList", "[", 
+        RowBox[{"flatl1", ",", "flatl2", ",", "p"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"res", "=", 
+       RowBox[{"Partition", "[", 
+        RowBox[{"prod", ",", "ntot"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Map", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"PadRight", "[", 
+          RowBox[{
+           RowBox[{"Algebra`PolynomialRemainderModList", "[", 
+            RowBox[{"#", ",", "irred", ",", "p"}], "]"}], ",", 
+           RowBox[{"deg", "-", "1"}]}], "]"}], "&"}], ",", "res"}], "]"}]}]}],
+     "]"}]}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"polynomialAddMod", "[", 
+   RowBox[{"l1_", ",", "l2_", ",", "irred_", ",", "p_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"len1", "=", 
+       RowBox[{"Length", "[", "l1", "]"}]}], ",", 
+      RowBox[{"len2", "=", 
+       RowBox[{"Length", "[", "l2", "]"}]}], ",", "minl", ",", "llong", ",", 
+      RowBox[{"deg", "=", 
+       RowBox[{"Length", "[", "irred", "]"}]}]}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"minl", "=", 
+      RowBox[{"Min", "[", 
+       RowBox[{"len1", ",", "len2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"len1", "\[Equal]", "minl"}], ",", 
+       RowBox[{"llong", "=", "l2"}], ",", 
+       RowBox[{"llong", "=", "l1"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"PadRight", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{"deg", "-", "1"}]}], "]"}], "&"}], ",", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"Algebra`PolynomialPlusModList", "[", 
+            RowBox[{
+             RowBox[{"l1", "[", 
+              RowBox[{"[", "j", "]"}], "]"}], ",", 
+             RowBox[{"l2", "[", 
+              RowBox[{"[", "j", "]"}], "]"}], ",", "p"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"j", ",", "minl"}], "}"}]}], "]"}]}], "]"}], ",", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"llong", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", 
+           RowBox[{"minl", "+", "1"}], ",", 
+           RowBox[{"Max", "[", 
+            RowBox[{"len1", ",", "len2"}], "]"}]}], "}"}]}], "]"}]}], 
+      "]"}]}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.655279671734316*^9, 3.655279671757305*^9}}],
+
+Cell["Here is an example.", "Text",
+ CellChangeTimes->{3.6552796806556396`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"randomListPoly", "[", 
+   RowBox[{"m_", ",", "n_", ",", "p_"}], "]"}], ":=", 
+  RowBox[{"RandomInteger", "[", 
+   RowBox[{
+    RowBox[{"p", "-", "1"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"m", ",", "n"}], "}"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"p", "=", "2"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"deg", "=", "16"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"r1", "=", 
+   RowBox[{"randomListPoly", "[", 
+    RowBox[{
+     RowBox[{"p", "^", "3"}], ",", "deg", ",", "p"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"r2", "=", 
+   RowBox[{"randomListPoly", "[", 
+    RowBox[{
+     RowBox[{"p", "^", "3"}], ",", "deg", ",", "p"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"prod", "=", 
+   RowBox[{"polynomialMultiplyMod", "[", 
+    RowBox[{"r1", ",", "r2", ",", "primpoly", ",", "p"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", 
+       "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", 
+       "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+       "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", 
+       "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", 
+       "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1", ",", 
+       "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", 
+       "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", 
+       "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+       "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", 
+       "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", 
+       "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", 
+       "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", 
+       "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+       "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", 
+       "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", 
+       "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", 
+       "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", 
+       "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1", ",", 
+       "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", 
+       "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+       "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", 
+       "1", ",", "0"}], "}"}]}], "}"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.655279687518293*^9, 3.6552796875399714`*^9}}],
+
+Cell["\<\
+
+\t
+
+I do not have functionality to cover anywhere near e.g. factorization (except \
+over prime fields). I will provide code that I use for some of the simpler \
+tasks though. I will assume that the reader (probably taking flight by the \
+next line or so) is familiar with basics of representing elements in \
+extrension fields, e.g. as polynomials of degree less than that of a given \
+defining polynomial.
+
+First we\[CloseCurlyQuote]ll want a way to define an extension field. For \
+that we need, at minimum, an irreducible of the correct degree.
+
+randpoly[x_, p_, deg_] := 
+ Table[Random[Integer, {0, p - 1}], {deg}].Table[
+    x^j, {j, 0, deg - 1}] + x^deg
+
+getIrreducible[x_, p_, deg_] := Catch[Module[{poly},
+   While[True, poly = randpoly[x, p, deg];
+    If[Length[FactorList[poly, Modulus -> p]] == 2, Throw[poly]];]]]
+
+Example:
+
+p = 293;
+deg = 15;
+SeedRandom[1111]
+irred = getIrreducible[x, p, deg]
+
+(* 38 + 117 x + 244 x^2 + 234 x^3 + 212 x^4 + 142 x^5 + 103 x^6 + 60 x^7 + 
+ 203 x^8 + 124 x^9 + 183 x^10 + 96 x^11 + 225 x^12 + 123 x^13 + 
+ 251 x^14 + x^15 *)
+
+I use an explicit polynomial representation above but for practical purposes \
+I\[CloseCurlyQuote]d work instead with the list of coefficients.
+
+If you want to use the Zech logs representation then a primitive polynomial \
+is required.
+
+isPrimitive[lin_, poly_, p_, deg_, facs_] := 
+ Catch[(For[j = 1, j <= Length[facs], j++, 
+    If[PolynomialMod[lin^facs[[j]], {poly, p}] === 1, 
+      Throw[False]];];
+   True)]
+
+getPrimitivePolynomial[x_, p_, deg_] := Catch[Module[
+   {j, irred, facs},
+   facs = (p^deg - 1)/Map[First, FactorInteger[p^deg - 1]];
+   While[True,
+    irred = getIrreducible[x, p, deg];
+    If[isPrimitive[x, irred, p, deg, facs], 
+     Throw[CoefficientList[irred, x]]]
+    ];
+   ]]
+
+Example:
+
+defpoly = getPrimitivePolynomial[x, p, deg]
+
+(* {183, 163, 260, 257, 142, 15, 36, 65, 110, 80, 138, 143, 19, 188, 221,
+  1} *)
+
+Here I will show how to find a multiplicative inverse when we use defpoly to \
+represent our extension field (I will use the standard representation, not \
+Zech logs). We\[CloseCurlyQuote]ll take a random element in the extension \
+field.
+
+r1 = randomListPoly[1, deg, p][[1]]
+
+(* {142, 155, 24, 238, 167, 267, 184, 133, 264, 96, 171, 85, 280, 242, \\
+266} *)
+
+Now I invert it.
+
+r1inv = Algebra`PolynomialExtendedGCDModList[r1, defpoly, p][[2, 1]]
+
+(* {34, 171, 230, 158, 48, 127, 202, 151, 212, 56, 257, 119, 168, 58, \\
+290} *)
+
+Quick check using ordinary polynomial representation and PolynomialMod:
+
+rpoly = r1.x^Range[0, Length[r1] - 1];
+invpoly = r1inv.x^Range[0, Length[r1inv] - 1];
+defpoly2 = defpoly.x^Range[0, Length[defpoly] - 1];
+PolynomialMod[rpoly*invpoly, {defpoly2, p}]
+
+(* 1 *)
+
+Next we move on to univariate polynomials over this field GF(p^deg). Treat \
+them as a coefficient list where each coeff is a \
+\[OpenCurlyDoubleQuote]polynomial\[CloseCurlyDoubleQuote] representing an \
+element in GF(p^deg). We use lists for these as well. The code below will \
+multiply a pair of these polynomials modulo the defining equation (an \
+irreducible) for the field and the characteristic.
+
+polynomialMultiplyMod[l1_, l2_, irred_, p_] := 
+ Module[{ndim1, ndim2, ntot, flatl1, flatl2, prod, res, 
+   deg = Length[irred]},
+  ndim1 = Dimensions[l1][[2]];
+  ndim2 = Dimensions[l2][[2]];
+  ntot = ndim1 + ndim2 - 1;
+  flatl1 = Flatten[Map[PadRight[#, ntot] &, l1, {1}]];
+  flatl2 = Flatten[Map[PadRight[#, ntot] &, l2, {1}]];
+  prod = Algebra`PolynomialTimesModList[flatl1, flatl2, p];
+  res = Partition[prod, ntot];
+  Map[PadRight[
+     Algebra`PolynomialRemainderModList[#, irred, p], deg - 1] &, 
+   res]
+  ]
+
+polynomialAddMod[l1_, l2_, irred_, p_] := 
+ Module[{len1 = Length[l1], len2 = Length[l2], minl, llong, 
+   deg = Length[irred]},
+  minl = Min[len1, len2];
+  If[len1 == minl, llong = l2, llong = l1];
+  Join[
+   Map[PadRight[#, deg - 1] &, 
+    Table[Algebra`PolynomialPlusModList[l1[[j]], l2[[j]], p], {j, 
+      minl}]],
+   Table[llong[[j]], {j, minl + 1, Max[len1, len2]}]]
+  ]
+
+Here is an example.
+
+randomListPoly[m_, n_, p_] := RandomInteger[p - 1, {m, n}]
+p = 2;
+deg = 16;
+r1 = randomListPoly[p^3, deg, p];
+r2 = randomListPoly[p^3, deg, p];
+prod = polynomialMultiplyMod[r1, r2, primpoly, p]
+
+(* {{1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 1, 1, 0, 
+  1, 0, 0, 1, 0, 1, 1, 0, 1, 1}, {1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 
+  1, 1, 0, 1}, {1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1}, {0, 
+  0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1}, {0, 0, 0, 0, 0, 1, 1, 
+  0, 0, 1, 1, 0, 1, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 
+  0, 0, 1}, {1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 
+  1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0}, {1, 1, 0, 0, 1, 0, 0, 1, 
+  0, 0, 0, 1, 1, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 
+  0, 0}, {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0}, {0, 1, 0, 
+  0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1}, {1, 0, 1, 0, 1, 1, 0, 1, 0, 
+  0, 1, 0, 1, 0, 1, 0}} *)
+
+I\[CloseCurlyQuote]ll show this as a polynomial in x, with coefficients as \
+polynomials in y.\
+\>", "Text",
+ CellChangeTimes->{3.6552796965872173`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Collect", "[", 
+   RowBox[{
+    RowBox[{"FromDigits", "[", 
+     RowBox[{
+      RowBox[{"Reverse", "[", 
+       RowBox[{"Expand", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"FromDigits", "[", 
+            RowBox[{
+             RowBox[{"Reverse", "[", "#", "]"}], ",", "x"}], "]"}], "&"}], 
+          ",", "prod"}], "]"}], "]"}], "]"}], ",", "y"}], "]"}], ",", "x"}], 
+   "]"}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"1", "+", "y", "+", 
+    RowBox[{"y", "^", "2"}], "+", 
+    RowBox[{"y", "^", "3"}], "+", 
+    RowBox[{"y", "^", "6"}], "+", 
+    RowBox[{"y", "^", "7"}], "+", 
+    RowBox[{"y", "^", "8"}], "+", 
+    RowBox[{"y", "^", "9"}], "+", 
+    RowBox[{"y", "^", "10"}], "+", 
+    RowBox[{"y", "^", "11"}], "+", 
+    RowBox[{"y", "^", "13"}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "9"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "10"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "8"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "11"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "3"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "15"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"1", "+", "y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "12"}]}], ")"}]}], "+", 
+    RowBox[{"x", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "12"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "6"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "12"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "13"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "12"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "11"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "12"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "10"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "14"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "2"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "12"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "5"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "5"}], "+", 
+       RowBox[{"y", "^", "7"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "12"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "7"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "3"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "6"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "12"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{"x", "^", "4"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"y", "+", 
+       RowBox[{"y", "^", "2"}], "+", 
+       RowBox[{"y", "^", "4"}], "+", 
+       RowBox[{"y", "^", "8"}], "+", 
+       RowBox[{"y", "^", "9"}], "+", 
+       RowBox[{"y", "^", "10"}], "+", 
+       RowBox[{"y", "^", "11"}], "+", 
+       RowBox[{"y", "^", "12"}], "+", 
+       RowBox[{"y", "^", "13"}]}], ")"}]}]}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.6552797018682613`*^9, 3.655279701890388*^9}}],
+
+Cell["\<\
+So this is a start. I have not written code to do polynomial division. A good \
+way to go about this can be found in
+
+J. von zur Gathen and J. Gerhard. Modern Computer Algebra. Ch. 9.
+
+An alternative is to convert to explicit polynomials and use a certain \
+Groebner basis tactic to invert the divisor modulo a power of the polynomial \
+variable, then multiply that result by the dividend. This is, suffice it to \
+say, much slower. It is useful if you will be working many times with the \
+same divisor.
+
+A third tactic is to do a pedestrian polynomial one-term-at-a-time iteration. \
+Somewhat slower, but basically the same idea, is to convert to explicit \
+polynomials and use PolynomialReduce, giving the extension defining \
+polynomial as a second divisor and Modulus->2.
+
+Likewise one may want a gcd or extended gcd. This can most readily be coded \
+by iterated quotient/remainder sequence.
+
+I will finally mention that full blown factorization is not needed if you \
+only seek roots in the base field (that is, your GF(p^n) rather than a proper \
+extension thereof). In that case one only needs a first step of \
+distinct-degree factorization, to gather all roots of degree 1 over the base \
+field.\
+\>", "Text",
+ CellChangeTimes->{3.655279717087317*^9}]
+},
+WindowSize->{720, 808},
+WindowMargins->{{130, Automatic}, {Automatic, -8}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 211, 4, 55, "Text"],
+Cell[772, 26, 609, 11, 187, "Text"],
+Cell[1384, 39, 1571, 46, 165, "Input"],
+Cell[2958, 87, 66, 1, 33, "Text"],
+Cell[3027, 90, 1422, 43, 187, "Input"],
+Cell[4452, 135, 301, 7, 99, "Text"],
+Cell[4756, 144, 2337, 66, 297, "Input"],
+Cell[7096, 212, 68, 1, 33, "Text"],
+Cell[7167, 215, 598, 14, 99, "Input"],
+Cell[7768, 231, 306, 6, 77, "Text"],
+Cell[8077, 239, 680, 17, 99, "Input"],
+Cell[8760, 258, 97, 1, 33, "Text"],
+Cell[8860, 261, 679, 16, 99, "Input"],
+Cell[9542, 279, 137, 3, 33, "Text"],
+Cell[9682, 284, 1075, 37, 143, "Input"],
+Cell[10760, 323, 468, 8, 99, "Text"],
+Cell[11231, 333, 4124, 109, 429, "Input"],
+Cell[15358, 444, 79, 1, 33, "Text"],
+Cell[15440, 447, 4176, 102, 473, "Input"],
+Cell[19619, 551, 5124, 146, 3047, "Text"],
+Cell[24746, 699, 6425, 190, 385, "Input"],
+Cell[31174, 891, 1271, 26, 473, "Text"]
+}
+]
+*)
+
+(* End of internal cache information *)

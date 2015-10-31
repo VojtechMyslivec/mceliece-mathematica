@@ -1,0 +1,255 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7813,        246]
+NotebookOptionsPosition[      6802,        212]
+NotebookOutlinePosition[      7136,        227]
+CellTagsIndexPosition[      7093,        224]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Nacteni package", "Text",
+ CellChangeTimes->{{3.655274727247978*^9, 3.655274733639903*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<FiniteFields`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.655274717861244*^9, 3.655274722474464*^9}}],
+
+Cell[TextData[{
+ "\[OpenCurlyDoubleQuote]Nejake\[CloseCurlyDoubleQuote] teleso ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"GF", "(", 
+    SuperscriptBox["2", "5"], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " -- vrati teleso s ireducibilnim polynomem"
+}], "Text",
+ CellChangeTimes->{{3.655274749967556*^9, 3.6552747656074257`*^9}, {
+  3.6552748293493767`*^9, 3.6552748414852057`*^9}, {3.6552749101075983`*^9, 
+  3.655274912371633*^9}}],
+
+Cell[BoxData[
+ RowBox[{"GF", "[", 
+  RowBox[{"2", ",", "5"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6552747691610193`*^9, 3.655274771431465*^9}}],
+
+Cell[TextData[{
+ "Prvek ",
+ Cell[BoxData[
+  FormBox["x", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " z telesa ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"GF", "(", 
+    SuperscriptBox["2", "5"], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " -- \[OpenCurlyDoubleQuote]obracene\[CloseCurlyDoubleQuote] poradi \
+koeficientu"
+}], "Text",
+ CellChangeTimes->{{3.655274749967556*^9, 3.655274802223248*^9}, {
+  3.655274896827684*^9, 3.655274908451351*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"GF", "[", 
+   RowBox[{"2", ",", "5"}], "]"}], "[", 
+  RowBox[{"{", 
+   RowBox[{"0", ",", "1", ",", "0", ",", "0"}], "}"}], "]"}]], "Input"],
+
+Cell["Lze psat i zkracene, FullForm prvku", "Text",
+ CellChangeTimes->{{3.655274922495159*^9, 3.6552749572741127`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"GF", "[", 
+   RowBox[{"2", ",", "5"}], "]"}], "[", 
+  RowBox[{"{", 
+   RowBox[{"0", ",", "1"}], "}"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"%", "//", "FullForm"}]}], "Input",
+ CellChangeTimes->{{3.655274807790538*^9, 3.6552748195579967`*^9}, {
+  3.655274860151457*^9, 3.655274921307735*^9}}],
+
+Cell["Lepsi pouziti -- teleso je promenna (funkce)", "Text",
+ CellChangeTimes->{{3.65527502576858*^9, 3.655275043104179*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ff", "=", 
+   RowBox[{"GF", "[", 
+    RowBox[{"2", ",", "5"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"ff", "[", 
+  RowBox[{"{", 
+   RowBox[{"0", ",", "1"}], "}"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"%", "//", "FullForm"}]}], "Input",
+ CellChangeTimes->{{3.655275044832902*^9, 3.655275066341408*^9}}],
+
+Cell["Scitani, nasobeni, mocneni, inverze", "Text",
+ CellChangeTimes->{{3.655275073252792*^9, 3.655275093902689*^9}, {
+  3.655275231731699*^9, 3.655275233291913*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", "=", 
+   RowBox[{"ff", "[", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "0"}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", "=", 
+   RowBox[{"ff", "[", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0"}], "}"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.655275102271324*^9, 3.65527515427838*^9}}],
+
+Cell[BoxData[
+ RowBox[{"a", "+", "b"}]], "Input",
+ CellChangeTimes->{{3.655275157198379*^9, 3.655275157493299*^9}}],
+
+Cell[BoxData[
+ RowBox[{"a", "*", "b"}]], "Input",
+ CellChangeTimes->{{3.655275160101914*^9, 3.655275160757732*^9}}],
+
+Cell[BoxData[{
+ SuperscriptBox["a", "2"], "\[IndentingNewLine]", 
+ SuperscriptBox["b", "2"]}], "Input"],
+
+Cell[BoxData[{
+ SuperscriptBox["a", 
+  RowBox[{"-", "1"}]], "\[IndentingNewLine]", 
+ RowBox[{"%", "*", "a"}], "\[IndentingNewLine]", 
+ SuperscriptBox["b", 
+  RowBox[{"-", "1"}]], "\[IndentingNewLine]", 
+ RowBox[{"%", "*", "b"}]}], "Input",
+ CellChangeTimes->{{3.655275225763261*^9, 3.655275285787318*^9}}],
+
+Cell["Lze zvolit polynom telesa (okruhu)", "Text",
+ CellChangeTimes->{{3.6552749932356052`*^9, 3.6552750219045677`*^9}, {
+  3.6552751783812037`*^9, 3.655275184292974*^9}, {3.65527535934546*^9, 
+  3.6552753612495737`*^9}, {3.655275511126342*^9, 3.6552755142170467`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"oo", "=", 
+   TagBox[
+    StyleBox[
+     RowBox[{"GF", "[", 
+      RowBox[{"2", ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}], 
+        "}"}]}], "]"}],
+     ShowSpecialCharacters->False,
+     ShowStringCharacters->True,
+     NumberMarks->True],
+    FullForm]}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"neni", " ", "ireducibilni"}], " ", "\[Rule]", " ", "okruh"}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{"c", "=", 
+  RowBox[{"oo", "[", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "0", ",", "0", ",", "1"}], "}"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ SuperscriptBox["c", 
+  RowBox[{"-", "1"}]], "\[IndentingNewLine]", 
+ RowBox[{"%", "*", "c"}]}], "Input",
+ CellChangeTimes->{{3.655274967546204*^9, 3.655274985962922*^9}, {
+  3.6552751863821487`*^9, 3.6552752210445957`*^9}, {3.65527529918719*^9, 
+  3.6552753235547743`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"gg", "=", 
+  RowBox[{"GF", "[", 
+   RowBox[{"2", ",", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "1"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"e", "=", 
+  RowBox[{"gg", "[", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "1", ",", "0"}], "}"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"f", "=", 
+  RowBox[{"gg", "[", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "0", ",", "0"}], "}"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"e", "*", "f"}], "\[IndentingNewLine]", 
+ SuperscriptBox["e", 
+  RowBox[{"-", "1"}]], "\[IndentingNewLine]", 
+ SuperscriptBox["f", 
+  RowBox[{"-", "1"}]]}], "Input",
+ CellChangeTimes->{{3.655275336080605*^9, 3.65527534665027*^9}, {
+  3.655275595438986*^9, 3.6552756415073357`*^9}}],
+
+Cell["Uzitecne funkce", "Text",
+ CellChangeTimes->{{3.655277398019019*^9, 3.6552774017900057`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"FieldIrreducible", "[", 
+  RowBox[{"ff", ",", "x"}], "]"}]], "Input",
+ CellChangeTimes->{{3.655277186626381*^9, 3.655277213146326*^9}}],
+
+Cell[BoxData[
+ RowBox[{"PolynomialToElement", "[", 
+  RowBox[{"ff", ",", 
+   RowBox[{
+    SuperscriptBox["x", "4"], "+", "x", "+", "1"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.655277337876316*^9, 3.655277353511866*^9}, {
+  3.655277435015345*^9, 3.655277438286064*^9}}]
+},
+WindowSize->{720, 808},
+WindowMargins->{{-9, Automatic}, {Automatic, -8}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 97, 1, 33, "Text"],
+Cell[658, 23, 144, 2, 32, "Input"],
+Cell[805, 27, 450, 11, 36, "Text"],
+Cell[1258, 40, 146, 3, 32, "Input"],
+Cell[1407, 45, 474, 15, 36, "Text"],
+Cell[1884, 62, 174, 5, 32, "Input"],
+Cell[2061, 69, 119, 1, 33, "Text"],
+Cell[2183, 72, 331, 8, 55, "Input"],
+Cell[2517, 82, 125, 1, 33, "Text"],
+Cell[2645, 85, 352, 9, 77, "Input"],
+Cell[3000, 96, 166, 2, 33, "Text"],
+Cell[3169, 100, 430, 13, 55, "Input"],
+Cell[3602, 115, 115, 2, 32, "Input"],
+Cell[3720, 119, 115, 2, 32, "Input"],
+Cell[3838, 123, 103, 2, 55, "Input"],
+Cell[3944, 127, 305, 7, 99, "Input"],
+Cell[4252, 136, 269, 3, 33, "Text"],
+Cell[4524, 141, 935, 28, 99, "Input"],
+Cell[5462, 171, 798, 23, 143, "Input"],
+Cell[6263, 196, 99, 1, 33, "Text"],
+Cell[6365, 199, 159, 3, 32, "Input"],
+Cell[6527, 204, 271, 6, 38, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
