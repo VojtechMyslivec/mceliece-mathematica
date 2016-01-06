@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     47084,       1189]
-NotebookOptionsPosition[     44911,       1118]
-NotebookOutlinePosition[     45244,       1133]
-CellTagsIndexPosition[     45201,       1130]
+NotebookDataLength[     46716,       1190]
+NotebookOptionsPosition[     44583,       1120]
+NotebookOutlinePosition[     44915,       1135]
+CellTagsIndexPosition[     44872,       1132]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -733,79 +733,77 @@ Cell[CellGroupData[{
 Cell["Generovani kontrolni/generujici matice", "Subsection",
  CellChangeTimes->{{3.6584136679905043`*^9, 3.658413679524021*^9}}],
 
-Cell[BoxData[
+Cell[BoxData[{
  RowBox[{
-  RowBox[{"(*", 
-   RowBox[{
-    RowBox[{"polyIredVnitrni", "=", 
-     RowBox[{"ireducibilniPolynom", "[", 
-      RowBox[{"p", ",", 
-       RowBox[{"m", "+", "1"}]}], "]"}]}], ";"}], "*)"}], 
-  "\[IndentingNewLine]", 
   RowBox[{
+   RowBox[{"polyIredVnitrni", "=", 
+    RowBox[{"ireducibilniPolynom", "[", 
+     RowBox[{"p", ",", 
+      RowBox[{"m", "+", "1"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
     RowBox[{"polyIredVnitrni", "=", 
      RowBox[{"{", 
       RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}]}], ";"}], 
-   "\[IndentingNewLine]", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"modulVnitrni", "=", 
+   RowBox[{"{", 
+    RowBox[{"polyIredVnitrni", ",", "p"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"podporaL", "=", 
+   RowBox[{"generujNticiL", "[", 
+    RowBox[{"m", ",", "modulVnitrni"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"matV", "=", 
+   RowBox[{"maticeV", "[", 
+    RowBox[{"podporaL", ",", "modulVnitrni", ",", "t"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"matLG", "=", 
+    RowBox[{"maticeLG", "[", "polyG", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"modulVnitrni", "=", 
-     RowBox[{"{", 
-      RowBox[{"polyIredVnitrni", ",", "p"}], "}"}]}], ";"}], 
-   "\[IndentingNewLine]", 
+    RowBox[{"pokud", " ", "bude", " ", 
+     RowBox[{"alg", ".", " ", "pro"}], " ", "kontrolu", " ", 
+     "ireducibility"}], ",", " ", 
+    RowBox[{"neni", " ", "treba", " ", "cyklus", " ", 
+     RowBox[{"(", 
+      RowBox[{"brute", "-", "force"}], ")"}]}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"pocetGenerovanychPolynomu", "=", "1"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"pocetGenerovanychPolynomuMax", "=", "100"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"While", "[", 
+  RowBox[{"True", ",", "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"podporaL", "=", 
-     RowBox[{"generujNticiL", "[", 
-      RowBox[{"m", ",", "modulVnitrni"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"matV", "=", 
-     RowBox[{"maticeV", "[", 
-      RowBox[{"podporaL", ",", "modulVnitrni", ",", "t"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"matLG", "=", 
-     RowBox[{"maticeLG", "[", "polyG", "]"}]}], ";"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-     RowBox[{"pokud", " ", "bude", " ", 
-      RowBox[{"alg", ".", " ", "pro"}], " ", "kontrolu", " ", 
-      "ireducibility"}], ",", " ", 
-     RowBox[{"neni", " ", "treba", " ", "cyklus", " ", 
-      RowBox[{"(", 
-       RowBox[{"brute", "-", "force"}], ")"}]}]}], " ", "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"pocetGenerovanychPolynomu", "=", "1"}], ";"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"pocetGenerovanychPolynomuMax", "=", "100"}], ";"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{"While", "[", 
-    RowBox[{"True", ",", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
      RowBox[{
-      RowBox[{"If", "[", 
-       RowBox[{
+      RowBox[{
+      "pocetGenerovanychPolynomu", ">", "pocetGenerovanychPolynomuMax"}], ",",
+       "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Print", "[", 
         RowBox[{
-        "pocetGenerovanychPolynomu", ">", "pocetGenerovanychPolynomuMax"}], 
-        ",", "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"Print", "[", 
-          RowBox[{
-          "\"\<Dosazen maximalni pocet pokusu \>\"", ",", 
-           "pocetGenerovanychPolynomuMax"}], "]"}], ";", 
-         "\[IndentingNewLine]", 
-         RowBox[{"Break", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
-      "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      RowBox[{"(*", 
-       RowBox[{
-        RowBox[{"polyG", "=", 
-         RowBox[{"nahodnyPolynomRadu", "[", 
-          RowBox[{
-           RowBox[{"{", 
-            RowBox[{"p", ",", "m"}], "}"}], ",", "t"}], "]"}]}], ";"}], 
-       "*)"}], "\[IndentingNewLine]", 
+        "\"\<Dosazen maximalni pocet pokusu \>\"", ",", 
+         "pocetGenerovanychPolynomuMax"}], "]"}], ";", "\[IndentingNewLine]", 
+       
+       RowBox[{"Break", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"polyG", "=", 
+     RowBox[{"nahodnyPolynomRadu", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"p", ",", "m"}], "}"}], ",", "t"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
       RowBox[{"polyG", "=", 
        RowBox[{"{", 
         RowBox[{
@@ -814,53 +812,48 @@ Cell[BoxData[
          RowBox[{"{", 
           RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
          RowBox[{"{", 
-          RowBox[{"1", ",", "0", ",", "1", ",", "1"}], "}"}]}], "}"}]}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"(*", 
-       RowBox[{
-        RowBox[{"polyG", "=", 
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"{", 
-            RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
-           RowBox[{"{", 
-            RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
-        ";"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      RowBox[{"modul", "=", 
+          RowBox[{"1", ",", "0", ",", "1", ",", "1"}], "}"}]}], "}"}]}], 
+      ";"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"polyG", "=", 
        RowBox[{"{", 
-        RowBox[{"polyG", ",", "modulVnitrni"}], "}"}]}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"matD", "=", 
-       RowBox[{"Quiet", "[", 
-        RowBox[{"maticeD", "[", 
-         RowBox[{"podporaL", ",", "modul"}], "]"}], "]"}]}], ";", 
-      "\[IndentingNewLine]", "\[IndentingNewLine]", 
-      RowBox[{"If", "[", 
-       RowBox[{
-        RowBox[{"!", 
-         RowBox[{"matD", "===", "Null"}]}], ",", "\[IndentingNewLine]", 
         RowBox[{
-         RowBox[{"Print", "[", 
-          RowBox[{
-          "\"\<Pocet pokusu byl \>\"", ",", "pocetGenerovanychPolynomu"}], 
-          "]"}], ";", "\[IndentingNewLine]", 
-         RowBox[{"Break", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
-      "\[IndentingNewLine]", 
-      RowBox[{"pocetGenerovanychPolynomu", "++"}], ";"}]}], 
-    "\[IndentingNewLine]", "]"}]}]}]], "Input",
- CellChangeTimes->{{3.658396223864108*^9, 3.658396312786516*^9}, {
-  3.658396420961011*^9, 3.658396517917156*^9}, {3.65839656355892*^9, 
-  3.658396587917408*^9}, {3.6583968681370068`*^9, 3.658396889566976*^9}, {
-  3.658396953964175*^9, 3.658396955420903*^9}, {3.65840396742479*^9, 
-  3.658403981023512*^9}, {3.658488713122759*^9, 3.658488771813018*^9}, {
-  3.658511103431397*^9, 3.6585111579895287`*^9}, {3.659004358972239*^9, 
-  3.659004361802875*^9}, {3.659007153631241*^9, 3.6590072641742287`*^9}, {
-  3.659007566362173*^9, 3.6590075837517967`*^9}, {3.659008387558407*^9, 
-  3.659008399204754*^9}, {3.659008454836754*^9, 3.659008601728683*^9}, {
-  3.6590086688392563`*^9, 3.65900880712461*^9}, {3.659008913857335*^9, 
-  3.659008925922741*^9}, {3.659015549216217*^9, 3.65901556697232*^9}, {
-  3.660815650549501*^9, 3.66081568297971*^9}, {3.660817375894792*^9, 
-  3.660817377160985*^9}}],
+         RowBox[{"{", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+      ";"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"modul", "=", 
+     RowBox[{"{", 
+      RowBox[{"polyG", ",", "modulVnitrni"}], "}"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"matD", "=", 
+     RowBox[{"Quiet", "[", 
+      RowBox[{"maticeD", "[", 
+       RowBox[{"podporaL", ",", "modul"}], "]"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"!", 
+       RowBox[{"matD", "===", "Null"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Print", "[", 
+        RowBox[{
+        "\"\<Pocet pokusu byl \>\"", ",", "pocetGenerovanychPolynomu"}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Break", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"pocetGenerovanychPolynomu", "++"}], ";"}]}], 
+  "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQBmIQfWzZb/drjq8dVbQlg0H0rAPzEkB0ROTeHBC95lFh
+EYjOiK4tBdExSS0zQPRqFaPZILrtlt1iEM1VkQumH05/y38LSM85sEAQRC95
+q1zI7PTa0Y6lqgJEM557G88HpC1W7U8D0VNl7lv8B9LqGy0tQbSCsck0BufX
+jh6TWZeA6DfTTp8E0Tv4fpwG0RX3Cg0YgXRE7zNDEL3h2C0LEB0faO4Nog1u
+zwoG0ef+PE4B0V751kUgWqJ9bzGIdni9bD0LkLaXvb8RRDdPDVxS7Pba8WRk
+/AoQrbzoT3UJkD6lploDovNux26pAtJiSie3gmgAR9uR8w==
+  "]],
 
 Cell[BoxData[{
  RowBox[{
@@ -1061,22 +1054,9 @@ Cell[TextData[{
        SubscriptBox["c", "i"], 
        RowBox[{"x", "-", 
         SubscriptBox["L", "i"]}]], "mod", " ", 
-      RowBox[{"G", "(", "x", ")"}]}]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm"]
+      RowBox[{"G", "(", "x", ")"}]}]}]}], TraditionalForm]]]
 }], "Text",
  CellChangeTimes->{{3.6590161028510017`*^9, 3.65901622578433*^9}}],
-
-Cell[BoxData[{
- RowBox[{
-  RowBox[{"Length", "[", "podporaL", "]"}], "\[Equal]", 
-  "n"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Length", "[", "c", "]"}], "\[Equal]", "n"}], "\[IndentingNewLine]", 
- RowBox[{"Dimensions", "[", "podporaL", "]"}], "\[IndentingNewLine]", 
- RowBox[{"Dimensions", "[", "syndromyL", "]"}]}], "Input",
- CellChangeTimes->{{3.659016933610654*^9, 3.659016954545803*^9}, {
-  3.659017034815567*^9, 3.6590170775825977`*^9}, {3.6590171804128113`*^9, 
-  3.659017201580386*^9}}],
 
 Cell[BoxData[
  RowBox[{"polyS", "=", 
@@ -1099,25 +1079,47 @@ Cell[BoxData[
  RowBox[{
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"S", 
-     SuperscriptBox[
-      RowBox[{"(", "x", ")"}], 
-      RowBox[{"-", "1"}]]}], "-", 
-    RowBox[{"x", " ", "mod", " ", "G", 
+    RowBox[{"R", 
+     RowBox[{"(", "x", ")"}]}], " ", "=", " ", 
+    RowBox[{
+     SqrtBox[
+      RowBox[{
+       RowBox[{"S", 
+        SuperscriptBox[
+         RowBox[{"(", "x", ")"}], 
+         RowBox[{"-", "1"}]]}], "-", "x"}]], " ", "mod", " ", "G", 
      RowBox[{"(", "x", ")"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"plus", "[", 
-   RowBox[{"polyX", ",", 
-    RowBox[{"inverze", "[", 
-     RowBox[{"polyS", ",", "modul"}], "]"}], ",", "2"}], "]"}]}]], "Input",
+  RowBox[{
+   RowBox[{
+    RowBox[{"tmp", "=", 
+     RowBox[{"plus", "[", 
+      RowBox[{"polyX", ",", 
+       RowBox[{"inverze", "[", 
+        RowBox[{"polyS", ",", "modul"}], "]"}], ",", "p"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"odmocnina", "=", 
+    RowBox[{"umocni", "[", 
+     RowBox[{"tmp", ",", "1", ",", "2", ",", "modul"}], "]"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"umocni", "[", 
+     RowBox[{"odmocnina", ",", "2", ",", "modul"}], "]"}], "===", 
+    "tmp"}]}]}]], "Input",
  CellChangeTimes->{{3.658509842658037*^9, 3.658509852425213*^9}, {
-  3.65850992315277*^9, 3.6585099862135*^9}, {3.658510106925407*^9, 
-  3.6585101278594522`*^9}, {3.6585102135786867`*^9, 3.65851027908007*^9}, {
-  3.659009917250876*^9, 3.659009926099248*^9}, {3.6590124003520823`*^9, 
-  3.659012401049358*^9}, {3.6590173374338207`*^9, 3.659017340280897*^9}}]
+   3.65850992315277*^9, 3.6585099862135*^9}, {3.658510106925407*^9, 
+   3.6585101278594522`*^9}, {3.6585102135786867`*^9, 3.65851027908007*^9}, {
+   3.659009917250876*^9, 3.659009926099248*^9}, {3.6590124003520823`*^9, 
+   3.659012401049358*^9}, {3.6590173374338207`*^9, 3.659017340280897*^9}, {
+   3.661081255223144*^9, 3.661081303419911*^9}, {3.6610813427359753`*^9, 
+   3.661081405414481*^9}, {3.661081903516615*^9, 3.6610819414912577`*^9}, {
+   3.661082206493126*^9, 3.661082219313188*^9}, {3.6610822912888947`*^9, 
+   3.661082327912784*^9}, 3.6610846796359797`*^9, {3.6610847219233637`*^9, 
+   3.661084729559595*^9}, 3.661084780416936*^9, {3.661084825058559*^9, 
+   3.661084841058145*^9}}]
 }, Open  ]]
 },
-WindowSize->{1440, 809},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowSize->{719, 809},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -1179,17 +1181,16 @@ Cell[29112, 711, 954, 16, 77, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[30103, 732, 128, 1, 47, "Subsection"],
-Cell[30234, 735, 5032, 127, 649, "Input"],
-Cell[35269, 864, 1568, 40, 121, "Input"],
-Cell[36840, 906, 2244, 54, 165, "Input"],
-Cell[39087, 962, 112, 1, 33, "Text"],
-Cell[39202, 965, 466, 10, 55, "Input"],
-Cell[39671, 977, 1681, 42, 143, "Input"],
-Cell[41355, 1021, 981, 26, 77, "Input"],
-Cell[42339, 1049, 521, 17, 65, "Text"],
-Cell[42863, 1068, 502, 10, 99, "Input"],
-Cell[43368, 1080, 737, 15, 32, "Input"],
-Cell[44108, 1097, 787, 18, 55, "Input"]
+Cell[30234, 735, 4358, 120, 693, "Input"],
+Cell[34595, 857, 1568, 40, 143, "Input"],
+Cell[36166, 899, 2244, 54, 253, "Input"],
+Cell[38413, 955, 112, 1, 33, "Text"],
+Cell[38528, 958, 466, 10, 55, "Input"],
+Cell[38997, 970, 1681, 42, 143, "Input"],
+Cell[40681, 1014, 981, 26, 77, "Input"],
+Cell[41665, 1042, 488, 16, 65, "Text"],
+Cell[42156, 1060, 737, 15, 32, "Input"],
+Cell[42896, 1077, 1671, 40, 114, "Input"]
 }, Open  ]]
 }
 ]
