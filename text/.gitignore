@@ -1,0 +1,9 @@
+sablona
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.lot
+*.lof

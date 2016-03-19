@@ -1,0 +1,104 @@
+% options:
+% thesis=B bachelor's thesis
+% thesis=M master's thesis
+% czech thesis in Czech language
+% slovak thesis in Slovak language
+% english thesis in English language
+% hidelinks remove colour boxes around hyperlinks
+
+\documentclass[thesis=M,czech,hidelinks]{FITthesis}[2012/06/26]
+
+\usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
+
+\usepackage{graphicx} %graphics files inclusion
+% \usepackage{amsmath} %advanced maths
+% \usepackage{amssymb} %additional math symbols
+
+\usepackage{dirtree} %directory tree visualisation
+% \usepackage{textcomp} % \textcopyleft
+
+% % list of acronyms
+% \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
+% \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
+% \makeglossaries
+
+\newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
+\newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ODTUD DAL VSE ZMENTE
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\department{Katedra počítačových systémů}
+\title{Asymetrický šifrovací algoritmus McEliece}
+\authorGN{Vojtěch} %(křestní) jméno (jména) autora
+\authorFN{Myslivec} %příjmení autora
+\authorWithDegrees{Bc. Vojtěch Myslivec} %jméno autora včetně současných akademických titulů
+\supervisor{prof. Ing. Róbert Lórencz, CSc.}
+%TODO
+%\acknowledgements{Rodina, Lórencz, Kalvoda, Guth}
+%TODO
+\abstractCS{V~několika větách shrňte obsah a přínos této práce v~češtině. Po přečtení abstraktu by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Vaši práci číst.}
+%TODO
+\abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
+\placeForDeclarationOfAuthenticity{V~Praze}
+\declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
+\keywordsCS{McEliece, asymetrická kryptografie, postkvantová kryptografie,
+binární Goppa kódy, konečná tělesa}
+\keywordsEN{McEliece, public-key cryptography, post-quantum cryptography, binary
+Goppa codes, finite fields}
+
+\begin{document}
+
+% \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
+% \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
+
+\begin{introduction}
+        %sem napište úvod Vaší práce
+\end{introduction}
+
+\chapter{Cíl práce}
+
+\chapter{Konečná tělesa}
+
+
+\chapter{Lineární kódy}
+
+\chapter{Kryptosystém McEliece}
+
+\chapter{Implementace}
+
+\begin{conclusion}
+        %sem napište závěr Vaší práce
+\end{conclusion}
+
+\bibliographystyle{csn690}
+\bibliography{mybibliographyfile}
+
+\appendix
+
+\chapter{Seznam použitých zkratek}
+% \printglossaries
+\begin{description}
+        \item[...]
+        %\item[TLS] Three Letter Shortcut
+\end{description}
+
+\chapter{Obsah přiloženého CD}
+
+%upravte podle skutecnosti
+
+%TODO
+\begin{figure}
+        \dirtree{%
+                .1 readme.txt\DTcomment{stručný popis obsahu CD}.
+                .1 exe\DTcomment{adresář se spustitelnou formou implementace}.
+                .1 src.
+                .2 impl\DTcomment{zdrojové kódy implementace}.
+                .2 thesis\DTcomment{zdrojová forma práce ve formátu \LaTeX{}}.
+                .1 text\DTcomment{text práce}.
+                .2 thesis.pdf\DTcomment{text práce ve formátu PDF}.
+                .2 thesis.ps\DTcomment{text práce ve formátu PS}.
+        }
+\end{figure}
+
+\end{document}
