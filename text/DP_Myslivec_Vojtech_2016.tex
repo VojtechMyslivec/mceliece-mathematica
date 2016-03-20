@@ -11,8 +11,8 @@
 \usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
 
 \usepackage{graphicx} %graphics files inclusion
-% \usepackage{amsmath} %advanced maths
-% \usepackage{amssymb} %additional math symbols
+\usepackage{amsmath} %advanced maths
+\usepackage{amssymb} %additional math symbols
 
 \usepackage{dirtree} %directory tree visualisation
 % \usepackage{textcomp} % \textcopyleft
@@ -21,13 +21,17 @@
 % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
 % \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
 % \makeglossaries
-
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
 
+
+\newtheorem{definice}{Definice}
+\newtheorem{veta}{Věta}
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-% ODTUD DAL VSE ZMENTE
+% Hlavička
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
 \department{Katedra počítačových systémů}
 \title{Asymetrický šifrovací algoritmus McEliece}
 \authorGN{Vojtěch} %(křestní) jméno (jména) autora
@@ -43,43 +47,303 @@
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{McEliece, asymetrická kryptografie, postkvantová kryptografie,
-binární Goppa kódy, konečná tělesa}
+binární Goppa kódy, konečná tělesa, polynomy, Wolfram Mathematica}
 \keywordsEN{McEliece, public-key cryptography, post-quantum cryptography, binary
-Goppa codes, finite fields}
+Goppa codes, finite fields, polynomy, Wolfram Mathematica}
+
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Dokument
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \begin{document}
 
 % \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \begin{introduction}
-        %sem napište úvod Vaší práce
+Tato práce se zabývá asymetrickým kryptosystémem \emph{McEliece}. Mezi největší
+přednosti tohoto systému patří jeho odolnost vůči kvantovým počítačům a je tak
+jedním z vhodných kandidátů pro asymetrickou kryptografii pro postkvantovou
+dobu.
+
+%TODO
+V prvních kapitolách této práce jsou popsány nezbytné primitivy z oblasti
+matematiky a teorie kódování, které jsou potřeba pro pochopení a použití
+kryptosystému McEliece. Jedná se především o počítání s \emph{konečnými tělesy}
+a \emph{polynomy} (kapitola \ref{kap_telesa}) a binární \emph{Goppa} kódy
+(kapitola \ref{kap_kody}).
+
+Kryptosystému \emph{McEliece} se věnuje kapitola \ref{kap_mceliece}. Kromě
+základního popisu generování klíčů a algoritmů pro šifrování a dešifrování je
+probráno i \emph{Niederreiterovo} schéma -- \uv{úprava} kryptosystému
+\emph{McEliece} pro získání \emph{digitálního podpisu}. Jsou ukázány slabiny,
+nevýhody i možné útoky na kryptosystém McEliece a též zmíněna praktická varianta
+systému odolná vůči těmto aspektům.
+
+V poslední části  práce je probrána implementace kryptosystému \emph{McEliece}
+v softwaru \emph{Wolfram Mathematica} včetně změřených časových % TODO a prostorových
+složitostí (kapitola \ref{kap_implementace}),.
+
 \end{introduction}
 
-\chapter{Cíl práce}
+%\chapter{Cíl práce}
 
-\chapter{Konečná tělesa}
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Obecná algebra}\label{kap_telesa}
+V kapitole jsou probrány definice a algoritmy nutné pro práci s \emph{konečnými
+tělesy} a \emph{polynomy} nad konečným tělesem. V práci se předpokládá
+základních znalostí z oblasti \emph{algebry}. Pro tato témata je doporučena
+literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar_Understanding} (kde lze též
+najít většinu důkazů následujících vět).
+
+\section{Základní termíny}
+Pro ujasnění je uvedena definice tělesa:
+
+\begin{definice}[Těleso]
+    Nechť $M$ je neprázdná množina a $+$ a $\cdot$ binární operace\footnote{
+Pro zjednodušení zápisu je $\cdot$ často vynecháváno.
+    }. Struktura
+    $T=\big(M, +, \cdot \big)$ se nazývá těleso, pokud platí
+    \begin{enumerate}
+        \item $\big(M, +\big)$ je \emph{komutativní grupa} (nazývána \emph{aditivní})
+        \item $\big(M\setminus\{\mathit{0}\}, \cdot \big)$\footnote{
+Prvek $\mathit{0}$ je \emph{nulový} (\emph{neutrální}) prvek \emph{aditivní grupy}.
+            } je \emph{grupa} (nazývána
+            \emph{multiplikativní})
+        \item Platí (levý i pravý) \emph{distributivní zákon}:
+            $$\forall a,b,c \in M : \big( a(b+c) = a b + a c \big) \land \big(
+            (b+c)a = b a + c a \big) $$
+    \end{enumerate}
+\end{definice}
+
+{\setlength{\parindent}{0cm}
+\emph{Těleso}, které má konečný počet prvků, se nazývá \emph{konečné těleso}.
+}
+
+\begin{veta}
+    Nechť $T$ je \emph{konečné těleso}, pak jeho počet prvků (\emph{řád}) je
+    $p^n$, kde $p$ je prvočíslo a $n \in \mathbb{N} \land n \geq 1 $.
+\end{veta}
+%\begin{proof} TODO
+%\end{proof}
+
+Číslo $p$ se nazývá \emph{charakteristika}. Navíc platí, že \emph{všechna
+konečná tělesa} se stejným počtem prvků jsou navzájem \emph{izomorfní}.
+\emph{Konečné těleso} řádu $p^n$ je tedy dále označováno jako $GF(p^n)$
+(z anglického \emph{Gallois field}, dle francouzského matematika
+\emph{Évariste Galois}).
+
+\section{Reprezentace prvků}
+Jak bude ukázáno dále, je vhodné prvky tělesa $GF(p^n)$ reprezentovat jako
+\emph{polynomy} s koeficienty z množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
+prvek $a \in GF(p^n)$ lze zapsat:
+$$ A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p $$
+
+O takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
+maximálně $n-1$)}. Na prvek $a$ je též možné se dívat jako na vektor či $n$-tici
+koeficientů~$a_i$:
+$$ A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong a_{n-1} a_{n-2} \ldots a_0 $$
+
+V této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak
+bude v daném kontextu potřeba potřeba\footnote{
+V některých materiálech se používá i obráceného zápisu $(a_0 a_1 \ldots a_p-1)$.
+}.
+
+\section{Operace v tělese $GF(p^n)$}
+V následujících sekcích jsou probrány operace potřebné pro počítání
+s tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
+je detailně popsána v kapitole \ref{kap_implementace}.
+
+\subsection{Sčítání}
+Sčítání v tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s tím, že
+sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v tělese $GF(p)$:
+$$ A(x) + B(x) = \sum a_i x^i + \sum b_i x^i = \sum \left|a_i + b_i\right|_p x^i $$
 
 
-\chapter{Lineární kódy}
+\subsection{Násobení}
+Násobení v tělese $GF(p^n)$ nelze provádět \uv{po složkách}, jako je tomu u
+sčítání. U takto definované operace by většina prvků neměla (multiplikativní)
+\emph{inverzi} a nejednalo by se tak o \emph{těleso}.
 
-\chapter{Kryptosystém McEliece}
+Při násobení prvků se opět využije jejich reprezentace pomocí polynomů.
+Výsledkem násobení pak je:
+$$ A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
+\sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i$$
 
-\chapter{Implementace}
+Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modulo} $p$ (v
+tělese $GF(p)$.
 
+Kvůli uzavřenosti násobení v tělese je nutné zavést operaci $A(x) \mod P(x)$,
+neboli zbytek po dělení polynomu $A(x)$ polynomem $P(x)$. Dále je třeba pro
+určení tělesa $GF(p^n)$ určit \emph{ireducibilní} polynom, který bude použitý
+při operaci násobení.
+
+\begin{definice}
+    Polynom $P(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
+    pro každé dva polynomy $A(x)$ a $B(x)$ nad $GF(p)$ platí:
+    $$ A(x) \cdot B(x) = P(x) \Rightarrow \left( deg(A(x)) = 0 \right) \lor
+    \left( deg(B(x)) = 0 \right)$$
+\end{definice}
+
+Neboli pro \emph{ireducibilní} polynom platí, že neexistuje rozklad na polynomy
+nad $GF(p)$ stupně alespoň $1$.
+
+\paragraph{Příklad:} Polynom $x^3+x+1$ je nad tělesem $GF(2)$ \emph{ireducibilní},
+protože neexistuje jeho rozklad na polynomy stupně alespoň $1$. \\
+Polynom $x^2+1$ není nad tělesem $GF(2)$ \emph{ireducibilní}, protože:
+$$(x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
+
+Nyní je možné zavést operaci násobení dvou prvků tělesa jako násobení dvou
+polynomů \emph{modulo} \emph{zadaný ireducibilní} polynom:
+$$ A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
+\sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x) $$
+
+
+\paragraph{Poznámka} Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
+by se o \emph{okruh}, nikoliv o \emph{těleso}, protože by neexistovala
+\emph{multiplikativní inverze} pro některé prvky a navíc by i existovaly
+tzv. \emph{dělitelé nuly}.
+
+
+\subsection{Umocňování}
+Pro rozšíření operací o opakované násobení je vhodné zavést operaci umocňování.
+
+\begin{definice}
+    Pro prvek $a$ tělesa $T$ a číslo $n\in\mathbb{N}$ je operace
+    umocňování definována následovně:
+    \begin{align*}
+        a^0     &= 1 \\
+        a^n     &= \underbrace{a \cdot a \cdot \ldots \cdot a}_{\text{$n$-krát}} \\
+        a^{-n}  &= \left(a^{-1}\right)^n
+    \end{align*}
+\end{definice}
+
+Pro efektivní výpočet mocniny prvku je vhodné použít algoritmus
+\emph{Square-and-Multiply}, kde se dílčí operace \uv{square} a \uv{multiply}
+provádí operací $\cdot$ v daném tělese $GF(p^n)$.
+
+\subsection{Inverze}
+\emph{Inverzi} v \emph{grupě} lze obecně definovat následovně:
+\begin{definice}[Inverze]
+    Nechť $a$ je prvkem a $\mathbb{O}$ neutrálním prvkem \emph{grupy} \\
+    $G = (M,\circ)$. Prvek $\bar{a}$ je \emph{inverzí} prvku $a$, pokud
+    platí následující rovnice:
+    $$ a \circ \bar{a} = \mathbb{O} $$
+\end{definice}
+
+\subsubsection{Aditivní inverze}
+Inverze v \emph{aditivní grupě} je značena znaménkem minus \uv{$-$} a je
+z definice velmi triviální:
+$$ \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow
+-A(x) = \sum \left|-a_i\right|_p x^i $$
+
+Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo} $p$
+(v tělese $GF(p)$).
+
+
+\subsubsection{Multiplikativní inverze}
+Inverze v \emph{multiplikativní grupě} je značena záporným exponentem
+\uv{$^{-1}$} či symbolem dělení.
+$$ \left| A(x) \cdot A(x)^{-1} \right|_p =
+\left| \frac{A(x)}{A(x)} \right|_p = 1 $$
+
+Tuto \emph{multiplikativní inverzi} je třeba počítat \emph{rozšířeným Euklidovým
+algoritmem pro polynomy} (\emph{EEA}), či případně jinými algoritmy, jako je např.
+\emph{algoritmus Itoh-Teechai-Tsujii} (\emph{ITT}) \cite{FIT_BHW,ITT}.
+
+\emph{Rozšířený Euklidův algoritmus} \emph{pro polynomy}, stejně jako v modulární
+aritmetice (neboli pro tělesa $GF(p)$), stojí na nalezení \emph{Bézoutovy
+rovnosti}. Pro výpočet \emph{EEA} je třeba výpočtu dělení polynomů se
+zbytkem\footnote{
+Někdy uváděno jako dlouhé dělení.
+}.
+
+%TODO příklad!
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Lineární kódy}\label{kap_kody}
+
+\section{Kódování}
+
+\section{Lineární kódy}
+\subsection{Hammingovy kódy}
+
+\section{Goppa kódy}
+\emph{Ireducibilní binární Goppa kódy}
+
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Kryptosystém McEliece}\label{kap_mceliece}
+
+\section{Asymetrické šifrování McEliece}
+
+\section{Niederreiterovo schéma}
+
+\section{Bezpečnost algoritmů}
+\subsection{Typy útoků}
+\subsection{Slabiny systému}
+\subsection{Existující útoky}
+\subsection{Praktická varianta}
+\emph{CCA2-odolná varianta}
+
+
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Implementace}\label{kap_implementace}
+\section{Binární konečná tělesa}
+\section{Ireducibilní binární Goppa kódy}
+\section{McEliece}
+\section{Měření}
+
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \begin{conclusion}
         %sem napište závěr Vaší práce
 \end{conclusion}
 
-\bibliographystyle{csn690}
-\bibliography{mybibliographyfile}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Prilohy
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+%\bibliographystyle{csn690}
+%\bibliography{mybibliographyfile}
+\begin{thebibliography}{99}
+
+% články, knihy
+    \bibitem{McEliece}
+    \bibitem{Paar_Understanding}
+    \bibitem{ITT}
+
+% přednášky
+    \bibitem{FIT_MPI}
+    \bibitem{FIT_MKY}
+    \bibitem{FIT_LIN}
+    \bibitem{FIT_BHW}
+
+% software
+    \bibitem{Mathematica}
+\end{thebibliography}
 
 \appendix
 
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
-        \item[...]
+        \item[GF] Gallois field
         %\item[TLS] Three Letter Shortcut
 \end{description}
 
@@ -102,3 +366,4 @@ Goppa codes, finite fields}
 \end{figure}
 
 \end{document}
+
