@@ -67,13 +67,13 @@ Goppa codes, finite fields, polynomy, Wolfram Mathematica}
 \begin{introduction}
 Tato práce se zabývá asymetrickým kryptosystémem \emph{McEliece}. Mezi největší
 přednosti tohoto systému patří jeho odolnost vůči kvantovým počítačům a je tak
-jedním z vhodných kandidátů pro asymetrickou kryptografii pro postkvantovou
+jedním z~vhodných kandidátů pro asymetrickou kryptografii pro postkvantovou
 dobu.
 
 %TODO
-V prvních kapitolách této práce jsou popsány nezbytné primitivy z oblasti
+V~prvních kapitolách této práce jsou popsány nezbytné primitivy z~oblasti
 matematiky a teorie kódování, které jsou potřeba pro pochopení a použití
-kryptosystému McEliece. Jedná se především o počítání s \emph{konečnými tělesy}
+kryptosystému McEliece. Jedná se především o~počítání s~\emph{konečnými tělesy}
 a \emph{polynomy} (kapitola \ref{kap_telesa}) a binární \emph{Goppa} kódy
 (kapitola \ref{kap_kody}).
 
@@ -84,8 +84,8 @@ probráno i \emph{Niederreiterovo} schéma -- \uv{úprava} kryptosystému
 nevýhody i možné útoky na kryptosystém McEliece a též zmíněna praktická varianta
 systému odolná vůči těmto aspektům.
 
-V poslední části  práce je probrána implementace kryptosystému \emph{McEliece}
-v softwaru \emph{Wolfram Mathematica} včetně změřených časových % TODO a prostorových
+V~poslední části  práce je probrána implementace kryptosystému \emph{McEliece}
+v~softwaru \emph{Wolfram Mathematica} včetně změřených časových % TODO a prostorových
 složitostí (kapitola \ref{kap_implementace}),.
 
 \end{introduction}
@@ -94,9 +94,9 @@ složitostí (kapitola \ref{kap_implementace}),.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \chapter{Obecná algebra}\label{kap_telesa}
-V kapitole jsou probrány definice a algoritmy nutné pro práci s \emph{konečnými
-tělesy} a \emph{polynomy} nad konečným tělesem. V práci se předpokládá
-základních znalostí z oblasti \emph{algebry}. Pro tato témata je doporučena
+V~kapitole jsou probrány definice a algoritmy nutné pro práci s~\emph{konečnými
+tělesy} a \emph{polynomy} nad konečným tělesem. V~práci se předpokládá
+základních znalostí z~oblasti \emph{algebry}. Pro tato témata je doporučena
 literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar_Understanding} (kde lze též
 najít většinu důkazů následujících vět).
 
@@ -134,50 +134,50 @@ Prvek $\mathit{0}$ je \emph{nulový} (\emph{neutrální}) prvek \emph{aditivní 
 Číslo $p$ se nazývá \emph{charakteristika}. Navíc platí, že \emph{všechna
 konečná tělesa} se stejným počtem prvků jsou navzájem \emph{izomorfní}.
 \emph{Konečné těleso} řádu $p^n$ je tedy dále označováno jako $GF(p^n)$
-(z anglického \emph{Gallois field}, dle francouzského matematika
+(z~anglického \emph{Gallois field}, dle francouzského matematika
 \emph{Évariste Galois}).
 
 \section{Reprezentace prvků}
 Jak bude ukázáno dále, je vhodné prvky tělesa $GF(p^n)$ reprezentovat jako
-\emph{polynomy} s koeficienty z množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
+\emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
 prvek $a \in GF(p^n)$ lze zapsat:
 $$ A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p $$
 
-O takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
+O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
 maximálně $n-1$)}. Na prvek $a$ je též možné se dívat jako na vektor či $n$-tici
 koeficientů~$a_i$:
 $$ A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong a_{n-1} a_{n-2} \ldots a_0 $$
 
-V této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak
-bude v daném kontextu potřeba potřeba\footnote{
-V některých materiálech se používá i obráceného zápisu $(a_0 a_1 \ldots a_p-1)$.
+V~této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak
+bude v~daném kontextu potřeba potřeba\footnote{
+V~některých materiálech se používá i obráceného zápisu $(a_0 a_1 \ldots a_p-1)$.
 }.
 
-\section{Operace v tělese $GF(p^n)$}
-V následujících sekcích jsou probrány operace potřebné pro počítání
-s tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
-je detailně popsána v kapitole \ref{kap_implementace}.
+\section{Operace v~tělese $GF(p^n)$}
+V~následujících sekcích jsou probrány operace potřebné pro počítání
+s~tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
+je detailně popsána v~kapitole \ref{kap_implementace}.
 
 \subsection{Sčítání}
-Sčítání v tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s tím, že
-sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v tělese $GF(p)$:
+Sčítání v~tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s~tím, že
+sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese $GF(p)$:
 $$ A(x) + B(x) = \sum a_i x^i + \sum b_i x^i = \sum \left|a_i + b_i\right|_p x^i $$
 
 
 \subsection{Násobení}
-Násobení v tělese $GF(p^n)$ nelze provádět \uv{po složkách}, jako je tomu u
-sčítání. U takto definované operace by většina prvků neměla (multiplikativní)
-\emph{inverzi} a nejednalo by se tak o \emph{těleso}.
+Násobení v~tělese $GF(p^n)$ nelze provádět \uv{po složkách}, jako je tomu
+u~sčítání. U~takto definované operace by většina prvků neměla (multiplikativní)
+\emph{inverzi} a nejednalo by se tak o~\emph{těleso}.
 
 Při násobení prvků se opět využije jejich reprezentace pomocí polynomů.
 Výsledkem násobení pak je:
 $$ A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
 \sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i$$
 
-Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modulo} $p$ (v
-tělese $GF(p)$.
+Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modulo} $p$
+(v~tělese $GF(p)$.
 
-Kvůli uzavřenosti násobení v tělese je nutné zavést operaci $A(x) \mod P(x)$,
+Kvůli uzavřenosti násobení v~tělese je nutné zavést operaci $A(x) \mod P(x)$,
 neboli zbytek po dělení polynomu $A(x)$ polynomem $P(x)$. Dále je třeba pro
 určení tělesa $GF(p^n)$ určit \emph{ireducibilní} polynom, který bude použitý
 při operaci násobení.
@@ -204,13 +204,13 @@ $$ A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
 
 
 \paragraph{Poznámka} Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
-by se o \emph{okruh}, nikoliv o \emph{těleso}, protože by neexistovala
+by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
 \emph{multiplikativní inverze} pro některé prvky a navíc by i existovaly
 tzv. \emph{dělitelé nuly}.
 
 
 \subsection{Umocňování}
-Pro rozšíření operací o opakované násobení je vhodné zavést operaci umocňování.
+Pro rozšíření operací o~opakované násobení je vhodné zavést operaci umocňování.
 
 \begin{definice}
     Pro prvek $a$ tělesa $T$ a číslo $n\in\mathbb{N}$ je operace
@@ -224,10 +224,10 @@ Pro rozšíření operací o opakované násobení je vhodné zavést operaci um
 
 Pro efektivní výpočet mocniny prvku je vhodné použít algoritmus
 \emph{Square-and-Multiply}, kde se dílčí operace \uv{square} a \uv{multiply}
-provádí operací $\cdot$ v daném tělese $GF(p^n)$.
+provádí operací $\cdot$ v~daném tělese $GF(p^n)$.
 
 \subsection{Inverze}
-\emph{Inverzi} v \emph{grupě} lze obecně definovat následovně:
+\emph{Inverzi} v~\emph{grupě} lze obecně definovat následovně:
 \begin{definice}[Inverze]
     Nechť $a$ je prvkem a $\mathbb{O}$ neutrálním prvkem \emph{grupy} \\
     $G = (M,\circ)$. Prvek $\bar{a}$ je \emph{inverzí} prvku $a$, pokud
@@ -236,17 +236,17 @@ provádí operací $\cdot$ v daném tělese $GF(p^n)$.
 \end{definice}
 
 \subsubsection{Aditivní inverze}
-Inverze v \emph{aditivní grupě} je značena znaménkem minus \uv{$-$} a je
-z definice velmi triviální:
+Inverze v~\emph{aditivní grupě} je značena znaménkem minus \uv{$-$} a je
+z~definice velmi triviální:
 $$ \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow
 -A(x) = \sum \left|-a_i\right|_p x^i $$
 
 Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo} $p$
-(v tělese $GF(p)$).
+(v~tělese $GF(p)$).
 
 
 \subsubsection{Multiplikativní inverze}
-Inverze v \emph{multiplikativní grupě} je značena záporným exponentem
+Inverze v~\emph{multiplikativní grupě} je značena záporným exponentem
 \uv{$^{-1}$} či symbolem dělení.
 $$ \left| A(x) \cdot A(x)^{-1} \right|_p =
 \left| \frac{A(x)}{A(x)} \right|_p = 1 $$
@@ -255,7 +255,7 @@ Tuto \emph{multiplikativní inverzi} je třeba počítat \emph{rozšířeným Eu
 algoritmem pro polynomy} (\emph{EEA}), či případně jinými algoritmy, jako je např.
 \emph{algoritmus Itoh-Teechai-Tsujii} (\emph{ITT}) \cite{FIT_BHW,ITT}.
 
-\emph{Rozšířený Euklidův algoritmus} \emph{pro polynomy}, stejně jako v modulární
+\emph{Rozšířený Euklidův algoritmus} \emph{pro polynomy}, stejně jako v~modulární
 aritmetice (neboli pro tělesa $GF(p)$), stojí na nalezení \emph{Bézoutovy
 rovnosti}. Pro výpočet \emph{EEA} je třeba výpočtu dělení polynomů se
 zbytkem\footnote{
@@ -263,6 +263,11 @@ Někdy uváděno jako dlouhé dělení.
 }.
 
 %TODO příklad!
+
+\section{Polynomy nad konečným tělesem}
+
+% TODO
+\emph{Prvotěleso}
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -299,9 +304,225 @@ Někdy uváděno jako dlouhé dělení.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \chapter{Implementace}\label{kap_implementace}
+Pro implementaci kryptosystému \emph{McEliece} v~této práci byl zvolen software
+\emph{Wolfram Mathematica} \cite{Mathematica}. Tento software byl zvolen hlavně
+díky pohodlnosti některých matematických výpočtů a konstrukcí a také pro
+přehlednost výstupů. %TODO
+
+Při implementaci \emph{kryptosystému} se ukázaly nedostatky softwaru
+\emph{Mathematica} a bylo nutné zpracovat problematiku (rozšířených)
+\emph{konečných těles} a \emph{binárních Goppa kódů}. Tyto dvě oblasti byly
+implementovány přímo v~softwaru \emph{Mathematica} tak, aby bylo možné jejich
+pohodlné použití i v~jiných oblastech.
+
+Celková práce byla rozdělena do třech ucelených částí -- (binární) \emph{konečná
+tělesa}, (ireducibilní) \emph{binární Goppa kódy} a \emph{kryptosystém
+McEliece} --, kde každá z~nich lze využít jako \emph{balík} či \emph{knihovna}
+pro další výpočty. Následující kapitoly popisují jednotlivé části.
+
+%\section{Wolfram Mathematica}
+
 \section{Binární konečná tělesa}
+Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} včetně
+jejich \emph{rozšíření}. Jsou zmíněny existující řešení v~softwaru
+\emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
+
+\subsection{Existující řešení}
+Pro operace s~\emph{konečnými tělesy} v~softwaru \emph{Mathematica} byly
+prostudovány interní funkce pro operace s~polynomy a externí balík
+\texttt{FiniteFields}. Vlastnosti těchto řešení jsou popsány v~následujících
+kapitolách.
+
+\subsubsection{Operace s~polynomy}
+Software \emph{Mathematica} obsahuje funkce pro operace s~polynomy nad reálnými
+(případně i komplexními) čísly. Většina těchto funkcí má volitelnou
+\emph{možnost}\footnote{
+Anglicky se tento termín v~softwaru \emph{Mathematica}
+nazývá \emph{Option}.
+} \emph{Modulus}, díky které lze zajistit, aby operace s~koeficienty byly prováděny
+nad celými čísly \emph{modulo} zadané číslo $p$. Tímto způsobem je možné
+implementovat operace nad tělesy $GF(p^n)$, nicméně je téměř nemožné
+tímto způsobem implementovat \emph{rozšířená tělesa} -- polynomy nad polynomy.
+
+Pro použití těchto funkcí (např. \texttt{ExtendedPolynomialGCD}, je třeba
+polynomu v~úplném tvaru $\sum a_i x^i$ -- včetně $x^i$ s~tím, že $x$ musí být
+nedefinovaný \emph{symbol}\footnote{
+Jinými slovy proměnná, která nemá definovanou hodnotu.
+}. Tento požadavek je celkem nepraktický, protože definování této proměnné
+kdekoliv v~programu by vedlo na nemožnost použití těchto funkcí a udržovat si
+prvky ve formě např. $x^6 + x^3 + x + 1$ místo $1001011$ není pohodlné.
+Další nevýhoda použití polynomů je, že software \emph{Mathematica} vypisuje
+polynomy od \emph{nejnižšího} členu po \emph{nejvyšší} (např. $1+x^2+x^4+x^7$),
+což je obrácený zápis, než je v~technické literatuře zvykem.
+
+\subsubsection{Balík \texttt{FiniteFields}}
+\paragraph{Balík} \emph{Balík} v~softwaru \emph{Mathematica} je soubor obsahující
+rozšiřující funkce, které standardně nejsou k~dispozici. Balík je možné načíst
+pomocí funkcí \texttt{Needs}, či případně \emph{Get}.
+
+Balík \texttt{FiniteFields} obsahuje základní operace pro práci s~tělesy
+$GF(p^n)$. Prvky konečných těles jsou pak určené \emph{seznamem}\footnote{
+\emph{Seznamem} se myslí struktura v~softwaru \emph{Mathematica} -- \emph{List}
+} koeficientů a \emph{hlavičkou}, která určuje do jakého tělesa prvek patří.
+Výhoda tohoto opatření je, že pro sčítání a násobení je pak možné využít
+obyčejné symboly operací ($+$, $-$, $*$, $/$) a operace se automaticky provede
+v~daném tělese.  Pro parametry $p$ a $n$ je určené jedno těleso $GF(p^n)$
+(s~jedním konkrétním ireducibilním polynomem) a \emph{seznam} koeficientů prvku
+se opět píše od nejnižšího řádu po nejvyšší (například polynom $x^3 + x + 1$
+z~tělesa $GF(2^5)$ je zapsán jako $GF[2,5][\{1,1,0,1,0\}] $).
+
+Funkce z~balíku \texttt{FiniteFields} nejsou dostatečně zdokumentovány, jak
+je jinak v~softwaru \emph{Mathematica} zvykem. Nepodařilo se využít funkcí
+z~tohoto balíku pro operace s~\emph{rozšířenými tělesy}.
+
+\subsection{Zvolené řešení}
+Existující řešení pro práci s~\emph{konečnými tělesy} se ukázala jako
+nedostačující. Jejich hlavní nevýhodou je nemožnost použití při výpočtech
+s~\emph{rozšířenými tělesy}. Proto bylo implementováno vlastní řešení pro práci
+s~\emph{konečnými tělesy}.
+
+Při implementaci operací nad \emph{konečnými tělesy} bylo dodržováno následující
+jednotné rozhraní:
+
+\begin{itemize}
+    \item Prvky \emph{konečných těles} jsou reprezentovány \emph{seznamem}
+        koeficientů od nejvyššího po nejnižší. \\ U~\emph{rozšířených těles}
+        jsou koeficienty opět prvky konečných těles. \\
+        Například polynom $x^3+x+1$ je reprezentován seznamem: $\{1,0,1,1\}$ \\
+        a polynom $(y+1)x^2 + (y)$ je reprezentován:
+        $\left\{\{1,1\},\{0,0\},\{1,0\}\right\}$
+
+    \item Prvek (seznam koeficientů) může být libovolně dlouhý. V~případě
+        potřeby se při výpočtu \emph{redukuje} (ireducibilním) polynomem nebo
+        dorovná \emph{nulovými} koeficienty.
+
+    \item Počet koeficientů vnitřních prvků (koeficientů) musí být vždy stejný. \\
+        Například prvek $\{\{0,0\},\{1\},\{1,0\}\}$ není dovolený.
+
+    \item Jednotlivým funkcím je kromě operandů předáván též i \emph{modul}
+        skládající se z~odpovídajících (ireducibilních) polynomů, včetně
+        charakteristiky tělesa. Tento \emph{modul} je definovaný následovně: \\
+        Pro tělesa $GF(p^{n_1})$ je \emph{modul} složen z~(ireducibilního)
+        polynomu $i_1$ stupně $n_1$ a dané charakteristiky $p$:
+        $modul_1 = \left\{i_1,p\right\}$ \\
+        Pro rozšířená tělesa se \emph{modul} skládá z~odpovídajícího
+        \emph{polynomu} $i_k$ stupně $n_k$ nad tělesem
+        $GF( {{p^{n_1}}^{\dots}}^{n_{k-1}} )$ a \emph{modulu vnitřního tělesa}: \\
+        $modul_k = \left\{i_k,modul_{k-1}\right\}$.
+
+    \item Všem funkcím se předávají nejdřív \emph{operandy} a poté \emph{modul}. \\
+        Například pro prvky $a,b\in GF(p^{\ldots})$, $m\in\mathbb{N}$
+        a odpovídající $modul$: \\
+        \hspace*{0.6cm}$krat[a,b,modul]$ \\
+        \hspace*{0.6cm}$inverze[a,modul]$ \\
+        \hspace*{0.6cm}$mocnina[a,m,modul]$ \\
+        \hspace*{0.6cm}\ldots
+
+    \item Pro implementaci operací v~\emph{prvotělesech} (tělesech $GF(p^n)$)
+        jsou použité vnitřní funkce softwaru \emph{Mathematica} pro práci
+        s~\emph{polynomy}. Implementované funkce pro \emph{prvotělesa} tedy
+        zpravidla obsahují převod ze \emph{seznamu} čísel na \emph{polynom},
+        zavolání vnitřní funkce pro \emph{polynomy} a převodu zpět na
+        \emph{seznam} koeficientů. Díky těmto vnitřním funkcím je docíleno
+        rychlejšího výpočtu, než kdyby byla použita vlastní implementace nad
+        \emph{seznamy} celých čísel.
+
+    \item Pro implementaci operací v \emph{rozšířených tělesech} byly
+        implementovány jednotlivé algoritmy operací (popsané níže), jelikož
+        nebylo možné použít pro tyto operace vnitřní funkce softwaru
+        \emph{Mathematica}. Funkce nad \emph{rozšířenými tělesy} zpravidla
+        volají odpovídající funkce ve vnitřních tělesech (například násobení
+        jednotlivých \emph{koeficientů}).
+
+\end{itemize}
+
+Tato pravidla umožňují pohodlný, jednotný a \emph{rekurzivní} přístup
+k~jednotlivým prvkům a voláním funkcí (druhá složka \emph{modulu} je
+\emph{modul} \emph{vnitřního tělesa}, prvky \emph{polynomu} jsou opět
+\emph{polynomy}, \ldots).
+
+\subsection{Implementace operací}
+V~následujících kapitolách je popsána implementace hlavních operací
+v~\emph{konečných tělesech} a použitých algoritmů. Pro další informace je
+doporučeno nahlédnout do zdrojového kódu a příkladů použití.
+
+V~níže uvedených pseudokódech se používá některých prvků ze syntaxe softwaru
+\emph{Mathematica}:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ l  l }
+        Zápis               & Význam                                            \\
+        \hline
+        \texttt{foo[bar]}   & Volání funkce \emph{foo} s argumentem \emph{bar}  \\
+        \texttt{ham[[i]]}   & \emph{i}-tý prvek seznamu (pole) \emph{ham}       \\
+    \end{tabular}
+    \caption{Prvky syntaxe jazyka softwaru \emph{Mathematica}}
+\end{table}
+
+\subsubsection{Sčítání}
+Jelikož operace sčítání se v~jakémkoliv \emph{tělese} provádí po jednotlivých
+koeficientech \emph{modulo} $p$, je tato funkce jediná volána místo celkového
+modulu pouze se zadanou charakteristikou $p$.
+
+Pro \emph{rozšířená tělesa} funkce rekurzivně volá stejnou operaci sčítání na
+jednotlivé koeficienty zadaných polynomů až na úroveň \emph{prvotěles} --
+obyčejných jednorozměrných seznamů. Pro \emph{prvotělesa} funkce používá
+obyčejné sčítání dvou seznamů modulo $p$.
+
+%TODO
+% GF(p^n)
+%algoritmus plus[a,b,p]
+%return Mod[a+b,p]
+
+% GF(q^n)
+%algoritmus plus[a,b,p]
+%for (i in 1..Length[a])
+%   c[[i]] = plus[a[[i]],b[[i]],p]
+%return c
+
+\subsubsection{Redukce polynomu}
+Redukce polynomu (neboli \emph{modulo} polynom) se používá ve většině dalších
+funkcí. Tato funkce se volá se dvěma parametry -- prvkem $a$ a polynomem
+(\emph{modulem}) $m$. Funkce vrátí zbytek polynomu $a$ po dělení polynomem $m$.
+
+Redukce polynomu pro \emph{rozšířená tělesa} je inspirovaná \emph{Comb metodou}
+z~\cite{Paar_Efficient}. K původnímu prvku $a$ se opakovaně přičítá (od
+nejvyššího řádu) patřičný násobek \emph{polynomu} $m$ tak, aby se daný
+koeficient $a_i$ rovnal nule (viz příklad níže).
+
+Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
+
+% TODO příklad
+%1000110111001
+%-------------
+%10011
+%   10011
+%     10011
+%      10011
+%============
+%        0111
+
+\subsubsection{Násobení}
+\subsubsection{Inverze}
+\subsubsection{Mocnění}
+
+
+\subsection{Možná zlepšení}
+
+% TODO
+\begin{itemize}
+    \item log- a antilogaritmické tabulky
+    \item dělení místo inverze + násobení
+\end{itemize}
+
+
+
+
 \section{Ireducibilní binární Goppa kódy}
+
 \section{McEliece}
+
 \section{Měření}
 
 
@@ -324,18 +545,25 @@ Někdy uváděno jako dlouhé dělení.
 \begin{thebibliography}{99}
 
 % články, knihy
-    \bibitem{McEliece}
-    \bibitem{Paar_Understanding}
-    \bibitem{ITT}
+    \bibitem{McEliece} McEliece
+    \bibitem{Paar_Understanding} Understanding Cryptography
+    \bibitem{Paar_Efficient}
+        Merchan J. G., Kumar S., Paar C., Pelzl J. Efficient Software Implementation of
+        Finite Fields with Applications to Cryptography v Acta Applicandae
+        Mathematicae: An International Survey Journal on Applying Mathematics and
+        Mathematical Applications, Volume 93, Numbers 1-3, pp. 3-32, September 2006.
+        Ruhr-Universitat Bochum, 2006.
+
+    \bibitem{ITT} ITT
 
 % přednášky
-    \bibitem{FIT_MPI}
-    \bibitem{FIT_MKY}
-    \bibitem{FIT_LIN}
-    \bibitem{FIT_BHW}
+    \bibitem{FIT_LIN} Přednášky BI-LIN
+    \bibitem{FIT_BHW} Přednášky MI-BHW
+    \bibitem{FIT_MKY} Přednášky MI-MKY
+    \bibitem{FIT_MPI} Přednášky MI-MPI
 
 % software
-    \bibitem{Mathematica}
+    \bibitem{Mathematica} Wolfram Mathematica
 \end{thebibliography}
 
 \appendix
