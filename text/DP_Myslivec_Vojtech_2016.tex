@@ -25,6 +25,7 @@
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
 
 
+\newtheorem{tvrzeni}{Tvrzení}
 \newtheorem{definice}{Definice}
 \newtheorem{veta}{Věta}
 
@@ -470,16 +471,17 @@ jednotlivé koeficienty zadaných polynomů až na úroveň \emph{prvotěles} --
 obyčejných jednorozměrných seznamů. Pro \emph{prvotělesa} funkce používá
 obyčejné sčítání dvou seznamů modulo $p$.
 
+\paragraph{Algoritmus:} TBA
 %TODO
 % GF(p^n)
 %algoritmus plus[a,b,p]
-%return Mod[a+b,p]
+%   return Mod[a+b,p]
 
 % GF(q^n)
 %algoritmus plus[a,b,p]
-%for (i in 1..Length[a])
-%   c[[i]] = plus[a[[i]],b[[i]],p]
-%return c
+%   for (i in 1..Length[a])
+%       c[[i]] = plus[a[[i]],b[[i]],p]
+%   return c
 
 \subsubsection{Redukce polynomu}
 Redukce polynomu (neboli \emph{modulo} polynom) se používá ve většině dalších
@@ -493,7 +495,11 @@ koeficient $a_i$ rovnal nule (viz příklad níže).
 
 Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
 
+\paragraph{Algoritmus:} TBA
+\paragraph{Příklad:} TBA
 % TODO příklad
+%1000110111001 mod 10011A:
+
 %1000110111001
 %-------------
 %10011
@@ -504,9 +510,186 @@ Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
 %        0111
 
 \subsubsection{Násobení}
-\subsubsection{Inverze}
-\subsubsection{Mocnění}
+Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
+stupně $n+m$. Násobení je implementováno tak, že k výsledku $c$ (na počátku
+je to nulový polynom) se postupně přičítá skalární násobek polynomu $b$
+koeficienty polynomu $a$, který je zároveň \emph{posunutý} o patřičný počet
+pozic. Využívá se zde faktu, že násobení libovolného \emph{polynomu} $A(x)$
+a $x^i$ je posunutí koeficientů polynomu $A$ o $i$ pozic doleva. Výsledný
+polynom $c$ je následně \emph{redukován} zadaným modulem (viz výše).
 
+Pro \emph{prvotělesa} se používá obyčejného násobení dvou \emph{polynomů}
+a následné \emph{redukce} \emph{modulem}.
+
+\paragraph{Algoritmus:} TBA
+\paragraph{Příklad:} Příklad násobení polynomu $x^3+x+1$ polynomem
+$x^4+x^2+2x+1$ (nad tělesem $GF(3)$):
+
+
+$$
+\arraycolsep=1pt
+\begin{array}{r *{8}{l} }
+    \multicolumn{9}{l}{1011 \cdot 10121:}   \\
+     \hline
+     \hline
+        1 (x^0) &   &   &   &   & 1 & 0 & 1 & 1 \\
+        2 (x^1) &   &   &   & 2 & 0 & 2 & 2 &   \\
+        1 (x^2) &   &   & 1 & 0 & 1 & 1 &   &   \\
+        0 (x^3) &   &   &   &   &   &   &   &   \\
+        1 (x^4) & 1 & 0 & 1 & 1 &   &   &   &   \\
+     \hline
+                & 1 & 0 & 2 & 0 & 2 & 0 & 0 & 1
+\end{array}
+$$
+
+\subsubsection{Inverze}
+Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
+Euklidova algoritmu}. Tento algoritmus se často vizualizuje jako výpočet tabulky
+po řádkách (viz níže). Ve skutečnosti však pro výpočet dalšího řádku stačí
+pracovat s hodnotami dvou řádků předešlých. Proto si není nutné udržovat v
+paměti celou tabulku, ale stačí si udržovat hodnoty dvou řádků a po výpočtu
+třetího hodnoty posunout.
+
+Výpočet hodnot dalšího řádku tabulky probíhá následovně:
+\begin{itemize}
+    \item Hodnoty předchozích řádků jsou:\\
+        \hspace*{0.6cm}Polynomy $p_{i-2}$ a $p_{i-1}$ (na začátku inicializovány na
+            ireducibilní polynom $m$ a \emph{prvek}, ke kterému je hledaná
+            inverze). \\
+        \hspace*{0.6cm}Polynomy $k_{i-2}$ a $k_{i-1}$ (na začátku inicializovány
+            na $0$ a $1$, respektive \emph{nulový} a \emph{jednotkový
+            polynom}).
+    \item Je spočítán \emph{podíl} $q$ a zbytek $p_i$ pomocí tzv. \emph{dlouhého
+        dělení} polynomu $p_{i-2}$ polynomem $p_{i-1}$.
+    \item Je spočítán \emph{polynom} $k_i = k_{i-2} - q \cdot k_{i-1} $
+
+    \item Tyto kroky se opakují, dokud není získán polynom $p_i$ stupně $0$
+        (jinými slovy jediný prvek vnitřního tělesa).
+
+    \item Výsledná \emph{inverze} se získá jako skalární násobek \emph{polynomu}
+        $k_i$ inverzí (posledního) \emph{koeficientu} polynomu $p_i$\footnote{
+Zde je vidět, že pro výpočet inverze v tělese $GF(q^n)$ je třeba vypočítat
+inverzi v tělese $GF(q)$.
+        }.
+\end{itemize}
+
+Inverze v \emph{prvotělese} je implementovaná pomocí interní funkce
+\texttt{PolynomialExtendedGCD}.
+
+\paragraph{Algoritmus:} TBA
+%inverze[ prvek, modul ] :=
+%    modul_{vnitrni} = modul[[2]]
+%    A = modul[[1]] // polynom z modulu
+%    B = prvek
+%    while ( stupen[B] != 0 )
+%        q = A/B; C = A mod B // výpočet pomocí dlouhého dělení v jednom kroku
+%        k_C =  k_A - krat[ q, k_B ]
+%
+%        A = B; k_A = k_B
+%        B = C; k_B = k_C
+%
+%    // výpočet koeficientu ve vnitřním tělese
+%    koef = inverze[ Last[B], modul_{vnitrni} ]
+%    return kratSkalar[ koef, k_C, modul_{vnitrni} ]
+%
+
+\paragraph{Příklad:} \emph{Rozšířený Euklidův algoritmus} pro výpočet
+\emph{inverze} polynomu $x^3+x^2+1$ \emph{modulo} $x^6+x+1$ (nad tělesem
+$GF(2)$):
+
+\begin{center}
+    \begin{tabular}{ r|r r r }
+          Podíl &    Zbytek &       Koeficienty \\
+        \hline
+        \hline
+                & $1000011$ &       $0$ &   $1$ \\
+                &    $1101$ &       $1$ &   $0$ \\
+        \hline
+         $1110$ &     $101$ &   $-1110$ &   $1$ \\
+           $11$ &      $10$ &   $10011$ & $-11$ \\
+           $10$ &       $1$ & $-101000$ & $111$
+    \end{tabular}
+\end{center}
+$ \Rightarrow \left|1101^{-1}\right|_{1000011} = 101000 $
+\paragraph{Poznámka} Poslední sloupec tabulky se v algoritmu nepočítá, je zde
+uveden pouze pro úplnost.
+
+
+\subsubsection{Druhá mocnina}
+Pro prvky tělesa s \emph{charakteristikou} $2$ Je výhodné implementovat funkci
+\uv{na druhou} díky následujícímu tvrzení:
+
+
+\begin{tvrzeni}
+    Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa
+    s \emph{charakteristikou} $2$, potom platí:
+    $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
+\end{tvrzeni}
+
+\paragraph{Důkaz}
+\begin{align*}
+     A(x)    =& a_n x^n + \dots + a_2 x^2 + a_1 x + a_0
+    {A(x)}^2 =& (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
+             =& \quad a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+                \vdots \\
+              &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+              &  {} + a_1 x \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+              &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
+             =& \quad a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {} \\
+                \vdots \\
+              &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {} \\
+              &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {} \\
+              &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2            \\
+             =& a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + ( 2 a_2 a_0 + a_1^2 ) x^2 + 2 a_1 a_0 x + a_0^2  \\
+             =& a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
+         \cong& (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
+\end{align*}
+
+S využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
+triviální:
+\begin{itemize}
+    \item Provedení druhé mocniny všech koeficientů.
+    \item Proložení koeficientů polynomu nulovými koeficienty.
+    \item Redukování polynomem (viz výše).
+\end{itemize}
+
+\paragraph{Algoritmus:} TBA
+%naDruhou[ a, modul ] := 
+%    for (i in 1 .. Length[i])
+%        a[[i]] = naDruhou[ a[[i]], modul_{vnitrni} ]
+%    nula = nulovyPolynom[...]   // odpovídající nulový koeficient
+%    a = Riffle[ a, nula ]       // proloží koeficienty prvkem nula
+%    return redukujPolynom[ a, modul ]
+%
+
+\subsubsection{Mocnění}
+Mocnění \emph{polynomů} je implementováno pomocí algoritmu
+\emph{Square-and-Multiply} (\emph{SM}). Algoritmus využívá faktu, že libovolnou
+mocninu lze rozložit na součin mocnin čtverců ($^2$,$^4$,$^8$,\dots). Konkrétně
+byla implementována varianta provádějící výpočet od nejvíce významného bitu
+exponentu\footnote{
+Uváděna jako \emph{MSB} -- z anglického \emph{most significant bit}
+}. Algoritmus má vstupy polynom $a$ a exponent $e$. Exponent se vyjádří jako
+číslo v \emph{binární} soustavě a poté algoritmus provádí cyklus přes bity
+tohoto rozvoje. V každém kroku se mezivýsledek umocní na druhou a v případě, že
+je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
+
+
+\paragraph{Algoritmus:} TBA
+% umocni[ a, e, modul ] :=
+%     rozvoj = IntegerDigits[ e, 2 ]
+%     c = a
+%     for ( i in 2..Length[rozvoj] )
+%         c = naDruhou[ c, modul ]
+%         if ( rozvoj[[i]] == 1 )
+%             c = krat[ c, a, modul ]
+%     return c
+
+
+\paragraph{Poznámka} Takto implementovaný algoritmus je zranitelný vůči odběrové
+a časové analýze. Pro odolnou implementaci je nutné počítat násobek \emph{vždy} a
+pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
+Reálná implementace je tímto způsobem.
 
 \subsection{Možná zlepšení}
 
@@ -548,11 +731,13 @@ Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
     \bibitem{McEliece} McEliece
     \bibitem{Paar_Understanding} Understanding Cryptography
     \bibitem{Paar_Efficient}
-        Merchan J. G., Kumar S., Paar C., Pelzl J. Efficient Software Implementation of
-        Finite Fields with Applications to Cryptography v Acta Applicandae
-        Mathematicae: An International Survey Journal on Applying Mathematics and
-        Mathematical Applications, Volume 93, Numbers 1-3, pp. 3-32, September 2006.
-        Ruhr-Universitat Bochum, 2006.
+        \uppercase{Merchan} J. G., \uppercase{Kumar} S., \uppercase{Paar} C.,
+        \uppercase{Pelzl} J. \emph{Efficient Software Implementation of Finite
+        Fields with Applications to Cryptography} v Acta Applicandae
+        Mathematicae: An International Survey Journal on Applying Mathematics
+        and Mathematical Applications, Volume 93, Numbers 1-3, pp.  3-32,
+        September 2006.  Ruhr-Universitat Bochum, 2006. Dostupné online:
+        \url{http://www.emsec.rub.de/research/publications/efficient-software-implementation-finite-fields-ap/}
 
     \bibitem{ITT} ITT
 
@@ -574,6 +759,11 @@ Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
         \item[GF] Gallois field
         %\item[TLS] Three Letter Shortcut
 \end{description}
+
+% TODO
+%\chapter{Algoritmy}
+%\section{ITT}
+%TBA
 
 \chapter{Obsah přiloženého CD}
 
