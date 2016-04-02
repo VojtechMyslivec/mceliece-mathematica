@@ -14,6 +14,8 @@
 \usepackage{amsmath} %advanced maths
 \usepackage{amssymb} %additional math symbols
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{dirtree} %directory tree visualisation
 % \usepackage{textcomp} % \textcopyleft
 
@@ -23,7 +25,12 @@
 % \makeglossaries
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
+\newcommand{\0}{{\scriptscriptstyle 0}}
 
+\newenvironment{algoritmus}{
+    \floatname{algorithm}{Algoritmus}
+    \begin{algorithm}
+}{\end{algorithm}}
 
 \newtheorem{tvrzeni}{Tvrzení}
 \newtheorem{definice}{Definice}
@@ -107,13 +114,13 @@ Pro ujasnění je uvedena definice tělesa:
 \begin{definice}[Těleso]
     Nechť $M$ je neprázdná množina a $+$ a $\cdot$ binární operace\footnote{
 Pro zjednodušení zápisu je $\cdot$ často vynecháváno.
-    }. Struktura
+}. Struktura
     $T=\big(M, +, \cdot \big)$ se nazývá těleso, pokud platí
     \begin{enumerate}
         \item $\big(M, +\big)$ je \emph{komutativní grupa} (nazývána \emph{aditivní})
         \item $\big(M\setminus\{\mathit{0}\}, \cdot \big)$\footnote{
 Prvek $\mathit{0}$ je \emph{nulový} (\emph{neutrální}) prvek \emph{aditivní grupy}.
-            } je \emph{grupa} (nazývána
+} je \emph{grupa} (nazývána
             \emph{multiplikativní})
         \item Platí (levý i pravý) \emph{distributivní zákon}:
             $$\forall a,b,c \in M : \big( a(b+c) = a b + a c \big) \land \big(
@@ -193,7 +200,7 @@ při operaci násobení.
 Neboli pro \emph{ireducibilní} polynom platí, že neexistuje rozklad na polynomy
 nad $GF(p)$ stupně alespoň $1$.
 
-\paragraph{Příklad:} Polynom $x^3+x+1$ je nad tělesem $GF(2)$ \emph{ireducibilní},
+\paragraph{Příklad} Polynom $x^3+x+1$ je nad tělesem $GF(2)$ \emph{ireducibilní},
 protože neexistuje jeho rozklad na polynomy stupně alespoň $1$. \\
 Polynom $x^2+1$ není nad tělesem $GF(2)$ \emph{ireducibilní}, protože:
 $$(x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
@@ -328,6 +335,11 @@ Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} v
 jejich \emph{rozšíření}. Jsou zmíněny existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
+Ač jsou funkce implementované v co nejobecnějším pojetí, tak je kladen důraz na
+efektivnost výpočtů vzhledem k \emph{binárním} tělesům -- tedy k \emph{tělesům}
+s charakteristikou $2$. Pro \emph{tělesa} s jinou charakteristikou není chování
+funkcí definováno.
+
 \subsection{Existující řešení}
 Pro operace s~\emph{konečnými tělesy} v~softwaru \emph{Mathematica} byly
 prostudovány interní funkce pro operace s~polynomy a externí balík
@@ -452,7 +464,7 @@ V~níže uvedených pseudokódech se používá některých prvků ze syntaxe so
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{ l  l }
+    \begin{tabular}{l  l}
         Zápis               & Význam                                            \\
         \hline
         \texttt{foo[bar]}   & Volání funkce \emph{foo} s argumentem \emph{bar}  \\
@@ -471,17 +483,22 @@ jednotlivé koeficienty zadaných polynomů až na úroveň \emph{prvotěles} --
 obyčejných jednorozměrných seznamů. Pro \emph{prvotělesa} funkce používá
 obyčejné sčítání dvou seznamů modulo $p$.
 
-\paragraph{Algoritmus:} TBA
-%TODO
-% GF(p^n)
-%algoritmus plus[a,b,p]
-%   return Mod[a+b,p]
-
-% GF(q^n)
-%algoritmus plus[a,b,p]
-%   for (i in 1..Length[a])
-%       c[[i]] = plus[a[[i]],b[[i]],p]
-%   return c
+\begin{algoritmus}[h!]
+    \caption{Sčítání polynomů}
+    \begin{algorithmic}[1]
+     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(p^n)$, $p$ je prvočíslo}
+        \State \Return $Mod[a+b,p]$
+     \EndFunction
+    \end{algorithmic}
+    \begin{algorithmic}[1]
+     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(q^n)$, $q$ je $p^{\dots}$}
+        \For{$ i \gets 1\dots Length[a] $}
+            \State $c[[i]] \gets plus[a[[i]],b[[i]],p]$
+        \EndFor
+        \State \Return $c$
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
 
 \subsubsection{Redukce polynomu}
 Redukce polynomu (neboli \emph{modulo} polynom) se používá ve většině dalších
@@ -495,19 +512,59 @@ koeficient $a_i$ rovnal nule (viz příklad níže).
 
 Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
 
-\paragraph{Algoritmus:} TBA
-\paragraph{Příklad:} TBA
-% TODO příklad
-%1000110111001 mod 10011A:
+\begin{algoritmus}[h!]
+    \caption{Redukce polynomu v tělese s charakteristikou $2$}
+    \begin{algorithmic}[1]
+     \Function{redukuj[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
+        \State $ l_a \gets stupen[a] + 1 $
+            \Comment{Délka redukovaného polynomu}
+        \State $ l_m \gets stupen[m]$
+            \Comment{Výsledná délka redukovaného polynomu}
 
-%1000110111001
-%-------------
-%10011
-%   10011
-%     10011
-%      10011
-%============
-%        0111
+        // Převedení $m$ na \emph{monický} polynom
+        \State $ koef \gets inverze[ m[[1]], modul_{vnitrni} ] $
+            \Comment{Inverze nejvyššího koeficientu}
+        \State $ m \gets krat[ koef, m, modul_{vnitrni} ] $
+            \Comment{Násobení skalárem}
+
+        \hfil
+        \State $ m \gets PadRight[ m, l_a - l_m ] $
+            \Comment{Natáhnutí polynomu na délku $a$}
+
+        \For{$ i \gets 1 \ldots l_a - l_m $}
+            \State $ s \gets krat[ a[[i]], m, modul_{vnitrni} ] $
+                \Comment{Skalární násobek}
+            \State $ a \gets plus[ a, s, 2 ] $
+                \Comment{Odečtení v binárním tělese}
+            \State $ m \gets RotateRight[m] $
+                \Comment{Posunutí redukovaného polynomu}
+        \EndFor
+
+        \hfil
+        \State \Return $a$
+
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+\paragraph{Příklad} Redukce polynomu $ x^{12} + x^8 + x^7 + x^5 + x^4 + x^3 + 1 $
+polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
+
+\begin{align*}
+& 1000110111001 \mod 10011: \\
+& \arraycolsep=1pt
+\begin{array}{*{13}{l}}
+        1 &  0 &  0 &  0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 &  0 &  1   \\
+    \hline
+        1 &  0 &  0 &  1 &  1 &    &    &    &    &    &    &    &      \\
+          &    &    &  1 &  0 &  0 &  1 &  1 &    &    &    &    &      \\
+          &    &    &    &    &  1 &  0 &  0 &  1 &  1 &    &    &      \\
+          &    &    &    &    &    &  1 &  0 &  0 &  1 &  1 &    &      \\
+    \hline
+          &    &    &    &    &    &    &    &    &  1 &  1 &  0 &  1   \\
+\end{array}
+\end{align*}
+
 
 \subsubsection{Násobení}
 Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
@@ -521,26 +578,49 @@ polynom $c$ je následně \emph{redukován} zadaným modulem (viz výše).
 Pro \emph{prvotělesa} se používá obyčejného násobení dvou \emph{polynomů}
 a následné \emph{redukce} \emph{modulem}.
 
-\paragraph{Algoritmus:} TBA
-\paragraph{Příklad:} Příklad násobení polynomu $x^3+x+1$ polynomem
+\begin{algoritmus}[h!]
+    \caption{Násobení prvků}
+    \begin{algorithmic}[1]
+     \Function{krat[ $a$, $b$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
+        \State $ p \gets charakteristika[ modul ] $
+            \Comment{Charakteristika tělesa}
+
+        // Natažení na výslednou délku
+        \State $ b \gets PadLeft[ b, stupen[a] + stupen[b] + 1 ] $
+        \State $ c \gets nulovyPolynom[\ldots ] $
+            \Comment{Nulový polynom nad vnitřním tělesem}
+
+        \hfil
+        \For{$ i \gets stupen \ldots 1 $}
+            \State $ s \gets krat[ a[[i]], b, modul_{vnitrni} ] $
+                \Comment{Skalární násobek}
+            \State $ c \gets plus[ c, s, p ] $
+            \State $ b \gets RotateLeft[b] $
+                \Comment{Posunutí přičítaného polynomu}
+        \EndFor
+
+        \hfil
+        \State \Return $redukuj[c]$
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+\paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem
 $x^4+x^2+2x+1$ (nad tělesem $GF(3)$):
 
-
-$$
-\arraycolsep=1pt
-\begin{array}{r *{8}{l} }
-    \multicolumn{9}{l}{1011 \cdot 10121:}   \\
-     \hline
-     \hline
-        1 (x^0) &   &   &   &   & 1 & 0 & 1 & 1 \\
-        2 (x^1) &   &   &   & 2 & 0 & 2 & 2 &   \\
-        1 (x^2) &   &   & 1 & 0 & 1 & 1 &   &   \\
-        0 (x^3) &   &   &   &   &   &   &   &   \\
-        1 (x^4) & 1 & 0 & 1 & 1 &   &   &   &   \\
-     \hline
+\begin{align*}
+& 1011 \cdot 10121: \\
+& \arraycolsep=1pt
+\begin{array}{r *{8}{l}}
+        1 (x^4) &  1 &  0 &  1 &  1 & \0 & \0 & \0 & \0 \\
+        0 (x^3) & \0 &  0 &  0 &  0 &  0 & \0 & \0 & \0 \\
+        1 (x^2) & \0 & \0 &  1 &  0 &  1 &  1 & \0 & \0 \\
+        2 (x^1) & \0 & \0 & \0 &  2 &  0 &  2 &  2 & \0 \\
+        1 (x^0) & \0 & \0 & \0 & \0 &  1 &  0 &  1 &  1 \\
+    \hline
                 & 1 & 0 & 2 & 0 & 2 & 0 & 0 & 1
 \end{array}
-$$
+\end{align*}
 
 \subsubsection{Inverze}
 Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
@@ -570,35 +650,41 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
         $k_i$ inverzí (posledního) \emph{koeficientu} polynomu $p_i$\footnote{
 Zde je vidět, že pro výpočet inverze v tělese $GF(q^n)$ je třeba vypočítat
 inverzi v tělese $GF(q)$.
-        }.
+}.
 \end{itemize}
 
 Inverze v \emph{prvotělese} je implementovaná pomocí interní funkce
 \texttt{PolynomialExtendedGCD}.
 
-\paragraph{Algoritmus:} TBA
-%inverze[ prvek, modul ] :=
-%    modul_{vnitrni} = modul[[2]]
-%    A = modul[[1]] // polynom z modulu
-%    B = prvek
-%    while ( stupen[B] != 0 )
-%        q = A/B; C = A mod B // výpočet pomocí dlouhého dělení v jednom kroku
-%        k_C =  k_A - krat[ q, k_B ]
-%
-%        A = B; k_A = k_B
-%        B = C; k_B = k_C
-%
-%    // výpočet koeficientu ve vnitřním tělese
-%    koef = inverze[ Last[B], modul_{vnitrni} ]
-%    return kratSkalar[ koef, k_C, modul_{vnitrni} ]
-%
+\begin{algoritmus}[h!]
+    \caption{Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}}
+    \begin{algorithmic}[1]
+        \Function{inverze[ $prvek$, $modul:\left\{ m, modul_{vnitrni} \right\}$ ]}{}
+        \State $ A \gets m$ \Comment{Polynom z modulu}
+        \State $ B \gets prvek $
+        \While{$stupen[B] \neq 0 $}
 
-\paragraph{Příklad:} \emph{Rozšířený Euklidův algoritmus} pro výpočet
+            // Výpočet $q$ a $C$ pomocí dlouhého dělení v~jednom kroku
+            \State $ q   \gets A/B $; $ C   \gets A \mod B $
+            \State $ k_C \gets k_A - krat[ q, k_B, modul ] $
+            \State $ A \gets B$; $k_A \gets k_B$
+            \State $ B \gets C$; $k_B \gets k_C$
+        \EndWhile
+
+        // Výpočet koeficientu ve vnitřním tělese
+        \State $koef \gets inverze[ Last[C], modul_{vnitrni} ]$
+        \State \Return $krat[ koef, k_C, modul_{vnitrni} ]$\Comment{Násobení skalárem}
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+
+\paragraph{Příklad} \emph{Rozšířený Euklidův algoritmus} pro výpočet
 \emph{inverze} polynomu $x^3+x^2+1$ \emph{modulo} $x^6+x+1$ (nad tělesem
 $GF(2)$):
 
 \begin{center}
-    \begin{tabular}{ r|r r r }
+    \begin{tabular}{r|r r r}
           Podíl &    Zbytek &       Koeficienty \\
         \hline
         \hline
@@ -628,21 +714,21 @@ Pro prvky tělesa s \emph{charakteristikou} $2$ Je výhodné implementovat funkc
 
 \paragraph{Důkaz}
 \begin{align*}
-     A(x)    =& a_n x^n + \dots + a_2 x^2 + a_1 x + a_0
-    {A(x)}^2 =& (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
-             =& \quad a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-                \vdots \\
-              &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-              &  {} + a_1 x \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-              &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
-             =& \quad a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {} \\
-                \vdots \\
-              &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {} \\
-              &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {} \\
-              &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2            \\
-             =& a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + ( 2 a_2 a_0 + a_1^2 ) x^2 + 2 a_1 a_0 x + a_0^2  \\
-             =& a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
-         \cong& (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
+    A(x)     &=  a_n x^n + \dots + a_2 x^2 + a_1 x + a_0 \\
+    {A(x)}^2 &=  (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
+             &= a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+             & \qquad \vdots \\
+             &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+             &  {} + a_1 x \, \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
+             &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
+             &= a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {} \\
+             & \qquad \vdots \\
+             &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {} \\
+             &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {} \\
+             &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2            \\
+             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + ( 2 a_2 a_0 + a_1^2 ) x^2 + 2 a_1 a_0 x + a_0^2  \\
+             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
+             &\cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
 \end{align*}
 
 S využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
@@ -653,14 +739,21 @@ triviální:
     \item Redukování polynomem (viz výše).
 \end{itemize}
 
-\paragraph{Algoritmus:} TBA
-%naDruhou[ a, modul ] := 
-%    for (i in 1 .. Length[i])
-%        a[[i]] = naDruhou[ a[[i]], modul_{vnitrni} ]
-%    nula = nulovyPolynom[...]   // odpovídající nulový koeficient
-%    a = Riffle[ a, nula ]       // proloží koeficienty prvkem nula
-%    return redukujPolynom[ a, modul ]
-%
+\begin{algoritmus}[h!]
+    \caption{Umocňování na druhou v tělese s charakteristikou $2$}
+    \begin{algorithmic}[1]
+     \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
+        \For{$ i \gets 1 \dots Length[i]$}
+            \State $ a[[i]] \gets naDruhou[ a[[i]], modul_{vnitrni} ] $
+        \EndFor
+        \State $ nula \gets nulovyPolynom[ \ldots ]$
+            \Comment{Odpovídající nulový koeficient}
+        \State $ a \gets Riffle[ a, nula ] $
+            \Comment{Proloží koeficienty prvkem $nula$}
+        \State \Return $ redukujPolynom[ a, modul ] $
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
 
 \subsubsection{Mocnění}
 Mocnění \emph{polynomů} je implementováno pomocí algoritmu
@@ -675,15 +768,31 @@ tohoto rozvoje. V každém kroku se mezivýsledek umocní na druhou a v případ
 je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 
 
-\paragraph{Algoritmus:} TBA
-% umocni[ a, e, modul ] :=
-%     rozvoj = IntegerDigits[ e, 2 ]
-%     c = a
-%     for ( i in 2..Length[rozvoj] )
-%         c = naDruhou[ c, modul ]
-%         if ( rozvoj[[i]] == 1 )
-%             c = krat[ c, a, modul ]
-%     return c
+\begin{algoritmus}[h!]
+    \caption{Umocňování prvku $a^e \mod modul$ -- \emph{Square-and-Multiply}}
+    \begin{algorithmic}[1]
+     \Function{umocni[ $a$, $e$, $modul$ ]}{}
+        \If{$ e = 0 $}
+            \State \Return $nulovyPolynom[\ldots]$
+                \Comment{Nulový prvek tělesa}
+        \EndIf
+        \State $ rozvoj \gets IntegerDigits[ e, 2 ] $
+            \Comment{Binární rozvoj exponentu}
+        \State $ c \gets a $
+            \Comment{$rozvoj[[1]]$ je vždy $1$}
+        \For{$ i \gets 2 \ldots Length[rozvoj] $}
+            \State $ s \gets naDruhou[ c, modul ] $
+            \State $ m \gets krat[ s, a, modul ] $
+            \If{$ rozvoj[[i]] = 0 $}
+                \State $ c \gets s $
+            \Else
+                \State $ c \gets m $
+            \EndIf
+        \EndFor
+        \State \Return $c$
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
 
 
 \paragraph{Poznámka} Takto implementovaný algoritmus je zranitelný vůči odběrové
