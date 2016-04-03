@@ -10,6 +10,7 @@
 
 \usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
 
+\usepackage{multirow} % multirow for tabular
 \usepackage{graphicx} %graphics files inclusion
 \usepackage{amsmath} %advanced maths
 \usepackage{amssymb} %additional math symbols
@@ -25,7 +26,7 @@
 % \makeglossaries
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
-\newcommand{\0}{{\scriptscriptstyle 0}}
+\newcommand{\0}{{\textcolor[gray]{0.100}{0}}}
 
 \newenvironment{algoritmus}{
     \floatname{algorithm}{Algoritmus}
@@ -166,12 +167,14 @@ V~následujících sekcích jsou probrány operace potřebné pro počítání
 s~tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
 je detailně popsána v~kapitole \ref{kap_implementace}.
 
+% --------------------------------------------------------------------
 \subsection{Sčítání}
 Sčítání v~tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s~tím, že
 sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese $GF(p)$:
 $$ A(x) + B(x) = \sum a_i x^i + \sum b_i x^i = \sum \left|a_i + b_i\right|_p x^i $$
 
 
+% --------------------------------------------------------------------
 \subsection{Násobení}
 Násobení v~tělese $GF(p^n)$ nelze provádět \uv{po složkách}, jako je tomu
 u~sčítání. U~takto definované operace by většina prvků neměla (multiplikativní)
@@ -217,6 +220,7 @@ by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
 tzv. \emph{dělitelé nuly}.
 
 
+% --------------------------------------------------------------------
 \subsection{Umocňování}
 Pro rozšíření operací o~opakované násobení je vhodné zavést operaci umocňování.
 
@@ -234,6 +238,7 @@ Pro efektivní výpočet mocniny prvku je vhodné použít algoritmus
 \emph{Square-and-Multiply}, kde se dílčí operace \uv{square} a \uv{multiply}
 provádí operací $\cdot$ v~daném tělese $GF(p^n)$.
 
+% --------------------------------------------------------------------
 \subsection{Inverze}
 \emph{Inverzi} v~\emph{grupě} lze obecně definovat následovně:
 \begin{definice}[Inverze]
@@ -284,6 +289,7 @@ Někdy uváděno jako dlouhé dělení.
 \section{Kódování}
 
 \section{Lineární kódy}
+% --------------------------------------------------------------------
 \subsection{Hammingovy kódy}
 
 \section{Goppa kódy}
@@ -300,9 +306,13 @@ Někdy uváděno jako dlouhé dělení.
 \section{Niederreiterovo schéma}
 
 \section{Bezpečnost algoritmů}
+% --------------------------------------------------------------------
 \subsection{Typy útoků}
+% --------------------------------------------------------------------
 \subsection{Slabiny systému}
+% --------------------------------------------------------------------
 \subsection{Existující útoky}
+% --------------------------------------------------------------------
 \subsection{Praktická varianta}
 \emph{CCA2-odolná varianta}
 
@@ -335,11 +345,12 @@ Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} v
 jejich \emph{rozšíření}. Jsou zmíněny existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
-Ač jsou funkce implementované v co nejobecnějším pojetí, tak je kladen důraz na
-efektivnost výpočtů vzhledem k \emph{binárním} tělesům -- tedy k \emph{tělesům}
-s charakteristikou $2$. Pro \emph{tělesa} s jinou charakteristikou není chování
+Ač jsou funkce implementované v~co nejobecnějším pojetí, tak je kladen důraz na
+efektivnost výpočtů vzhledem k~\emph{binárním} tělesům -- tedy k~\emph{tělesům}
+s~charakteristikou $2$. Pro \emph{tělesa} s~jinou charakteristikou není chování
 funkcí definováno.
 
+% --------------------------------------------------------------------
 \subsection{Existující řešení}
 Pro operace s~\emph{konečnými tělesy} v~softwaru \emph{Mathematica} byly
 prostudovány interní funkce pro operace s~polynomy a externí balík
@@ -388,6 +399,7 @@ Funkce z~balíku \texttt{FiniteFields} nejsou dostatečně zdokumentovány, jak
 je jinak v~softwaru \emph{Mathematica} zvykem. Nepodařilo se využít funkcí
 z~tohoto balíku pro operace s~\emph{rozšířenými tělesy}.
 
+% --------------------------------------------------------------------
 \subsection{Zvolené řešení}
 Existující řešení pro práci s~\emph{konečnými tělesy} se ukázala jako
 nedostačující. Jejich hlavní nevýhodou je nemožnost použití při výpočtech
@@ -440,7 +452,7 @@ jednotné rozhraní:
         rychlejšího výpočtu, než kdyby byla použita vlastní implementace nad
         \emph{seznamy} celých čísel.
 
-    \item Pro implementaci operací v \emph{rozšířených tělesech} byly
+    \item Pro implementaci operací v~\emph{rozšířených tělesech} byly
         implementovány jednotlivé algoritmy operací (popsané níže), jelikož
         nebylo možné použít pro tyto operace vnitřní funkce softwaru
         \emph{Mathematica}. Funkce nad \emph{rozšířenými tělesy} zpravidla
@@ -454,6 +466,7 @@ k~jednotlivým prvkům a voláním funkcí (druhá složka \emph{modulu} je
 \emph{modul} \emph{vnitřního tělesa}, prvky \emph{polynomu} jsou opět
 \emph{polynomy}, \ldots).
 
+% --------------------------------------------------------------------
 \subsection{Implementace operací}
 V~následujících kapitolách je popsána implementace hlavních operací
 v~\emph{konečných tělesech} a použitých algoritmů. Pro další informace je
@@ -467,7 +480,7 @@ V~níže uvedených pseudokódech se používá některých prvků ze syntaxe so
     \begin{tabular}{l  l}
         Zápis               & Význam                                            \\
         \hline
-        \texttt{foo[bar]}   & Volání funkce \emph{foo} s argumentem \emph{bar}  \\
+        \texttt{foo[bar]}   & Volání funkce \emph{foo} s~argumentem \emph{bar}  \\
         \texttt{ham[[i]]}   & \emph{i}-tý prvek seznamu (pole) \emph{ham}       \\
     \end{tabular}
     \caption{Prvky syntaxe jazyka softwaru \emph{Mathematica}}
@@ -506,14 +519,14 @@ funkcí. Tato funkce se volá se dvěma parametry -- prvkem $a$ a polynomem
 (\emph{modulem}) $m$. Funkce vrátí zbytek polynomu $a$ po dělení polynomem $m$.
 
 Redukce polynomu pro \emph{rozšířená tělesa} je inspirovaná \emph{Comb metodou}
-z~\cite{Paar_Efficient}. K původnímu prvku $a$ se opakovaně přičítá (od
+z~\cite{Paar_Efficient}. K~původnímu prvku $a$ se opakovaně přičítá (od
 nejvyššího řádu) patřičný násobek \emph{polynomu} $m$ tak, aby se daný
 koeficient $a_i$ rovnal nule (viz příklad níže).
 
 Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
 
 \begin{algoritmus}[h!]
-    \caption{Redukce polynomu v tělese s charakteristikou $2$}
+    \caption{Redukce polynomu v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{redukuj[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
         \State $ l_a \gets stupen[a] + 1 $
@@ -535,7 +548,7 @@ Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
             \State $ s \gets krat[ a[[i]], m, modul_{vnitrni} ] $
                 \Comment{Skalární násobek}
             \State $ a \gets plus[ a, s, 2 ] $
-                \Comment{Odečtení v binárním tělese}
+                \Comment{Odečtení v~binárním tělese}
             \State $ m \gets RotateRight[m] $
                 \Comment{Posunutí redukovaného polynomu}
         \EndFor
@@ -550,16 +563,17 @@ Pro \emph{prvotělesa} se používá interní funkce \texttt{PolynomialMod}
 \paragraph{Příklad} Redukce polynomu $ x^{12} + x^8 + x^7 + x^5 + x^4 + x^3 + 1 $
 polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
 
+%\renewcommand{\0}{{\scriptscriptstyle 0}}
 \begin{align*}
 & 1000110111001 \mod 10011: \\
 & \arraycolsep=1pt
 \begin{array}{*{13}{l}}
         1 &  0 &  0 &  0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 &  0 &  1   \\
     \hline
-        1 &  0 &  0 &  1 &  1 &    &    &    &    &    &    &    &      \\
-          &    &    &  1 &  0 &  0 &  1 &  1 &    &    &    &    &      \\
-          &    &    &    &    &  1 &  0 &  0 &  1 &  1 &    &    &      \\
-          &    &    &    &    &    &  1 &  0 &  0 &  1 &  1 &    &      \\
+        1 &  0 &  0 &  1 &  1 & \0 & \0 & \0 & \0 & \0 & \0 & \0 & \0   \\
+       \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0 & \0 & \0 & \0   \\
+       \0 & \0 & \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0 & \0   \\
+       \0 & \0 & \0 & \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0   \\
     \hline
           &    &    &    &    &    &    &    &    &  1 &  1 &  0 &  1   \\
 \end{array}
@@ -568,11 +582,11 @@ polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
 
 \subsubsection{Násobení}
 Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
-stupně $n+m$. Násobení je implementováno tak, že k výsledku $c$ (na počátku
+stupně $n+m$. Násobení je implementováno tak, že k~výsledku $c$ (na počátku
 je to nulový polynom) se postupně přičítá skalární násobek polynomu $b$
-koeficienty polynomu $a$, který je zároveň \emph{posunutý} o patřičný počet
+koeficienty polynomu $a$, který je zároveň \emph{posunutý} o~patřičný počet
 pozic. Využívá se zde faktu, že násobení libovolného \emph{polynomu} $A(x)$
-a $x^i$ je posunutí koeficientů polynomu $A$ o $i$ pozic doleva. Výsledný
+a $x^i$ je posunutí koeficientů polynomu $A$ o~$i$ pozic doleva. Výsledný
 polynom $c$ je následně \emph{redukován} zadaným modulem (viz výše).
 
 Pro \emph{prvotělesa} se používá obyčejného násobení dvou \emph{polynomů}
@@ -608,6 +622,7 @@ a následné \emph{redukce} \emph{modulem}.
 \paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem
 $x^4+x^2+2x+1$ (nad tělesem $GF(3)$):
 
+%\renewcommand{\0}{{\scriptscriptstyle 0}}
 \begin{align*}
 & 1011 \cdot 10121: \\
 & \arraycolsep=1pt
@@ -626,8 +641,8 @@ $x^4+x^2+2x+1$ (nad tělesem $GF(3)$):
 Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
 Euklidova algoritmu}. Tento algoritmus se často vizualizuje jako výpočet tabulky
 po řádkách (viz níže). Ve skutečnosti však pro výpočet dalšího řádku stačí
-pracovat s hodnotami dvou řádků předešlých. Proto si není nutné udržovat v
-paměti celou tabulku, ale stačí si udržovat hodnoty dvou řádků a po výpočtu
+pracovat s~hodnotami dvou řádků předešlých. Proto si není nutné udržovat
+v~paměti celou tabulku, ale stačí si udržovat hodnoty dvou řádků a po výpočtu
 třetího hodnoty posunout.
 
 Výpočet hodnot dalšího řádku tabulky probíhá následovně:
@@ -648,20 +663,22 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 
     \item Výsledná \emph{inverze} se získá jako skalární násobek \emph{polynomu}
         $k_i$ inverzí (posledního) \emph{koeficientu} polynomu $p_i$\footnote{
-Zde je vidět, že pro výpočet inverze v tělese $GF(q^n)$ je třeba vypočítat
-inverzi v tělese $GF(q)$.
+Zde je vidět, že pro výpočet inverze v~tělese $GF(q^n)$ je třeba vypočítat
+inverzi v~tělese $GF(q)$.
 }.
 \end{itemize}
 
-Inverze v \emph{prvotělese} je implementovaná pomocí interní funkce
+Inverze v~\emph{prvotělese} je implementovaná pomocí interní funkce
 \texttt{PolynomialExtendedGCD}.
 
 \begin{algoritmus}[h!]
     \caption{Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}}
     \begin{algorithmic}[1]
-        \Function{inverze[ $prvek$, $modul:\left\{ m, modul_{vnitrni} \right\}$ ]}{}
-        \State $ A \gets m$ \Comment{Polynom z modulu}
-        \State $ B \gets prvek $
+     \Function{inverze[ $prvek$, $modul:\left\{ m, modul_{vnitrni} \right\}$ ]}{}
+        \State $ A \gets m $; $ B \gets prvek $
+
+        // Inicializace na \emph{jednotkový} resp. \emph{nulový} polynom z~tělesa
+        \State $ k_A \gets nulovyPolynom[\ldots] $; $ k_B \gets jednotkovyPolynom[\ldots] $
         \While{$stupen[B] \neq 0 $}
 
             // Výpočet $q$ a $C$ pomocí dlouhého dělení v~jednom kroku
@@ -676,6 +693,7 @@ Inverze v \emph{prvotělese} je implementovaná pomocí interní funkce
         \State \Return $krat[ koef, k_C, modul_{vnitrni} ]$\Comment{Násobení skalárem}
      \EndFunction
     \end{algorithmic}
+    \label{alg_eea}
 \end{algoritmus}
 
 
@@ -697,18 +715,19 @@ $GF(2)$):
     \end{tabular}
 \end{center}
 $ \Rightarrow \left|1101^{-1}\right|_{1000011} = 101000 $
-\paragraph{Poznámka} Poslední sloupec tabulky se v algoritmu nepočítá, je zde
+
+\paragraph{Poznámka} Poslední sloupec tabulky se v~algoritmu nepočítá, je zde
 uveden pouze pro úplnost.
 
 
 \subsubsection{Druhá mocnina}
-Pro prvky tělesa s \emph{charakteristikou} $2$ Je výhodné implementovat funkci
+Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkci
 \uv{na druhou} díky následujícímu tvrzení:
 
 
 \begin{tvrzeni}
     Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa
-    s \emph{charakteristikou} $2$, potom platí:
+    s~\emph{charakteristikou} $2$, potom platí:
     $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
 \end{tvrzeni}
 
@@ -726,12 +745,15 @@ Pro prvky tělesa s \emph{charakteristikou} $2$ Je výhodné implementovat funkc
              &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {} \\
              &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {} \\
              &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2            \\
-             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + ( 2 a_2 a_0 + a_1^2 ) x^2 + 2 a_1 a_0 x + a_0^2  \\
-             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
-             &\cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
+             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + 2 ( a_2 a_0 ) x^2 + a_1^2 x^2 + 2 ( a_1 a_0 ) x + a_0^2  \\
+             &= \sum_{i=0}^{n} a_i^2 x^{2i} + 2 \sum_{i=1}^{n+1}\sum_{\substack{
+    j<k \\ j+k = i }} a_j a_k &\\
+             &= \sum_{i=0}^{n} a_i^2 x^{2i}
+    \hspace{2.5cm} \cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
+%             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
 \end{align*}
 
-S využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
+S~využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
 triviální:
 \begin{itemize}
     \item Provedení druhé mocniny všech koeficientů.
@@ -740,7 +762,7 @@ triviální:
 \end{itemize}
 
 \begin{algoritmus}[h!]
-    \caption{Umocňování na druhou v tělese s charakteristikou $2$}
+    \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
         \For{$ i \gets 1 \dots Length[i]$}
@@ -761,10 +783,10 @@ Mocnění \emph{polynomů} je implementováno pomocí algoritmu
 mocninu lze rozložit na součin mocnin čtverců ($^2$,$^4$,$^8$,\dots). Konkrétně
 byla implementována varianta provádějící výpočet od nejvíce významného bitu
 exponentu\footnote{
-Uváděna jako \emph{MSB} -- z anglického \emph{most significant bit}
+Uváděna jako \emph{MSB} -- z~anglického \emph{most significant bit}
 }. Algoritmus má vstupy polynom $a$ a exponent $e$. Exponent se vyjádří jako
-číslo v \emph{binární} soustavě a poté algoritmus provádí cyklus přes bity
-tohoto rozvoje. V každém kroku se mezivýsledek umocní na druhou a v případě, že
+číslo v~\emph{binární} soustavě a poté algoritmus provádí cyklus přes bity
+tohoto rozvoje. V~každém kroku se mezivýsledek umocní na druhou a v~případě, že
 je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 
 
@@ -798,17 +820,122 @@ je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 \paragraph{Poznámka} Takto implementovaný algoritmus je zranitelný vůči odběrové
 a časové analýze. Pro odolnou implementaci je nutné počítat násobek \emph{vždy} a
 pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
-Reálná implementace je tímto způsobem.
+Pseudokód i reálná implementace je prováděna tímto (bezpečným) způsobem.
 
+\paragraph{Příklad} \emph{Square-and-Multiply} pro výpočet
+$\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
+
+%\renewcommand{\0}{{\scriptscriptstyle 0}}
+\begin{center}
+    \begin{tabular}{c|r|l|r|r}
+        \multirow{2}{*}{Op.} & \multicolumn{2}{c}{Mocnina} & \multicolumn{1}{c}{\multirow{2}{*}{Výpočet}} & \multirow{2}{*}{Výsledek} \\
+                &  dek. & bin.    &                   &              \\
+        \hline
+        \hline
+                & $  1$ & $1    $ &                   & $ 1001$      \\
+        \hline
+    \textbf{S}  & $  2$ & $1    $ & $    1\00\00\01 $ & $   10$      \\
+    \textbf{M}  & $  3$ & $11   $ & $ 10 \cdot 1001 $ & $10010$      \\
+        \hline
+    \textbf{S}  & $  6$ & $110  $ & $ 1\00\00\01\00 $ & $ 1000$      \\
+        \hline
+    \textbf{S}  & $ 12$ & $1100 $ & $    1\00\00\00 $ & $   11$      \\
+    \textbf{M}  & $ 13$ & $1101 $ & $ 11 \cdot 1001 $ & $11011$      \\
+        \hline
+    \textbf{S}  & $ 26$ & $11010$ & $     1\01\00\01\01 $ & $ 1010$      \\
+    \end{tabular}
+\end{center}
+$ \Rightarrow \left|1001^{26}\right|_{1000011} = 1010 $
+
+% --------------------------------------------------------------------
 \subsection{Možná zlepšení}
+V~této kapitole jsou nastíněny možná zlepšení implementace, která
+zrychlují výpočet některých operací.
 
-% TODO
+\subsubsection{Logaritmické tabulky}
+Pro zrychlení výpočtu násobení a mocnin prvku lze v~\emph{konečném tělese} využít
+faktu, že vždy existuje \emph{primitivní prvek} a převádět tak operace v~tělese
+na operace s~celými čísly.
+
+\begin{definice}
+    Nechť $\alpha$ je \emph{generátor} \emph{multiplikativní grupy} tělesa $F$.
+    Potom říkáme, že $\alpha$ je \emph{primitivní prvek} tělesa $F$.
+\end{definice}
+
+\paragraph{Důsledek} Každý prvek tělesa $F$ -- kromě \emph{nulového} prvku
+\emph{aditivní grupy} -- lze vyjádřit jako $\alpha^i$ pro nějaké $i$.
+
+Důkaz plyne přímo z~definice.
+
+Násobení dvou prvků $a = \alpha^{i_a}$ a $b = \alpha^{i_b}$ tak lze převést na
+součet mocnin \emph{primitivního prvku}:
+$$ a \cdot b = \alpha^{i_a} \cdot \alpha^{i_b} = \alpha^{i_a + i_b} $$
+
+Podobným způsobem je možné zjednodušit umocňování prvku:
+$$ a^e = \left(\alpha^i\right)^e = \alpha^{i e} $$
+
+V~obou případech je samozřejmě možné použít \emph{Eulerovu větu} a mocniny
+redukovat \emph{modulo} $N$, kde $N$ je počet prvků \emph{multiplikativní grupy
+tělesa} ($N=p^n-1$ pro těleso $GF(p^n)$). Jakoukoliv operací násobení a mocnění
+se získá prvek $\alpha^{n_c}$, kde $n_c$ je celé číslo v~rozsahu od $0$ do $N-1$.
+
+Reprezentací prvků pomocí odpovídajících mocnin \emph{primitivního prvku} je
+tak možné vyhnout se násobení a umocňování prvků v~tělese a nahradit ho
+sčítáním a násobením celých čísel, což je řádově jednodušší. V~případě sčítání
+prvků v~tělese je však nutné mít jejich standardní reprezentaci (seznam
+koeficientů), jelikož se sčítání provádí po jednotlivých koeficientech,
+respektive bitech. Není možné nahradit sčítání dvou prvků jiné operaci
+s~mocninami \emph{primitivního prvku}.
+
+Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti programu
+překladové \emph{log}- a \emph{antilogaritmické} tabulky pro překlad prvků
+z~jedné reprezentace na druhou.
+
+Ač se tak získá podstatné zrychlení výpočtů v~tělese, existuje několik nevýhod
+tohoto přístupu:
+
 \begin{itemize}
-    \item log- a antilogaritmické tabulky
-    \item dělení místo inverze + násobení
+    \item Je nutné nalézt \emph{primitivní prvek tělesa}.
+
+    \item Je nutné vygenerovat a uchovat v~paměti počítače obě tabulky pro
+        překlad.
+        \begin{itemize}
+            \item Tato tabulka lze implementovat pomocí obyčejného pole či
+                seznamu, kde se k~daném indexu v~seznamu vyskytuje odpovídající
+                hodnota.
+            \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
+                $O(m 2^m)$ (konkrétně $2^m - 1$ hodnot, kde každá je reprezentována
+                $m$ bity).
+            \item Jelikož je paměťová náročnost \emph{exponenciální}, je
+                možné tyto tabulky uchovávat pouze pro \emph{malá} $m$ (např.
+                $8$ či $16$, nikoliv však $1024$).
+        \end{itemize}
+
+    \item \emph{Nulový prvek} tělesa není možné žádným způsobem zobrazit jako
+        mocninu. Při každé operaci je potřeba s~touto skutečností počítat
+        a hlídat jako výjimku.
+
 \end{itemize}
 
 
+Tohoto vylepšení se dá využít pro operace ve \emph{vnitřním tělese}
+$GF(2^m)$, nad kterém jsou postavené polynomy v~\emph{binárních Goppa kódech}.
+
+
+\subsubsection{Implementace dělení}
+Dělení prvkem $b$ v~\emph{konečném tělese} se převádí na násobení $b^{-1}$. Pro
+výpočet \emph{podílu} se tak počítá inverze a následně násobek. Je ale možné
+implementovat rovnou algoritmus pro dělení.
+
+Algoritmus pro dělení prvku $a$ prvkem $b$ je totožný s~algoritmem pro výpočet
+\emph{inverze} prvku $b$ s~tím rozdílem, že je počáteční hodnota koeficientu
+$k_b$ (viz \emph{EEA} -- alg. \ref{alg_eea}) nastavena na hodnotu $a$.
+%Jelikož průběh algoritmu odpovídá ekvivalentním úpravám rovnic,
+%algoritmus skončí s rovnicí:
+%
+%$$ 1 = (l \cdot a ) \cdot b  + k \cdot m $$
+Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
+odpovídá výrazu $a/b$.
 
 
 \section{Ireducibilní binární Goppa kódy}
@@ -842,7 +969,7 @@ Reálná implementace je tímto způsobem.
     \bibitem{Paar_Efficient}
         \uppercase{Merchan} J. G., \uppercase{Kumar} S., \uppercase{Paar} C.,
         \uppercase{Pelzl} J. \emph{Efficient Software Implementation of Finite
-        Fields with Applications to Cryptography} v Acta Applicandae
+        Fields with Applications to Cryptography} v~Acta Applicandae
         Mathematicae: An International Survey Journal on Applying Mathematics
         and Mathematical Applications, Volume 93, Numbers 1-3, pp.  3-32,
         September 2006.  Ruhr-Universitat Bochum, 2006. Dostupné online:
@@ -865,7 +992,12 @@ Reálná implementace je tímto způsobem.
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
-        \item[GF] Gallois field
+        \item[EEA] \emph{Extended Euclidean Algorithm} -- Rozšířený Euklidův algoritmus
+        \item[GCD] \emph{Greatest Common Divisor} -- Největší společný dělitel
+        \item[GF] \emph{Gallois field} -- konečné těleso
+        \item[LSB] Least Significant Bit/Byte -- nejméně významný bit/bajt
+        \item[MSB] Most Significant Bit/Byte -- nejvíce významný bit/bajt
+        \item[S\&M] algoritmus \emph{Square-and-Multiply}
         %\item[TLS] Three Letter Shortcut
 \end{description}
 
