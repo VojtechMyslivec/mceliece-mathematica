@@ -26,7 +26,7 @@
 % \makeglossaries
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
-\newcommand{\0}{{\textcolor[gray]{0.100}{0}}}
+\newcommand{\0}{{\textcolor[gray]{0.80}{0}}}
 
 \newenvironment{algoritmus}{
     \floatname{algorithm}{Algoritmus}
@@ -43,14 +43,14 @@
 
 \department{Katedra počítačových systémů}
 \title{Asymetrický šifrovací algoritmus McEliece}
-\authorGN{Vojtěch} %(křestní) jméno (jména) autora
-\authorFN{Myslivec} %příjmení autora
-\authorWithDegrees{Bc. Vojtěch Myslivec} %jméno autora včetně současných akademických titulů
+\authorGN{Vojtěch}
+\authorFN{Myslivec}
+\authorWithDegrees{Bc. Vojtěch Myslivec}
 \supervisor{prof. Ing. Róbert Lórencz, CSc.}
 %TODO
 %\acknowledgements{Rodina, Lórencz, Kalvoda, Guth}
 %TODO
-\abstractCS{V~několika větách shrňte obsah a přínos této práce v~češtině. Po přečtení abstraktu by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Vaši práci číst.}
+\abstractCS{Tady bude nejaky kuuul abstakt } %TODO
 %TODO
 \abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
 \placeForDeclarationOfAuthenticity{V~Praze}
@@ -72,7 +72,9 @@ Goppa codes, finite fields, polynomy, Wolfram Mathematica}
 % \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \begin{introduction}
 Tato práce se zabývá asymetrickým kryptosystémem \emph{McEliece}. Mezi největší
 přednosti tohoto systému patří jeho odolnost vůči kvantovým počítačům a je tak
@@ -94,14 +96,17 @@ nevýhody i možné útoky na kryptosystém McEliece a též zmíněna praktick�
 systému odolná vůči těmto aspektům.
 
 V~poslední části  práce je probrána implementace kryptosystému \emph{McEliece}
-v~softwaru \emph{Wolfram Mathematica} včetně změřených časových % TODO a prostorových
+v~softwaru \emph{Wolfram Mathematica} včetně změřených časových
+% TODO a prostorových
 složitostí (kapitola \ref{kap_implementace}),.
 
 \end{introduction}
 
 %\chapter{Cíl práce}
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \chapter{Obecná algebra}\label{kap_telesa}
 V~kapitole jsou probrány definice a algoritmy nutné pro práci s~\emph{konečnými
 tělesy} a \emph{polynomy} nad konečným tělesem. V~práci se předpokládá
@@ -109,19 +114,22 @@ základních znalostí z~oblasti \emph{algebry}. Pro tato témata je doporučena
 literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar_Understanding} (kde lze též
 najít většinu důkazů následujících vět).
 
+% ====================================================================
 \section{Základní termíny}
 Pro ujasnění je uvedena definice tělesa:
 
 \begin{definice}[Těleso]
     Nechť $M$ je neprázdná množina a $+$ a $\cdot$ binární operace\footnote{
-Pro zjednodušení zápisu je $\cdot$ často vynecháváno.
-}. Struktura
+        Pro zjednodušení zápisu je $\cdot$ často vynecháváno.
+    }. Struktura
     $T=\big(M, +, \cdot \big)$ se nazývá těleso, pokud platí
     \begin{enumerate}
-        \item $\big(M, +\big)$ je \emph{komutativní grupa} (nazývána \emph{aditivní})
+        \item $\big(M, +\big)$ je \emph{komutativní grupa} (nazývána
+            \emph{aditivní})
         \item $\big(M\setminus\{\mathit{0}\}, \cdot \big)$\footnote{
-Prvek $\mathit{0}$ je \emph{nulový} (\emph{neutrální}) prvek \emph{aditivní grupy}.
-} je \emph{grupa} (nazývána
+                Prvek $\mathit{0}$ je \emph{nulový} (\emph{neutrální}) prvek
+                \emph{aditivní grupy}.
+            } je \emph{grupa} (nazývána
             \emph{multiplikativní})
         \item Platí (levý i pravý) \emph{distributivní zákon}:
             $$\forall a,b,c \in M : \big( a(b+c) = a b + a c \big) \land \big(
@@ -146,6 +154,7 @@ konečná tělesa} se stejným počtem prvků jsou navzájem \emph{izomorfní}.
 (z~anglického \emph{Gallois field}, dle francouzského matematika
 \emph{Évariste Galois}).
 
+% ====================================================================
 \section{Reprezentace prvků}
 Jak bude ukázáno dále, je vhodné prvky tělesa $GF(p^n)$ reprezentovat jako
 \emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
@@ -155,13 +164,16 @@ $$ A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p $$
 O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
 maximálně $n-1$)}. Na prvek $a$ je též možné se dívat jako na vektor či $n$-tici
 koeficientů~$a_i$:
-$$ A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong a_{n-1} a_{n-2} \ldots a_0 $$
+$$ A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong a_{n-1} a_{n-2}
+\ldots a_0 $$
 
 V~této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak
-bude v~daném kontextu potřeba potřeba\footnote{
-V~některých materiálech se používá i obráceného zápisu $(a_0 a_1 \ldots a_p-1)$.
+bude v~daném kontextu potřeba\footnote{
+    V~některých materiálech se používá i obráceného zápisu
+    $(a_0 a_1 \ldots a_p-1)$.
 }.
 
+% ====================================================================
 \section{Operace v~tělese $GF(p^n)$}
 V~následujících sekcích jsou probrány operace potřebné pro počítání
 s~tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
@@ -229,7 +241,7 @@ Pro rozšíření operací o~opakované násobení je vhodné zavést operaci um
     umocňování definována následovně:
     \begin{align*}
         a^0     &= 1 \\
-        a^n     &= \underbrace{a \cdot a \cdot \ldots \cdot a}_{\text{$n$-krát}} \\
+        a^n     &= \underbrace{a \cdot a \cdot \ldots \cdot a}_{\text{$n$-krát}}\\
         a^{-n}  &= \left(a^{-1}\right)^n
     \end{align*}
 \end{definice}
@@ -265,62 +277,211 @@ $$ \left| A(x) \cdot A(x)^{-1} \right|_p =
 \left| \frac{A(x)}{A(x)} \right|_p = 1 $$
 
 Tuto \emph{multiplikativní inverzi} je třeba počítat \emph{rozšířeným Euklidovým
-algoritmem pro polynomy} (\emph{EEA}), či případně jinými algoritmy, jako je např.
-\emph{algoritmus Itoh-Teechai-Tsujii} (\emph{ITT}) \cite{FIT_BHW,ITT}.
+algoritmem pro polynomy} (\emph{EEA}), či případně jinými algoritmy, jako je
+např. \emph{algoritmus Itoh-Teechai-Tsujii} (\emph{ITT}) \cite{FIT_BHW,ITT}.
 
-\emph{Rozšířený Euklidův algoritmus} \emph{pro polynomy}, stejně jako v~modulární
-aritmetice (neboli pro tělesa $GF(p)$), stojí na nalezení \emph{Bézoutovy
-rovnosti}. Pro výpočet \emph{EEA} je třeba výpočtu dělení polynomů se
-zbytkem\footnote{
-Někdy uváděno jako dlouhé dělení.
+\emph{Rozšířený Euklidův algoritmus} \emph{pro polynomy}, stejně jako
+v~modulární aritmetice (neboli pro tělesa $GF(p)$), stojí na nalezení
+\emph{Bézoutovy rovnosti}. Pro výpočet \emph{EEA} je třeba výpočtu dělení
+polynomů se zbytkem\footnote{
+    Někdy uváděno jako dlouhé dělení.
 }.
 
 %TODO příklad!
 
-\section{Polynomy nad konečným tělesem}
+% ====================================================================
+\section{Rozšířená tělesa}
 
 % TODO
 \emph{Prvotěleso}
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \chapter{Lineární kódy}\label{kap_kody}
 
+% ====================================================================
 \section{Kódování}
 
+% ====================================================================
 \section{Lineární kódy}
 % --------------------------------------------------------------------
 \subsection{Hammingovy kódy}
 
+% ====================================================================
 \section{Goppa kódy}
 \emph{Ireducibilní binární Goppa kódy}
 
 
 
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \chapter{Kryptosystém McEliece}\label{kap_mceliece}
+Kryptosystém \emph{McEliece} je asymetrický šifrovací algoritmus, publikovaný
+poprvé v~roce \emph{1978} \emph{Robertem McEliece} \cite{McEliece}.
+V~následujících kapitolám jsou probrány algoritmy navržené \emph{Robertem
+McEliece}, dále \emph{Niederreiterovo schéma} -- varianta pro získání
+elektronického podpisu -- a nakonec jsou zmíněny slabiny a existující útoky na
+tento kryptosystém.
 
+\paragraph{Poznámka} V~této kapitole je nadále předpokládáno počítání
+s~hodnotami z~tělesa $GF(2)$, respektive s~\emph{bity}.
+
+% ====================================================================
 \section{Asymetrické šifrování McEliece}
+Asymetrický kryptosystém \emph{McEliece} je založený na lineárních samoopravných
+kódech. V~následujících odstavcích systém popsán tak, jak byl
+definován v~\cite{McEliece}:
 
+% --------------------------------------------------------------------
+\subsection{Generování klíčů}
+Generování klíčů probíhá následovně:
+
+\begin{enumerate}
+    \item Zvolí se \emph{lineární kód}\footnote{
+            V~článku je kryptosystém definovaný pro libovolní \emph{lineární
+            kód} opravující zvolený počet chyb a jsou zmíněny \emph{Goppa} kódy
+            jako vhodný příklad k~použití. Jak bude ukázáno dále, ne všechny
+            lineární kódy jsou pro \emph{McEliece} vhodné.
+        } $(n,k)$, opravující $t$ chyb,
+s~odpovídající $k \times n$ \emph{generující maticí} $G$.
+    \item Vygeneruje se \emph{náhodná} $k \times k$ \emph{regulární} matice $S$.
+    \item Vygeneruje se \emph{náhodná} $n \times n$ \emph{permutační} matice $P$.
+    \item Vypočítá se $k \times n$ matice $\hat{G} = S G P$.
+\end{enumerate}
+
+Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
+$\hat{G}$ je \emph{veřejný klíč} a matice $G$, $S$ a $P$ jsou \emph{soukromý
+klíč}.
+
+% --------------------------------------------------------------------
+\subsection{Algoritmy pro šifrování a dešifrování}
+\subsubsection{Šifrování}
+Šifrování zprávy $m$ (o~délce $k$ bitů) veřejným klíčem $\hat{G}$ probíhá
+následujícím způsobem:
+
+\begin{enumerate}
+    \item Vygeneruje se náhodný vektor $z$ délky $n$ s~\emph{Hammingovou vahou}
+        maximálně $t$\footnote{
+            V~některých pozdějších pracích na toto téma je
+            uvedeno právě $t$.
+        }.
+    \item Šifrovaná zpráva $c$ délky $n$ se sestrojí následujícím způsobem:
+        $$ c = m \hat{G} + z$$
+\end{enumerate}
+
+\subsubsection{Dešifrování}
+Obdržená šifrovaná zpráva $c$ (délky $n$) se dešifruje následujícím způsobem:
+
+\begin{enumerate}
+    \item Vypočítá se vektor $\hat{c}$ délky $n$: $\hat{c} = c P^{-1}$.
+    \item Vektor $\hat{c}$ se dekóduje zvoleným kódem na vektor $\hat{m}$ \\
+        $\hat{m} = Dek_{G}\left(\hat{c}\right)$
+    \item Vypočítá se původní zpráva $m$: $m = \hat{m} S^{-1}$
+\end{enumerate}
+
+\subsubsection{Důkaz dešifrování}
+Důkaz, že výsledkem dešifrování je opět původní zpráva je následující:
+
+\begin{itemize}
+    \item V~prvním kroku dešifrovacího algoritmu je možné rozepsat původní
+        zprávu~$m$:
+        $$ \hat{c} = c P^{-1} = \left( m \hat{G} + z \right) P^{-1} =
+        \left(m S G P + z \right) P^{-1} = \hat{c} = m S G + z P^{-1} $$
+    \item Zavedeme substituci $\hat{m} = m S$ a $\hat{z} = z P^{-1}$, potom
+        $$ \hat{c} = m S G + z P^{-1} = \hat{m} G + \hat{z} $$
+        Z~poslední rovnosti je vidět, že dekódováním je získán vektor $\hat{m}$,
+        neboť $\hat{z}$ je vektor s~\emph{Hammingovou vahou} maximálně $t$
+        (matice $P$ jen přehází jednotlivé bity vektoru $z$).
+        $$ Dek_{G}\left(\hat{c}\right) = \hat{m} $$
+    \item V~posledním kroku stačí opět dosadit výše použitou substituci:
+        $$ \hat{m} S^{-1} = m S S^{-1} = m $$
+\end{itemize}
+
+Dešifrováním je tedy získána původní zpráva $m$.
+
+% --------------------------------------------------------------------
+\subsection{Bezpečnost kryptosystému}
+Již v~původním článku \cite{McEliece} \emph{McEliece} zmiňuje dva možné útoky na
+navržený kryptoststém.
+\begin{enumerate}
+    \item získání \emph{soukromého} klíče ze znalosti \emph{veřejného}
+    \item získání $m$ bez nutnosti znát \emph{soukromý} klíč
+\end{enumerate}
+
+Nicméně je dobré již na tomto místě zmínit, že existují útoky využívající
+strukturu použitého kódu (tomuto tématu se věnuje
+kapitola~\ref{kap_utoky_na_strukturu_kodu}).
+
+\subsubsection{Získání soukromého klíče}
+U~prvního způsobu je v~článku zmíněno, že je třeba rozložit $\hat{G}$ na $G$,
+$S$ a $P$.  Matici $\hat{G}$ je sice možné dekomponovat, ale množství
+jednotlivých matic je pro velká $n$ a $k$ obrovské, a získat tak původní matice
+hrubou silou je \emph{neschůdné}\footnote{
+    Např. jen počet možných \emph{permutačních matic} je $n!$. Počet
+    \emph{generujících} matic závisí na zvoleném kódu.
+    % TODO citace?  Počet regulárních matic nad $GF(2)$ je
+    % $ \prod\limits_{i=0}^{k-1}(2^k - 2^i) $, což je přibližně jedna ze tří
+    % $k \cdot k$ matic.
+}.
+
+
+\subsubsection{Získání původní zprávy}
+Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$,
+která navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti
+použitého kódu je \emph{NP-těžký} problém \cite{bib_berlekamp}.
+
+\paragraph{Nástin problému} \hfil \\
+
+V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost
+$c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} vznikne $\hat{G}_k$~a~$c_k$
+z~matice~$\hat{G}$ a~vektoru~$c$. Pokud je $\hat{G}_k$ regulární, lze řešit
+soustavu $k$ nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase
+$O\left(k^3\right)$:
+$$c_k = m \hat{G}_k$$
+
+Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
+náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
+pravděpodobnost, že $c_k$ (ve výběru $k$ dimenzí) je bez chyby je
+$\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
+% TODO je ta pravděpodobnost správně?
+pro vyřešení jedné soustavy rovnic je to přibližně:
+$$ O\left( \frac{n^3}{\left(1-\frac{t}{n}\right)^k} \right) =
+O\left( n^3 \left(\frac{n}{n-t}\right)^k \right)$$
+
+Zlomek $\frac{n}{n-t}$ je jistě větší než $1$, tudíž pro velká $k$ výrazně
+převyšuje druhý činitel a jedná se o~\emph{NP-těžký} problém.
+
+Navíc není jasné, \emph{které} z~nalezených řešení odpovídá původní zprávě $m$.
+
+
+
+% ====================================================================
 \section{Niederreiterovo schéma}
 
-\section{Bezpečnost algoritmů}
+% ====================================================================
+\section{Existující kryptoanalýzy McEliece }
 % --------------------------------------------------------------------
 \subsection{Typy útoků}
 % --------------------------------------------------------------------
 \subsection{Slabiny systému}
 % --------------------------------------------------------------------
 \subsection{Existující útoky}
+\subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
 % --------------------------------------------------------------------
 \subsection{Praktická varianta}
 \emph{CCA2-odolná varianta}
 
+\subsection{Odolnost vůči kvantovým počítačům}
 
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \chapter{Implementace}\label{kap_implementace}
 Pro implementaci kryptosystému \emph{McEliece} v~této práci byl zvolen software
 \emph{Wolfram Mathematica} \cite{Mathematica}. Tento software byl zvolen hlavně
@@ -340,6 +501,7 @@ pro další výpočty. Následující kapitoly popisují jednotlivé části.
 
 %\section{Wolfram Mathematica}
 
+% ====================================================================
 \section{Binární konečná tělesa}
 Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} včetně
 jejich \emph{rozšíření}. Jsou zmíněny existující řešení v~softwaru
@@ -361,32 +523,33 @@ kapitolách.
 Software \emph{Mathematica} obsahuje funkce pro operace s~polynomy nad reálnými
 (případně i komplexními) čísly. Většina těchto funkcí má volitelnou
 \emph{možnost}\footnote{
-Anglicky se tento termín v~softwaru \emph{Mathematica}
-nazývá \emph{Option}.
-} \emph{Modulus}, díky které lze zajistit, aby operace s~koeficienty byly prováděny
-nad celými čísly \emph{modulo} zadané číslo $p$. Tímto způsobem je možné
-implementovat operace nad tělesy $GF(p^n)$, nicméně je téměř nemožné
-tímto způsobem implementovat \emph{rozšířená tělesa} -- polynomy nad polynomy.
+    Anglicky se tento termín v~softwaru \emph{Mathematica}
+    nazývá \emph{Option}.
+} \emph{Modulus}, díky které lze zajistit, aby operace s~koeficienty byly
+prováděny nad celými čísly \emph{modulo} zadané číslo $p$. Tímto způsobem je
+možné implementovat operace nad tělesy $GF(p^n)$, nicméně je téměř nemožné tímto
+způsobem implementovat \emph{rozšířená tělesa} -- polynomy nad polynomy.
 
 Pro použití těchto funkcí (např. \texttt{ExtendedPolynomialGCD}, je třeba
 polynomu v~úplném tvaru $\sum a_i x^i$ -- včetně $x^i$ s~tím, že $x$ musí být
 nedefinovaný \emph{symbol}\footnote{
-Jinými slovy proměnná, která nemá definovanou hodnotu.
+    Jinými slovy proměnná, která nemá definovanou hodnotu.
 }. Tento požadavek je celkem nepraktický, protože definování této proměnné
-kdekoliv v~programu by vedlo na nemožnost použití těchto funkcí a udržovat si
-prvky ve formě např. $x^6 + x^3 + x + 1$ místo $1001011$ není pohodlné.
+kdekoliv v~programu by vedlo k~nemožnosti použití těchto funkcí. Navíc udržovat
+si prvky ve formě např. $x^6 + x^3 + x + 1$ místo $1001011$ není pohodlné.
 Další nevýhoda použití polynomů je, že software \emph{Mathematica} vypisuje
 polynomy od \emph{nejnižšího} členu po \emph{nejvyšší} (např. $1+x^2+x^4+x^7$),
 což je obrácený zápis, než je v~technické literatuře zvykem.
 
 \subsubsection{Balík \texttt{FiniteFields}}
-\paragraph{Balík} \emph{Balík} v~softwaru \emph{Mathematica} je soubor obsahující
-rozšiřující funkce, které standardně nejsou k~dispozici. Balík je možné načíst
-pomocí funkcí \texttt{Needs}, či případně \emph{Get}.
+\paragraph{Balík} \emph{Balík} v~softwaru \emph{Mathematica} je soubor
+obsahující rozšiřující funkce, které standardně nejsou k~dispozici. Balík je
+možné načíst pomocí funkcí \texttt{Needs}, či případně \emph{Get}.
 
 Balík \texttt{FiniteFields} obsahuje základní operace pro práci s~tělesy
 $GF(p^n)$. Prvky konečných těles jsou pak určené \emph{seznamem}\footnote{
-\emph{Seznamem} se myslí struktura v~softwaru \emph{Mathematica} -- \emph{List}
+    \emph{Seznamem} se myslí struktura v~softwaru
+    \emph{Mathematica} -- \emph{List}
 } koeficientů a \emph{hlavičkou}, která určuje do jakého tělesa prvek patří.
 Výhoda tohoto opatření je, že pro sčítání a násobení je pak možné využít
 obyčejné symboly operací ($+$, $-$, $*$, $/$) a operace se automaticky provede
@@ -435,7 +598,7 @@ jednotné rozhraní:
         $GF( {{p^{n_1}}^{\dots}}^{n_{k-1}} )$ a \emph{modulu vnitřního tělesa}: \\
         $modul_k = \left\{i_k,modul_{k-1}\right\}$.
 
-    \item Všem funkcím se předávají nejdřív \emph{operandy} a poté \emph{modul}. \\
+    \item Všem funkcím se předávají nejdřív \emph{operandy} a poté \emph{modul}.\\
         Například pro prvky $a,b\in GF(p^{\ldots})$, $m\in\mathbb{N}$
         a odpovídající $modul$: \\
         \hspace*{0.6cm}$krat[a,b,modul]$ \\
@@ -648,14 +811,16 @@ třetího hodnoty posunout.
 Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 \begin{itemize}
     \item Hodnoty předchozích řádků jsou:\\
-        \hspace*{0.6cm}Polynomy $p_{i-2}$ a $p_{i-1}$ (na začátku inicializovány na
-            ireducibilní polynom $m$ a \emph{prvek}, ke kterému je hledaná
+        \hspace*{0.6cm}Polynomy $p_{i-2}$ a $p_{i-1}$ (na začátku inicializovány
+            na ireducibilní polynom $m$ a \emph{prvek}, ke kterému je hledaná
             inverze). \\
         \hspace*{0.6cm}Polynomy $k_{i-2}$ a $k_{i-1}$ (na začátku inicializovány
             na $0$ a $1$, respektive \emph{nulový} a \emph{jednotkový
             polynom}).
+
     \item Je spočítán \emph{podíl} $q$ a zbytek $p_i$ pomocí tzv. \emph{dlouhého
         dělení} polynomu $p_{i-2}$ polynomem $p_{i-1}$.
+
     \item Je spočítán \emph{polynom} $k_i = k_{i-2} - q \cdot k_{i-1} $
 
     \item Tyto kroky se opakují, dokud není získán polynom $p_i$ stupně $0$
@@ -663,9 +828,9 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 
     \item Výsledná \emph{inverze} se získá jako skalární násobek \emph{polynomu}
         $k_i$ inverzí (posledního) \emph{koeficientu} polynomu $p_i$\footnote{
-Zde je vidět, že pro výpočet inverze v~tělese $GF(q^n)$ je třeba vypočítat
-inverzi v~tělese $GF(q)$.
-}.
+            Zde je vidět, že pro výpočet inverze v~tělese $GF(q^n)$ je třeba
+            vypočítat inverzi v~tělese $GF(q)$.
+        }.
 \end{itemize}
 
 Inverze v~\emph{prvotělese} je implementovaná pomocí interní funkce
@@ -678,7 +843,8 @@ Inverze v~\emph{prvotělese} je implementovaná pomocí interní funkce
         \State $ A \gets m $; $ B \gets prvek $
 
         // Inicializace na \emph{jednotkový} resp. \emph{nulový} polynom z~tělesa
-        \State $ k_A \gets nulovyPolynom[\ldots] $; $ k_B \gets jednotkovyPolynom[\ldots] $
+        \State $ k_A \gets nulovyPolynom[\ldots] $;
+            $ k_B \gets jednotkovyPolynom[\ldots] $
         \While{$stupen[B] \neq 0 $}
 
             // Výpočet $q$ a $C$ pomocí dlouhého dělení v~jednom kroku
@@ -783,7 +949,7 @@ Mocnění \emph{polynomů} je implementováno pomocí algoritmu
 mocninu lze rozložit na součin mocnin čtverců ($^2$,$^4$,$^8$,\dots). Konkrétně
 byla implementována varianta provádějící výpočet od nejvíce významného bitu
 exponentu\footnote{
-Uváděna jako \emph{MSB} -- z~anglického \emph{most significant bit}
+    Uváděna jako \emph{MSB} -- z~anglického \emph{most significant bit}
 }. Algoritmus má vstupy polynom $a$ a exponent $e$. Exponent se vyjádří jako
 číslo v~\emph{binární} soustavě a poté algoritmus provádí cyklus přes bity
 tohoto rozvoje. V~každém kroku se mezivýsledek umocní na druhou a v~případě, že
@@ -818,9 +984,9 @@ je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 
 
 \paragraph{Poznámka} Takto implementovaný algoritmus je zranitelný vůči odběrové
-a časové analýze. Pro odolnou implementaci je nutné počítat násobek \emph{vždy} a
-pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
-Pseudokód i reálná implementace je prováděna tímto (bezpečným) způsobem.
+a časové analýze. Pro odolnou implementaci je nutné počítat násobek \emph{vždy}
+a pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu. Pseudokód
+i reálná implementace je prováděna tímto (bezpečným) způsobem.
 
 \paragraph{Příklad} \emph{Square-and-Multiply} pro výpočet
 $\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
@@ -853,9 +1019,9 @@ V~této kapitole jsou nastíněny možná zlepšení implementace, která
 zrychlují výpočet některých operací.
 
 \subsubsection{Logaritmické tabulky}
-Pro zrychlení výpočtu násobení a mocnin prvku lze v~\emph{konečném tělese} využít
-faktu, že vždy existuje \emph{primitivní prvek} a převádět tak operace v~tělese
-na operace s~celými čísly.
+Pro zrychlení výpočtu násobení a mocnin prvku lze v~\emph{konečném tělese}
+využít faktu, že vždy existuje \emph{primitivní prvek} a převádět tak operace
+v~tělese na operace s~celými čísly.
 
 \begin{definice}
     Nechť $\alpha$ je \emph{generátor} \emph{multiplikativní grupy} tělesa $F$.
@@ -877,15 +1043,16 @@ $$ a^e = \left(\alpha^i\right)^e = \alpha^{i e} $$
 V~obou případech je samozřejmě možné použít \emph{Eulerovu větu} a mocniny
 redukovat \emph{modulo} $N$, kde $N$ je počet prvků \emph{multiplikativní grupy
 tělesa} ($N=p^n-1$ pro těleso $GF(p^n)$). Jakoukoliv operací násobení a mocnění
-se získá prvek $\alpha^{n_c}$, kde $n_c$ je celé číslo v~rozsahu od $0$ do $N-1$.
+se získá prvek $\alpha^{n_c}$, kde $n_c$ je celé číslo v~rozsahu od $0$ do
+$N-1$.
 
-Reprezentací prvků pomocí odpovídajících mocnin \emph{primitivního prvku} je
-tak možné vyhnout se násobení a umocňování prvků v~tělese a nahradit ho
-sčítáním a násobením celých čísel, což je řádově jednodušší. V~případě sčítání
-prvků v~tělese je však nutné mít jejich standardní reprezentaci (seznam
-koeficientů), jelikož se sčítání provádí po jednotlivých koeficientech,
-respektive bitech. Není možné nahradit sčítání dvou prvků jiné operaci
-s~mocninami \emph{primitivního prvku}.
+Reprezentací prvků pomocí odpovídajících mocnin \emph{primitivního prvku} je tak
+možné vyhnout se násobení a umocňování prvků v~tělese a nahradit ho sčítáním a
+násobením celých čísel, což je řádově jednodušší. V~případě sčítání prvků
+v~tělese je však nutné mít jejich standardní reprezentaci (seznam koeficientů),
+jelikož se sčítání provádí po jednotlivých koeficientech, respektive bitech.
+Není možné nahradit sčítání dvou prvků jiné operaci s~mocninami
+\emph{primitivního prvku}.
 
 Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti programu
 překladové \emph{log}- a \emph{antilogaritmické} tabulky pro překlad prvků
@@ -901,11 +1068,11 @@ tohoto přístupu:
         překlad.
         \begin{itemize}
             \item Tato tabulka lze implementovat pomocí obyčejného pole či
-                seznamu, kde se k~daném indexu v~seznamu vyskytuje odpovídající
+                seznamu, kde se k~danému indexu v~seznamu vyskytuje odpovídající
                 hodnota.
             \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
-                $O(m 2^m)$ (konkrétně $2^m - 1$ hodnot, kde každá je reprezentována
-                $m$ bity).
+                $O(m 2^m)$ (konkrétně $2^m - 1$ hodnot, kde každá je
+                reprezentována $m$ bity).
             \item Jelikož je paměťová náročnost \emph{exponenciální}, je
                 možné tyto tabulky uchovávat pouze pro \emph{malá} $m$ (např.
                 $8$ či $16$, nikoliv však $1024$).
@@ -919,7 +1086,7 @@ tohoto přístupu:
 
 
 Tohoto vylepšení se dá využít pro operace ve \emph{vnitřním tělese}
-$GF(2^m)$, nad kterém jsou postavené polynomy v~\emph{binárních Goppa kódech}.
+$GF(2^m)$, nad kterým jsou postavené polynomy v~\emph{binárních Goppa kódech}.
 
 
 \subsubsection{Implementace dělení}
@@ -938,16 +1105,21 @@ Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
 odpovídá výrazu $a/b$.
 
 
+% ====================================================================
 \section{Ireducibilní binární Goppa kódy}
 
+% ====================================================================
 \section{McEliece}
 
+% ====================================================================
 \section{Měření}
 
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \begin{conclusion}
         %sem napište závěr Vaší práce
 \end{conclusion}
@@ -964,7 +1136,16 @@ odpovídá výrazu $a/b$.
 \begin{thebibliography}{99}
 
 % články, knihy
-    \bibitem{McEliece} McEliece
+    \bibitem{McEliece}
+        Robert J. McEliece, A~Public-Key Cryptosystem Based on Algebraic Coding
+        Theory, \emph{JPL Deep Space Network Progress Report 42--44} Jenuary and
+        February 1978, pp. 114–116. Dostupné online
+        \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
+
+    \bibitem{bib_berlekamp}
+        E. R. Berlekamp, R. J. McEliece, H. Tilborg. \emph{On the Inherent
+        Intractibility} v~IT-24. IEEE Trans. Inform. Theory. 1978.
+
     \bibitem{Paar_Understanding} Understanding Cryptography
     \bibitem{Paar_Efficient}
         \uppercase{Merchan} J. G., \uppercase{Kumar} S., \uppercase{Paar} C.,
@@ -989,6 +1170,8 @@ odpovídá výrazu $a/b$.
 
 \appendix
 
+% ====================================================================
+% ====================================================================
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
@@ -1006,6 +1189,9 @@ odpovídá výrazu $a/b$.
 %\section{ITT}
 %TBA
 
+% ====================================================================
+% ====================================================================
+% ====================================================================
 \chapter{Obsah přiloženého CD}
 
 %upravte podle skutecnosti
