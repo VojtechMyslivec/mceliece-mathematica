@@ -341,20 +341,20 @@ Generování klíčů probíhá následovně:
 
 \begin{enumerate}
     \item Zvolí se \emph{lineární kód}\footnote{
-            V~článku je kryptosystém definovaný pro libovolní \emph{lineární
+            V~článku je kryptosystém definovaný pro libovolný \emph{lineární
             kód} opravující zvolený počet chyb a jsou zmíněny \emph{Goppa} kódy
             jako vhodný příklad k~použití. Jak bude ukázáno dále, ne všechny
             lineární kódy jsou pro \emph{McEliece} vhodné.
-        } $(n,k)$, opravující $t$ chyb,
-s~odpovídající $k \times n$ \emph{generující maticí} $G$.
+        } $(n,k)$, opravující $t$ chyb (a pro který je znám efektivní dekódovací
+        algoritmus) s~odpovídající $k \times n$ \emph{generující maticí}~$G$.
     \item Vygeneruje se \emph{náhodná} $k \times k$ \emph{regulární} matice $S$.
     \item Vygeneruje se \emph{náhodná} $n \times n$ \emph{permutační} matice $P$.
     \item Vypočítá se $k \times n$ matice $\hat{G} = S G P$.
 \end{enumerate}
 
 Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
-$\hat{G}$ je \emph{veřejný klíč} a matice $G$, $S$ a $P$ jsou \emph{soukromý
-klíč}.
+$\hat{G}$ je \emph{veřejný klíč} a kód s~maticí $G$ a matice $S$ a $P$ jsou
+\emph{soukromý klíč}.
 
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}
@@ -373,7 +373,7 @@ následujícím způsobem:
 \end{enumerate}
 
 \subsubsection{Dešifrování}
-Obdržená šifrovaná zpráva $c$ (délky $n$) se dešifruje následujícím způsobem:
+Obdržená zašifrovaná zpráva $c$ (délky $n$) se dešifruje následujícím způsobem:
 
 \begin{enumerate}
     \item Vypočítá se vektor $\hat{c}$ délky $n$: $\hat{c} = c P^{-1}$.
@@ -382,7 +382,7 @@ Obdržená šifrovaná zpráva $c$ (délky $n$) se dešifruje následujícím zp
     \item Vypočítá se původní zpráva $m$: $m = \hat{m} S^{-1}$
 \end{enumerate}
 
-\subsubsection{Důkaz dešifrování}
+\subsubsection{Důkaz dešifrování}\label{kap_dukaz_desifrovani}
 Důkaz, že výsledkem dešifrování je opět původní zpráva je následující:
 
 \begin{itemize}
@@ -403,9 +403,59 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 Dešifrováním je tedy získána původní zpráva $m$.
 
 % --------------------------------------------------------------------
+\subsection{Základní vlastnosti kryptosystému}
+V~této kapitole jsou probrány základní fakta a vlastnosti \emph{kryptosystému}.
+Jsou zde popsány způsoby uložení a velikost klíčů a hlavní výhody a nevýhody
+použití \emph{McEliece}.
+
+\subsubsection{Předpočítané matice}
+Je vidět, že původní matice $S$ a $P$ se ve výpočtu nepoužívají a pro
+dešifrování jsou potřeba pouze jejich \emph{inverze}. Je tedy možné tyto matice
+předpočítat a \emph{soukromý klíč} je tak trojice kód s~generující maticí $G$,
+matice $S^{-1}$ a matice~$P^{-1}$.
+
+\subsubsection{Velikost klíčů}
+Největší nevýhodou \emph{kryptosystému McEliece} je velikost klíčů. Již
+v~původním článku jsou navrhovány parametry $n=1024$, $k=524$ a $t=50$\footnote{
+    Jak bude zmíněno dále, velikost těchto parametry je pro dnešní použití
+    nedostatečná.
+}. Za použití těchto parametrů má matice $S$ (respektive její inverze)
+$274576$\;b $\approx 268$\;kb a (inverze) matice $P$ $1048576$\;b $= 1$\;Mb.
+
+Matice $P$ je ve skutečnosti velmi \emph{řídká} -- každý \emph{řádek}
+(respektive i \emph{sloupec}) obsahuje pouze jednu jedničku, jinak je nulová. Je
+to permutační matice a lze tak uchovat ve formě $\log_2 n$ $n$-bitových indexů.
+Pro výše zmíněné hodnoty je to $10240$\;b $=10$\;kb.
+
+% TODO odkaz na velikost kódu
+% $3 m 2^m + (1-m)mt + m + 1 $
+Při použití \emph{binárních Goppa kódů} s~těmito parametry je potřeba k~uložení
+informace o~použitém kódu $\approx 26$\;kb. Celkem se jedná o~přibližně
+$300$\;kb dat pro uložení soukromého klíče
+
+Pro uložení \emph{veřejného klíče} (matice $\hat{G}$) je třeba $536576$\;b
+$=524$\;kb dat.
+
+Metody snížení velikosti klíčů \emph{kryptosystému McEliece} jsou jedním
+z~hlavních překážek pro rozšíření algoritmu a také jedním z~hlavních cílů
+zkoumání tohoto \emph{kryptosystému} a věnuje se jim
+kapitola\ref{kap_snizeni_velikosti_klicu}.
+
+\subsubsection{Rychlost algoritmů}
+Naopak jednou z~největších výhod algoritmu \emph{McEliece} je rychlost algoritmů
+pro šifrování i dešifrování. Šifrování je prosté násobení matice s~vektorem, což
+je jednoduchá operace, kterou je navíc možné provádět paralelně či efektivně
+implementovat v~hardwaru. Dešifrování používá též násobení matic, ale složitější
+operace je dekódování vektoru $\hat{m}$.
+
+\textsc{TBA}
+% TODO citace nějakých paralelních násobení, efektivních zpracování a
+% asymptotických složitostí
+
+% --------------------------------------------------------------------
 \subsection{Bezpečnost kryptosystému}
 Již v~původním článku \cite{McEliece} \emph{McEliece} zmiňuje dva možné útoky na
-navržený kryptoststém.
+navržený kryptosystém.
 \begin{enumerate}
     \item získání \emph{soukromého} klíče ze znalosti \emph{veřejného}
     \item získání $m$ bez nutnosti znát \emph{soukromý} klíč
@@ -431,9 +481,9 @@ hrubou silou je \emph{neschůdné}\footnote{
 \subsubsection{Získání původní zprávy}
 Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$,
 která navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti
-použitého kódu je \emph{NP-těžký} problém \cite{bib_berlekamp}.
+použitého kódu je \emph{NP-těžký} problém \cite{berlekamp}.
 
-\paragraph{Nástin problému} \hfil \\
+\paragraph{Naznačení problému} \hfil \\
 
 V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost
 $c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} vznikne $\hat{G}_k$~a~$c_k$
@@ -456,25 +506,231 @@ převyšuje druhý činitel a jedná se o~\emph{NP-těžký} problém.
 
 Navíc není jasné, \emph{které} z~nalezených řešení odpovídá původní zprávě $m$.
 
-
-
 % ====================================================================
 \section{Niederreiterovo schéma}
+V~roce 1986 publikoval \emph{Harald Niederreiter} v~\cite{Niederreiter}
+kryptosystém s~veřejným klíčem využívající stejných principů jako kryptosystém
+\emph{McEliece}. Tento kryptosystém je též založený na \emph{lineárních kódech}
+a jeho bezpečnost též stojí na problému dekódování neznámého kódu. Na rozdíl
+však od kryptosystému \emph{McEliece} používá k~sestrojení klíčů
+\emph{kontrolní} matici místo matice \emph{generující}.
+
+% --------------------------------------------------------------------
+\subsection{Generování klíčů}
+Generování klíčů probíhá následovně:
+\begin{enumerate}
+    \item Zvolí se \emph{lineární kód} $(n,k)$, opravující $t$ chyb
+        s~odpovídající $(n-k) \times n$ \emph{kontrolní maticí}~$H$.
+    \item Vygeneruje se \emph{náhodná} $(n-k) \times (n-k)$ \emph{regulární}
+        matice $S$.
+    \item Vygeneruje se \emph{náhodná} $n \times n$ \emph{permutační}
+        matice~$P$.
+    \item Vypočítá se $(n-k) \times n$ matice $\hat{H} = S H P$.
+\end{enumerate}
+
+Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
+$\hat{H}$ je \emph{veřejný klíč} a kód s~\emph{kontrolní} maticí $H$ a matice
+$S$ a $P$ jsou \emph{soukromý klíč}.
+
+
+% --------------------------------------------------------------------
+\subsection{Algoritmy pro šifrování a dešifrování}
+\subsubsection{Šifrování}
+Šifrování zprávy probíhá následujícím způsobem:
+\begin{enumerate}
+    \item Zpráva $m$ dlouhá $n$ bitů s~\emph{Hammingovou vahou} maximálně $t$.
+        Tato zpráva reprezentuje \emph{chybový vektor} pro použitý kód.
+    \item Šifrový text $c$ (délky $n-k$) se spočte jako \emph{syndrom} zprávy
+        $m$ (respektive chyby) za použití matice $\hat{H}$: $c = m \hat{H}^T$.
+\end{enumerate}
+
+\paragraph{Poznámka} \hfil \\
+Chybový vektor $m$ požadované délky $n$ a \emph{Hammingovy váhy} $t$ lze
+získat \emph{zakódováním}\footnote{
+    Zde nejsou na mysli samoopravné kódy, ale pouze jednoznačné zakódování
+    zprávy.
+} původní zprávy k~zašifrování. Je vidět, že možných zpráv je pro $t \ll n$
+řádově méně než všech možných vektorů délky $n$. Způsob zakódování bude probírán
+níže při popisu získání \emph{elektronického podpisu} pomocí tohoto
+\emph{kryptosystému}.
+
+
+
+\subsubsection{Dešifrování}
+Obdržená šifrová zpráva $c$ se dešifruje následujícím způsobem:
+\begin{enumerate}
+    \item Vypočte se vektor $\hat{c}$ délky $n-k$:
+        $\hat{c} = c \left(S^T\right)^{-1} $
+    \item Pomocí dekódovacího algoritmu použitého kódu se z~$\hat{c}$ získá
+        chybový vektor $\hat{m}$ (délky $n$).
+    \item Původní zpráva $m$ se získá výpočtem
+        $m = \hat{m} \left(P^T\right)^{-1}$
+\end{enumerate}
+
+
+\paragraph{Poznámka} \hfil \\
+Stejně jako je tomu u~\emph{kryptosystému McEliece}, je možné hodnoty
+$\left(P^T\right)^{-1}$ a $\left(S^T\right)^{-1}$ předpočítat. Navíc inverzi
+$P$ je opět možné uložit jako $\log_2 m$ $n$-bitových hodnot, jelikož se jedná
+o~permutaci. Soukromý klíč je tak trojice kód s~kontrolní maticí $H$,
+matice $\left(P^T\right)^{-1}$ a matice $\left(S^T\right)^{-1}$.
+
+
+\subsubsection{Důkaz dešifrování}
+Důkaz, že výsledkem dešifrování je opět původní zpráva je následující:
+
+\begin{itemize}
+    \item V~prvním kroku dešifrovacího algoritmu je možné výpočet rozepsat
+        následujícím způsobem:
+    $$ \hat{c} =   c \left(S^T\right)^{-1} =
+                    m \hat{H}^T \left(S^T\right)^{-1} =
+                    m P^T H^T S^T \left(S^T\right)^{-1} =
+                    m P^T H^T
+    $$
+    \item Zavedeme substituci $\hat{m} = m P^T$, potom $\hat{c} = \hat{m} H^T$,
+        což odpovídá výpočtu \emph{syndromu} pro použitý kód. Jelikož $\hat{m}$
+        je pouze \emph{permutovaná} původní $m$, má \emph{Hammingovu váhu} $t$
+        a pomocí dekódovacího algoritmu získáme $\hat{m}$ jako \emph{chybový
+        vektor}.
+    \item Nakonec se jen vynásobí inverzí matice $P^T$
+
+\end{itemize}
+
+% --------------------------------------------------------------------
+\subsection{Vlastnosti kryptosystému}
+\emph{Niederreiterovo} schéma je variantou asymetrického kryptosystému
+založeného na lineárních kódech, jak je použito u~kryptosystému
+\emph{McEliece}. Šifrovým textem není zakódované slovo, jak je tomu
+u~\emph{McEliece}, nýbrž \emph{syndrom} chybového vektoru, který je možné
+dekódovat pouze za znalosti skrytého lineárního kódu.
+
+V~\cite{XingLi} byla dokázána ekvivalence složitosti prolomení tohoto
+kryptosystému s~kryptosystémem \emph{McEliece} a další informace jsou k~nalezení
+v~článku~\cite{Niederreiter}.
+
+
 
 % ====================================================================
-\section{Existující kryptoanalýzy McEliece }
+\section{Elektronický podpis}
+V~původním článku od \emph{R. McEliece} \cite{McEliece} bylo zmíněno, že tímto
+navrženým kryptosystémem nelze získat schéma pro \emph{elektronický podpis}.
+Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}.
+
+% --------------------------------------------------------------------
+\subsection{Překážky pro použití McEliece pro podepisování}
+Aby bylo možné využít algoritmus pro dešifrování jako algoritmus
+\emph{podepisování}, bylo by potřeba, aby vektor $c$ (resp. $\hat{c}$) bylo
+možné dekódovat na kódové slovo. Nicméně pro jakékoliv použitelné (bezpečné)
+parametry je poměr počtu vektorů délky $n$ v~\emph{Hammingově vzdálenosti} $t$
+od kódových slov ku všem vektorům délky $n$ téměř nulový. Takový algoritmus pro
+podepisování by prakticky vždy selhal a nebylo by možné získat žádný výstup jako
+\emph{podpis}.
+
+Například pro navrhované parametry $k=524$, $t=50$ (a $n=1024$) je počet
+vektorů do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
+$$ 2^{524}\sum_{i = 0}^{50}\left(\!
+    \begin{array}{c}
+        1024 \\
+        i
+    \end{array}
+\!\right) \approx 2^{808}$$
+Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
+délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně $2^{-216}$
+\cite{McEliece}.
+
+Algoritmus \emph{Niederreiter} selhává naprosto stejným stejným způsobem
+\cite{Courtois}.
+
+% --------------------------------------------------------------------
+\subsection{Schéma pro elektronický podpis}
+V~roce 2001 autoři \emph{Courtois} a spol. v~\cite{Courtois} publikovali postup,
+jakým lze získat z~kryptosystému založeném na lineárních kódech schéma pro
+\emph{elektronický podpis}. Autoři zmiňují, že je možné stejným způsobem využít
+i kryptosystém \emph{McEliece}, nicméně kvůli délce výsledného \emph{podpisu} je
+mnohem praktičtější využít \emph{Niederreiterovo} schéma.
+
+\subsubsection{Vyhovující parametry }
+V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
+$n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
+$$
+\mathcal{P} = \cfrac{N_{dekódovatelné}}{N_{celkem}} \approx
+\cfrac{\cfrac{n^t}{t!}}{n^t} = \frac{1}{t!}
+$$
+
+%Vektorů vyhovující podmínce je
+%$$\sum_{i=0}^{t}\left(\!
+%\begin{array}{c}
+%    n \\
+%    i
+%\end{array}
+%\!\right) $$
+%a v případě požadavku na \emph{Hammingovu váhu} právě $t$ je jich pouze
+%$$\left(\!\begin{array}{c}
+%    n \\
+%    t
+%\end{array}\!\right)$$ což je mnohem méně než všech možných vektorů $2^n$.
+
+A~tedy závisí pouze na počtu chyb $t$. V~článku je popsána volba parametrů a pro
+bezpečnost odpovídající $80$ bitům symetrické šifry jsou zvoleny parametry
+$n=2^{16}$ a $t=9$.
+
+Pravděpodobnost, že pro zadané parametry bude náhodný vektor možné dekódovat
+jako \emph{syndrom} je $\frac{1}{9!} \approx 2^{-19}$. Pro získání platného
+\emph{syndromu} bude tedy nutné v~průměru vygenerovat $2^{19}$ \emph{vektorů}.
+
+\textsc{TBA}
+%TODO
+%Získání náhodného
+
+% --------------------------------------------------------------------
+\subsection{Algoritmus pro podepisování}
+
+% --------------------------------------------------------------------
+\subsection{Algoritmus pro ověření}
+
+
+
+% ====================================================================
+\section{Odolnost vůči kvantovým počítačům}
+
+
+
+% ====================================================================
+\section{Kryptoanalýza systému McEliece}
 % --------------------------------------------------------------------
 \subsection{Typy útoků}
+
 % --------------------------------------------------------------------
 \subsection{Slabiny systému}
+
 % --------------------------------------------------------------------
 \subsection{Existující útoky}
 \subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
-% --------------------------------------------------------------------
-\subsection{Praktická varianta}
-\emph{CCA2-odolná varianta}
 
-\subsection{Odolnost vůči kvantovým počítačům}
+\subsubsection{Malleability}
+
+\subsubsection{Hádání chybových bitů pomocí dešifrovacího orákula}
+
+\subsubsection{Opakované šifrování jedné zprávy}
+
+\subsubsection{Znalost části OT}
+
+\subsubsection{...}
+
+
+
+% ====================================================================
+\section{Moderní varianty a úpravy}
+% --------------------------------------------------------------------
+\subsection{Quasi-dyadické Goppa kódy}
+% --------------------------------------------------------------------
+\subsection{Význam matic $S$ a $P$}
+% --------------------------------------------------------------------
+\subsection{Metody na snížení velikosti klíčů}\label{kap_snizeni_velikosti_klicu}
+% --------------------------------------------------------------------
+\subsection{CCA2-odolná varianta}
+
+
 
 
 
@@ -496,7 +752,7 @@ pohodlné použití i v~jiných oblastech.
 
 Celková práce byla rozdělena do třech ucelených částí -- (binární) \emph{konečná
 tělesa}, (ireducibilní) \emph{binární Goppa kódy} a \emph{kryptosystém
-McEliece} --, kde každá z~nich lze využít jako \emph{balík} či \emph{knihovna}
+McEliece} --, kde každou z~nich lze využít jako \emph{balík} či \emph{knihovnu}
 pro další výpočty. Následující kapitoly popisují jednotlivé části.
 
 %\section{Wolfram Mathematica}
@@ -504,7 +760,7 @@ pro další výpočty. Následující kapitoly popisují jednotlivé části.
 % ====================================================================
 \section{Binární konečná tělesa}
 Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} včetně
-jejich \emph{rozšíření}. Jsou zmíněny existující řešení v~softwaru
+jejich \emph{rozšíření}. Jsou zmíněna existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
 Ač jsou funkce implementované v~co nejobecnějším pojetí, tak je kladen důraz na
@@ -1137,23 +1393,49 @@ odpovídá výrazu $a/b$.
 
 % články, knihy
     \bibitem{McEliece}
-        Robert J. McEliece, A~Public-Key Cryptosystem Based on Algebraic Coding
-        Theory, \emph{JPL Deep Space Network Progress Report 42--44} Jenuary and
-        February 1978, pp. 114–116. Dostupné online
+        Robert J. \textsc{McEliece}, A~Public-Key Cryptosystem Based on
+        Algebraic Coding Theory v~\emph{JPL Deep Space Network Progress Report
+        42-44} Jenuary and February 1978, strany 114–116. Dostupné online
         \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
 
-    \bibitem{bib_berlekamp}
-        E. R. Berlekamp, R. J. McEliece, H. Tilborg. \emph{On the Inherent
-        Intractibility} v~IT-24. IEEE Trans. Inform. Theory. 1978.
+    \bibitem{Niederreiter}
+        Harald \textsc{Niederreiter}. Knapsack-type cryptosystems and
+        algebraic coding theory v~\emph{Problems of Control and Information
+        Theory 15}, strany 19-34. 1986
 
-    \bibitem{Paar_Understanding} Understanding Cryptography
+    \bibitem{XingLi}
+        Yuan \textsc{Xing Li}, Robert H. \textsc{Deng}, Xin \textsc{Mei Wang}.
+        On the equivalence of McEliece's and Niederreiter's public-key
+        cryptosystems v~\emph{IEEE Transactions on Information Theory}, vol. 40,
+        strany 271-273. IEEE, leden 1994. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=272496}
+
+    \bibitem{Berlekamp}
+        Elwyn R. \textsc{Berlekamp}, Robert J. \textsc{McEliece}, Henk C. A. van
+        \textsc{Tilborg}.  On the Inherent Intractibility v~\emph{IEEE
+        Transactions of Information Theory}, vol. IT-24, No. 3, strany 384-386.
+        IEEE, květen 1978.
+
+    \bibitem{Courtois}
+        Nicolas T. \textsc{Courtois}, Matthieu \textsc{Finiasz}, Nicolas
+        \textsc{Sendrier}. How to Achieve a McEliece-Based Digital Signature
+        Scheme v~\emph{Advances in Cryptology -- ASIACRYPT 2001}, strany
+        157-174. Springer Berlin Heidelberg, 2001. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F3-540-45682-1\_10}
+
+    \bibitem{Paar_Understanding}
+        Christof \textsc{Paar}, Jan \textsc{Pelzl}. \emph{Understanding
+        Cryptography}: A~Textbook for Students and Practitioners.
+        Springer-Verlag Berlin Heidelberg, 2010. Dostupné
+        online: \url{https://www.springer.com/us/book/9783642041006}
+
     \bibitem{Paar_Efficient}
-        \uppercase{Merchan} J. G., \uppercase{Kumar} S., \uppercase{Paar} C.,
-        \uppercase{Pelzl} J. \emph{Efficient Software Implementation of Finite
-        Fields with Applications to Cryptography} v~Acta Applicandae
+        J. G. \textsc{Merchan}, S. \textsc{Kumar}, C. \textsc{Paar},
+        J. \textsc{Pelzl}. Efficient Software Implementation of Finite
+        Fields with Applications to Cryptography v~\emph{Acta Applicandae
         Mathematicae: An International Survey Journal on Applying Mathematics
-        and Mathematical Applications, Volume 93, Numbers 1-3, pp.  3-32,
-        September 2006.  Ruhr-Universitat Bochum, 2006. Dostupné online:
+        and Mathematical Applications}, Volume 93, Numbers 1-3, strany  3-32.
+        Ruhr-Universitat Bochum, 2006. Dostupné online:
         \url{http://www.emsec.rub.de/research/publications/efficient-software-implementation-finite-fields-ap/}
 
     \bibitem{ITT} ITT
