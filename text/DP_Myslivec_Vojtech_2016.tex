@@ -296,6 +296,9 @@ polynomů se zbytkem\footnote{
 \emph{Prvotěleso}
 
 
+
+
+
 % ====================================================================
 % ====================================================================
 % ====================================================================
@@ -312,6 +315,8 @@ polynomů se zbytkem\footnote{
 % ====================================================================
 \section{Goppa kódy}
 \emph{Ireducibilní binární Goppa kódy}
+
+
 
 
 
@@ -605,8 +610,9 @@ u~\emph{McEliece}, nýbrž \emph{syndrom} chybového vektoru, který je možné
 dekódovat pouze za znalosti skrytého lineárního kódu.
 
 V~\cite{XingLi} byla dokázána ekvivalence složitosti prolomení tohoto
-kryptosystému s~kryptosystémem \emph{McEliece} a další informace jsou k~nalezení
-v~článku~\cite{Niederreiter}.
+kryptosystému s~kryptosystémem \emph{McEliece}. Útočník, který dokáže prolomit
+jeden ze systémů dokáže prolomit i druhý. Další informace jsou k~nalezení
+v~\cite{Niederreiter,Courtois}.
 
 
 
@@ -614,26 +620,24 @@ v~článku~\cite{Niederreiter}.
 \section{Elektronický podpis}
 V~původním článku od \emph{R. McEliece} \cite{McEliece} bylo zmíněno, že tímto
 navrženým kryptosystémem nelze získat schéma pro \emph{elektronický podpis}.
-Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}.
+Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}. Až
+v roce 2001 byl v \cite{Courtois} publikován postup pro získání elektronického
+podpisu za pomocí asymetrického kryptosystému založeného na samoopravných
+kódech.
 
 % --------------------------------------------------------------------
 \subsection{Překážky pro použití McEliece pro podepisování}
 Aby bylo možné využít algoritmus pro dešifrování jako algoritmus
 \emph{podepisování}, bylo by potřeba, aby vektor $c$ (resp. $\hat{c}$) bylo
-možné dekódovat na kódové slovo. Nicméně pro jakékoliv použitelné (bezpečné)
-parametry je poměr počtu vektorů délky $n$ v~\emph{Hammingově vzdálenosti} $t$
+možné dekódovat na kódové slovo. Nicméně pro původně navrhované parametry je
+poměr počtu vektorů délky $n$ v~\emph{Hammingově vzdálenosti} $t$
 od kódových slov ku všem vektorům délky $n$ téměř nulový. Takový algoritmus pro
 podepisování by prakticky vždy selhal a nebylo by možné získat žádný výstup jako
 \emph{podpis}.
 
-Například pro navrhované parametry $k=524$, $t=50$ (a $n=1024$) je počet
+Konkrétně pro navrhované parametry $n=1024$, $t=50$ (a $k=524$) je počet
 vektorů do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
-$$ 2^{524}\sum_{i = 0}^{50}\left(\!
-    \begin{array}{c}
-        1024 \\
-        i
-    \end{array}
-\!\right) \approx 2^{808}$$
+$$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808}$$
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
 délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně $2^{-216}$
 \cite{McEliece}.
@@ -649,12 +653,12 @@ jakým lze získat z~kryptosystému založeném na lineárních kódech schéma 
 i kryptosystém \emph{McEliece}, nicméně kvůli délce výsledného \emph{podpisu} je
 mnohem praktičtější využít \emph{Niederreiterovo} schéma.
 
-\subsubsection{Vyhovující parametry }
+\subsubsection{Vyhovující parametry}
 V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
 $n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
 $$
-\mathcal{P} = \cfrac{N_{dekódovatelné}}{N_{celkem}} \approx
-\cfrac{\cfrac{n^t}{t!}}{n^t} = \frac{1}{t!}
+    \mathcal{P} = \cfrac{N_{dekódovatelné}}{N_{celkem}} \approx
+    \cfrac{\cfrac{n^t}{t!}}{n^t} = \frac{1}{t!}
 $$
 
 %Vektorů vyhovující podmínce je
@@ -670,13 +674,44 @@ $$
 %    t
 %\end{array}\!\right)$$ což je mnohem méně než všech možných vektorů $2^n$.
 
-A~tedy závisí pouze na počtu chyb $t$. V~článku je popsána volba parametrů a pro
-bezpečnost odpovídající $80$ bitům symetrické šifry jsou zvoleny parametry
-$n=2^{16}$ a $t=9$.
+A~tedy závisí pouze na počtu chyb $t$. V~článku je popsána volba
+parametrů\footnote{
+    S ohledem na útok \emph{Canteaut-Chabaud} \cite{Canteaut}.
+} a pro bezpečnost odpovídající $80$ bitům symetrické šifry jsou zvoleny
+parametry $n=2^{16}$ a $t=9$.  Pravděpodobnost, že pro zadané parametry bude
+náhodný vektor možné dekódovat jako \emph{syndrom} je $\frac{1}{9!} \approx
+2^{-19}$. Pro získání platného \emph{syndromu} bude tedy nutné v~průměru
+vygenerovat $2^{19}$ \emph{vektorů}.
 
-Pravděpodobnost, že pro zadané parametry bude náhodný vektor možné dekódovat
-jako \emph{syndrom} je $\frac{1}{9!} \approx 2^{-19}$. Pro získání platného
-\emph{syndromu} bude tedy nutné v~průměru vygenerovat $2^{19}$ \emph{vektorů}.
+\subsubsection{Popis schématu}
+Dle kapitoly výše je nutné získat několik ($9!$) vektorů k odpovídajícímu
+\emph{dokumentu}, který je třeba \emph{podepsat}. To je možné zajistit jednoduše
+použitím \emph{hashovací} funkce $h$ s tím, že je
+společně s dokumentem hashován i náhodný index $i$. Ten je možné postupně
+zvyšovat, dokud výstup $h$ nebude možné \emph{dekódovat} a získat odpovídající
+chybový vektor $z$. Jak bude ukázáno dále, hodnota $i$ bude třeba pro ověření
+podpisu a podpis je tak dvojice $(z,i)$.
+
+\paragraph{Značení} \hfil \\
+Nechť $h$ je kryptograficky bezpečná \emph{hashovací} funkce, jejíž výstup je
+dlouhý přesně $n-k$ bitů. Dále $D$ je dokument, který je třeba \emph{podepsat}
+a $ s = h\left(D\right)$ \emph{hash} (\emph{otisk}) dokumentu. Zřetězení $s$ a
+$i$ bude značeno jako $(s|i)$ a $s_i = h(s|i)$ je tedy \emph{otisk} dokumentu za
+použití odpovídajícího \emph{indexu} $i$.
+Nejmenší $i$ takové, že $s_i$ lze dekódovat, bude značeno $i_0$. Odpovídající
+$s_{i_0}$ je tedy \emph{syndrom}, který bude použitý pro podpis $D$. Nakonec
+chybový vektor $z$ odpovídá \emph{syndromu} $s_{i_0}$ a podpis $S$ je tedy
+$S = ( z | i_0 )$
+
+\paragraph{Délka podpisu} \hfil \\
+Délka podpisu závisí na uložení dat $z$ a $i_0$. Vektor $z$ je chybový vektor
+odpovídajícího samoopravného kódu. Jeho \emph{Hammingova váha} je tedy maximálně
+$t$ a je tedy velmi řídký. Existuje $\binom{n}{t}$ vektorů \emph{váhy} $t$ a
+délky $n$
+%todo
+Index $i_0$ bude zabírat
+v průměru $\log_2{t!}$ bitů a nelze ho uložit žádným kompaktnějším způsobem.
+
 
 \textsc{TBA}
 %TODO
