@@ -658,7 +658,7 @@ V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom
 $n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
 $$
     \mathcal{P} = \cfrac{N_{dekódovatelné}}{N_{celkem}} \approx
-    \cfrac{\cfrac{n^t}{t!}}{n^t} = \frac{1}{t!}
+    \frac{\frac{n^t}{t!}}{n^t} = \frac{1}{t!}
 $$
 
 %Vektorů vyhovující podmínce je
@@ -674,7 +674,7 @@ $$
 %    t
 %\end{array}\!\right)$$ což je mnohem méně než všech možných vektorů $2^n$.
 
-A~tedy závisí pouze na počtu chyb $t$. V~článku je popsána volba
+A~závisí tedy pouze na počtu chyb $t$. V~článku je popsána volba
 parametrů\footnote{
     S ohledem na útok \emph{Canteaut-Chabaud} \cite{Canteaut}.
 } a pro bezpečnost odpovídající $80$ bitům symetrické šifry jsou zvoleny
@@ -706,24 +706,55 @@ $S = ( z | i_0 )$
 \paragraph{Délka podpisu} \hfil \\
 Délka podpisu závisí na uložení dat $z$ a $i_0$. Vektor $z$ je chybový vektor
 odpovídajícího samoopravného kódu. Jeho \emph{Hammingova váha} je tedy maximálně
-$t$ a je tedy velmi řídký. Existuje $\binom{n}{t}$ vektorů \emph{váhy} $t$ a
-délky $n$
-%todo
-Index $i_0$ bude zabírat
-v průměru $\log_2{t!}$ bitů a nelze ho uložit žádným kompaktnějším způsobem.
+$t$ a je tedy velmi řídký. Existuje pouze $\binom{n}{t}$ vektorů \emph{váhy} $t$ a
+délky $n$ a je tedy možné tento řídký vektor komprimovat. V~\cite{Courtois} je
+uvedeno, jak všechny možné vektroy seřadit a vyjádřit tak konkrétní vektor pouze
+jeho \emph{indexem} $I_z$. Takový \emph{index} je pak možno uložit
+v~$\log_2{\binom{n}{t}}$ bitech.
 
+Index $i_0$ bude zabírat v průměru $\log_2{t!}$ bitů a nelze ho uložit žádným
+kompaktnějším způsobem.
 
-\textsc{TBA}
-%TODO
-%Získání náhodného
+Pro konkrétní uvedený příklad ($n=2^{16}$, $t=9$) je pak průměrná velikost
+podpisu $S = ( I_z | i_0 ): \log_2{\binom{2^{16}}{9}} + \log_2{9!} = 125.5 + 18.4 =
+144$\;b.
 
 % --------------------------------------------------------------------
 \subsection{Algoritmus pro podepisování}
+Podpis je sestrojen následujícím způsobem:
 
-% --------------------------------------------------------------------
+\begin{itemize}
+    \item Sestrojíme \emph{hash} $s$ dokumentu $D$: $s = h(D)$.
+    \item Nalezneme nejmenší $i$ ($i_0$) takové, že $s_i = h(s|i)$ lze dekódovat.
+    \item Použijeme \emph{Niederreiterův} algoritmus pro dešifrování k nalezení
+        chybového vektoru $z$, že $z\hat{H}^T = s_{i_0}$
+    \item Převedeme $z$ na index $I_z$.
+    \item Použijeme $S=(I_Z|i_0)$ jako podpis dokumentu $D$.
+\end{itemize}
+
 \subsection{Algoritmus pro ověření}
+Ověření probíhá následujícím způsobem:
 
+\begin{itemize}
+    \item Převedeme index $I_z$ zpět na vektor $z$.
+    \item Spočítáme $s_1 = z\hat{H}^T$ pomocí veřejného klíče $\hat{H}$
+    \item Spočítáme \emph{hash} $s_2 = h(h(d)|i_0)$
+    \item Pokud se $s_1$ a $s_2$ shodují, podpis je platný.
+\end{itemize}
 
+\subsection{Poznámky}
+Bezpečnost schématu pro elektronický podpis závisí na jednosměrné funkci
+dekódování syndromu. Tuto operaci není možné provést bez znalosti
+\emph{soukromého klíče} -- matic $H$, $S$ a $P$.
+
+V případě použití kryptosystému \emph{McEliece} pro získání podpisu, bychom ve
+třetím kroku algoritmu pro podepisování místo \emph{syndromu} slovo délky $k$.
+Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16}
+- 16 \cdot 9 = 64$\;kb, což je velikost pro podpis prakticky nepřijatelná
+(často by byl podpis delší než původní \emph{dokument}).
+
+%TODO
+\vfil
 
 % ====================================================================
 \section{Odolnost vůči kvantovým počítačům}
