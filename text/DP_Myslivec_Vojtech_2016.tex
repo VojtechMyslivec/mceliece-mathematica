@@ -362,7 +362,7 @@ $\hat{G}$ je \emph{veřejný klíč} a kód s~maticí $G$ a matice $S$ a $P$ jso
 \emph{soukromý klíč}.
 
 % --------------------------------------------------------------------
-\subsection{Algoritmy pro šifrování a dešifrování}
+\subsection{Algoritmy pro šifrování a dešifrování}\label{kap_mceliece_algoritmy}
 \subsubsection{Šifrování}
 Šifrování zprávy $m$ (o~délce $k$ bitů) veřejným klíčem $\hat{G}$ probíhá
 následujícím způsobem:
@@ -486,7 +486,7 @@ hrubou silou je \emph{neschůdné}\footnote{
 \subsubsection{Získání původní zprávy}
 Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$,
 která navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti
-použitého kódu je \emph{NP-těžký} problém \cite{berlekamp}.
+použitého kódu je \emph{NP-těžký} problém \cite{Berlekamp}.
 
 \paragraph{Naznačení problému} \hfil \\
 
@@ -756,32 +756,91 @@ Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16
 %TODO
 \vfil
 
-% ====================================================================
-\section{Odolnost vůči kvantovým počítačům}
-
 
 
 % ====================================================================
 \section{Kryptoanalýza systému McEliece}
-% --------------------------------------------------------------------
-\subsection{Typy útoků}
+Již v původním článku \cite{McEliece} byly naznačeny 2 aspekty, díky kterým je
+možné považovat kryptosystém McEliece \emph{bezpečný}:
+
+
+\begin{enumerate}
+    \item Problém nalezení kódového slova \emph{obecného lineárního kódu}
+        s~minimální vzdáleností k danému vektoru
+        -- \emph{problém obecného dekódování} -- je\emph{NP-těžký}
+        \cite{Berlekamp}
+    \item Není znám žádný algoritmus, který by \emph{bez znalosti tajných parametrů}
+        dokázal nalézt kódové slovo efektivněji, než \emph{za použití obecného kódu}.
+\end{enumerate}
+
+
+Druhý z těchto aspektů neplatí za použití libovolného kódu. 
+
 
 % --------------------------------------------------------------------
-\subsection{Slabiny systému}
+\subsection{Bezpečné parametry}
+Tabulky z aktuálních článků
 
 % --------------------------------------------------------------------
-\subsection{Existující útoky}
+\subsection{Známé útoky}
+Canteaunt-Chabaud a další
+
+% --------------------------------------------------------------------
+%\subsection{Slabiny systému}
+
+% --------------------------------------------------------------------
+\subsection{Slabiny kryptosystému}
+V této kapitole jsou shrnuty známé slabiny kryptosystému \emph{McEliece}, se
+kterými je nutné počítat a praktické použití šifrování pomocí \emph{McEliece}
+náležitě upravit. V podkapitole \ref{kap_utoky_na_strukturu_kodu} jsou zmíněné
+slabiny kryptosystému při použití alternativních lineárních kódů.
+
 \subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
 
 \subsubsection{Malleability}
+Použití šifrování tak, jak je definováno v kapitole \ref{kap_mceliece_algoritmy}
+umožňuje deterministickým způsobem změnit (neznámou) zašifrovanou zprávu -- tzv.
+\emph{mealleability}.
 
-\subsubsection{Hádání chybových bitů pomocí dešifrovacího orákula}
+Zašifrovaná zpráva $c_1$ veřejným klíčem $\hat{G}$ byla zkonstruována (dle
+definice) $c_1 = m_1\hat{G} + z$, kde $z$ je náhodný chybový vektor. Pokud
+je tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsobem:
+
+\begin{itemize}
+    \item Připraví se (otevřená) zpráva $m_1$
+    \item Tato zpráva se \uv{zašifruje} veřejným klíčem $\hat{G}$, ale nepoužije
+        se chybový vektor $z$: $c_2 = m_2\hat{G}$
+    \item K původní zašifrované zprávě $c_1$ se přičte nová zpráva $c_2$:
+        $c = c_1 + c_2$
+    \item Odešle se vzniklá zpráva $c$ původnímu účastníkovi.
+\end{itemize}
+
+Dešifrování proběhne naprosto bezchybným způsobem, ale účastník získá
+místo původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
+
+$$
+    D_G\left(c\right) = D_G\left( c_1 + c_2 \right) =
+    D_G\left( (m_1\hat{G} + z) + m_2\hat{G} \right) =
+    D_G\left( (m_1+m_2)\hat{G} + z \right) = (m_1+m_2)
+$$
+
+Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal}. Stejně jako u
+těchto algoritmů (např. \emph{PKCS\#1} pro \emph{RSA}) i pro \emph{McEliece} se
+dá tomuto útoku efektivně bránit předem daným formátem zprávy a
+\emph{paddingem}.
 
 \subsubsection{Opakované šifrování jedné zprávy}
 
 \subsubsection{Znalost části OT}
 
-\subsubsection{...}
+\subsubsection{Hádání chybových bitů pomocí dešifrovacího orákula}
+
+% --------------------------------------------------------------------
+\subsection{Odolnost vůči kvantovým počítačům}
+
+\subsection{Shrnutí}
+ Pro \emph{McEliece} je doporučeno použít \emph{CCA2} odolnou
+variantu -- více viz \ref{kap_cca2}.
 
 
 
@@ -794,7 +853,7 @@ Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16
 % --------------------------------------------------------------------
 \subsection{Metody na snížení velikosti klíčů}\label{kap_snizeni_velikosti_klicu}
 % --------------------------------------------------------------------
-\subsection{CCA2-odolná varianta}
+\subsection{CCA2-odolná varianta}\label{kap_cca2}
 
 
 
@@ -1481,6 +1540,11 @@ odpovídá výrazu $a/b$.
         \textsc{Tilborg}.  On the Inherent Intractibility v~\emph{IEEE
         Transactions of Information Theory}, vol. IT-24, No. 3, strany 384-386.
         IEEE, květen 1978.
+
+    \bibitem{resend}  
+        T. A. \textsc{Berson}. Failure of the McEliece public-key cryptosystem under
+        message-resend and related-message attack v \emph{Advances in
+        Cryptology–CRYPTO ’97}, vol. 1294, strany 213-200, Springer Berlin, 1997.
 
     \bibitem{Courtois}
         Nicolas T. \textsc{Courtois}, Matthieu \textsc{Finiasz}, Nicolas
