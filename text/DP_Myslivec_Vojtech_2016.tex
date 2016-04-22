@@ -621,7 +621,7 @@ v~\cite{Niederreiter,Courtois}.
 V~původním článku od \emph{R. McEliece} \cite{McEliece} bylo zmíněno, že tímto
 navrženým kryptosystémem nelze získat schéma pro \emph{elektronický podpis}.
 Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}. Až
-v roce 2001 byl v \cite{Courtois} publikován postup pro získání elektronického
+v~roce 2001 byl v~\cite{Courtois} publikován postup pro získání elektronického
 podpisu za pomocí asymetrického kryptosystému založeného na samoopravných
 kódech.
 
@@ -676,7 +676,7 @@ $$
 
 A~závisí tedy pouze na počtu chyb $t$. V~článku je popsána volba
 parametrů\footnote{
-    S ohledem na útok \emph{Canteaut-Chabaud} \cite{Canteaut}.
+    S~ohledem na útok \emph{Canteaut-Chabaud} \cite{Canteaut}.
 } a pro bezpečnost odpovídající $80$ bitům symetrické šifry jsou zvoleny
 parametry $n=2^{16}$ a $t=9$.  Pravděpodobnost, že pro zadané parametry bude
 náhodný vektor možné dekódovat jako \emph{syndrom} je $\frac{1}{9!} \approx
@@ -684,10 +684,10 @@ náhodný vektor možné dekódovat jako \emph{syndrom} je $\frac{1}{9!} \approx
 vygenerovat $2^{19}$ \emph{vektorů}.
 
 \subsubsection{Popis schématu}
-Dle kapitoly výše je nutné získat několik ($9!$) vektorů k odpovídajícímu
+Dle kapitoly výše je nutné získat několik ($9!$) vektorů k~odpovídajícímu
 \emph{dokumentu}, který je třeba \emph{podepsat}. To je možné zajistit jednoduše
-použitím \emph{hashovací} funkce $h$ s tím, že je
-společně s dokumentem hashován i náhodný index $i$. Ten je možné postupně
+použitím \emph{hashovací} funkce $h$ s~tím, že je
+společně s~dokumentem hashován i náhodný index $i$. Ten je možné postupně
 zvyšovat, dokud výstup $h$ nebude možné \emph{dekódovat} a získat odpovídající
 chybový vektor $z$. Jak bude ukázáno dále, hodnota $i$ bude třeba pro ověření
 podpisu a podpis je tak dvojice $(z,i)$.
@@ -712,7 +712,7 @@ uvedeno, jak všechny možné vektroy seřadit a vyjádřit tak konkrétní vekt
 jeho \emph{indexem} $I_z$. Takový \emph{index} je pak možno uložit
 v~$\log_2{\binom{n}{t}}$ bitech.
 
-Index $i_0$ bude zabírat v průměru $\log_2{t!}$ bitů a nelze ho uložit žádným
+Index $i_0$ bude zabírat v~průměru $\log_2{t!}$ bitů a nelze ho uložit žádným
 kompaktnějším způsobem.
 
 Pro konkrétní uvedený příklad ($n=2^{16}$, $t=9$) je pak průměrná velikost
@@ -726,7 +726,7 @@ Podpis je sestrojen následujícím způsobem:
 \begin{itemize}
     \item Sestrojíme \emph{hash} $s$ dokumentu $D$: $s = h(D)$.
     \item Nalezneme nejmenší $i$ ($i_0$) takové, že $s_i = h(s|i)$ lze dekódovat.
-    \item Použijeme \emph{Niederreiterův} algoritmus pro dešifrování k nalezení
+    \item Použijeme \emph{Niederreiterův} algoritmus pro dešifrování k~nalezení
         chybového vektoru $z$, že $z\hat{H}^T = s_{i_0}$
     \item Převedeme $z$ na index $I_z$.
     \item Použijeme $S=(I_Z|i_0)$ jako podpis dokumentu $D$.
@@ -747,58 +747,69 @@ Bezpečnost schématu pro elektronický podpis závisí na jednosměrné funkci
 dekódování syndromu. Tuto operaci není možné provést bez znalosti
 \emph{soukromého klíče} -- matic $H$, $S$ a $P$.
 
-V případě použití kryptosystému \emph{McEliece} pro získání podpisu, bychom ve
+V~případě použití kryptosystému \emph{McEliece} pro získání podpisu, bychom ve
 třetím kroku algoritmu pro podepisování místo \emph{syndromu} slovo délky $k$.
 Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16}
 - 16 \cdot 9 = 64$\;kb, což je velikost pro podpis prakticky nepřijatelná
 (často by byl podpis delší než původní \emph{dokument}).
 
-%TODO
-\vfil
-
-
 
 % ====================================================================
 \section{Kryptoanalýza systému McEliece}
-Již v původním článku \cite{McEliece} byly naznačeny 2 aspekty, díky kterým je
+Již v~původním článku \cite{McEliece} byly naznačeny 2 aspekty, díky kterým je
 možné považovat kryptosystém McEliece \emph{bezpečný}:
 
 
 \begin{enumerate}
     \item Problém nalezení kódového slova \emph{obecného lineárního kódu}
-        s~minimální vzdáleností k danému vektoru
-        -- \emph{problém obecného dekódování} -- je\emph{NP-těžký}
+        s~minimální vzdáleností k~danému vektoru
+        -- \emph{problém obecného dekódování} -- je \emph{NP-těžký}
         \cite{Berlekamp}
     \item Není znám žádný algoritmus, který by \emph{bez znalosti tajných parametrů}
         dokázal nalézt kódové slovo efektivněji, než \emph{za použití obecného kódu}.
 \end{enumerate}
 
 
-Druhý z těchto aspektů neplatí za použití libovolného kódu. 
+Druhý z~těchto aspektů neplatí za použití libovolného kódu, jak bude ukázáno
+v~kapitole \ref{kap_utoky_na_strukturu_kodu}. Při použití některých lineárních
+kódů je možné odhalit strukturu použitého kódu.
+
+I~přes tato tvrzení je nutné zvolit parametry $n$, $k$ a $t$ tak, aby útok
+hrubou silou byl časově (a případně i prostorově) neschůdný. Volba bezpečných
+parametrů je probrána v~kapitole \ref{kap_bezpecne_parametry}.
 
 
 % --------------------------------------------------------------------
-\subsection{Bezpečné parametry}
-Tabulky z aktuálních článků
+\subsection{Typy útoků}
 
-% --------------------------------------------------------------------
-\subsection{Známé útoky}
+Information set Decoding
+
+Leon
+Stern
 Canteaunt-Chabaud a další
+%todo
+
+\subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
+%todo
 
 % --------------------------------------------------------------------
-%\subsection{Slabiny systému}
+\subsection{Bezpečné parametry}\label{kap_bezpecne_parametry}
+Tabulky z~aktuálních článků
+%todo
 
 % --------------------------------------------------------------------
 \subsection{Slabiny kryptosystému}
-V této kapitole jsou shrnuty známé slabiny kryptosystému \emph{McEliece}, se
+V~této kapitole jsou shrnuty známé slabiny kryptosystému \emph{McEliece}, se
 kterými je nutné počítat a praktické použití šifrování pomocí \emph{McEliece}
-náležitě upravit. V podkapitole \ref{kap_utoky_na_strukturu_kodu} jsou zmíněné
-slabiny kryptosystému při použití alternativních lineárních kódů.
+náležitě upravit. Většina z~těchto slabin umožňuje útok pomocí (adaptivně)
+voleného šifrového textu -- tzv. \emph{CCA2} útok,
 
-\subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
+Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
+šifrového textu, která je popsaná v~kapitole \ref{kap_cca2}.
+
 
 \subsubsection{Malleability}
-Použití šifrování tak, jak je definováno v kapitole \ref{kap_mceliece_algoritmy}
+Použití šifrování tak, jak je definováno v~kapitole \ref{kap_mceliece_algoritmy}
 umožňuje deterministickým způsobem změnit (neznámou) zašifrovanou zprávu -- tzv.
 \emph{mealleability}.
 
@@ -810,7 +821,7 @@ je tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsob
     \item Připraví se (otevřená) zpráva $m_1$
     \item Tato zpráva se \uv{zašifruje} veřejným klíčem $\hat{G}$, ale nepoužije
         se chybový vektor $z$: $c_2 = m_2\hat{G}$
-    \item K původní zašifrované zprávě $c_1$ se přičte nová zpráva $c_2$:
+    \item K~původní zašifrované zprávě $c_1$ se přičte nová zpráva $c_2$:
         $c = c_1 + c_2$
     \item Odešle se vzniklá zpráva $c$ původnímu účastníkovi.
 \end{itemize}
@@ -818,44 +829,174 @@ je tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsob
 Dešifrování proběhne naprosto bezchybným způsobem, ale účastník získá
 místo původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
 
-$$
-    D_G\left(c\right) = D_G\left( c_1 + c_2 \right) =
-    D_G\left( (m_1\hat{G} + z) + m_2\hat{G} \right) =
-    D_G\left( (m_1+m_2)\hat{G} + z \right) = (m_1+m_2)
-$$
+\begin{align*}
+    D_G\left(c\right) &= D_G\left( c_1 + c_2 \right) = \\
+                      &= D_G\left( (m_1\hat{G} + z) + m_2\hat{G} \right) = \\
+                      &= D_G\left( (m_1+m_2)\hat{G} + z~\right) =\\
+                      &= (m_1+m_2)
+\end{align*}
 
-Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal}. Stejně jako u
-těchto algoritmů (např. \emph{PKCS\#1} pro \emph{RSA}) i pro \emph{McEliece} se
+Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal} \cite{FIT_KRY}. Stejně jako
+u~těchto algoritmů (např. \emph{OAEP} pro \emph{RSA}) i pro \emph{McEliece} se
 dá tomuto útoku efektivně bránit předem daným formátem zprávy a
 \emph{paddingem}.
 
-\subsubsection{Opakované šifrování jedné zprávy}
+\subsubsection{Opakované šifrování stejné zprávy}
+Pokud je jedna otevřená zpráva dvakrát zašifrovaná stejným klíčem, je možné ji
+s~velkou pravděpodobností odhalit. Pro každé šifrování je generován náhodný (a
+pravděpodobně tedy jiný) chybový vektor $z$. Sečtením dvou různých šifrových textů
+jedné zprávy se tak získá součet náhodných chybových vektorů:
 
-\subsubsection{Znalost části OT}
+$$ c_1 + c_2 = (m\hat{G} + z_1) + (m\hat{G} + z_2) = z_1 + z_2 $$
 
-\subsubsection{Hádání chybových bitů pomocí dešifrovacího orákula}
+\emph{Váha} každého z~vektorů je $t$ a délka $n$. Sečtením dvou šifrových textů
+tak získáme vektor váhy maximálně $2t$. Tento výsledný vektor pak obsahuje
+binární $1$ na pozicích, kde se vyskytují $1$ právě v~jednom z~chybových
+vektorů. Jelikož jsou chybové vektory velmi řídké, je velmi pravděpodobné, že
+výsledný vektor bude mít váhu právě $2t$. Pokud by vektory $z_1$ a $z_2$
+obsahovaly $1$ na stejných pozicích, váha výsledného vektoru by byla o~$2$ menší
+za každou takovou shodu. Počet možností chybového vektoru $z_1$ je pak řádově
+nižší -- $\binom{2t}{t}$ místo původních $\binom{n}{t}$\footnote{
+    Por praktické parametry kryptosystému platí $n \gg t$.
+} -- a útok s~\emph{informační množinou} je tak řádově jednodušší.
 
-% --------------------------------------------------------------------
-\subsection{Odolnost vůči kvantovým počítačům}
+Dle stejného principu stačí znát \emph{rozdíl} mezi dvěma zprávami. Označme
+tento rozdíl jako $\Delta m = m_1 + m_2$. Sečtením dvou odpovídajících šifrových
+textů získáme:
 
-\subsection{Shrnutí}
- Pro \emph{McEliece} je doporučeno použít \emph{CCA2} odolnou
-variantu -- více viz \ref{kap_cca2}.
+$$ c_1 + c_2 = (m_1\hat{G} + z_1) + (m_2\hat{G} + z_2) = \Delta m \hat{G} + z_1 + z_2 $$
+
+Ze znalosti $\Delta m$ a veřejného klíče je možné opět získat součet chybových
+vektorů $z_1 + z_2 $ a provést stejný útok na obě zprávy $m_1$ a $m_2$, jak bylo
+uvedeno výše.
+
+
+\subsubsection{Znalost části otevřeného textu}
+Složitost útoku na šifrovanou zprávu lze též velmi zjednodušit, pokud útočník
+bude znát alespoň část otevřeného textu. Nechť množina $\mathcal{I} \subset
+\{1,2,\ldots,k\}$ reprezentuje pozici bitů, které útočník zná. Potom
+$\mathcal{J}$ je doplněk této množiny~$\mathcal{I}$ a zašifrovanou zprávu $c$
+lze rozdělit (dle dimenzí):
+
+$$
+    c = m\hat{G} + z =
+    m_{\mathcal{I}}\hat{G}_{\mathcal{I}} + m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z
+$$
+
+A~tedy:
+
+\begin{align*}
+    c + m_{\mathcal{I}}\hat{G} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z~\\
+                       \bar{c} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} +
+z~\end{align*}
+
+Stačí tedy útočit na dimenze určené $\mathcal{J}$ a velikost \emph{informační
+množiny} je tak zkrácena z~$k$ na velikost množiny $\mathcal{J}$.
+
+
+\subsubsection{Hádání chybových bitů}
+Tento útok je též označován jako tzv. \uv{reakční útok}. Pro provedení tohoto
+útoku je třeba mít k~dispozici \emph{dešifrovací orákulum} a útočník musí být
+schopen rozlišit kdy došlo k~chybě v~dešifrování a kdy byla zpráva v~pořádku
+dešifrována\footnote{
+    Podobně jako např. útok \emph{Paddding Oracle} u~blokových šifer
+    \cite{FIT_KRY}.
+}.
+
+Útočník, který zachytí zašifrovanou zprávu $c$, k~ni přičte vektor
+s~\emph{Hammingovou vahou} 1: $\left(0\ldots010\ldots0\right)$. Takto upravenou
+zprávu odešle \emph{orákulu} a pozoruje, jestli došlo k~úspěšnému dešifrování či
+nikoliv. Pokud dešifrování selhalo, je jasné, že odeslaná upravená zpráva
+obsahovala $t+1$ chyb a nebylo možné přijatou zprávu dekódovat. Pokud
+dešifrování proběhne v~pořádku, upravená zpráva obsahovala $\leq t$ chyb, což
+znamená, že vektor, kterým byla zpráva upravena, odpovídá jednomu z~náhodných
+bitů chybového vektoru $z$.
+
+Útočník tímto způsobem může bit po bitu vyzkoušet úspěšnost dešifrování upravené
+zprávy a zrekonstruovat chybový vektor $z$ v~$O\left( n \right)$ krocích. Za
+znalosti chybového vektoru je pak odhalení tajné zprávy $m$ otázka vyřešení
+soustavy $k$ rovnic v~$O\left( k^3 \right)$ krocích.
+
+Jako účinné zabránění tohoto útoku se nabízí vyžadovat, aby zašifrovaná zpráva
+obsahovala \emph{právě} $t$ chyb. Při šifrování se to dá velmi snadno zařídit a
+při dešifrování pak stačí zkontrolovat \emph{váhu} chybového vektoru (který je
+získán při dekódování) a pokud není rovna $t$, je jasné, že nastalo k~manipulaci
+se šifrovým textem.
+
 
 
 
 % ====================================================================
 \section{Moderní varianty a úpravy}
-% --------------------------------------------------------------------
-\subsection{Quasi-dyadické Goppa kódy}
-% --------------------------------------------------------------------
-\subsection{Význam matic $S$ a $P$}
+
 % --------------------------------------------------------------------
 \subsection{Metody na snížení velikosti klíčů}\label{kap_snizeni_velikosti_klicu}
+Jednou z~hlavních nevýhod kryptosystému \emph{McEliece} jsou obrovské klíče,
+které reprezentují lineární kódy velkých rozměrů (\emph{Goppa kódy}) a matice
+odpovídající velikosti, které mají za úkol schovat strukturu použitého kódu.
+Metody na snížení velikosti klíčů se zaměřují hlavně na použití kódů, které je
+možné definovat kompaktním způsobem a způsob uložení či generování matic $S$ a
+$P$.
+
+Zatím byly všechny pokusy vyměnit původní \emph{Goppa kódy} jinými,
+kompaktnějšími lineárními kódy, neúspěšné. Nalezly se slabiny ve struktuře kódu,
+které lze využít pro jejich sestrojení bez znalosti tajných matic $S$ a $P$ (viz
+kapitola~\ref{kap_utoky_na_strukturu_kodu}. Jediné alternativní kódy, jejichž
+použití zatím nebylo prolomeno, jsou \emph{kvazi-dyadické Goppa kódy}, které
+jsou zmíněny v~kapitole~\ref{kap_kvazi}.
+
+Kromě definovaného kódu jsou v~\emph{soukromém klíči} obsažené též dvě velké
+matice $S$ a $P$. Snížením velikosti těchto matic se zabývá následující
+kapitola.
+
+
+\subsubsection{Význam matic $S$ a $P$}
+
+
+
+\subsubsection{Kvazi-dyadické Goppa kódy}\label{kap_kvazi}
+Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
+použití \emph{kvazi-dyadických Goppa kódů} \cite{Misoczki,Paustjan,Kratochvil}.
+
+\begin{definice}{Dyadická matice}
+    \begin{itemize}
+        \item Každá $1\times1$ matice je \emph{dyadická}. \\
+        \item Nechť $A$ a $B$ jsou $2^{k-1}\times2^{k-1}$ \emph{dyadické} matice, pak
+            $2^k\times2^k$ matice
+            $$H = \left(\begin{array}{c c}
+                A & B\\
+                B & A
+            \end{array}\right)$$
+            je také \emph{dyadická}.
+    \end{itemize}
+\end{definice}
+
+
+\begin{definice}{Kvazi-dyadická matice}
+    Matice, která není \emph{dyadická}, ale skládá se z~\emph{dyadických}
+    submatic je \emph{kvazi-dyadická}.
+\end{definice}
+
+Dyadická matice $H$ lze jednoznačně vyjádřit pomocí jediného (prvního) řádku
+matice. Z~definice lze zkonstruovat celou původní matici $H$. Kvazi-dyadická
+matice lze tak vyjádřit pomocí prvních řádků \emph{dyadických} submatic.
+
+
+V~\cite{Misoczki} autoři ukázali, že je možné sestrojit (binární) \emph{Goppa
+kód}, který má kontrolní matici v~\emph{dyadické} formě -- tzv. \emph{dyadický
+Goppa kód}. Takto sestrojený kód by ale bylo velmi snadné zrekonstruovat
+z~veřejných klíčů a navrhli tak použití \emph{kvazi-dyadického Goppa kódu} --
+s~kontrolní maticí v~\emph{kvazi-dyadické} formě.
+
+S~použitím \emph{kvazi-dyadických Goppa kódů} je dosaženo $O\left(n\right)$ krát
+menších klíčů než za použití obecných (binárních) \emph{Goppa kódů}.
+
 % --------------------------------------------------------------------
-\subsection{CCA2-odolná varianta}\label{kap_cca2}
+\subsection{CCA2-odolné konverze}\label{kap_cca2}
 
 
+% --------------------------------------------------------------------
+\subsection{Odolnost vůči kvantovým počítačům}
 
 
 
@@ -888,10 +1029,10 @@ Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} v
 jejich \emph{rozšíření}. Jsou zmíněna existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
-Ač jsou funkce implementované v~co nejobecnějším pojetí, tak je kladen důraz na
-efektivnost výpočtů vzhledem k~\emph{binárním} tělesům -- tedy k~\emph{tělesům}
-s~charakteristikou $2$. Pro \emph{tělesa} s~jinou charakteristikou není chování
-funkcí definováno.
+\paragraph{Poznámka} Ač jsou funkce implementované v~co nejobecnějším pojetí,
+tak je kladen důraz na efektivnost výpočtů vzhledem k~\emph{binárním} tělesům --
+tedy k~\emph{tělesům} s~charakteristikou $2$. Pro \emph{tělesa} s~jinou
+charakteristikou není chování funkcí definováno.
 
 % --------------------------------------------------------------------
 \subsection{Existující řešení}
@@ -987,9 +1128,9 @@ jednotné rozhraní:
         \hspace*{0.6cm}$mocnina[a,m,modul]$ \\
         \hspace*{0.6cm}\ldots
 
-    \item Pro implementaci operací v~\emph{prvotělesech} (tělesech $GF(p^n)$)
+    \item Pro implementaci operací v~tělesech $GF(p^n)$
         jsou použité vnitřní funkce softwaru \emph{Mathematica} pro práci
-        s~\emph{polynomy}. Implementované funkce pro \emph{prvotělesa} tedy
+        s~\emph{polynomy}. Implementované funkce pro tato tělesa tedy
         zpravidla obsahují převod ze \emph{seznamu} čísel na \emph{polynom},
         zavolání vnitřní funkce pro \emph{polynomy} a převodu zpět na
         \emph{seznam} koeficientů. Díky těmto vnitřním funkcím je docíleno
@@ -1036,9 +1177,9 @@ koeficientech \emph{modulo} $p$, je tato funkce jediná volána místo celkovéh
 modulu pouze se zadanou charakteristikou $p$.
 
 Pro \emph{rozšířená tělesa} funkce rekurzivně volá stejnou operaci sčítání na
-jednotlivé koeficienty zadaných polynomů až na úroveň \emph{prvotěles} --
-obyčejných jednorozměrných seznamů. Pro \emph{prvotělesa} funkce používá
-obyčejné sčítání dvou seznamů modulo $p$.
+jednotlivé koeficienty zadaných polynomů až na úroveň obyčejných jednorozměrných
+seznamů. Pro sčítání těchto prvků funkce používá obyčejné sčítání dvou seznamů
+modulo $p$.
 
 \begin{algoritmus}[h!]
     \caption{Sčítání polynomů}
@@ -1056,6 +1197,12 @@ obyčejné sčítání dvou seznamů modulo $p$.
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
+
+\paragraph{Poznámka} U~dalších operací s~prvky z~tělesa $GF(p^n)$ (kde $p$ je
+prvočíslo) se prvky (\emph{seznamy}) převádějí na polynomy a využívá se
+implementovaných funkcí softwaru \emph{Mathematica}. Z~tohoto důvodu jsou nadále
+uváděné algoritmy pouze pro \emph{rozšířená tělesa} $GF(q^n)$, kde $q$ je nějaká
+mocnina prvočísla.
 
 \subsubsection{Redukce polynomu}
 Redukce polynomu (neboli \emph{modulo} polynom) se používá ve většině dalších
@@ -1543,7 +1690,7 @@ odpovídá výrazu $a/b$.
 
     \bibitem{resend}  
         T. A. \textsc{Berson}. Failure of the McEliece public-key cryptosystem under
-        message-resend and related-message attack v \emph{Advances in
+        message-resend and related-message attack v~\emph{Advances in
         Cryptology–CRYPTO ’97}, vol. 1294, strany 213-200, Springer Berlin, 1997.
 
     \bibitem{Courtois}
@@ -1552,6 +1699,23 @@ odpovídá výrazu $a/b$.
         Scheme v~\emph{Advances in Cryptology -- ASIACRYPT 2001}, strany
         157-174. Springer Berlin Heidelberg, 2001. Dostupné online
         \url{http://link.springer.com/chapter/10.1007\%2F3-540-45682-1\_10}
+
+    \bibitem{Misoczki}
+        Rafael \textsc{Misoczki}, Paulo S. L. M. \textsc{Barreto}. Compact
+        McEliece Keys from Goppa Codes v~\emph{Selected Areas in Cryptography}:
+        16th Annual International Workshop, strany 376-392. Springer Berlin
+        Heidelberg, 2009. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-05445-7\_24}
+
+    \bibitem{Paustjan}
+        Olga \textsc{Paustjan}. \emph{Post Quantum Cryptography on Embedded
+        Devices}: An Ecient Implementation of the McEliece Public Key Scheme
+        based on Quasi-Dyadic Goppa Codes. Ruhr-University Bochum, 2010.
+
+    \bibitem{Kratochvil}
+        Miroslav \textsc{Kratochvíl}. \emph{Implementation of cryptosystem
+        based on error-correcting codes}. Matematicko-fyzikální fakulta
+        Univerzity Karlovy, Praha, 2013.
 
     \bibitem{Paar_Understanding}
         Christof \textsc{Paar}, Jan \textsc{Pelzl}. \emph{Understanding
@@ -1573,6 +1737,7 @@ odpovídá výrazu $a/b$.
 % přednášky
     \bibitem{FIT_LIN} Přednášky BI-LIN
     \bibitem{FIT_BHW} Přednášky MI-BHW
+    \bibitem{FIT_KRY} Přednášky MI-KRY
     \bibitem{FIT_MKY} Přednášky MI-MKY
     \bibitem{FIT_MPI} Přednášky MI-MPI
 
@@ -1587,12 +1752,14 @@ odpovídá výrazu $a/b$.
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
-        \item[EEA] \emph{Extended Euclidean Algorithm} -- Rozšířený Euklidův algoritmus
-        \item[GCD] \emph{Greatest Common Divisor} -- Největší společný dělitel
-        \item[GF] \emph{Gallois field} -- konečné těleso
-        \item[LSB] Least Significant Bit/Byte -- nejméně významný bit/bajt
-        \item[MSB] Most Significant Bit/Byte -- nejvíce významný bit/bajt
-        \item[S\&M] algoritmus \emph{Square-and-Multiply}
+        \item[CCA2] \emph{Adaptive Chosen Ciphertext Attack} -- útok s~adaptivní volbou šifrového textu
+        \item[EEA]  \emph{Extended Euclidean Algorithm} -- Rozšířený Euklidův algoritmus
+        \item[GCD]  \emph{Greatest Common Divisor} -- Největší společný dělitel
+        \item[GF]   \emph{Gallois field} -- konečné těleso
+        \item[LSB]  \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
+        \item[MSB]  \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
+        \item[OAEP] \emph{Optimal asymmetric encryption padding} -- schéma pro asymetrické šifrování
+        \item[S\&M] Algoritmus \emph{Square-and-Multiply}
         %\item[TLS] Three Letter Shortcut
 \end{description}
 
