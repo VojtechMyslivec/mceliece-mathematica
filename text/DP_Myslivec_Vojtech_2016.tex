@@ -114,8 +114,9 @@ základních znalostí z~oblasti \emph{algebry}. Pro tato témata je doporučena
 literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar_Understanding} (kde lze též
 najít většinu důkazů následujících vět).
 
-\paragraph{Poznámka} Algoritmy zmíněné v následujících kapitolách jsou detailně
--- včetně pseudokódu -- popsány v kapitole zabývající se implementací
+\paragraph{Poznámka} \hfil \\
+Algoritmy zmíněné v~následujících kapitolách jsou detailně
+-- včetně pseudokódu -- popsány v~kapitole zabývající se implementací
 (kapitola~\ref{kap_implementace}).
 % ====================================================================
 \section{Základní termíny}
@@ -229,7 +230,8 @@ $$ A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
 \sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x) $$
 
 
-\paragraph{Poznámka} Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
+\paragraph{Poznámka} \hfil \\
+Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
 by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
 \emph{multiplikativní inverze} pro některé prvky a navíc by i existovaly
 tzv. \emph{dělitelé nuly}.
@@ -319,6 +321,11 @@ polynomů se zbytkem\footnote{
 \section{Goppa kódy}
 \emph{Ireducibilní binární Goppa kódy}
 
+\emph{Pattersonův algoritmus}
+
+\emph{Chien search} , \ldots
+
+\emph{List Decoding}  \cite{Repka}
 
 
 
@@ -334,8 +341,9 @@ McEliece}, dále \emph{Niederreiterovo schéma} -- varianta pro získání
 elektronického podpisu -- a nakonec jsou zmíněny slabiny a existující útoky na
 tento kryptosystém.
 
-\paragraph{Poznámka} V~této kapitole je nadále předpokládáno počítání
-s~hodnotami z~tělesa $GF(2)$, respektive s~\emph{bity}.
+\paragraph{Poznámka} \hfil \\
+V~této kapitole je nadále předpokládáno počítání s~hodnotami z~tělesa $GF(2)$,
+respektive s~\emph{bity}.
 
 % ====================================================================
 \section{Asymetrické šifrování McEliece}
@@ -447,7 +455,7 @@ $=524$\;kb dat.
 Metody snížení velikosti klíčů \emph{kryptosystému McEliece} jsou jedním
 z~hlavních překážek pro rozšíření algoritmu a také jedním z~hlavních cílů
 zkoumání tohoto \emph{kryptosystému} a věnuje se jim
-kapitola\ref{kap_snizeni_velikosti_klicu}.
+kapitola~\ref{kap_snizeni_velikosti_klicu}.
 
 \subsubsection{Rychlost algoritmů}
 Naopak jednou z~největších výhod algoritmu \emph{McEliece} je rychlost algoritmů
@@ -456,12 +464,11 @@ je jednoduchá operace, kterou je navíc možné provádět paralelně či efekt
 implementovat v~hardwaru. Dešifrování používá též násobení matic, ale složitější
 operace je dekódování vektoru $\hat{m}$.
 
-\textsc{TBA}
 % TODO citace nějakých paralelních násobení, efektivních zpracování a
 % asymptotických složitostí
 
 % --------------------------------------------------------------------
-\subsection{Bezpečnost kryptosystému}
+\subsection{Bezpečnost kryptosystému}\label{kap_bezpecnost}
 Již v~původním článku \cite{McEliece} \emph{McEliece} zmiňuje dva možné útoky na
 navržený kryptosystém.
 \begin{enumerate}
@@ -492,17 +499,18 @@ která navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti
 použitého kódu je \emph{NP-těžký} problém \cite{Berlekamp}.
 
 \paragraph{Naznačení problému} \hfil \\
-
 V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost
-$c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} vznikne $\hat{G}_k$~a~$c_k$
-z~matice~$\hat{G}$ a~vektoru~$c$. Pokud je $\hat{G}_k$ regulární, lze řešit
-soustavu $k$ nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase
-$O\left(k^3\right)$:
-$$c_k = m \hat{G}_k$$
+$c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} (množina dimenzí
+$\mathcal{K} \subset \{1,2,\ldots,n\}$ mající $k$ prvků) vznikne
+$\hat{G}_{\mathcal{K}}$~a~$c_{\mathcal{K}}$ z~matice~$\hat{G}$ respektive
+vektoru~$c$. Pokud je $\hat{G}_{\mathcal{K}}$ regulární, lze řešit soustavu $k$
+nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase $O\left(k^3\right)$:
+
+$$c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}}$$
 
 Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
 náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
-pravděpodobnost, že $c_k$ (ve výběru $k$ dimenzí) je bez chyby je
+pravděpodobnost, že $c_{\mathcal{K}}$ (ve výběru $k$ dimenzí) je bez chyby je
 $\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
 % TODO je ta pravděpodobnost správně?
 pro vyřešení jedné soustavy rovnic je to přibližně:
@@ -621,7 +629,7 @@ v~\cite{Niederreiter,Courtois}.
 
 % ====================================================================
 \section{Elektronický podpis}
-V~původním článku od \emph{R. McEliece} \cite{McEliece} bylo zmíněno, že tímto
+V~původním článku od \emph{Roberta McEliece} \cite{McEliece} bylo zmíněno, že tímto
 navrženým kryptosystémem nelze získat schéma pro \emph{elektronický podpis}.
 Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}. Až
 v~roce 2001 byl v~\cite{Courtois} publikován postup pro získání elektronického
@@ -660,7 +668,7 @@ mnohem praktičtější využít \emph{Niederreiterovo} schéma.
 V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
 $n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
 $$
-    \mathcal{P} = \frac{N_{dekódovatelné}}{N_{celkem}} \approx
+    \mathcal{P} = \frac{N_{\text{dekódovatelné}}}{N_{\text{celkem}}} \approx
     \frac{\frac{n^t}{t!}}{n^t} = \frac{1}{t!}
 $$
 
@@ -711,7 +719,7 @@ Délka podpisu závisí na uložení dat $z$ a $i_0$. Vektor $z$ je chybový vek
 odpovídajícího samoopravného kódu. Jeho \emph{Hammingova váha} je tedy maximálně
 $t$ a je tedy velmi řídký. Existuje pouze $\binom{n}{t}$ vektorů \emph{váhy} $t$ a
 délky $n$ a je tedy možné tento řídký vektor komprimovat. V~\cite{Courtois} je
-uvedeno, jak všechny možné vektroy seřadit a vyjádřit tak konkrétní vektor pouze
+uvedeno, jak všechny možné vektory seřadit a vyjádřit tak konkrétní vektor pouze
 jeho \emph{indexem} $I_z$. Takový \emph{index} je pak možno uložit
 v~$\log_2{\binom{n}{t}}$ bitech.
 
@@ -756,6 +764,9 @@ Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16
 - 16 \cdot 9 = 64$\;kb, což je velikost pro podpis prakticky nepřijatelná
 (často by byl podpis delší než původní \emph{dokument}).
 
+%TODO
+\clearpage
+
 
 % ====================================================================
 \section{Kryptoanalýza systému McEliece}
@@ -784,38 +795,38 @@ parametrů je probrána v~kapitole \ref{kap_bezpecne_parametry}.
 
 % --------------------------------------------------------------------
 \subsection{Útoky na McEliece}
-V této kapitole jsou uvedeny některé z útoků na kryptosystém \emph{McEliece}.
+V~této kapitole jsou uvedeny některé z~útoků na kryptosystém \emph{McEliece}.
 Dle~\cite{Engelbert} se útoky dají rozdělit do dvou hlavních kategorií:
 \begin{itemize}
     \item útoky na soukromý klíč
     \item útoky na šifrový text
 \end{itemize}
 Do první kategorie spadají útoky na strukturu použitého kódu a \emph{Support
-Splitting Algorithm}~\cite{Sendrier}. Jedná se o útoky, ve kterých útočník ze znalosti
+Splitting Algorithm}~\cite{Sendrier}. Jedná se o~útoky, ve kterých útočník ze znalosti
 \emph{veřejného klíče} sestrojí klíč \emph{soukromý}. Do druhé kategorie spadají
-útoky, které nezjišťují \emph{soukromý klíč}, ale z \emph{šifrového textu}
-odhalují text \emph{otevřený}. To zahrnuje \emph{útok s informační množinou},
-navržený již Robertem McEliece v \cite{McEliece}, a další algoritmy, které tento
-útok vylepšují.
+útoky, které nezjišťují \emph{soukromý klíč}, ale z~\emph{šifrového textu}
+odhalují text \emph{otevřený}. To zahrnuje \emph{útok s~informační množinou},
+navržený již Robertem McEliece, \emph{nalezení kódového slova s~nízkou vahou}
+a~další útoky na kryptosystém \emph{McEliece}.
 
 Nerozumné použití kryptosystému vede na zneužití několika \emph{slabin}, které
 jsou probrány ve zvláštní kapitole~\ref{kap_slabiny}\footnote{
-    Nejedná se totiž o útoky na kryptosystém ale spíše o nepříjemné
+    Nejedná se totiž o~útoky na kryptosystém ale spíše o~nepříjemné
     \emph{vlastnosti} kryptosystému, se kterými je nutné počítat.
 }.
 
 \subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
-V historii byly zaznamenány pokusy o sestrojení \emph{soukromého klíče} za
+V~historii byly zaznamenány pokusy o~sestrojení \emph{soukromého klíče} za
 použití jiných lineárních kódů než \emph{Goppa kódů}. Tyto návrhy vznikají
 hlavně kvůli zredukování velikosti klíčů, které jsou za použití \emph{Goppa
-kódů} obrovské. Většina z těchto návrhů ale byla shledána jako nedostatečně
-bezpečná pro použití v asymetrické kryptografii.
+kódů} obrovské. Většina z~těchto návrhů ale byla shledána jako nedostatečně
+bezpečná pro použití v~asymetrické kryptografii.
 
-V původním článku, kde bylo definováno \emph{Niederreiterovo} schéma, bylo
+V~původním článku, kde bylo definováno \emph{Niederreiterovo} schéma, bylo
 navrženo použití \emph{obecných Reed-Solomon} (\emph{GRS})
-kódů~\cite{Niederreiter}. V \cite{Sidelnikov} bylo prokázáno, že je možné
-skrytou strukturu \emph{GRS} kódu odhalit v polynomiálním čase. Stejné podmínky
-platí i pro použití v kryptosystému \emph{McEliece}.
+kódů~\cite{Niederreiter}. V~\cite{Sidelnikov} bylo prokázáno, že je možné
+skrytou strukturu \emph{GRS} kódu odhalit v~polynomiálním čase. Stejné podmínky
+platí i pro použití v~kryptosystému \emph{McEliece}.
 
 Použití tzv. \emph{Alternantních} či dalších kódů, používajících kompaktní
 uložení klíčů bylo prolomeno \emph{algebraickou} a \emph{strukturální
@@ -823,7 +834,7 @@ kryptoanalýzou}~\cite{Faugere1,Faugere2,Umana}.
 
 
 \subsubsection{Support Splitting Algorithm}
-Tento algoritmus, navržený Nicolasem Sendrier, dokáže v \emph{polynomiálním
+Tento algoritmus, navržený Nicolasem Sendrier, dokáže v~\emph{polynomiálním
 čase} (přibližně $O(n^4)$) určit, zda 2 lineární kódy jsou
 \emph{permutačně ekvivalentní}~\cite{Sendrier}.
 
@@ -834,23 +845,100 @@ Tento algoritmus, navržený Nicolasem Sendrier, dokáže v \emph{polynomiální
     stejné permutace bitů (pozic) $P$.
 \end{definice}
 
-Pokud má útočník k dispozici \emph{Goppa kód} (určený polynomem $g$), dokáže v
-polynomiálním čase rozhodnout, jestli je permutačně ekvivalentní s kódem, který
+Pokud má útočník k~dispozici \emph{Goppa kód} (určený polynomem $g$), dokáže
+v~polynomiálním čase rozhodnout, jestli je permutačně ekvivalentní s~kódem, který
 generuje \emph{veřejný klíč} $\hat{G}$. Pokud by bylo množství možných
 \emph{Goppa polynomů} -- resp. \emph{Goppa kódů} -- nízké, útočník by mohl
-hrubou silou odhalit použitý \emph{Goppa kód}. Z tohoto důvodu je nutné, aby
-generované \emph{Goppa polynomy} měly koeficienty z větších binárních těles. Čím
+hrubou silou odhalit použitý \emph{Goppa kód}. Z~tohoto důvodu je nutné, aby
+generované \emph{Goppa polynomy} měly koeficienty z~větších binárních těles. Čím
 větší budou vnitřní tělesa, tím více existuje možných (ireducibilních) polynomů
 a není tak možné projít všechny možnosti hrubou silou~\cite{Repka}.
 
-\subsubsection{Útoky na šifrový text}
-%todo
+\subsubsection{Útok s~informační množinou}
+\emph{Útok s~informační množinou} (\emph{Information Set Decoding attack} --
+\emph{ISD}), který byl popsán již v~původním článku \emph{Roberta
+McEliece}~\cite{McEliece} a~zmíněn v~kapitole~\ref{kap_bezpecnost}. Tento útok
+byl formalizován a~zobecněn v~\cite{Lee}.
 
-Information set Decoding
-Leon
-Stern
-Canteaut-Chabaud a další
-další viz \cite{Engelbert}
+Útok je založen na výběru $k$ sloupců (dimenzí) (množina $K$) z~veřejně známé
+matice $\hat{G}$ tak, aby vzniklá matice $\hat{G}_{\mathcal{K}}$ byla
+\emph{regulární} a bylo možné vyřešit vzniklou soustavu rovnic
+
+$$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
+
+Tomuto útoku brání fakt, že útočník neví, které bity šifrového textu jsou
+(v~průběhu šifrování) \uv{zamaskované} vygenerovaným náhodným vektorem $z$.
+Případný útočník tak zároveň musí vybrat dimenze takové, které nejsou zatížené
+tímto chybovým vektorem.
+
+Autoři \emph{Lee} a~\emph{Brickell} zobecnili tento útok tak, že není nutné
+vybrat množinu dimenzí, která neobsahuje chybu. Pokud bude množství chyb malé,
+je možné tento fakt do algoritmu započítat a bity vektoru $c$ respektive
+$c_{\mathcal{K}}$ invertovat.
+
+Pravděpodobnost, že výběr $k$ dimenzí bude obsahovat maximálně $j$ chyb je
+
+$$
+    \mathcal{P}_j= \frac{N_{\text{max. $j$ chyb}}}{N_{\text{celkem}}}
+    = \frac{\sum_{i=0}^{j}\binom{t}{i}\binom{n-t}{k-i}}{\binom{n}{k}}
+$$
+
+A~počet všech vektorů $e_\mathcal{K}$, jejichž \emph{Hammingova váha} je menší
+než $j$ (tedy počet vektorů, které je třeba vyzkoušet a zprávu $c$ dle tohoto
+vektoru invertovat) je
+
+$$ N_j = \sum_{i=0}^{j}\binom{k}{i} $$
+
+Pokud je možné řešit soustavu $k$ lineárních rovnic v~$O(k^3)$ počtu krocích, je
+asymptotická složitost tohoto útoku
+
+$$ W_j = O\left( \mathcal{P}_{j}^{-1}\left(k^3 + k N_j \right) \right) $$
+
+V~průměru je totiž provést $\mathcal{P}_{j}^{-1}$ výběrů dimenzí, pro každý
+výběr provést v~průměru $k N_k$ invertování bitů a nakonec vyřešit soustavu
+rovnic -- pokud je řešitelná.
+
+Autoři uvádí, že pro minimalizaci $W_j$ je při rozumných velikostech kódů volit
+$j=2$. Tento útok v~době publikování snížil složitost útoku na
+\emph{kryptosystém McEliece} přibližně $2^11$-krát~\cite{Lee}.
+
+\subsubsection{Nalezení kódového slova s~nízkou vahou}
+Jako nejúspěšnější útok na nalezení tajné zprávy se v~posledních letech jeví
+tzv. \emph{útok nalezením slova s~nízkou vahou}. Z~definice šifrování je známo,
+že $c$ leží ve \emph{vzdálenosti} $t$ od \emph{nějakého} kódového slova.
+Sestrojíme nový kód $\mathcal{K}'$ s~generující maticí $\hat{G}'$ tak, že
+k~matici $\hat{G}$ přidáme šifrový text $c$ jako další řádek matice
+
+$$
+    \hat{G}' = \left(\begin{array}{c}
+        \hat{G} \\
+        c
+    \end{array}\right)
+$$
+
+Původní kód generovaný maticí $\hat{G}$ měl \emph{kódovou vzdálenost} minimálně
+$2t+1$ a nově vzniklý kód $\mathcal{K}'$ má \emph{kódovou vzdálenost} $t$. Navíc
+jediný vektor, s~vahou $t$ je neznámý chybový vektor $z$ (který je potřeba
+k~úspěšnému dekódování či útoku \emph{ISD}).
+
+Cílem tohoto útoku je tedy nalézt kódové slovo $z$ (s~nejnižší vahou) z~výše
+definovaného kódu $\mathcal{K}'$. Algoritmy představené
+v~\cite{Leon,Stern,Canteaut} nejdříve hledají kódová slova v~redukovaném kódu
+$\mathcal{K}'_S$, který vznikne výběrem náhodnou množinou dimenzí $S$ z~matice
+$\hat{G}'$. Poté se tato kódová slova rozšíří do původního kódu $\mathcal{K}'$ a
+zkontrolují, zda mají požadovanou \emph{váhu}.
+
+Algoritmy představené autory \emph{Leon}~\cite{Leon}, \emph{Stern}~\cite{Stern}
+a~\emph{Canteaut} a~\emph{Chabaud}~\cite{Chabaud} se liší hlavně ve způsobu
+výběru dimenzí $S$. Poslední z~představených algoritmů dosahuje nejlepších
+výsledků.
+
+
+\subsubsection{Další útoky}
+Existují též návrhy dalších útoků jako jsou například statistické
+útoky~\cite{Jabri} či útok založený na \emph{bodových mřížích}~\cite{Brickell}.
+Jako další zdroje pro zkoumání těchto útoků jsou doporučeny
+články~\cite{Repka,Engelbert}.
 
 
 
@@ -941,20 +1029,20 @@ bude znát alespoň část otevřeného textu. Nechť množina $\mathcal{I} \sub
 $\mathcal{J}$ je doplněk této množiny~$\mathcal{I}$ a zašifrovanou zprávu $c$
 lze rozdělit (dle dimenzí):
 
-$$
-    c = m\hat{G} + z =
-    m_{\mathcal{I}}\hat{G}_{\mathcal{I}} + m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z
-$$
-
-A~tedy:
-
 \begin{align*}
+    c &= m\hat{G} + z~=
+    m_{\mathcal{I}}\hat{G}_{\mathcal{I}} + m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z~\\
+    \text{a tedy:} \qquad \qquad \\
     c + m_{\mathcal{I}}\hat{G} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z~\\
-                       \bar{c} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} +
-z~\end{align*}
+                       \bar{c} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z~\\
+    \text{respektive:} \qquad \qquad \\
+                       \bar{c} &= m_{\mathcal{J}}\hat{G}_{\mathcal{J}} + z_{\mathcal{J}}
+\end{align*}
 
-Stačí tedy útočit na dimenze určené $\mathcal{J}$ a velikost \emph{informační
-množiny} je tak zkrácena z~$k$ na velikost množiny $\mathcal{J}$.
+
+Stačí tedy útočit na dimenze určené množinou $\mathcal{J}$ a velikost
+\emph{informační množiny} je tak zkrácena z~$k$ na velikost množiny
+$\mathcal{J}$.
 
 
 \subsubsection{Hádání chybových bitů}
@@ -1093,7 +1181,8 @@ Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} v
 jejich \emph{rozšíření}. Jsou zmíněna existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
-\paragraph{Poznámka} Ač jsou funkce implementované v~co nejobecnějším pojetí,
+\paragraph{Poznámka} \hfil \\
+Ač jsou funkce implementované v~co nejobecnějším pojetí,
 tak je kladen důraz na efektivnost výpočtů vzhledem k~\emph{binárním} tělesům --
 tedy k~\emph{tělesům} s~charakteristikou $2$. Pro \emph{tělesa} s~jinou
 charakteristikou není chování funkcí definováno.
@@ -1262,7 +1351,8 @@ modulo $p$.
     \end{algorithmic}
 \end{algoritmus}
 
-\paragraph{Poznámka} U~dalších operací s~prvky z~tělesa $GF(p^n)$ (kde $p$ je
+\paragraph{Poznámka} \hfil \\
+U~dalších operací s~prvky z~tělesa $GF(p^n)$ (kde $p$ je
 prvočíslo) se prvky (\emph{seznamy}) převádějí na polynomy a využívá se
 implementovaných funkcí softwaru \emph{Mathematica}. Z~tohoto důvodu jsou nadále
 uváděné algoritmy pouze pro \emph{rozšířená tělesa} $GF(q^n)$, kde $q$ je nějaká
@@ -1334,6 +1424,7 @@ polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
 \end{array}
 \end{align*}
 
+$\Rightarrow \left|1000110111001\right|_{10011} = 1101$
 
 \subsubsection{Násobení}
 Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
@@ -1369,28 +1460,31 @@ a následné \emph{redukce} \emph{modulem}.
         \EndFor
 
         \hfil
-        \State \Return $redukuj[c]$
+        \State \Return $redukuj[c,modul]$
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
 
 \paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem
-$x^4+x^2+2x+1$ (nad tělesem $GF(3)$):
+$x^4+x^2+1x+1$ (nad tělesem $GF(2)$):
 
 %\renewcommand{\0}{{\scriptscriptstyle 0}}
 \begin{align*}
-& 1011 \cdot 10121: \\
+& 1011 \cdot 10111: \\
 & \arraycolsep=1pt
 \begin{array}{r *{8}{l}}
         1 (x^4) &  1 &  0 &  1 &  1 & \0 & \0 & \0 & \0 \\
         0 (x^3) & \0 &  0 &  0 &  0 &  0 & \0 & \0 & \0 \\
         1 (x^2) & \0 & \0 &  1 &  0 &  1 &  1 & \0 & \0 \\
-        2 (x^1) & \0 & \0 & \0 &  2 &  0 &  2 &  2 & \0 \\
+        1 (x^1) & \0 & \0 & \0 &  1 &  0 &  1 &  1 & \0 \\
         1 (x^0) & \0 & \0 & \0 & \0 &  1 &  0 &  1 &  1 \\
     \hline
-                & 1 & 0 & 2 & 0 & 2 & 0 & 0 & 1
+                & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 1
 \end{array}
 \end{align*}
+
+$\Rightarrow$ Výsledek operace násobení modulo polynom $g$ se získá redukcí
+polynomu $10000001$ polynomem $g$.
 
 \subsubsection{Inverze}
 Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
@@ -1472,10 +1566,12 @@ $GF(2)$):
            $10$ &       $1$ & $-101000$ & $111$
     \end{tabular}
 \end{center}
+
 $ \Rightarrow \left|1101^{-1}\right|_{1000011} = 101000 $
 
-\paragraph{Poznámka} Poslední sloupec tabulky se v~algoritmu nepočítá, je zde
-uveden pouze pro úplnost.
+\paragraph{Poznámka} \hfil \\
+Poslední sloupec tabulky se v~algoritmu nepočítá, je zde uveden pouze pro
+úplnost.
 
 
 \subsubsection{Druhá mocnina}
@@ -1488,28 +1584,6 @@ Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkc
     s~\emph{charakteristikou} $2$, potom platí:
     $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
 \end{tvrzeni}
-
-\paragraph{Důkaz}
-\begin{align*}
-    A(x)     &=  a_n x^n + \dots + a_2 x^2 + a_1 x + a_0 \\
-    {A(x)}^2 &=  (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
-             &= a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-             & \qquad \vdots \\
-             &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-             &  {} + a_1 x \, \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {} \\
-             &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) \\
-             &= a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {} \\
-             & \qquad \vdots \\
-             &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {} \\
-             &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {} \\
-             &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2            \\
-             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + 2 ( a_2 a_0 ) x^2 + a_1^2 x^2 + 2 ( a_1 a_0 ) x + a_0^2  \\
-             &= \sum_{i=0}^{n} a_i^2 x^{2i} + 2 \sum_{i=1}^{n+1}\sum_{\substack{
-    j<k \\ j+k = i }} a_j a_k &\\
-             &= \sum_{i=0}^{n} a_i^2 x^{2i}
-    \hspace{2.5cm} \cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
-%             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
-\end{align*}
 
 S~využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
 triviální:
@@ -1534,6 +1608,28 @@ triviální:
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
+
+%TODO poradi
+\paragraph{Důkaz}
+\begin{align*}
+    A(x)     &=  a_n x^n + \dots + a_2 x^2 + a_1 x + a_0 \\
+    {A(x)}^2 &=  (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) =  \\
+             &= a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                              \\
+             & \qquad \vdots                                                                                \\
+             &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                         \\
+             &  {} + a_1 x \, \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                      \\
+             &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) =                            \\
+             &= a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {}              \\
+             & \qquad \vdots                                                                                \\
+             &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {}         \\
+             &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {}         \\
+             &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2       =            \\
+             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + 2 ( a_2 a_0 ) x^2 + a_1^2 x^2 + 2 ( a_1 a_0 ) x + a_0^2 = \\
+             &= \sum_{i=0}^{n} a_i^2 x^{2i} + 2 \sum_{i=1}^{n+1}\sum_{\substack{j<k \\ j+k = i}} a_j a_k =  \\
+             &= \sum_{i=0}^{n} a_i^2 x^{2i}
+    \hspace{2.5cm} \cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
+%             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
+\end{align*}
 
 \subsubsection{Mocnění}
 Mocnění \emph{polynomů} je implementováno pomocí algoritmu
@@ -1575,10 +1671,11 @@ je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 \end{algoritmus}
 
 
-\paragraph{Poznámka} Takto implementovaný algoritmus je zranitelný vůči odběrové
-a časové analýze. Pro odolnou implementaci je nutné počítat násobek \emph{vždy}
-a pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu. Pseudokód
-i reálná implementace je prováděna tímto (bezpečným) způsobem.
+\paragraph{Poznámka} \hfil \\
+Takto implementovaný algoritmus je zranitelný vůči odběrové a~časové analýze.
+Pro odolnou implementaci je nutné počítat násobek \emph{vždy} a~pokud je daný
+bit exponentu $1$, přiřadit násobek do mezi výpočtu. Pseudokód i~reálná
+implementace je prováděna tímto (bezpečným) způsobem.
 
 \paragraph{Příklad} \emph{Square-and-Multiply} pro výpočet
 $\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
@@ -1603,6 +1700,7 @@ $\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
     \textbf{S}  & $ 26$ & $11010$ & $     1\01\00\01\01 $ & $ 1010$      \\
     \end{tabular}
 \end{center}
+
 $ \Rightarrow \left|1001^{26}\right|_{1000011} = 1010 $
 
 % --------------------------------------------------------------------
@@ -1661,9 +1759,9 @@ tohoto přístupu:
         \begin{itemize}
             \item Tato tabulka lze implementovat pomocí obyčejného pole či
                 %todo
-                %sezna\-mu, kde se k~danému indexu v~seznamu vyskytuje odpovídající
-                seznamu, kde se k~danému indexu v~seznamu vyskytuje odpovídající
-                hodnota.
+                % seznamu, kde se k~danému indexu v~seznamu vyskytuje
+                sezna\-mu, kde se k~danému indexu v~seznamu vyskytuje
+                odpovídající hodnota.
             \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
                 $O(m 2^m)$ (konkrétně $2^m - 1$ hodnot, kde každá je
                 reprezentována $m$ bity).
@@ -1754,21 +1852,35 @@ odpovídá výrazu $a/b$.
         Transactions of Information Theory}, vol. IT-24, No. 3, strany 384-386.
         IEEE, květen 1978.
 
-    \bibitem{Berson}  
+    \bibitem{Berson}
         T. A. \textsc{Berson}. Failure of the McEliece public-key cryptosystem under
         message-resend and related-message attack v~\emph{Advances in
         Cryptology–CRYPTO ’97}, vol. 1294, strany 213-200, Springer Berlin, 1997.
 
+    \bibitem{Leon}
+        J. S. \textsc{Leon}. A~probabilistic algorithm for computing minimum
+        weights of large error-correcting codes v~\emph{IEEE Transactions on
+        Information Theory}, vol. 34, strany 1354-1359. IEEE, 1988. Dostupné
+        online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=21270}
+
+    \bibitem{Stern}
+        Jacques \textsc{Stern}. A~method for finding code words of small weight,
+        v~\emph{Coding Theory and Applications}, 3rd International Colloquium,
+        strany 106-113. Springer Berlin Heidelberg, 1988. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007/BFb0019850}
+
     \bibitem{Canteaut}
-        Anne \textsc{Canteaut}, Florent \textsc{Chabaud}. \emph{Improvements of
-        the Attacks on Cryptosystems Based on Error-Correcting Codes}.
+        Anne \textsc{Canteaut}, Florent \textsc{Chabaud}. Improvements of
+        the Attacks on Cryptosystems Based on Error-Correcting Codes,
+        v~\emph{Research Report LIENS-95-21}. École Normale Supérieure, 1995
         Dostupné online
         \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.1645}
 
     \bibitem{Engelbert}
         Daniela \textsc{Engelbert}, Raphael \textsc{Overbeck}, Arthur
-        \textsc{Schmidt}. A Summary of McEliece-Type Cryptosystems and their
-        Security v \emph{Journal of Mathematical Cryptology}. IACR 2006.
+        \textsc{Schmidt}. A~Summary of McEliece-Type Cryptosystems and their
+        Security v~\emph{Journal of Mathematical Cryptology}. IACR 2006.
         Dostupné online \url{http://eprint.iacr.org/2006/162}
 
     \bibitem{Courtois}
@@ -1792,8 +1904,8 @@ odpovídá výrazu $a/b$.
 
     \bibitem{Repka}
         Marek \textsc{Repka}, Pavol \textsc{Zajac}. Overview of the McEliece
-        Cryptosystem and its Security v \emph{Tatra Mountains Mathematical
-        Publications}, vol. 60. strany 57-83. Slovak Academy of Sciences, 2014.
+        Cryptosystem and its Security v~\emph{Tatra Mountains Mathematical
+        Publications}, vol. 60, strany 57-83. Slovak Academy of Sciences, 2014.
         Dostupné online
         \url{http://www.degruyter.com/view/j/tmmp.2014.60.issue-1/tmmp-2014-0025/tmmp-2014-0025.xml}
 
@@ -1802,16 +1914,29 @@ odpovídá výrazu $a/b$.
         based on error-correcting codes}. Matematicko-fyzikální fakulta
         Univerzity Karlovy, Praha, 2013.
 
+    \bibitem{Brickell}
+        E. F. \textsc{Brickell}, A. M. \textsc{Odlyzko}. Cryptanalysis: a survey
+        of recent results v~\emph{Proceedings of the IEEE}, vol. 76, strany
+        578-593. IEEE, 1988. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=4443}
+
+    \bibitem{Lee}
+        P. J. \textsc{Lee}, E. F. \textsc{Brickell}. An Observation on the
+        Security of McEliece's Public-Key Cryptosystem v~\emph{Advances in
+        Cryptology} -- EUROCRYPT '88, strany 275-280. Springer Berlin
+        Heidelberg, 1988. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F3-540-45961-8\_25}
+
     \bibitem{Sendrier}
         Nicolas \textsc{Sendrier}. Finding the Permutation Between Equivalent
-        Linear Codes: The Support Splitting Algorithm v \emph{Transactions on
+        Linear Codes: The Support Splitting Algorithm v~\emph{Transactions on
         Information Theory}, vol. 46. IEEE 2000. Dostupné online
         \url{http://ieeexplore.ieee.org/xpl/abstractAuthors.jsp?arnumber=850662}
 
     \bibitem{Faugere1}
         Jean-Charles \textsc{Faugère}, Ayoub \textsc{Otmani}, Ludovic
         \textsc{Perret}, Jean-Pierre \textsc{Tillich}. Algebraic Cryptanalysis
-        of McEliece Variants with Compact Keys v \emph{Advances in Cryptology}
+        of McEliece Variants with Compact Keys v~\emph{Advances in Cryptology}
         -- EUROCRYPT 2010. Springer Berlin Heidelberg, 2010. Dostupné online
         \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-13190-5\_14}
 
@@ -1844,7 +1969,7 @@ odpovídá výrazu $a/b$.
         \url{http://www.emsec.rub.de/research/publications/efficient-software-implementation-finite-fields-ap/}
 
     \bibitem{ITT}
-        Toshiya \textsc{Itoh}, Shigeo \textsc{Tsujii}. A fast algorithm for
+        Toshiya \textsc{Itoh}, Shigeo \textsc{Tsujii}. A~fast algorithm for
         computing multiplicative inverses in $GF(2^m)$ using normal bases
         v~\emph{Information and Computation}, vol. 78, strany 171-177. Academic
         Press, 1988.  Dostupné online
