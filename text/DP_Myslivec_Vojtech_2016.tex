@@ -111,7 +111,7 @@ složitostí (kapitola \ref{kap_implementace}),.
 V~kapitole jsou probrány definice a algoritmy nutné pro práci s~\emph{konečnými
 tělesy} a \emph{polynomy} nad konečným tělesem. V~práci se předpokládá
 základních znalostí z~oblasti \emph{algebry}. Pro tato témata je doporučena
-literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar_Understanding} (kde lze též
+literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar} (kde lze též
 najít většinu důkazů následujících vět).
 
 \paragraph{Poznámka} \hfil \\
@@ -292,8 +292,6 @@ polynomů se zbytkem\footnote{
     Někdy uváděno jako dlouhé dělení.
 }.
 
-%TODO příklad!
-
 % ====================================================================
 \section{Rozšířená tělesa}
 
@@ -462,10 +460,8 @@ Naopak jednou z~největších výhod algoritmu \emph{McEliece} je rychlost algor
 pro šifrování i dešifrování. Šifrování je prosté násobení matice s~vektorem, což
 je jednoduchá operace, kterou je navíc možné provádět paralelně či efektivně
 implementovat v~hardwaru. Dešifrování používá též násobení matic, ale složitější
-operace je dekódování vektoru $\hat{m}$.
-
-% TODO citace nějakých paralelních násobení, efektivních zpracování a
-% asymptotických složitostí
+operace je dekódování vektoru $\hat{m}$. Viz kapitola~\ref{kap_bezpecne_parametry}
+a~tabulka~\ref{tab_Engelbert}.
 
 % --------------------------------------------------------------------
 \subsection{Bezpečnost kryptosystému}\label{kap_bezpecnost}
@@ -657,7 +653,7 @@ Algoritmus \emph{Niederreiter} selhává naprosto stejným stejným způsobem
 \cite{Courtois}.
 
 % --------------------------------------------------------------------
-\subsection{Schéma pro elektronický podpis}
+\subsection{Schéma pro elektronický podpis}\label{kap_schema_pro_podpis}
 V~roce 2001 autoři \emph{Courtois} a spol. v~\cite{Courtois} publikovali postup,
 jakým lze získat z~kryptosystému založeném na lineárních kódech schéma pro
 \emph{elektronický podpis}. Autoři zmiňují, že je možné stejným způsobem využít
@@ -823,7 +819,7 @@ kódů} obrovské. Většina z~těchto návrhů ale byla shledána jako nedostat
 bezpečná pro použití v~asymetrické kryptografii.
 
 V~původním článku, kde bylo definováno \emph{Niederreiterovo} schéma, bylo
-navrženo použití \emph{obecných Reed-Solomon} (\emph{GRS})
+navrženo použití \emph{zobecněných Reed-Solomon} (\emph{GRS})
 kódů~\cite{Niederreiter}. V~\cite{Sidelnikov} bylo prokázáno, že je možné
 skrytou strukturu \emph{GRS} kódu odhalit v~polynomiálním čase. Stejné podmínky
 platí i pro použití v~kryptosystému \emph{McEliece}.
@@ -913,6 +909,9 @@ $$
     \hat{G}' = \left(\begin{array}{c}
         \hat{G} \\
         c
+    \end{array}\right) = \left(\begin{array}{c}
+        \hat{G} \\
+        m\hat{G} + z
     \end{array}\right)
 $$
 
@@ -929,7 +928,7 @@ $\hat{G}'$. Poté se tato kódová slova rozšíří do původního kódu $\math
 zkontrolují, zda mají požadovanou \emph{váhu}.
 
 Algoritmy představené autory \emph{Leon}~\cite{Leon}, \emph{Stern}~\cite{Stern}
-a~\emph{Canteaut} a~\emph{Chabaud}~\cite{Chabaud} se liší hlavně ve způsobu
+a~\emph{Canteaut} a~\emph{Chabaud}~\cite{Canteaut} se liší hlavně ve způsobu
 výběru dimenzí $S$. Poslední z~představených algoritmů dosahuje nejlepších
 výsledků.
 
@@ -944,8 +943,36 @@ Jako další zdroje pro zkoumání těchto útoků jsou doporučeny
 
 % --------------------------------------------------------------------
 \subsection{Bezpečné parametry}\label{kap_bezpecne_parametry}
-Tabulky z~aktuálních článků
-%todo
+Pro dosažení určité míry bezpečnosti se používá pojem \emph{počet bitů
+bezpečnosti} (či \emph{míra bezpečnosti}). Tato jednotka odpovídá počtu bitů
+klíče symetrické šifry, které by útočník musel hrubou silou prolomit. Jinými
+slovy, pokud nějaká šifra (s~danou velikostí klíče) odpovídá $n$ bitům
+bezpečnosti, je třeba vynaložit $O\left(2^n\right)$ operací.
+
+Obecně je považováno \emph{128 bitů bezpečnosti} za dostatečné pro
+\emph{střednědobé} účely a \emph{256 bitů} pro \emph{dlouhodobé}. Méně než \emph{80
+bitů} je pro bezpečné uchování informací prakticky nepoužitelné, jelikož takto
+\uv{silný} algoritmus lze (či půjde) prolomit v~dostatečně krátkém čase (méně
+než desítky let)~\cite{Paar}.
+
+Kryptosystém \emph{McEliece} má na rozdíl např. od \emph{RSA} několik parametrů
+-- $n$, $k$, $t$ -- a celkové množství variant je tedy velmi mnoho.  Odhady
+složitostí jednotlivých útoků se navíc celkem liší, a proto je v~této kapitole
+uvedeno několik tabulek z~různých zdrojů, které odhadují \emph{míru bezpečnosti}
+kryptosystému \emph{McEliece}.
+
+V~tabulce \ref{tab_Bernstein} shrnuje parametry kryptosystému \emph{McEliece} pro
+dosažení požadované míry bezpečnosti dle \cite{Bernstein} a tabulka
+\ref{tab_Repka} dle \cite{Repka}. Tyto tabulky obsahují informaci o~velikosti
+\emph{veřejného klíče} v~\emph{systematické formě}. Tabulka \ref{tab_Engelbert}
+inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické
+složitosti šifrování a dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
+
+\emph{Míra bezpečnosti} původního navrženého kryptosystému
+$\left(1024,524,50\right)$ se dle~\cite{Canteaut,Repka} pohybuje mezi
+$50$-$60$ \emph{bity bezpečnosti} a tyto parametry jsou tedy pro praktické
+použití nedostatečné.
+
 
 % --------------------------------------------------------------------
 \subsection{Slabiny kryptosystému}\label{kap_slabiny}
@@ -956,6 +983,61 @@ voleného šifrového textu -- tzv. \emph{CCA2} útok,
 
 Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
 šifrového textu, která je popsaná v~kapitole \ref{kap_cca2}.
+
+
+% TODO pozice tabulek
+\begin{table}[t]
+    \begin{center}
+    \begin{tabular}{r|l|r}
+        \multirow{2}{*}{\shortstack{Míra \\ bezpečnosti}} & \multirow{2}{*}{\shortstack{Parametry $\left(n,k,t\right)$}} & \multirow{2}{*}{\shortstack{Velikost \\ klíče}} \\
+             & & \\
+            \hline
+         $80$\;b    & $\left(1632,1269,33\right)$   &  $450$\;kb    \\
+        $128$\;b    & $\left(2960,2288,56\right)$   & $1502$\;kb    \\
+        $256$\;b    & $\left(6624,5129,115\right)$  & $7488$\;kb    \\
+    \end{tabular}
+    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Bernstein}}
+    \label{tab_Bernstein}
+    \end{center}
+\end{table}
+
+\begin{table}
+    \begin{center}
+    \begin{tabular}{r|l|r}
+        \multirow{2}{*}{\shortstack{Míra \\ bezpečnosti}} & \multirow{2}{*}{\shortstack{Parametry $\left(n,k,t\right)$}} & \multirow{2}{*}{\shortstack{Velikost \\ klíče}} \\
+             & & \\
+            \hline
+         $50$\;b    & $\left(1024,524,50\right)$    &  $256$\;kb    \\
+         $80$\;b    & $\left(2048,1696,32\right)$   &  $583$\;kb    \\
+        $128$\;b    & $\left(3178,2384,68\right)$   & $1849$\;kb    \\
+        $128$\;b    & $\left(4096,3604,41\right)$   & $1732$\;kb    \\
+        $256$\;b    & $\left(6944,5208,136\right)$  & $8829$\;kb    \\
+    \end{tabular}
+    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Repka}}
+    \label{tab_Repka}
+    \end{center}
+\end{table}
+
+\begin{table}
+    \begin{center}
+    \begin{tabular}{l|l|r|r|r|l}
+        \multirow{2}{*}{Kryptosystém} & \multirow{2}{*}{Parametry} & \multirow{2}{*}{\shortstack{Míra \\ bezpečnosti}} & \multirow{2}{*}{\shortstack{Velikost \\ klíče}} & \multicolumn{2}{c}{\shortstack{Složitost}} \\
+        & & & & šifr. & dešifr. \\
+            \hline
+        \multirow{3}{*}{\emph{RSA}}
+            & $1024$ modulus                & $\sim  80$\;b &    $1$\;kb & $2^{30}$ & $2^{30}$  \\
+            & $2048$ modulus                & $\sim 112$\;b &    $2$\;kb & $2^{33}$ & $2^{33}$  \\
+            & $4096$ modulus                & $\sim 145$\;b &    $4$\;kb & $2^{36}$ & $2^{36}$  \\
+            \hline
+        \multirow{3}{*}{\emph{McEliece}}
+            & $ \left(2048,1608,40\right)$  & $\sim  98$\;b &  $691$\;kb & $2^{20}$ & $2^{23}$  \\
+            & $ \left(2048,1278,70\right)$  & $\sim 110$\;b &  $961$\;kb & $2^{20}$ & $2^{24}$  \\
+            & $ \left(4096,2056,170\right)$ & $\sim 184$\;b & $4096$\;kb & $2^{22}$ & $2^{26}$  \\
+    \end{tabular}
+    \caption{Porovnání \emph{McEliece} a \emph{RSA} dle \cite{Engelbert,Paar}}
+    \label{tab_Engelbert}
+    \end{center}
+\end{table}
 
 
 \subsubsection{Malleability}
@@ -1075,10 +1157,18 @@ získán při dekódování) a pokud není rovna $t$, je jasné, že nastalo k~m
 se šifrovým textem.
 
 
+% TODO zarovnání
+\vfill
 
 
 % ====================================================================
 \section{Moderní varianty a úpravy}
+Použití kryptosystému \emph{McEliece} tak, jak byl popsán na začátku kapitoly
+\ref{kap_mceliece} by bylo pro účely šifrování velmi nerozumné a nepraktické. To
+hlavně z~důvodu slabin, kterými algoritmus trpí (kapitola \ref{kap_slabiny})
+a velikosti klíčů, které jsou v~základní variantě větší než je nezbytně nutné.
+V~následujících kapitolách je probráno několik úprav \emph{kryptosystému} pro
+praktické použití.
 
 % --------------------------------------------------------------------
 \subsection{Metody na snížení velikosti klíčů}\label{kap_snizeni_velikosti_klicu}
@@ -1086,8 +1176,8 @@ Jednou z~hlavních nevýhod kryptosystému \emph{McEliece} jsou obrovské klíč
 které reprezentují lineární kódy velkých rozměrů (\emph{Goppa kódy}) a matice
 odpovídající velikosti, které mají za úkol schovat strukturu použitého kódu.
 Metody na snížení velikosti klíčů se zaměřují hlavně na použití kódů, které je
-možné definovat kompaktním způsobem a způsob uložení či generování matic $S$ a
-$P$.
+možné definovat kompaktním způsobem a způsob uložení či generování
+matic~$S$~a~$P$.
 
 Zatím byly všechny pokusy vyměnit původní \emph{Goppa kódy} jinými,
 kompaktnějšími lineárními kódy, neúspěšné. Nalezly se slabiny ve struktuře kódu,
@@ -1100,6 +1190,14 @@ Kromě definovaného kódu jsou v~\emph{soukromém klíči} obsažené též dv�
 matice $S$ a $P$. Snížením velikosti těchto matic se zabývá následující
 kapitola.
 
+Veřejný klíč je pouze jedna matice -- \uv{zamaskovaná} generující $n \times k$ matice
+$\hat{G}$. Jako jediný způsob pro snížení počtu bitů tohoto veřejného klíče je
+uložení matice v~\emph{systematické formě}. V~takovém případě není třeba
+udávat prvních $k$ sloupců -- je jasné, že odpovídají \emph{jednotkové matici}
+$I_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě} se tedy ušetří
+$k^2$ bitů, což při rozumných parametrech odpovídá až $75 $\;\% velikosti matice
+$\hat{G}$. Aby byla zachována bezpečnost kryptosystému při použití takové
+matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz kapitola~\ref{kap_cca2}).
 
 \subsubsection{Význam matic $S$ a $P$}
 
@@ -1107,7 +1205,7 @@ kapitola.
 
 \subsubsection{Kvazi-dyadické Goppa kódy}\label{kap_kvazi}
 Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
-použití \emph{kvazi-dyadických Goppa kódů} \cite{Misoczki,Paustjan,Kratochvil}.
+použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki}.
 
 \begin{definice}{Dyadická matice}
     \begin{itemize}
@@ -1139,13 +1237,136 @@ Goppa kód}. Takto sestrojený kód by ale bylo velmi snadné zrekonstruovat
 z~veřejného klíče a navrhli tak použití \emph{kvazi-dyadického Goppa kódu} --
 s~kontrolní maticí v~\emph{kvazi-dyadické} formě.
 
-S~použitím \emph{kvazi-dyadických Goppa kódů} je dosaženo $n$ krát
-menších klíčů než za použití obecných (binárních) \emph{Goppa
-kódů}~\cite{Misoczki}.
+S~použitím \emph{kvazi-dyadických Goppa kódů} je dosaženo $n$ krát menších klíčů
+než za použití obecných (binárních) \emph{Goppa kódů}~\cite{Misoczki}.
+Implementace \emph{kryptosystému} s~\emph{kvazi-dyadickými Goppa} kódy lze
+nalézt např v~\cite{Paustjan,Kratochvil}
 
 % --------------------------------------------------------------------
-\subsection{CCA2-odolné konverze}\label{kap_cca2}
+\subsection{CCA2-odolná konverze}\label{kap_cca2}
+Jak již bylo zmíněno v kapitole~\ref{kap_slabiny}, základní varianta algoritmu
+\emph{McEliece} trpí některými slabinami. Kvůli těmto slabinám by nebylo možné
+algoritmů prakticky (a opakovaně) využívat. Z tohoto důvodu bylo navrženo
+několik \emph{konverzí}, které jsou odolné vůči útoku s~\emph{adaptivně voleným
+šifrovým textem} -- \emph{CCA2} odolné konverze.
 
+Jsou známé \emph{obecné} konverze pro asymetrické šifry odolné vůči útoku
+s~\emph{voleným šifrovým textem} (\emph{CCA1}). Například známá a  používaná
+konverze \emph{OAEP} v kryptosystému \emph{RSA}. Dále to jsou např. konverze
+\emph{Fujisaki-Okamoto} a \emph{Pointcheval}.
+
+Nicméně \emph{K. Kobara} a \emph{H. Imai} v~\cite{Kobara} uvádí, že tyto
+konverze nejsou \emph{CCA2}-odolné a tak stále tak umožňují např. \emph{reakční
+útok} (viz kapitola~\ref{kap_slabiny}). Sami pak navrhli 3 možné
+\emph{CCA2}-odolné konverze, z~nichž třetí -- označená jako \emph{Kobara-Imai
+$\gamma$ konverze} -- je nejúčinější.
+
+Tato konverze $\gamma$ je popsána algoritmem níže a ilustrována
+obrázkem~\ref{obr_cca2}.
+
+\paragraph{Značení} \hfil \\
+V následujícím algoritmu bude použito toto značení:
+
+\begin{center}
+\begin{tabular}{l p{10cm}}
+    $(a|b)$         &   zřetězení vektorů $a$ a $b$ \\
+    $m$             &   otevřený text \\
+    $const$         &   veřejně známá konstanta \\
+    $r$             &   náhodné číslo (\emph{seed}) \\
+    $prep(m)$       &   funkce na doplnění zprávy na požadovanou délku
+                        (jednoznačný \emph{padding}) \\
+    $hash(l)$       &   kryptograficky bezpečná \emph{hashovací} funkce
+                        s~výstupem délky $\log_2 \binom{n}{t}$\;bitů \\
+    $rand(r)$       &   kryptograficky bezpečná funkce inicializovaná
+                        \emph{seedem} $r$, která vrací (pseudonáhodný) vektor
+                        (\emph{CSPRNG}) \\
+    $conv$          &   invertibilní konverze čísla $\leq \binom{n}{t}$ na
+                        odpovídající vektor délky $n$ a váhy $t$ (viz
+                        kapitola~\ref{kap_schema_pro_podpis}) \\
+    $E_{\hat{G}}(m,e)$  &   šifrovací algoritmus \emph{McEliece} (vstupem je
+                        zpráva $m$ a chybový vektor $z$) \\
+    $D_G(c)$        &   dešifrovací algoritmus \emph{McEliece} \\
+    $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
+    $LSB_n(l)$      &   $n$ nejméně významných (pravých) bitů vektoru $l$ \\
+\end{tabular}
+\end{center}
+
+% todo pozice
+\paragraph{Délky vektorů} \hfil \\
+\begin{center}
+\begin{tabular}{l l}
+    Vektor      & Délka                                 \\
+    \hline
+    $y_1$       & $max(|rand|, n+|const|)$              \\
+    $y_2$       & $max(|r|,|hash|$                      \\
+    $y_3$       & $k$                                   \\
+    $y_4$       & $\log_2 \binom{n}{t}$                 \\
+    $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
+\end{tabular}
+\end{center}
+
+\begin{algoritmus}[h!]
+    \caption{Kobara-Imai konverze $\gamma$}
+    \begin{algorithmic}[1]
+        \Function{encrypt}{ $m$, $r$, $const$ }
+        \State $\bar{m} \gets prep(m) $
+        \State $ y_1 \gets rand(r) + (\bar{m}|const) $
+            \Comment{1.}
+
+        \State $ y_2 \gets r + hash(y_1) $
+            \Comment{2.}
+
+        \State $ (y_5|y_4|y_3) \gets (y_2|y_1) $
+
+        \State $ e \gets conv(y_4) $
+            \Comment{3.}
+
+        \State $ c \gets (y_5|E_{\hat{G}}(y_3,e) $
+            \Comment{4.}
+
+        \State \Return $c$
+     \EndFunction
+    \end{algorithmic}
+
+    \begin{algorithmic}[1]
+        \Function{decrypt}{ $c$, $const$ }
+        \State $ y_5 \gets MSB_{|c|-n} $
+
+        \State $ (y_3,e) \gets D_G(LSB_n(c)) $
+            \Comment{4.}
+
+        \State $ y_4 \gets conv^{-1}(e) $
+            \Comment{3.}
+
+        \State $ (y_2|y_1) \gets (y_5|y_4|y_3) $
+
+        \State $ r \gets y_2 + hash(y_1) $
+            \Comment{2.}
+
+        \State $ (\bar{m}|\bar{const}) \gets y_1 + rand(r) $
+            \Comment{1.}
+
+        \If{$\bar{const} = const$}
+            \State \Return $prep^{-1}(\bar{m})$
+        \Else
+            \State \Return $NULL$
+                \Comment{zamítni $c$}
+
+        \EndIf
+
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{materialy/kobara-imai-cca2.png}
+    \caption{Ilustrace CCA2-odolné konverze \emph{Kobara-Imai}
+    $\gamma$~\cite{Repka,Kobara}}
+    \label{obr_cca2}
+\end{figure}
 
 % --------------------------------------------------------------------
 \subsection{Odolnost vůči kvantovým počítačům}
@@ -1364,7 +1585,7 @@ funkcí. Tato funkce se volá se dvěma parametry -- prvkem $a$ a polynomem
 (\emph{modulem}) $m$. Funkce vrátí zbytek polynomu $a$ po dělení polynomem $m$.
 
 Redukce polynomu pro \emph{rozšířená tělesa} je inspirovaná \emph{Comb metodou}
-z~\cite{Paar_Efficient}. K~původnímu prvku $a$ se opakovaně přičítá (od
+z~\cite{Merchan}. K~původnímu prvku $a$ se opakovaně přičítá (od
 nejvyššího řádu) patřičný násobek \emph{polynomu} $m$ tak, aby se daný
 koeficient $a_i$ rovnal nule (viz příklad níže).
 
@@ -1834,41 +2055,29 @@ odpovídá výrazu $a/b$.
         42-44} Jenuary and February 1978, strany 114–116. Dostupné online
         \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
 
-    \bibitem{Niederreiter}
-        Harald \textsc{Niederreiter}. Knapsack-type cryptosystems and
-        algebraic coding theory v~\emph{Problems of Control and Information
-        Theory 15}, strany 19-34. 1986
-
-    \bibitem{XingLi}
-        Yuan \textsc{Xing Li}, Robert H. \textsc{Deng}, Xin \textsc{Mei Wang}.
-        On the equivalence of McEliece's and Niederreiter's public-key
-        cryptosystems v~\emph{IEEE Transactions on Information Theory}, vol. 40,
-        strany 271-273. IEEE, leden 1994. Dostupné online
-        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=272496}
-
     \bibitem{Berlekamp}
         Elwyn R. \textsc{Berlekamp}, Robert J. \textsc{McEliece}, Henk C. A. van
         \textsc{Tilborg}.  On the Inherent Intractibility v~\emph{IEEE
         Transactions of Information Theory}, vol. IT-24, No. 3, strany 384-386.
         IEEE, květen 1978.
 
+    \bibitem{Bernstein}
+        Daniel J. \textsc{Bernstein}, Tanja \textsc{Lange}, Christiane
+        \textsc{Peters}. Attacking and Defending the McEliece Cryptosystem
+        v~\emph{Post-Quantum Cryptography}, strany 31-46. Springer Berlin
+        Heidelberg 2008. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007/978-3-540-88403-3\_3}
+
     \bibitem{Berson}
         T. A. \textsc{Berson}. Failure of the McEliece public-key cryptosystem under
         message-resend and related-message attack v~\emph{Advances in
         Cryptology–CRYPTO ’97}, vol. 1294, strany 213-200, Springer Berlin, 1997.
 
-    \bibitem{Leon}
-        J. S. \textsc{Leon}. A~probabilistic algorithm for computing minimum
-        weights of large error-correcting codes v~\emph{IEEE Transactions on
-        Information Theory}, vol. 34, strany 1354-1359. IEEE, 1988. Dostupné
-        online
-        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=21270}
-
-    \bibitem{Stern}
-        Jacques \textsc{Stern}. A~method for finding code words of small weight,
-        v~\emph{Coding Theory and Applications}, 3rd International Colloquium,
-        strany 106-113. Springer Berlin Heidelberg, 1988. Dostupné online
-        \url{http://link.springer.com/chapter/10.1007/BFb0019850}
+    \bibitem{Brickell}
+        E. F. \textsc{Brickell}, A. M. \textsc{Odlyzko}. Cryptanalysis: a survey
+        of recent results v~\emph{Proceedings of the IEEE}, vol. 76, strany
+        578-593. IEEE, 1988. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=4443}
 
     \bibitem{Canteaut}
         Anne \textsc{Canteaut}, Florent \textsc{Chabaud}. Improvements of
@@ -1877,12 +2086,6 @@ odpovídá výrazu $a/b$.
         Dostupné online
         \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.1645}
 
-    \bibitem{Engelbert}
-        Daniela \textsc{Engelbert}, Raphael \textsc{Overbeck}, Arthur
-        \textsc{Schmidt}. A~Summary of McEliece-Type Cryptosystems and their
-        Security v~\emph{Journal of Mathematical Cryptology}. IACR 2006.
-        Dostupné online \url{http://eprint.iacr.org/2006/162}
-
     \bibitem{Courtois}
         Nicolas T. \textsc{Courtois}, Matthieu \textsc{Finiasz}, Nicolas
         \textsc{Sendrier}. How to Achieve a McEliece-Based Digital Signature
@@ -1890,48 +2093,11 @@ odpovídá výrazu $a/b$.
         157-174. Springer Berlin Heidelberg, 2001. Dostupné online
         \url{http://link.springer.com/chapter/10.1007\%2F3-540-45682-1\_10}
 
-    \bibitem{Misoczki}
-        Rafael \textsc{Misoczki}, Paulo S. L. M. \textsc{Barreto}. Compact
-        McEliece Keys from Goppa Codes v~\emph{Selected Areas in Cryptography}:
-        16th Annual International Workshop, strany 376-392. Springer Berlin
-        Heidelberg, 2009. Dostupné online
-        \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-05445-7\_24}
-
-    \bibitem{Paustjan}
-        Olga \textsc{Paustjan}. \emph{Post Quantum Cryptography on Embedded
-        Devices}: An Ecient Implementation of the McEliece Public Key Scheme
-        based on Quasi-Dyadic Goppa Codes. Ruhr-University Bochum, 2010.
-
-    \bibitem{Repka}
-        Marek \textsc{Repka}, Pavol \textsc{Zajac}. Overview of the McEliece
-        Cryptosystem and its Security v~\emph{Tatra Mountains Mathematical
-        Publications}, vol. 60, strany 57-83. Slovak Academy of Sciences, 2014.
-        Dostupné online
-        \url{http://www.degruyter.com/view/j/tmmp.2014.60.issue-1/tmmp-2014-0025/tmmp-2014-0025.xml}
-
-    \bibitem{Kratochvil}
-        Miroslav \textsc{Kratochvíl}. \emph{Implementation of cryptosystem
-        based on error-correcting codes}. Matematicko-fyzikální fakulta
-        Univerzity Karlovy, Praha, 2013.
-
-    \bibitem{Brickell}
-        E. F. \textsc{Brickell}, A. M. \textsc{Odlyzko}. Cryptanalysis: a survey
-        of recent results v~\emph{Proceedings of the IEEE}, vol. 76, strany
-        578-593. IEEE, 1988. Dostupné online
-        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=4443}
-
-    \bibitem{Lee}
-        P. J. \textsc{Lee}, E. F. \textsc{Brickell}. An Observation on the
-        Security of McEliece's Public-Key Cryptosystem v~\emph{Advances in
-        Cryptology} -- EUROCRYPT '88, strany 275-280. Springer Berlin
-        Heidelberg, 1988. Dostupné online
-        \url{http://link.springer.com/chapter/10.1007\%2F3-540-45961-8\_25}
-
-    \bibitem{Sendrier}
-        Nicolas \textsc{Sendrier}. Finding the Permutation Between Equivalent
-        Linear Codes: The Support Splitting Algorithm v~\emph{Transactions on
-        Information Theory}, vol. 46. IEEE 2000. Dostupné online
-        \url{http://ieeexplore.ieee.org/xpl/abstractAuthors.jsp?arnumber=850662}
+    \bibitem{Engelbert}
+        Daniela \textsc{Engelbert}, Raphael \textsc{Overbeck}, Arthur
+        \textsc{Schmidt}. A~Summary of McEliece-Type Cryptosystems and their
+        Security v~\emph{Journal of Mathematical Cryptology}. IACR 2006.
+        Dostupné online \url{http://eprint.iacr.org/2006/162}
 
     \bibitem{Faugere1}
         Jean-Charles \textsc{Faugère}, Ayoub \textsc{Otmani}, Ludovic
@@ -1947,19 +2113,51 @@ odpovídá výrazu $a/b$.
         with Compact Keys}. IACR Cryptology ePrint Archive, 2014. Dostupné
         online \url{https://eprint.iacr.org/2014/210.pdf}
 
-    \bibitem{Umana}
-        Valérie Gauthier \textsc{Umaña}, Gregor \textsc{Leander}.
-        \emph{Practical Key Recovery Attacks on two McEliece Variants}.
-        IACR Cryptology ePrint Archive, 2009.  Dostupné online
-        \url{https://eprint.iacr.org/2009/509.pdf}
+%    \bibitem{Fujisaki1}
+%        Eiichiro \textsc{Fujisaki}, Tatsuaki \textsc{Okamoto}. How to Enhance the Security
+%        of Public-Key Encryption at Minimum Cost v \emph{Public Key
+%        Cryptography}, vol. 1560, strany 53-68. Springer Berlin Heidelberg, 1999.
+%
+%    \bibitem{Fujisaki2}
+%        Eiichiro \textsc{Fujisaki}, Tatsuaki \textsc{Okamoto}. Secure
+%        Integration of Asymmetric and Symmetric Encryption Schemes
+%        v~\emph{CRYPTO}, vol. 1666, strany 535-554. 1999.
+%
+    \bibitem{Jabri}
+        A. Al \textsc{Jabri}. A Statistical Decoding Algorithm for General
+        Linear Block Codes v \emph{Cryptography and Coding}, vol. 2260, strany
+        1-8. Springer Berlin Heidelberg, 2001. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F3-540-45325-3\_1}
 
-    \bibitem{Paar_Understanding}
-        Christof \textsc{Paar}, Jan \textsc{Pelzl}. \emph{Understanding
-        Cryptography}: A~Textbook for Students and Practitioners.
-        Springer-Verlag Berlin Heidelberg, 2010. Dostupné
-        online: \url{https://www.springer.com/us/book/9783642041006}
+    \bibitem{Kobara}
+        Kazukuni \textsc{Kobara}, Hideki \textsc{Imai}. Semantically Secure
+        McEliece Public-Key Cryptosystems -- Conversions for McEliece PKC v
+        \emph{Public Key Cryptography}, vol. 1992, strany 19-35. Springer Berlin
+        Heidelberg, 2001. Dostupné online
+        \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.5.9666}
 
-    \bibitem{Paar_Efficient}
+    \bibitem{Kratochvil}
+        Miroslav \textsc{Kratochvíl}. \emph{Implementation of cryptosystem
+        based on error-correcting codes}. Matematicko-fyzikální fakulta
+        Univerzity Karlovy, Praha, 2013.
+
+    \bibitem{Lee}
+        P. J. \textsc{Lee}, E. F. \textsc{Brickell}. An Observation on the
+        Security of McEliece's Public-Key Cryptosystem v~\emph{Advances in
+        Cryptology} -- EUROCRYPT '88, strany 275-280. Springer Berlin
+        Heidelberg, 1988. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F3-540-45961-8\_25}
+
+    \bibitem{Leon}
+        J. S. \textsc{Leon}. A~probabilistic algorithm for computing minimum
+        weights of large error-correcting codes v~\emph{IEEE Transactions on
+        Information Theory}, vol. 34, strany 1354-1359. IEEE, 1988. Dostupné
+        online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=21270}
+
+        %todo
+        \vfil
+    \bibitem{Merchan}
         J. G. \textsc{Merchan}, S. \textsc{Kumar}, C. \textsc{Paar},
         J. \textsc{Pelzl}. Efficient Software Implementation of Finite
         Fields with Applications to Cryptography v~\emph{Acta Applicandae
@@ -1968,6 +2166,59 @@ odpovídá výrazu $a/b$.
         Ruhr-Universitat Bochum, 2006. Dostupné online:
         \url{http://www.emsec.rub.de/research/publications/efficient-software-implementation-finite-fields-ap/}
 
+    \bibitem{Misoczki}
+        Rafael \textsc{Misoczki}, Paulo S. L. M. \textsc{Barreto}. Compact
+        McEliece Keys from Goppa Codes v~\emph{Selected Areas in Cryptography}:
+        16th Annual International Workshop, strany 376-392. Springer Berlin
+        Heidelberg, 2009. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-05445-7\_24}
+
+    \bibitem{Niederreiter}
+        Harald \textsc{Niederreiter}. Knapsack-type cryptosystems and
+        algebraic coding theory v~\emph{Problems of Control and Information
+        Theory 15}, strany 19-34. 1986
+
+    \bibitem{Paar}
+        Christof \textsc{Paar}, Jan \textsc{Pelzl}. \emph{Understanding
+        Cryptography}: A~Textbook for Students and Practitioners.
+        Springer-Verlag Berlin Heidelberg, 2010. Dostupné
+        online: \url{https://www.springer.com/us/book/9783642041006}
+
+    \bibitem{Paustjan}
+        Olga \textsc{Paustjan}. \emph{Post Quantum Cryptography on Embedded
+        Devices}: An Ecient Implementation of the McEliece Public Key Scheme
+        based on Quasi-Dyadic Goppa Codes. Ruhr-University Bochum, 2010.
+
+%    \bibitem{Pointcheval}
+%
+    \bibitem{Repka}
+        Marek \textsc{Repka}, Pavol \textsc{Zajac}. Overview of the McEliece
+        Cryptosystem and its Security v~\emph{Tatra Mountains Mathematical
+        Publications}, vol. 60, strany 57-83. Slovak Academy of Sciences, 2014.
+        Dostupné online
+        \url{http://www.degruyter.com/view/j/tmmp.2014.60.issue-1/tmmp-2014-0025/tmmp-2014-0025.xml}
+
+    \bibitem{Sendrier}
+        Nicolas \textsc{Sendrier}. Finding the Permutation Between Equivalent
+        Linear Codes: The Support Splitting Algorithm v~\emph{Transactions on
+        Information Theory}, vol. 46. IEEE 2000. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/abstractAuthors.jsp?arnumber=850662}
+
+    \bibitem{Sidelnikov}
+        V. M. \textsc{Sidelnikov}, S. O. \textsc{Shestakov}. On insecurity of
+        cryptosystems based on generalized Reed-Solomon codes v~\emph{Discrete
+        Mathematics and Applications} vol. 2, strany 439-444. Walter de Gruyter
+        1992. Dostupné online
+        \url{https://www.researchgate.net/publication/250969195\_On\_insecurity\_of_cryptosystems\_based\_on\_generalized\_Reed-Solomon\_codes}
+
+        %todo
+        \vfil
+    \bibitem{Stern}
+        Jacques \textsc{Stern}. A~method for finding code words of small weight,
+        v~\emph{Coding Theory and Applications}, 3rd International Colloquium,
+        strany 106-113. Springer Berlin Heidelberg, 1988. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007/BFb0019850}
+
     \bibitem{ITT}
         Toshiya \textsc{Itoh}, Shigeo \textsc{Tsujii}. A~fast algorithm for
         computing multiplicative inverses in $GF(2^m)$ using normal bases
@@ -1975,10 +2226,23 @@ odpovídá výrazu $a/b$.
         Press, 1988.  Dostupné online
         \url{http://www.sciencedirect.com/science/article/pii/0890540188900247}
 
+    \bibitem{Umana}
+        Valérie Gauthier \textsc{Umaña}, Gregor \textsc{Leander}.
+        \emph{Practical Key Recovery Attacks on two McEliece Variants}.
+        IACR Cryptology ePrint Archive, 2009.  Dostupné online
+        \url{https://eprint.iacr.org/2009/509.pdf}
+
+    \bibitem{XingLi}
+        Yuan \textsc{Xing Li}, Robert H. \textsc{Deng}, Xin \textsc{Mei Wang}.
+        On the equivalence of McEliece's and Niederreiter's public-key
+        cryptosystems v~\emph{IEEE Transactions on Information Theory}, vol. 40,
+        strany 271-273. IEEE, leden 1994. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=272496}
+
 % přednášky
-    \bibitem{FIT_LIN} Přednášky BI-LIN
     \bibitem{FIT_BHW} Přednášky MI-BHW
     \bibitem{FIT_KRY} Přednášky MI-KRY
+    \bibitem{FIT_LIN} Přednášky BI-LIN
     \bibitem{FIT_MKY} Přednášky MI-MKY
     \bibitem{FIT_MPI} Přednášky MI-MPI
 
@@ -1994,6 +2258,9 @@ odpovídá výrazu $a/b$.
 % \printglossaries
 \begin{description}
         \item[CCA2] \emph{Adaptive Chosen Ciphertext Attack} -- útok s~adaptivní volbou šifrového textu
+        \item[DH]   Algoritmus \emph{Diffie-Hellman}
+        \item[DSA]  \emph{Digital Signature Algorithm}
+        \item[ECC]  \emph{Elliptic Curve Cryptography}
         \item[EEA]  \emph{Extended Euclidean Algorithm} -- rozšířený Euklidův algoritmus
         \item[GCD]  \emph{Greatest Common Divisor} -- největší společný dělitel
         \item[GRS]  \emph{Generalised Reed-Solomon code} -- zobecněný Reed-Solomon kód
@@ -2001,6 +2268,7 @@ odpovídá výrazu $a/b$.
         \item[LSB]  \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
         \item[MSB]  \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
         \item[OAEP] \emph{Optimal asymmetric encryption padding} -- schéma pro asymetrické šifrování
+        \item[RSA]  Algoritmus \emph{RSA} -- \emph{Rivest}, \emph{Shamir}, \emph{Adleman}
         \item[S\&M] Algoritmus \emph{Square-and-Multiply}
         %\item[TLS] Three Letter Shortcut
 \end{description}
