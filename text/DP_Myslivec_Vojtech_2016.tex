@@ -90,7 +90,7 @@ a \emph{polynomy} (kapitola \ref{kap_telesa}) a binární \emph{Goppa} kódy
 
 Kryptosystému \emph{McEliece} se věnuje kapitola \ref{kap_mceliece}. Kromě
 základního popisu generování klíčů a algoritmů pro šifrování a dešifrování je
-probráno i \emph{Niederreiterovo} schéma -- \uv{úprava} kryptosystému
+probráno i kryptosystém \emph{Niederreiter} -- \uv{úprava} kryptosystému
 \emph{McEliece} pro získání \emph{digitálního podpisu}. Jsou ukázány slabiny,
 nevýhody i možné útoky na kryptosystém McEliece a též zmíněna praktická varianta
 systému odolná vůči těmto aspektům.
@@ -334,10 +334,11 @@ polynomů se zbytkem\footnote{
 \chapter{Kryptosystém McEliece}\label{kap_mceliece}
 Kryptosystém \emph{McEliece} je asymetrický šifrovací algoritmus, publikovaný
 poprvé v~roce \emph{1978} \emph{Robertem McEliece} \cite{McEliece}.
-V~následujících kapitolám jsou probrány algoritmy navržené \emph{Robertem
-McEliece}, dále \emph{Niederreiterovo schéma} -- varianta pro získání
-elektronického podpisu -- a nakonec jsou zmíněny slabiny a existující útoky na
-tento kryptosystém.
+V~této kapitole jsou probrány algoritmy navržené \emph{Robertem
+McEliece}, dále kryptosystém \emph{Niederreiter} a varianta pro získání
+elektronického podpisu. Dále jsou zmíněny výsledky a závěry existujících
+kryptoanalýz systému \emph{McEliece} a nakonec je věnováno aktuálním variantám
+a~úpravám \emph{kryptosystému}.
 
 \paragraph{Poznámka} \hfil \\
 V~této kapitole je nadále předpokládáno počítání s~hodnotami z~tělesa $GF(2)$,
@@ -369,6 +370,14 @@ Generování klíčů probíhá následovně:
 Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
 $\hat{G}$ je \emph{veřejný klíč} a kód s~maticí $G$ a matice $S$ a $P$ jsou
 \emph{soukromý klíč}.
+
+\paragraph{Poznámka} \hfil \\
+Při generování klíčů je třeba vygenerovat regulární matici $S$. Pravděpodobnost,
+že náhodná čtvercová matice nad $GF(2)$ je regulární, je přibližně $33$\;\%.
+Toto tvrzení nebylo dokázáno, nicméně numerické výpočty tomu
+nasvědčují~\cite{Heyse}. Pro získání této matice je tak v průměru potřeba
+vygenerovat $3$ náhodné matice, což znamená $3\times n^2$ bitů. Efektivněji je
+možné matice generovat například dle~\cite{Randall}
 
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}\label{kap_mceliece_algoritmy}
@@ -428,7 +437,7 @@ dešifrování jsou potřeba pouze jejich \emph{inverze}. Je tedy možné tyto m
 předpočítat a \emph{soukromý klíč} je tak trojice kód s~generující maticí $G$,
 matice $S^{-1}$ a matice~$P^{-1}$.
 
-\subsubsection{Velikost klíčů}
+\subsubsection{Velikost klíčů}\label{kap_velikost_klicu}
 Největší nevýhodou \emph{kryptosystému McEliece} je velikost klíčů. Již
 v~původním článku jsou navrhovány parametry $n=1024$, $k=524$ a $t=50$\footnote{
     Jak bude zmíněno dále, velikost těchto parametry je pro dnešní použití
@@ -519,7 +528,7 @@ převyšuje druhý činitel a jedná se o~\emph{NP-těžký} problém.
 Navíc není jasné, \emph{které} z~nalezených řešení odpovídá původní zprávě $m$.
 
 % ====================================================================
-\section{Niederreiterovo schéma}
+\section{Kryptosystém Niederreiter}
 V~roce 1986 publikoval \emph{Harald Niederreiter} v~\cite{Niederreiter}
 kryptosystém s~veřejným klíčem využívající stejných principů jako kryptosystém
 \emph{McEliece}. Tento kryptosystém je též založený na \emph{lineárních kódech}
@@ -610,8 +619,8 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 
 % --------------------------------------------------------------------
 \subsection{Vlastnosti kryptosystému}
-\emph{Niederreiterovo} schéma je variantou asymetrického kryptosystému
-založeného na lineárních kódech, jak je použito u~kryptosystému
+Kryptosystém \emph{Niederreiter} je variantou asymetrického kryptosystému
+založeného na lineárních kódech, podobně jako kryptosystém
 \emph{McEliece}. Šifrovým textem není zakódované slovo, jak je tomu
 u~\emph{McEliece}, nýbrž \emph{syndrom} chybového vektoru, který je možné
 dekódovat pouze za znalosti skrytého lineárního kódu.
@@ -658,7 +667,7 @@ V~roce 2001 autoři \emph{Courtois} a spol. v~\cite{Courtois} publikovali postup
 jakým lze získat z~kryptosystému založeném na lineárních kódech schéma pro
 \emph{elektronický podpis}. Autoři zmiňují, že je možné stejným způsobem využít
 i kryptosystém \emph{McEliece}, nicméně kvůli délce výsledného \emph{podpisu} je
-mnohem praktičtější využít \emph{Niederreiterovo} schéma.
+mnohem praktičtější využít kryptosystém \emph{Niederreiter}.
 
 \subsubsection{Vyhovující parametry}
 V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
@@ -818,7 +827,7 @@ hlavně kvůli zredukování velikosti klíčů, které jsou za použití \emph{
 kódů} obrovské. Většina z~těchto návrhů ale byla shledána jako nedostatečně
 bezpečná pro použití v~asymetrické kryptografii.
 
-V~původním článku, kde bylo definováno \emph{Niederreiterovo} schéma, bylo
+V~původním článku, kde byl definován kryptosystém \emph{Niederreiter}, bylo
 navrženo použití \emph{zobecněných Reed-Solomon} (\emph{GRS})
 kódů~\cite{Niederreiter}. V~\cite{Sidelnikov} bylo prokázáno, že je možné
 skrytou strukturu \emph{GRS} kódu odhalit v~polynomiálním čase. Stejné podmínky
@@ -1200,12 +1209,27 @@ $\hat{G}$. Aby byla zachována bezpečnost kryptosystému při použití takové
 matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz kapitola~\ref{kap_cca2}).
 
 \subsubsection{Význam matic $S$ a $P$}
+Jak již bylo řečeno v kapitole \ref{kap_velikost_klicu}, \emph{permutační}
+matici $P$ není nutné ukládat jako matici bitů, ale pouze jako \emph{indexy}
+permutace a velikost klíče tak komprimovat. Matice $S$ je náhodná regulární
+matice a z definice nejde nijak komprimovat. Při hardwarové implementaci
+v~\cite{Paustjan} bylo ale efektivně využito \emph{CSPRNG} jako
+\emph{generátoru} této matice. Jednoznačnost matice $S$ je zde vyjádřena pomocí
+tajného \emph{seedu} pro \emph{CSPRNG}.
 
+Ač byl \emph{kryptosystém} navržený s maticemi $S$ a $P$ pro \emph{ukrytí}
+\emph{generující} matice $G$, tak v~\cite{Engelbert} bylo ukázáno, že matice $S$
+nemá žádnou bezpečnostní účel pro skrytí matice $G$. Naopak matice $P$ je velmi
+důležitá a prozrazení této permutace by znamenalo prozrazení \emph{soukromého
+klíče}.
+Existují implementace \emph{kryptosystému}, které matici $S$ ve výpočtech vůbec
+nezahrnují.
+%todo
 
 
 \subsubsection{Kvazi-dyadické Goppa kódy}\label{kap_kvazi}
 Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
-použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki}.
+použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
 
 \begin{definice}{Dyadická matice}
     \begin{itemize}
@@ -1231,16 +1255,24 @@ matice. Z~definice lze zkonstruovat celou původní matici $H$. Kvazi-dyadická
 matice lze tak vyjádřit pomocí prvních řádků \emph{dyadických} submatic.
 
 
-V~\cite{Misoczki} autoři ukázali, že je možné sestrojit (binární) \emph{Goppa
+V~\cite{Misoczki1} autoři ukázali, že je možné sestrojit (binární) \emph{Goppa
 kód}, který má kontrolní matici v~\emph{dyadické} formě -- tzv. \emph{dyadický
 Goppa kód}. Takto sestrojený kód by ale bylo velmi snadné zrekonstruovat
 z~veřejného klíče a navrhli tak použití \emph{kvazi-dyadického Goppa kódu} --
 s~kontrolní maticí v~\emph{kvazi-dyadické} formě.
 
 S~použitím \emph{kvazi-dyadických Goppa kódů} je dosaženo $n$ krát menších klíčů
-než za použití obecných (binárních) \emph{Goppa kódů}~\cite{Misoczki}.
+než za použití obecných (binárních) \emph{Goppa kódů}~\cite{Misoczki1}.
 Implementace \emph{kryptosystému} s~\emph{kvazi-dyadickými Goppa} kódy lze
 nalézt např v~\cite{Paustjan,Kratochvil}
+
+\subsubsection{MDPC McEliece}
+Asi nejnovější varianta kryptosystému \emph{McEliece} je použití \emph{Moderate
+Density Parity-Check} (\emph{MDPC}) kódů a kvazi-cyklických \emph{MDPC} kódů.
+Autoři v~\cite{Misoczki2} navrhli použití těchto kódů v~roce 2013 a dokázali
+nalézt klíče o velikosti přibližně $4$\;kb (!), které odpovídají $80$ bitům
+bezpečnosti.
+
 
 % --------------------------------------------------------------------
 \subsection{CCA2-odolná konverze}\label{kap_cca2}
@@ -1281,9 +1313,10 @@ V následujícím algoritmu bude použito toto značení:
                         \emph{seedem} $r$, která vrací (pseudonáhodný) vektor
                         (\emph{CSPRNG}) \\
     $conv$          &   invertibilní konverze čísla $\leq \binom{n}{t}$ na
-                        odpovídající vektor délky $n$ a váhy $t$ (viz
+                        odpovídající vektor délky~$n$ a~váhy~$t$ (viz též
                         kapitola~\ref{kap_schema_pro_podpis}) \\
-    $E_{\hat{G}}(m,e)$  &   šifrovací algoritmus \emph{McEliece} (vstupem je
+    $E_{\hat{G}}(m,e)$
+                    &   šifrovací algoritmus \emph{McEliece} (vstupem je
                         zpráva $m$ a chybový vektor $z$) \\
     $D_G(c)$        &   dešifrovací algoritmus \emph{McEliece} \\
     $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
@@ -1305,22 +1338,19 @@ V následujícím algoritmu bude použito toto značení:
 \end{tabular}
 \end{center}
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Kobara-Imai konverze $\gamma$}
     \begin{algorithmic}[1]
         \Function{encrypt}{ $m$, $r$, $const$ }
         \State $\bar{m} \gets prep(m) $
         \State $ y_1 \gets rand(r) + (\bar{m}|const) $
             \Comment{1.}
-
         \State $ y_2 \gets r + hash(y_1) $
             \Comment{2.}
-
         \State $ (y_5|y_4|y_3) \gets (y_2|y_1) $
 
         \State $ e \gets conv(y_4) $
             \Comment{3.}
-
         \State $ c \gets (y_5|E_{\hat{G}}(y_3,e) $
             \Comment{4.}
 
@@ -1331,18 +1361,14 @@ V následujícím algoritmu bude použito toto značení:
     \begin{algorithmic}[1]
         \Function{decrypt}{ $c$, $const$ }
         \State $ y_5 \gets MSB_{|c|-n} $
-
         \State $ (y_3,e) \gets D_G(LSB_n(c)) $
             \Comment{4.}
-
         \State $ y_4 \gets conv^{-1}(e) $
             \Comment{3.}
-
         \State $ (y_2|y_1) \gets (y_5|y_4|y_3) $
 
         \State $ r \gets y_2 + hash(y_1) $
             \Comment{2.}
-
         \State $ (\bar{m}|\bar{const}) \gets y_1 + rand(r) $
             \Comment{1.}
 
@@ -1351,9 +1377,7 @@ V následujícím algoritmu bude použito toto značení:
         \Else
             \State \Return $NULL$
                 \Comment{zamítni $c$}
-
         \EndIf
-
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
@@ -1370,8 +1394,9 @@ V následujícím algoritmu bude použito toto značení:
 
 % --------------------------------------------------------------------
 \subsection{Odolnost vůči kvantovým počítačům}
-
-
+\cite{Post-Quantum_Cryptography}
+\cite{Schanck}
+% Daniel J. Bernstein,Johannes Buchmann,Erik Dahmen
 
 
 % ====================================================================
@@ -1534,7 +1559,7 @@ doporučeno nahlédnout do zdrojového kódu a příkladů použití.
 V~níže uvedených pseudokódech se používá některých prvků ze syntaxe softwaru
 \emph{Mathematica}:
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
     \begin{tabular}{l  l}
         Zápis               & Význam                                            \\
@@ -1555,7 +1580,7 @@ jednotlivé koeficienty zadaných polynomů až na úroveň obyčejných jednoro
 seznamů. Pro sčítání těchto prvků funkce používá obyčejné sčítání dvou seznamů
 modulo $p$.
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Sčítání polynomů}
     \begin{algorithmic}[1]
      \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(p^n)$, $p$ je prvočíslo}
@@ -1591,7 +1616,7 @@ koeficient $a_i$ rovnal nule (viz příklad níže).
 
 Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Redukce polynomu v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{redukuj[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
@@ -1659,7 +1684,7 @@ polynom $c$ je následně \emph{redukován} zadaným modulem (viz výše).
 Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů}
 a následné \emph{redukce} \emph{modulem}.
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Násobení prvků}
     \begin{algorithmic}[1]
      \Function{krat[ $a$, $b$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
@@ -1743,7 +1768,7 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 Inverze v~$GF(p^n)$ je implementovaná pomocí interní funkce
 \texttt{Polynomial\-ExtendedGCD}.
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}}
     \begin{algorithmic}[1]
      \Function{inverze[ $prvek$, $modul:\left\{ m, modul_{vnitrni} \right\}$ ]}{}
@@ -1814,7 +1839,7 @@ triviální:
     \item Redukování polynomem (viz výše).
 \end{itemize}
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
@@ -1865,7 +1890,7 @@ tohoto rozvoje. V~každém kroku se mezivýsledek umocní na druhou a v~případ
 je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 
 
-\begin{algoritmus}[h!]
+\begin{algoritmus}[!ht]
     \caption{Umocňování prvku $a^e \mod modul$ -- \emph{Square-and-Multiply}}
     \begin{algorithmic}[1]
      \Function{umocni[ $a$, $e$, $modul$ ]}{}
@@ -2035,6 +2060,7 @@ odpovídá výrazu $a/b$.
 % ====================================================================
 \begin{conclusion}
         %sem napište závěr Vaší práce
+    draft \cite{Schanck}
 \end{conclusion}
 
 
@@ -2122,7 +2148,12 @@ odpovídá výrazu $a/b$.
 %        Eiichiro \textsc{Fujisaki}, Tatsuaki \textsc{Okamoto}. Secure
 %        Integration of Asymmetric and Symmetric Encryption Schemes
 %        v~\emph{CRYPTO}, vol. 1666, strany 535-554. 1999.
-%
+
+    \bibitem{Heyse}
+        Stefan \textsc{Heyse}. \emph{Code-based Cryptography}: Implementing the
+        McEliece Scheme on Reconfigurable Hardware. Ruhr-University Bochum,
+        2009.
+
     \bibitem{Jabri}
         A. Al \textsc{Jabri}. A Statistical Decoding Algorithm for General
         Linear Block Codes v \emph{Cryptography and Coding}, vol. 2260, strany
@@ -2166,12 +2197,20 @@ odpovídá výrazu $a/b$.
         Ruhr-Universitat Bochum, 2006. Dostupné online:
         \url{http://www.emsec.rub.de/research/publications/efficient-software-implementation-finite-fields-ap/}
 
-    \bibitem{Misoczki}
+    \bibitem{Misoczki1}
         Rafael \textsc{Misoczki}, Paulo S. L. M. \textsc{Barreto}. Compact
         McEliece Keys from Goppa Codes v~\emph{Selected Areas in Cryptography}:
         16th Annual International Workshop, strany 376-392. Springer Berlin
         Heidelberg, 2009. Dostupné online
         \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-05445-7\_24}
+
+    \bibitem{Misoczki2}
+        Rafael \textsc{Misoczki}, Jean-Pierre \textsc{Tillich}, Nicolas
+        \textsc{Sendrier}, Paulo S. L. M. \textsc{Barreto}. MDPC-McEliece: New
+        McEliece variants from Moderate Density Parity-Check codes
+        v~\emph{Information Theory Proceedings}, strany 2069-2073. IEEE, 2013
+        Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6620590}
 
     \bibitem{Niederreiter}
         Harald \textsc{Niederreiter}. Knapsack-type cryptosystems and
@@ -2190,7 +2229,13 @@ odpovídá výrazu $a/b$.
         based on Quasi-Dyadic Goppa Codes. Ruhr-University Bochum, 2010.
 
 %    \bibitem{Pointcheval}
-%
+
+    \bibitem{Randall}
+        Dana \textsc{Randall}. \emph{Efficient Generation of Random Nonsingular
+        Matrices}. EECS Department, University of California, 1991. Dostupné
+        online
+        \url{http://www.eecs.berkeley.edu/Pubs/TechRpts/1991/CSD-91-658.pdf}
+
     \bibitem{Repka}
         Marek \textsc{Repka}, Pavol \textsc{Zajac}. Overview of the McEliece
         Cryptosystem and its Security v~\emph{Tatra Mountains Mathematical
@@ -2204,15 +2249,19 @@ odpovídá výrazu $a/b$.
         Information Theory}, vol. 46. IEEE 2000. Dostupné online
         \url{http://ieeexplore.ieee.org/xpl/abstractAuthors.jsp?arnumber=850662}
 
+    \bibitem{Schanck}
+        J. M. Schanck, W. Whyte, Z. Zhang. Criteria for selection of public-key
+        cryptographic algorithms for quantum-safe hybrid cryptography
+        (Internet-draft). IETF, 2016. Dostupné online
+        \url{https://datatracker.ietf.org/doc/draft-whyte-select-pkc-qsh/}
+
     \bibitem{Sidelnikov}
         V. M. \textsc{Sidelnikov}, S. O. \textsc{Shestakov}. On insecurity of
         cryptosystems based on generalized Reed-Solomon codes v~\emph{Discrete
         Mathematics and Applications} vol. 2, strany 439-444. Walter de Gruyter
         1992. Dostupné online
-        \url{https://www.researchgate.net/publication/250969195\_On\_insecurity\_of_cryptosystems\_based\_on\_generalized\_Reed-Solomon\_codes}
+        \url{https://www.researchgate.net/publication/250969195\_On\_insecurity\_of\_cryptosystems\_based\_on\_generalized\_Reed-Solomon\_codes}
 
-        %todo
-        \vfil
     \bibitem{Stern}
         Jacques \textsc{Stern}. A~method for finding code words of small weight,
         v~\emph{Coding Theory and Applications}, 3rd International Colloquium,
@@ -2239,6 +2288,8 @@ odpovídá výrazu $a/b$.
         strany 271-273. IEEE, leden 1994. Dostupné online
         \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=272496}
 
+    \bibitem{Post-Quantum_Cryptography}
+        Post-Quantum Cryptography
 % přednášky
     \bibitem{FIT_BHW} Přednášky MI-BHW
     \bibitem{FIT_KRY} Přednášky MI-KRY
@@ -2266,6 +2317,7 @@ odpovídá výrazu $a/b$.
         \item[GRS]  \emph{Generalised Reed-Solomon code} -- zobecněný Reed-Solomon kód
         \item[GF]   \emph{Gallois field} -- konečné těleso
         \item[LSB]  \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
+        \item[MDCP] \emph{Moderate Density Parity-Check} kódy
         \item[MSB]  \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
         \item[OAEP] \emph{Optimal asymmetric encryption padding} -- schéma pro asymetrické šifrování
         \item[RSA]  Algoritmus \emph{RSA} -- \emph{Rivest}, \emph{Shamir}, \emph{Adleman}
