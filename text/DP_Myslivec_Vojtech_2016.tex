@@ -18,7 +18,6 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{dirtree} %directory tree visualisation
-\usepackage{subcaption}
 % \usepackage{textcomp} % \textcopyleft
 
 % % list of acronyms
@@ -28,6 +27,8 @@
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
 \newcommand{\0}{{\textcolor[gray]{0.80}{0}}}
+
+\newsubfloat{figure}
 
 \newenvironment{algoritmus}{
     \floatname{algorithm}{Algoritmus}
@@ -77,6 +78,7 @@ Goppa codes, finite fields, polynomy, Wolfram Mathematica}
 % ====================================================================
 % ====================================================================
 \begin{introduction}
+
 Tato práce se zabývá asymetrickým kryptosystémem \emph{McEliece}. Mezi největší
 přednosti tohoto systému patří jeho odolnost vůči kvantovým počítačům a je tak
 jedním z~vhodných kandidátů pro asymetrickou kryptografii pro postkvantovou
@@ -109,19 +111,19 @@ složitostí (kapitola \ref{kap_implementace}),.
 % ====================================================================
 % ====================================================================
 \chapter{Obecná algebra}\label{kap_telesa}
+
 V~kapitole jsou probrány definice a algoritmy nutné pro práci s~\emph{konečnými
 tělesy} a \emph{polynomy} nad konečným tělesem. V~práci se předpokládá
 základních znalostí z~oblasti \emph{algebry}. Pro tato témata je doporučena
-literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar} (kde lze též
-najít většinu důkazů následujících vět).
+literatura \cite{FIT_MPI,FIT_MKY,FIT_LIN,FIT_BHW,Paar} (kde lze též najít
+většinu důkazů následujících vět).
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Algoritmy zmíněné v~následujících kapitolách jsou detailně
+\paragraph{Poznámka:} Algoritmy zmíněné v~následujících kapitolách jsou detailně
 -- včetně pseudokódu -- popsány v~kapitole zabývající se implementací
 (kapitola~\ref{kap_implementace}).
 % ====================================================================
 \section{Základní termíny}
+
 Pro ujasnění je uvedena definice tělesa:
 
 \begin{definice}[Těleso]
@@ -138,70 +140,86 @@ Pro ujasnění je uvedena definice tělesa:
             } je \emph{grupa} (nazývána
             \emph{multiplikativní})
         \item Platí (levý i pravý) \emph{distributivní zákon}:
-            $$\forall a,b,c \in M : \big( a(b+c) = a b + a c \big) \land \big(
-            (b+c)a = b a + c a \big) $$
+
+            $$
+                \forall a,b,c \in M :
+                \big( a(b+c) = a b + a c \big) \land
+                \big( (b+c)a = b a + c a \big)
+            $$
+
     \end{enumerate}
 \end{definice}
-
-{\setlength{\parindent}{0cm}
 \emph{Těleso}, které má konečný počet prvků, se nazývá \emph{konečné těleso}.
-}
 
 \begin{veta}
     Nechť $T$ je \emph{konečné těleso}, pak jeho počet prvků (\emph{řád}) je
     $p^n$, kde $p$ je prvočíslo a $n \in \mathbb{N} \land n \geq 1 $.
 \end{veta}
-%\begin{proof} TODO
-%\end{proof}
 
 Číslo $p$ se nazývá \emph{charakteristika}. Navíc platí, že \emph{všechna
 konečná tělesa} se stejným počtem prvků jsou navzájem \emph{izomorfní}.
 \emph{Konečné těleso} řádu $p^n$ je tedy dále označováno jako $GF(p^n)$
-(z~anglického \emph{Gallois field}, dle francouzského matematika
-\emph{Évariste Galois}).
+(z~anglického \emph{Gallois field}, dle francouzského matematika \emph{Évariste
+Galois}).
 
 % ====================================================================
 \section{Reprezentace prvků}
+
 Jak bude ukázáno dále, je vhodné prvky tělesa $GF(p^n)$ reprezentovat jako
 \emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
 prvek $a \in GF(p^n)$ lze zapsat:
+
 $$ A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p $$
 
 O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
 maximálně $n-1$)}. Na prvek $a$ je též možné se dívat jako na vektor či $n$-tici
 koeficientů~$a_i$:
-$$ A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong a_{n-1} a_{n-2}
-\ldots a_0 $$
 
-V~této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak
-bude v~daném kontextu potřeba\footnote{
+$$
+    A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong
+    a_{n-1} a_{n-2} \ldots a_0
+$$
+
+V~této práci se mezi těmito reprezentacemi prvků nadále volně přechází, jak bude
+v~daném kontextu potřeba\footnote{
     V~některých materiálech se používá i obráceného zápisu
     $(a_0 a_1 \ldots a_{n-1})$.
 }.
 
 % ====================================================================
 \section{Operace v~tělese $GF(p^n)$}
-V~následujících sekcích jsou probrány operace potřebné pro počítání
-s~tělesy $GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace
-je detailně popsána v~kapitole \ref{kap_implementace}.
+
+V~následujících sekcích jsou probrány operace potřebné pro počítání s~tělesy
+$GF(p^n)$. Konkrétní zvolené algoritmy a jejich implementace je detailně popsána
+v~kapitole \ref{kap_implementace}.
 
 % --------------------------------------------------------------------
 \subsection{Sčítání}
+
 Sčítání v~tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s~tím, že
-sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese $GF(p)$:
-$$ A(x) + B(x) = \sum a_i x^i + \sum b_i x^i = \sum \left|a_i + b_i\right|_p x^i $$
+sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese
+$GF(p)$:
+
+$$
+    A(x) + B(x) = \sum a_i x^i + \sum b_i x^i =
+    \sum \left|a_i + b_i\right|_p x^i
+$$
 
 
 % --------------------------------------------------------------------
 \subsection{Násobení}
+
 Násobení v~tělese $GF(p^n)$ nelze provádět \uv{po složkách}, jako je tomu
 u~sčítání. U~takto definované operace by většina prvků neměla (multiplikativní)
 \emph{inverzi} a nejednalo by se tak o~\emph{těleso}.
 
 Při násobení prvků se opět využije jejich reprezentace pomocí polynomů.
 Výsledkem násobení pak je:
-$$ A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
-\sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i$$
+
+$$
+    A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
+    \sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i
+$$
 
 Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modulo} $p$
 (v~tělese $GF(p)$.
@@ -214,39 +232,46 @@ při operaci násobení.
 \begin{definice}
     Polynom $P(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
     pro každé dva polynomy $A(x)$ a $B(x)$ nad $GF(p)$ platí:
-    $$ A(x) \cdot B(x) = P(x) \Rightarrow \left( deg(A(x)) = 0 \right) \lor
-    \left( deg(B(x)) = 0 \right)$$
+
+    $$
+        A(x) \cdot B(x) = P(x) \Rightarrow \left( deg(A(x)) = 0 \right) \lor
+        \left( deg(B(x)) = 0 \right)
+    $$
 \end{definice}
 
 Neboli pro \emph{ireducibilní} polynom platí, že neexistuje rozklad na polynomy
 nad $GF(p)$ stupně alespoň $1$.
 
-\paragraph{Příklad} Polynom $x^3+x+1$ je nad tělesem $GF(2)$ \emph{ireducibilní},
-protože neexistuje jeho rozklad na polynomy stupně alespoň $1$. \\
-Polynom $x^2+1$ není nad tělesem $GF(2)$ \emph{ireducibilní}, protože:
-$$(x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
+\paragraph{Příklad} Polynom $x^3+x+1$ je nad tělesem $GF(2)$
+\emph{ireducibilní}, protože neexistuje jeho rozklad na polynomy stupně alespoň
+$1$. Polynom $x^2+1$ není nad tělesem $GF(2)$ \emph{ireducibilní}, protože:
+
+$$ (x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
 
 Nyní je možné zavést operaci násobení dvou prvků tělesa jako násobení dvou
 polynomů \emph{modulo} \emph{zadaný ireducibilní} polynom:
-$$ A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
-\sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x) $$
+
+$$
+    A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
+    \sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x)
+$$
 
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
+\paragraph{Poznámka:} Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
 by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
-\emph{multiplikativní inverze} pro některé prvky a navíc by i existovaly
-tzv. \emph{dělitelé nuly}.
+\emph{multiplikativní inverze} pro některé prvky a navíc by i existovaly tzv.
+\emph{dělitelé nuly}.
 
 
 % --------------------------------------------------------------------
 \subsection{Umocňování}
+
 Pro rozšíření operací o~opakované násobení je vhodné zavést operaci umocňování.
 
 \begin{definice}
     Pro prvek $a$ tělesa $T$ a číslo $n\in\mathbb{N}$ je operace
     umocňování definována následovně:
+
     \begin{align*}
         a^0     &= 1 \\
         a^n     &= \underbrace{a \cdot a \cdot \ldots \cdot a}_{\text{$n$-krát}} \\
@@ -260,29 +285,39 @@ provádí operací $\cdot$ v~daném tělese $GF(p^n)$.
 
 % --------------------------------------------------------------------
 \subsection{Inverze}
+
 \emph{Inverzi} v~\emph{grupě} lze obecně definovat následovně:
+
 \begin{definice}[Inverze]
     Nechť $a$ je prvkem a $\mathbb{O}$ neutrálním prvkem \emph{grupy} \\
     $G = (M,\circ)$. Prvek $\bar{a}$ je \emph{inverzí} prvku $a$, pokud
     platí následující rovnice:
+
     $$ a \circ \bar{a} = \mathbb{O} $$
 \end{definice}
 
 \subsubsection{Aditivní inverze}
+
 Inverze v~\emph{aditivní grupě} je značena znaménkem minus \uv{$-$} a je
 z~definice velmi triviální:
-$$ \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow
--A(x) = \sum \left|-a_i\right|_p x^i $$
+
+$$
+    \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow -A(x) =
+    \sum \left|-a_i\right|_p x^i
+$$
 
 Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo} $p$
 (v~tělese $GF(p)$).
 
 
 \subsubsection{Multiplikativní inverze}
+
 Inverze v~\emph{multiplikativní grupě} je značena záporným exponentem
 \uv{$^{-1}$} či symbolem dělení.
-$$ \left| A(x) \cdot A(x)^{-1} \right|_p =
-\left| \frac{A(x)}{A(x)} \right|_p = 1 $$
+
+$$
+    \left| A(x) \cdot A(x)^{-1} \right|_p = \left| \frac{A(x)}{A(x)} \right|_p = 1
+$$
 
 Tuto \emph{multiplikativní inverzi} je třeba počítat \emph{rozšířeným Euklidovým
 algoritmem pro polynomy} (\emph{EEA}), či případně jinými algoritmy, jako je
@@ -293,8 +328,8 @@ v~modulární aritmetice (neboli pro tělesa $GF(p)$), stojí na nalezení
 \emph{Bézoutovy rovnosti}. Pro výpočet \emph{EEA} je třeba výpočtu dělení
 polynomů se zbytkem\footnote{
     Někdy uváděno jako dlouhé dělení.
-}, nicméně v binárních tělesech lze toto dělení nahradit prostým
-posouváním a \uv{odečítáním} prvků.
+}, nicméně v~binárních tělesech lze toto dělení nahradit prostým posouváním
+a~\uv{odečítáním} prvků.
 
 
 % ====================================================================
@@ -314,11 +349,13 @@ posouváním a \uv{odečítáním} prvků.
 
 % ====================================================================
 \section{Samoopravné kódy}
+
 Teorie kódování spadá do oblasti teorie informace a zabývá se způsoby
 \emph{zakódování} či \emph{reprezentací} zpráv a jejich přenosem.
 
 V této kapitole bude použito následujícího značení (odpovídá obrázku
 \ref{obr_kodovani}):
+
 \begin{center}
 \begin{tabular}{l p{10cm}}
     $+$     &   binární bitová operace \emph{XOR} \\
@@ -353,10 +390,9 @@ V této kapitole bude použito následujícího značení (odpovídá obrázku
     }
 \end{definice}
 
-%\paragraph{Poznámka} \hfill \\
-\paragraph{Poznámka:}
-V této práci se nadále předpokládá pouze s~\emph{blokovými kódy} (dle definice).
-Dají se definovat i kódy s proměnlivou délkou kódových slov.
+\paragraph{Poznámka:} V této práci se nadále předpokládá pouze s~\emph{blokovými
+kódy} (dle definice).  Dají se definovat i kódy s proměnlivou délkou kódových
+slov.
 
 Z definice vyplývá, že existuje kódové slovo pro všechny zprávy a že existuje
 inverzní zobrazení $\mathcal{K}^{-1}$. Množina všech kódových slov je
@@ -379,10 +415,13 @@ je to počet \emph{nenulových} bitů (\uv{jedniček}) vektoru $v$.
 
 
 \begin{definice}{Kódová vzdálenost}
-    Kódová vzdálenost kódu $\mathcal{K}$ je definována jako minimální \emph{Hammingova
-    vzdálenost} mezi všemi kódovými slovy.
+    Kódová vzdálenost kódu $\mathcal{K}$ je definována jako minimální
+    \emph{Hammingova vzdálenost} mezi všemi kódovými slovy.
 
-    $$ kvzd(\mathcal{K}) = \min_{\substack{\forall b1, b2 \in \mathcal{B} \\ b1 \neq b2 }} vzd( b1, b2 ) $$
+    $$
+        kvzd(\mathcal{K}) =
+        \min_{\substack{\forall b1,b2 \in \mathcal{B} \\ b1 \neq b2}} vzd(b1,b2)
+    $$
 \end{definice}
 
 Dále budeme značit $d = kvzd(\mathcal{K})$. Pokud je $d > 1$, tak je jasné, že
@@ -398,22 +437,37 @@ $d-1$ chyb.
 \paragraph{Samoopravný kód} \hfil \\
 Kód, který dokáže při dekódování dokáže opravit chybu při přenosu, nazýváme
 kódem \emph{samoopravným}. Při kódové vzdálenosti $d$ je z principu možné
-opravit $\lfloor \frac{d-1}{2} \rfloor$ chyb. Operace \emph{dekódování} potom z nekódového slova dokáže
-nalézt nejbližší (ve smyslu \emph{Hammingově vzdálenosti}) slovo kódové.
+opravit $\lfloor \frac{d-1}{2} \rfloor$ chyb. Operace \emph{dekódování} potom z
+nekódového slova dokáže nalézt nejbližší (ve smyslu \emph{Hammingově
+vzdálenosti}) slovo kódové.
+
+
+Počet opravitelných chyb naznačují obrázky~\ref{obr_kvzd}. Vrcholy úseček
+představují vektory délky $n$ mezi dvěma kódovými slovy $b_1$ a~$b_2$ (naznačení
+nejkratší \emph{kódové vzdálenosti} v~prostoru $GF(2^n)$), V~případě, že $d$ je
+sudé~\ref{obr_kvzd_suda}, vždy existuje jednoznačný nejbližší vektor. V~případě,
+že $d$ je liché~\ref{obr_kvzd_licha}, tak pokud přijatý vektor $c$ leží přesně
+uprostřed mezi dvěma nejbližšími vektory, není možné rozhodnout, na které kódové
+slovo by se měl vektor $c$ dekódovat.
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{materialy/kvzd_licha.png}
-        \caption{Příklad sudé $kvzd$}
-    \label{obr_kvzdl}
-    \end{subfigure}
+    \subbottom[Příklad liché $kvzd$\label{obr_kvzd_licha}]{\includegraphics[width=0.45\textwidth]{materialy/kvzd_licha.png}}
     \quad
-    \begin{subfigure}[b]{0.38\textwidth}
-        \includegraphics[width=\textwidth]{materialy/kvzd_suda.png}
-        \caption{Příklad liché $kvzd$}
-    \label{obr_kvzds}
-    \end{subfigure}
+    \subbottom[Příklad sudé $kvzd$\label{obr_kvzd_suda}]{\includegraphics[width=0.38\textwidth]{materialy/kvzd_suda.png}}
+    %\begin{subfigure}[b]{0.45\textwidth}
+    %    \includegraphics[width=\textwidth]{materialy/kvzd_licha.png}
+    %    \caption{Příklad sudé $kvzd$}
+    %    \label{obr_kvzd_suda}
+    %\end{subfigure}
+    %\quad
+    %\begin{subfigure}[b]{0.38\textwidth}
+    %    \includegraphics[width=\textwidth]{materialy/kvzd_suda.png}
+    %    \caption{Příklad liché $kvzd$}
+    %    \label{obr_kvzd_licha}
+    %\end{subfigure}
+    \label{obr_kvzd}
+    \caption{Ilustrace problému nalezení nejbližšího kódového slova}
 \end{figure}
 
 Existuje několik kategorií \emph{samoopravných} kódů. Definice kategorie kódu ve
@@ -437,6 +491,7 @@ syndrom
 
 % ====================================================================
 \section{Goppa kódy}
+
 \emph{Ireducibilní binární Goppa kódy}
 
 \emph{Pattersonův algoritmus}
@@ -452,27 +507,28 @@ syndrom
 % ====================================================================
 % ====================================================================
 \chapter{Kryptosystém McEliece}\label{kap_mceliece}
-Kryptosystém \emph{McEliece} je asymetrický šifrovací algoritmus, publikovaný
-poprvé v~roce \emph{1978} \emph{Robertem McEliece} \cite{McEliece}.
-V~této kapitole jsou probrány algoritmy navržené \emph{Robertem
-McEliece}, dále kryptosystém \emph{Niederreiter} a varianta pro získání
-elektronického podpisu. Dále jsou zmíněny výsledky a závěry existujících
-kryptoanalýz systému \emph{McEliece} a nakonec je věnováno aktuálním variantám
-a~úpravám \emph{kryptosystému}.
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-V~této kapitole je nadále předpokládáno počítání s~hodnotami z~tělesa $GF(2)$,
-respektive s~\emph{bity}.
+Kryptosystém \emph{McEliece} je asymetrický šifrovací algoritmus, publikovaný
+poprvé v~roce \emph{1978} \emph{Robertem McEliece} \cite{McEliece}. V~této
+kapitole jsou probrány algoritmy navržené \emph{Robertem McEliece}, dále
+kryptosystém \emph{Niederreiter} a~varianta pro získání elektronického podpisu.
+Dále jsou zmíněny výsledky a~závěry existujících kryptoanalýz systému
+\emph{McEliece} a~nakonec je věnováno aktuálním variantám a~úpravám
+\emph{kryptosystému}.
+
+\paragraph{Poznámka:} V~této kapitole je nadále předpokládáno počítání
+s~hodnotami z~tělesa $GF(2)$, respektive s~\emph{bity}.
 
 % ====================================================================
 \section{Asymetrické šifrování McEliece}
+
 Asymetrický kryptosystém \emph{McEliece} je založený na lineárních samoopravných
-kódech. V~následujících odstavcích systém popsán tak, jak byl
-definován v~\cite{McEliece}:
+kódech. V~následujících odstavcích systém popsán tak, jak byl definován
+v~\cite{McEliece}:
 
 % --------------------------------------------------------------------
 \subsection{Generování klíčů}
+
 Generování klíčů probíhá následovně:
 
 \begin{enumerate}
@@ -492,17 +548,16 @@ Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
 $\hat{G}$ je \emph{veřejný klíč} a kód s~maticí $G$ a matice $S$ a $P$ jsou
 \emph{soukromý klíč}.
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Při generování klíčů je třeba vygenerovat regulární matici $S$. Pravděpodobnost,
-že náhodná čtvercová matice nad $GF(2)$ je regulární, je přibližně $33$\;\%.
-Toto tvrzení nebylo dokázáno, nicméně numerické výpočty tomu
-nasvědčují~\cite{Heyse}. Pro získání této matice je tak v~průměru potřeba
+\paragraph{Poznámka:} Při generování klíčů je třeba vygenerovat regulární matici
+$S$. Pravděpodobnost, že náhodná čtvercová matice nad $GF(2)$ je regulární, je
+přibližně $33$\;\%.  Toto tvrzení nebylo dokázáno, nicméně numerické výpočty
+tomu nasvědčují~\cite{Heyse}. Pro získání této matice je tak v~průměru potřeba
 vygenerovat $3$ náhodné matice, což znamená $3\times n^2$ bitů. Efektivněji je
 možné matice generovat například dle~\cite{Randall}
 
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}\label{kap_mceliece_algoritmy}
+
 V této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování tak, jak
 byly definovány \emph{Robertem McEliece} v~\cite{McEliece}. Na závěr podkapitoly
 je uveden důkaz dešifrování, neboli vysvětlení, že dešifrovacím algoritmem je
@@ -519,7 +574,7 @@ následujícím způsobem:
             uvedeno právě $t$.
         }.
     \item Šifrovaná zpráva $c$ délky $n$ se sestrojí následujícím způsobem:
-        $$ c = m \hat{G} + z$$
+        $$ c = m \hat{G} + z $$
 \end{enumerate}
 
 \paragraph{Dešifrování} \hfil \\
@@ -538,33 +593,46 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné rozepsat původní
         zprávu~$m$:
-        $$ \hat{c} = c P^{-1} = \left( m \hat{G} + z \right) P^{-1} =
-        \left(m S G P + z \right) P^{-1} = \hat{c} = m S G + z P^{-1} $$
+
+        $$
+            \hat{c} = c P^{-1} = \left( m \hat{G} + z \right) P^{-1} =
+            \left(m S G P + z \right) P^{-1} = \hat{c} = m S G + z P^{-1}
+        $$
+
     \item Zavedeme substituci $\hat{m} = m S$ a $\hat{z} = z P^{-1}$, potom
+
         $$ \hat{c} = m S G + z P^{-1} = \hat{m} G + \hat{z} $$
+
         Z~poslední rovnosti je vidět, že dekódováním je získán vektor $\hat{m}$,
         neboť $\hat{z}$ je vektor s~\emph{Hammingovou vahou} maximálně $t$
         (matice $P$ jen přehází jednotlivé bity vektoru $z$).
+
         $$ Dek_{G}\left(\hat{c}\right) = \hat{m} $$
+
     \item V~posledním kroku stačí opět dosadit výše použitou substituci:
+
         $$ \hat{m} S^{-1} = m S S^{-1} = m $$
+
 \end{itemize}
 
 Dešifrováním je tedy získána původní zpráva $m$.
 
 % --------------------------------------------------------------------
 \subsection{Základní vlastnosti kryptosystému}
+
 V~této kapitole jsou probrány základní fakta a vlastnosti \emph{kryptosystému}.
 Jsou zde popsány způsoby uložení a velikost klíčů a hlavní výhody a nevýhody
 použití \emph{McEliece}.
 
 \subsubsection{Předpočítané matice}
+
 Je vidět, že původní matice $S$ a $P$ se ve výpočtu nepoužívají a pro
 dešifrování jsou potřeba pouze jejich \emph{inverze}. Je tedy možné tyto matice
 předpočítat a \emph{soukromý klíč} je tak trojice kód s~generující maticí $G$,
 matice $S^{-1}$ a matice~$P^{-1}$.
 
 \subsubsection{Velikost klíčů}\label{kap_velikost_klicu}
+
 Největší nevýhodou \emph{kryptosystému McEliece} je velikost klíčů. Již
 v~původním článku jsou navrhovány parametry $n=1024$, $k=524$ a $t=50$\footnote{
     Jak bude zmíněno dále, velikost těchto parametry je pro dnešní použití
@@ -592,17 +660,20 @@ zkoumání tohoto \emph{kryptosystému} a věnuje se jim
 kapitola~\ref{kap_snizeni_velikosti_klicu}.
 
 \subsubsection{Rychlost algoritmů}
+
 Naopak jednou z~největších výhod algoritmu \emph{McEliece} je rychlost algoritmů
 pro šifrování i dešifrování. Šifrování je prosté násobení matice s~vektorem, což
 je jednoduchá operace, kterou je navíc možné provádět paralelně či efektivně
 implementovat v~hardwaru. Dešifrování používá též násobení matic, ale složitější
-operace je dekódování vektoru $\hat{m}$. Viz kapitola~\ref{kap_bezpecne_parametry}
-a~tabulka~\ref{tab_Engelbert}.
+operace je dekódování vektoru $\hat{m}$. Viz
+kapitola~\ref{kap_bezpecne_parametry} a~tabulka~\ref{tab_Engelbert}.
 
 % --------------------------------------------------------------------
 \subsection{Bezpečnost kryptosystému}\label{kap_bezpecnost}
+
 Již v~původním článku \cite{McEliece} \emph{McEliece} zmiňuje dva možné útoky na
 navržený kryptosystém.
+
 \begin{enumerate}
     \item získání \emph{soukromého} klíče ze znalosti \emph{veřejného}
     \item získání $m$ bez nutnosti znát \emph{soukromý} klíč
@@ -613,6 +684,7 @@ strukturu použitého kódu (tomuto tématu se věnuje
 kapitola~\ref{kap_utoky_na_strukturu_kodu}).
 
 \subsubsection{Získání soukromého klíče}
+
 U~prvního způsobu je v~článku zmíněno, že je třeba rozložit $\hat{G}$ na $G$,
 $S$ a $P$.  Matici $\hat{G}$ je sice možné dekomponovat, ale množství
 jednotlivých matic je pro velká $n$ a $k$ obrovské, a získat tak původní matice
@@ -626,19 +698,20 @@ hrubou silou je \emph{neschůdné}\footnote{
 
 
 \subsubsection{Získání původní zprávy}
-Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$,
-která navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti
-použitého kódu je \emph{NP-těžký} problém \cite{Berlekamp}.
+
+Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$, která
+navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti použitého
+kódu je \emph{NP-těžký} problém \cite{Berlekamp}.
 
 \paragraph{Naznačení problému} \hfil \\
-V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost
-$c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} (množina dimenzí
-$\mathcal{K} \subset \{1,2,\ldots,n\}$ mající $k$ prvků) vznikne
+V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost $c =
+m\hat{G}$. Výběrem $k$ \emph{dimenzí} (množina dimenzí $\mathcal{K} \subset
+\{1,2,\ldots,n\}$ mající $k$ prvků) vznikne
 $\hat{G}_{\mathcal{K}}$~a~$c_{\mathcal{K}}$ z~matice~$\hat{G}$ respektive
 vektoru~$c$. Pokud je $\hat{G}_{\mathcal{K}}$ regulární, lze řešit soustavu $k$
 nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase $O\left(k^3\right)$:
 
-$$c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}}$$
+$$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
 
 Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
 náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
@@ -646,8 +719,11 @@ pravděpodobnost, že $c_{\mathcal{K}}$ (ve výběru $k$ dimenzí) je bez chyby 
 $\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
 % TODO je ta pravděpodobnost správně?
 pro vyřešení jedné soustavy rovnic je to přibližně:
-$$ O\left( \frac{n^3}{\left(1-\frac{t}{n}\right)^k} \right) =
-O\left( n^3 \left(\frac{n}{n-t}\right)^k \right)$$
+
+$$
+    O\left( \frac{n^3}{\left(1-\frac{t}{n}\right)^k} \right) =
+    O\left( n^3 \left(\frac{n}{n-t}\right)^k \right)
+$$
 
 Zlomek $\frac{n}{n-t}$ je jistě větší než $1$, tudíž pro velká $k$ výrazně
 převyšuje druhý činitel a jedná se o~\emph{NP-těžký} problém.
@@ -656,16 +732,19 @@ Navíc není jasné, \emph{které} z~nalezených řešení odpovídá původní 
 
 % ====================================================================
 \section{Kryptosystém Niederreiter}
+
 V~roce 1986 publikoval \emph{Harald Niederreiter} v~\cite{Niederreiter}
 kryptosystém s~veřejným klíčem využívající stejných principů jako kryptosystém
 \emph{McEliece}. Tento kryptosystém je též založený na \emph{lineárních kódech}
-a jeho bezpečnost též stojí na problému dekódování neznámého kódu. Na rozdíl
+a~jeho bezpečnost též stojí na problému dekódování neznámého kódu. Na rozdíl
 však od kryptosystému \emph{McEliece} používá k~sestrojení klíčů
 \emph{kontrolní} matici místo matice \emph{generující}.
 
 % --------------------------------------------------------------------
 \subsection{Generování klíčů}
+
 Generování klíčů probíhá následovně:
+
 \begin{enumerate}
     \item Zvolí se \emph{lineární kód} $(n,k)$, opravující $t$ chyb
         s~odpovídající $(n-k) \times n$ \emph{kontrolní maticí}~$H$.
@@ -683,12 +762,15 @@ $S$ a $P$ jsou \emph{soukromý klíč}.
 
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}
+
 V této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování
-z~\cite{Niederreiter} a důkaz toho, že dešifrovacím algoritmem je získána původní
-zpráva.
+z~\cite{Niederreiter} a důkaz toho, že dešifrovacím algoritmem je získána
+původní zpráva.
 
 \paragraph{Šifrování} \hfill \\
+
 Šifrování zprávy probíhá následujícím způsobem:
+
 \begin{enumerate}
     \item Zpráva $m$ dlouhá $n$ bitů s~\emph{Hammingovou vahou} maximálně $t$.
         Tato zpráva reprezentuje \emph{chybový vektor} pro použitý kód.
@@ -696,10 +778,8 @@ zpráva.
         $m$ (respektive chyby) za použití matice $\hat{H}$: $c = m \hat{H}^T$.
 \end{enumerate}
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Chybový vektor $m$ požadované délky $n$ a \emph{Hammingovy váhy} $t$ lze
-získat \emph{zakódováním}\footnote{
+\paragraph{Poznámka:} Chybový vektor $m$ požadované délky $n$ a \emph{Hammingovy
+váhy} $t$ lze získat \emph{zakódováním}\footnote{
     Zde nejsou na mysli samoopravné kódy, ale pouze jednoznačné zakódování
     zprávy.
 } původní zprávy k~zašifrování. Je vidět, že možných zpráv je pro $t \ll n$
@@ -711,6 +791,7 @@ níže při popisu získání \emph{elektronického podpisu} pomocí tohoto
 
 \paragraph{Dešifrování} \hfill \\
 Obdržená šifrová zpráva $c$ se dešifruje následujícím způsobem:
+
 \begin{enumerate}
     \item Vypočte se vektor $\hat{c}$ délky $n-k$:
         $\hat{c} = c \left(S^T\right)^{-1} $
@@ -721,13 +802,11 @@ Obdržená šifrová zpráva $c$ se dešifruje následujícím způsobem:
 \end{enumerate}
 
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Stejně jako je tomu u~\emph{kryptosystému McEliece}, je možné hodnoty
-$\left(P^T\right)^{-1}$ a $\left(S^T\right)^{-1}$ předpočítat. Navíc inverzi
-$P$ je opět možné uložit jako $\log_2 m$ $n$-bitových hodnot, jelikož se jedná
-o~permutaci. Soukromý klíč je tak trojice kód s~kontrolní maticí $H$,
-matice $\left(P^T\right)^{-1}$ a matice $\left(S^T\right)^{-1}$.
+\paragraph{Poznámka:} Stejně jako je tomu u~\emph{kryptosystému McEliece}, je
+možné hodnoty $\left(P^T\right)^{-1}$ a $\left(S^T\right)^{-1}$ předpočítat.
+Navíc inverzi $P$ je opět možné uložit jako $\log_2 m$ $n$-bitových hodnot,
+jelikož se jedná o~permutaci. Soukromý klíč je tak trojice kód s~kontrolní
+maticí $H$, matice $\left(P^T\right)^{-1}$ a matice $\left(S^T\right)^{-1}$.
 
 
 \paragraph{Důkaz dešifrování} \hfill \\
@@ -736,11 +815,13 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné výpočet rozepsat
         následujícím způsobem:
-    $$ \hat{c} =   c \left(S^T\right)^{-1} =
+    $$
+        \hat{c} =   c \left(S^T\right)^{-1} =
                     m \hat{H}^T \left(S^T\right)^{-1} =
                     m P^T H^T S^T \left(S^T\right)^{-1} =
                     m P^T H^T
     $$
+
     \item Zavedeme substituci $\hat{m} = m P^T$, potom $\hat{c} = \hat{m} H^T$,
         což odpovídá výpočtu \emph{syndromu} pro použitý kód. Jelikož $\hat{m}$
         je pouze \emph{permutovaná} původní $m$, má \emph{Hammingovu váhu} $t$
@@ -752,11 +833,12 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 
 % --------------------------------------------------------------------
 \subsection{Vlastnosti kryptosystému}
+
 Kryptosystém \emph{Niederreiter} je variantou asymetrického kryptosystému
-založeného na lineárních kódech, podobně jako kryptosystém
-\emph{McEliece}. Šifrovým textem není zakódované slovo, jak je tomu
-u~\emph{McEliece}, nýbrž \emph{syndrom} chybového vektoru, který je možné
-dekódovat pouze za znalosti skrytého lineárního kódu.
+založeného na lineárních kódech, podobně jako kryptosystém \emph{McEliece}.
+Šifrovým textem není zakódované slovo, jak je tomu u~\emph{McEliece}, nýbrž
+\emph{syndrom} chybového vektoru, který je možné dekódovat pouze za znalosti
+skrytého lineárního kódu.
 
 V~\cite{XingLi} byla dokázána ekvivalence složitosti prolomení tohoto
 kryptosystému s~kryptosystémem \emph{McEliece}. Útočník, který dokáže prolomit
@@ -767,26 +849,30 @@ v~\cite{Niederreiter,Courtois}.
 
 % ====================================================================
 \section{Elektronický podpis}
-V~původním článku od \emph{Roberta McEliece} \cite{McEliece} bylo zmíněno, že tímto
-navrženým kryptosystémem nelze získat schéma pro \emph{elektronický podpis}.
-Původní algoritmy byly navržené pouze pro \emph{asymetrické šifrování}. Až
-v~roce 2001 byl v~\cite{Courtois} publikován postup pro získání elektronického
-podpisu za pomocí asymetrického kryptosystému založeného na samoopravných
-kódech.
+
+V~původním článku od \emph{Roberta McEliece}~\cite{McEliece} bylo zmíněno, že
+tímto navrženým kryptosystémem nelze získat schéma pro \emph{elektronický
+podpis}.  Původní algoritmy byly navržené pouze pro \emph{asymetrické
+šifrování}. Až v~roce 2001 byl v~\cite{Courtois} publikován postup pro získání
+elektronického podpisu za pomocí asymetrického kryptosystému založeného na
+samoopravných kódech.
 
 % --------------------------------------------------------------------
 \subsection{Překážky pro použití McEliece pro podepisování}
+
 Aby bylo možné využít algoritmus pro dešifrování jako algoritmus
 \emph{podepisování}, bylo by potřeba, aby vektor $c$ (resp. $\hat{c}$) bylo
 možné dekódovat na kódové slovo. Nicméně pro původně navrhované parametry je
-poměr počtu vektorů délky $n$ v~\emph{Hammingově vzdálenosti} $t$
-od kódových slov ku všem vektorům délky $n$ téměř nulový. Takový algoritmus pro
-podepisování by prakticky vždy selhal a nebylo by možné získat žádný výstup jako
+poměr počtu vektorů délky $n$ v~\emph{Hammingově vzdálenosti} $t$ od kódových
+slov ku všem vektorům délky $n$ téměř nulový. Takový algoritmus pro podepisování
+by prakticky vždy selhal a nebylo by možné získat žádný výstup jako
 \emph{podpis}.
 
-Konkrétně pro navrhované parametry $n=1024$, $t=50$ (a $k=524$) je počet
-vektorů do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
-$$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808}$$
+Konkrétně pro navrhované parametry $n=1024$, $t=50$ (a $k=524$) je počet vektorů
+do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
+
+$$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808} $$
+
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
 délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně $2^{-216}$
 \cite{McEliece}.
@@ -796,6 +882,7 @@ Algoritmus \emph{Niederreiter} selhává naprosto stejným stejným způsobem
 
 % --------------------------------------------------------------------
 \subsection{Schéma pro elektronický podpis}\label{kap_schema_pro_podpis}
+
 V~roce 2001 autoři \emph{Courtois} a spol. v~\cite{Courtois} publikovali postup,
 jakým lze získat z~kryptosystému založeném na lineárních kódech schéma pro
 \emph{elektronický podpis}. Autoři zmiňují, že je možné stejným způsobem využít
@@ -803,8 +890,10 @@ i kryptosystém \emph{McEliece}, nicméně kvůli délce výsledného \emph{podp
 mnohem praktičtější využít kryptosystém \emph{Niederreiter}.
 
 \subsubsection{Vyhovující parametry}
+
 V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
 $n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
+
 $$
     \mathcal{P} = \frac{N_{\text{dekódovatelné}}}{N_{\text{celkem}}} \approx
     \frac{\frac{n^t}{t!}}{n^t} = \frac{1}{t!}
@@ -833,30 +922,30 @@ náhodný vektor možné dekódovat jako \emph{syndrom} je $\frac{1}{9!} \approx
 vygenerovat $2^{19}$ \emph{vektorů}.
 
 \subsubsection{Popis schématu}
+
 Dle kapitoly výše je nutné získat několik ($9!$) vektorů k~odpovídajícímu
 \emph{dokumentu}, který je třeba \emph{podepsat}. To je možné zajistit jednoduše
-použitím \emph{hashovací} funkce $h$ s~tím, že je
-společně s~dokumentem hashován i náhodný index $i$. Ten je možné postupně
-zvyšovat, dokud výstup $h$ nebude možné \emph{dekódovat} a získat odpovídající
-chybový vektor $z$. Jak bude ukázáno dále, hodnota $i$ bude třeba pro ověření
-podpisu a podpis je tak dvojice $(z,i)$.
+použitím \emph{hashovací} funkce $h$ s~tím, že je společně s~dokumentem hashován
+i náhodný index $i$. Ten je možné postupně zvyšovat, dokud výstup $h$ nebude
+možné \emph{dekódovat} a získat odpovídající chybový vektor $z$. Jak bude
+ukázáno dále, hodnota $i$ bude třeba pro ověření podpisu a podpis je tak dvojice
+$(z,i)$.
 
 \paragraph{Značení} \hfil \\
 Nechť $h$ je kryptograficky bezpečná \emph{hashovací} funkce, jejíž výstup je
-dlouhý přesně $n-k$ bitů. Dále $D$ je dokument, který je třeba \emph{podepsat}
-a $ s = h\left(D\right)$ \emph{hash} (\emph{otisk}) dokumentu. Zřetězení $s$ a
-$i$ bude značeno jako $(s|i)$ a $s_i = h(s|i)$ je tedy \emph{otisk} dokumentu za
-použití odpovídajícího \emph{indexu} $i$.
-Nejmenší $i$ takové, že $s_i$ lze dekódovat, bude značeno $i_0$. Odpovídající
-$s_{i_0}$ je tedy \emph{syndrom}, který bude použitý pro podpis $D$. Nakonec
-chybový vektor $z$ odpovídá \emph{syndromu} $s_{i_0}$ a podpis $S$ je tedy
-$S = ( z | i_0 )$
+dlouhý přesně $n-k$ bitů. Dále $D$ je dokument, který je třeba \emph{podepsat} a
+$ s = h\left(D\right)$ \emph{hash} (\emph{otisk}) dokumentu. Zřetězení $s$ a $i$
+bude značeno jako $(s|i)$ a $s_i = h(s|i)$ je tedy \emph{otisk} dokumentu za
+použití odpovídajícího \emph{indexu} $i$.  Nejmenší $i$ takové, že $s_i$ lze
+dekódovat, bude značeno $i_0$. Odpovídající $s_{i_0}$ je tedy \emph{syndrom},
+který bude použitý pro podpis $D$. Nakonec chybový vektor $z$ odpovídá
+\emph{syndromu} $s_{i_0}$ a podpis $S$ je tedy $S = ( z | i_0 )$
 
 \paragraph{Délka podpisu} \hfil \\
 Délka podpisu závisí na uložení dat $z$ a $i_0$. Vektor $z$ je chybový vektor
 odpovídajícího samoopravného kódu. Jeho \emph{Hammingova váha} je tedy maximálně
-$t$ a je tedy velmi řídký. Existuje pouze $\binom{n}{t}$ vektorů \emph{váhy} $t$ a
-délky $n$ a je tedy možné tento řídký vektor komprimovat. V~\cite{Courtois} je
+$t$ a je tedy velmi řídký. Existuje pouze $\binom{n}{t}$ vektorů \emph{váhy} $t$
+a délky $n$ a je tedy možné tento řídký vektor komprimovat. V~\cite{Courtois} je
 uvedeno, jak všechny možné vektory seřadit a vyjádřit tak konkrétní vektor pouze
 jeho \emph{indexem} $I_z$. Takový \emph{index} je pak možno uložit
 v~$\log_2{\binom{n}{t}}$ bitech.
@@ -865,11 +954,12 @@ Index $i_0$ bude zabírat v~průměru $\log_2{t!}$ bitů a nelze ho uložit žá
 kompaktnějším způsobem.
 
 Pro konkrétní uvedený příklad ($n=2^{16}$, $t=9$) je pak průměrná velikost
-podpisu $S = ( I_z | i_0 ): \log_2{\binom{2^{16}}{9}} + \log_2{9!} = 125.5 + 18.4 =
-144$\;b.
+podpisu $S = ( I_z | i_0 ): \log_2{\binom{2^{16}}{9}} + \log_2{9!} =
+125.5 + 18.4 = 144$\;b.
 
 % --------------------------------------------------------------------
 \subsection{Algoritmy schématu pro digitální podpis}
+
 \paragraph{Algoritmus pro podepisování} \hfil \\
 Podpis je sestrojen následujícím způsobem:
 
@@ -892,17 +982,16 @@ Ověření probíhá následujícím způsobem:
     \item Pokud se $s_1$ a $s_2$ shodují, podpis je platný.
 \end{itemize}
 
-%\subsection{Poznámky}
-\paragraph{Poznámka:}
-Bezpečnost schématu pro elektronický podpis závisí na jednosměrné funkci
-dekódování syndromu. Tuto operaci není možné provést bez znalosti
-\emph{soukromého klíče} -- matic $H$, $S$ a $P$~\cite{Niederreiter,XingLi}.
+\paragraph{Poznámka:} Bezpečnost schématu pro elektronický podpis závisí na
+jednosměrné funkci dekódování syndromu. Tuto operaci není možné provést bez
+znalosti \emph{soukromého klíče} -- matic $H$, $S$
+a~$P$~\cite{Niederreiter,XingLi}.
 
 V~případě použití kryptosystému \emph{McEliece} pro získání podpisu, bychom ve
 třetím kroku algoritmu pro podepisování místo \emph{syndromu} slovo délky $k$.
 Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16}
-- 16 \cdot 9 = 64$\;kb, což je velikost pro podpis prakticky nepřijatelná
-(často by byl podpis delší než původní \emph{dokument}).
+- 16 \cdot 9 = 64$\;kb, což je velikost pro podpis prakticky nepřijatelná (často
+by byl podpis delší než původní \emph{dokument}).
 
 %TODO
 \clearpage
@@ -910,6 +999,7 @@ Při zvolených parametrech ($n=2^{16}$ a $t=9$) je $k$ rovno $2^m - m t = 2^{16
 
 % ====================================================================
 \section{Kryptoanalýza systému McEliece}
+
 Již v~původním článku \cite{McEliece} byly naznačeny 2 aspekty, díky kterým je
 možné považovat kryptosystém McEliece \emph{bezpečný}:
 
@@ -935,19 +1025,22 @@ parametrů je probrána v~kapitole \ref{kap_bezpecne_parametry}.
 
 % --------------------------------------------------------------------
 \subsection{Útoky na McEliece}
+
 V~této kapitole jsou uvedeny některé z~útoků na kryptosystém \emph{McEliece}.
 Dle~\cite{Engelbert} se útoky dají rozdělit do dvou hlavních kategorií:
+
 \begin{itemize}
     \item útoky na soukromý klíč
     \item útoky na šifrový text
 \end{itemize}
+
 Do první kategorie spadají útoky na strukturu použitého kódu a \emph{Support
-Splitting Algorithm}~\cite{Sendrier}. Jedná se o~útoky, ve kterých útočník ze znalosti
-\emph{veřejného klíče} sestrojí klíč \emph{soukromý}. Do druhé kategorie spadají
-útoky, které nezjišťují \emph{soukromý klíč}, ale z~\emph{šifrového textu}
-odhalují text \emph{otevřený}. To zahrnuje \emph{útok s~informační množinou},
-navržený již Robertem McEliece, \emph{nalezení kódového slova s~nízkou vahou}
-a~další útoky na kryptosystém \emph{McEliece}.
+Splitting Algorithm}~\cite{Sendrier}. Jedná se o~útoky, ve kterých útočník ze
+znalosti \emph{veřejného klíče} sestrojí klíč \emph{soukromý}. Do druhé
+kategorie spadají útoky, které nezjišťují \emph{soukromý klíč}, ale
+z~\emph{šifrového textu} odhalují text \emph{otevřený}. To zahrnuje \emph{útok
+s~informační množinou}, navržený již Robertem McEliece, \emph{nalezení kódového
+slova s~nízkou vahou} a~další útoky na kryptosystém \emph{McEliece}.
 
 Nerozumné použití kryptosystému vede na zneužití několika \emph{slabin}, které
 jsou probrány ve zvláštní kapitole~\ref{kap_slabiny}\footnote{
@@ -956,6 +1049,7 @@ jsou probrány ve zvláštní kapitole~\ref{kap_slabiny}\footnote{
 }.
 
 \subsubsection{Útoky na strukturu použitého kódu}\label{kap_utoky_na_strukturu_kodu}
+
 V~historii byly zaznamenány pokusy o~sestrojení \emph{soukromého klíče} za
 použití jiných lineárních kódů než \emph{Goppa kódů}. Tyto návrhy vznikají
 hlavně kvůli zredukování velikosti klíčů, které jsou za použití \emph{Goppa
@@ -974,9 +1068,10 @@ kryptoanalýzou}~\cite{Faugere1,Faugere2,Umana}.
 
 
 \subsubsection{Support Splitting Algorithm}
+
 Tento algoritmus, navržený Nicolasem Sendrier, dokáže v~\emph{polynomiálním
-čase} (přibližně $O(n^4)$) určit, zda 2 lineární kódy jsou
-\emph{permutačně ekvivalentní}~\cite{Sendrier}.
+čase} (přibližně $O(n^4)$) určit, zda 2 lineární kódy jsou \emph{permutačně
+ekvivalentní}~\cite{Sendrier}.
 
 \begin{definice}
     Nechť existují dva lineární kódy $\mathcal{K}_1$ a $\mathcal{K}_2$. Říkáme,
@@ -986,8 +1081,8 @@ Tento algoritmus, navržený Nicolasem Sendrier, dokáže v~\emph{polynomiální
 \end{definice}
 
 Pokud má útočník k~dispozici \emph{Goppa kód} (určený polynomem $g$), dokáže
-v~polynomiálním čase rozhodnout, jestli je permutačně ekvivalentní s~kódem, který
-generuje \emph{veřejný klíč} $\hat{G}$. Pokud by bylo množství možných
+v~polynomiálním čase rozhodnout, jestli je permutačně ekvivalentní s~kódem,
+který generuje \emph{veřejný klíč} $\hat{G}$. Pokud by bylo množství možných
 \emph{Goppa polynomů} -- resp. \emph{Goppa kódů} -- nízké, útočník by mohl
 hrubou silou odhalit použitý \emph{Goppa kód}. Z~tohoto důvodu je nutné, aby
 generované \emph{Goppa polynomy} měly koeficienty z~větších binárních těles. Čím
@@ -995,6 +1090,7 @@ větší budou vnitřní tělesa, tím více existuje možných (ireducibilních
 a není tak možné projít všechny možnosti hrubou silou~\cite{Repka}.
 
 \subsubsection{Útok s~informační množinou}
+
 \emph{Útok s~informační množinou} (\emph{Information Set Decoding attack} --
 \emph{ISD}), který byl popsán již v~původním článku \emph{Roberta
 McEliece}~\cite{McEliece} a~zmíněn v~kapitole~\ref{kap_bezpecnost}. Tento útok
@@ -1043,6 +1139,7 @@ $j=2$. Tento útok v~době publikování snížil složitost útoku na
 \emph{kryptosystém McEliece} přibližně $2^11$-krát~\cite{Lee}.
 
 \subsubsection{Nalezení kódového slova s~nízkou vahou}
+
 Jako nejúspěšnější útok na nalezení tajné zprávy se v~posledních letech jeví
 tzv. \emph{útok nalezením slova s~nízkou vahou}. Z~definice šifrování je známo,
 že $c$ leží ve \emph{vzdálenosti} $t$ od \emph{nějakého} kódového slova.
@@ -1079,6 +1176,7 @@ výsledků.
 
 
 \subsubsection{Další útoky}
+
 Existují též návrhy dalších útoků jako jsou například statistické
 útoky~\cite{Jabri} či útok založený na \emph{bodových mřížích}~\cite{Brickell}.
 Jako další zdroje pro zkoumání těchto útoků jsou doporučeny
@@ -1088,6 +1186,7 @@ Jako další zdroje pro zkoumání těchto útoků jsou doporučeny
 
 % --------------------------------------------------------------------
 \subsection{Bezpečné parametry}\label{kap_bezpecne_parametry}
+
 Pro dosažení určité míry bezpečnosti se používá pojem \emph{počet bitů
 bezpečnosti} (či \emph{míra bezpečnosti}). Tato jednotka odpovídá počtu bitů
 klíče symetrické šifry, které by útočník musel hrubou silou prolomit. Jinými
@@ -1095,10 +1194,10 @@ slovy, pokud nějaká šifra (s~danou velikostí klíče) odpovídá $n$ bitům
 bezpečnosti, je třeba vynaložit $O\left(2^n\right)$ operací.
 
 Obecně je považováno \emph{128 bitů bezpečnosti} za dostatečné pro
-\emph{střednědobé} účely a \emph{256 bitů} pro \emph{dlouhodobé}. Méně než \emph{80
-bitů} je pro bezpečné uchování informací prakticky nepoužitelné, jelikož takto
-\uv{silný} algoritmus lze (či půjde) prolomit v~dostatečně krátkém čase (méně
-než desítky let)~\cite{Paar}.
+\emph{střednědobé} účely a \emph{256 bitů} pro \emph{dlouhodobé}. Méně než
+\emph{80 bitů} je pro bezpečné uchování informací prakticky nepoužitelné,
+jelikož takto \uv{silný} algoritmus lze (či půjde) prolomit v~dostatečně krátkém
+čase (méně než desítky let)~\cite{Paar}.
 
 Kryptosystém \emph{McEliece} má na rozdíl např. od \emph{RSA} několik parametrů
 -- $n$, $k$, $t$ -- a celkové množství variant je tedy velmi mnoho.  Odhady
@@ -1106,21 +1205,22 @@ složitostí jednotlivých útoků se navíc celkem liší, a proto je v~této k
 uvedeno několik tabulek z~různých zdrojů, které odhadují \emph{míru bezpečnosti}
 kryptosystému \emph{McEliece}.
 
-V~tabulce \ref{tab_Bernstein} shrnuje parametry kryptosystému \emph{McEliece} pro
-dosažení požadované míry bezpečnosti dle \cite{Bernstein} a tabulka
+V~tabulce \ref{tab_Bernstein} shrnuje parametry kryptosystému \emph{McEliece}
+pro dosažení požadované míry bezpečnosti dle \cite{Bernstein} a tabulka
 \ref{tab_Repka} dle \cite{Repka}. Tyto tabulky obsahují informaci o~velikosti
 \emph{veřejného klíče} v~\emph{systematické formě}. Tabulka \ref{tab_Engelbert}
-inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické
-složitosti šifrování a dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
+inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické složitosti šifrování
+a dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
 
 \emph{Míra bezpečnosti} původního navrženého kryptosystému
-$\left(1024,524,50\right)$ se dle~\cite{Canteaut,Repka} pohybuje mezi
-$50$-$60$ \emph{bity bezpečnosti} a tyto parametry jsou tedy pro praktické
-použití nedostatečné.
+$\left(1024,524,50\right)$ se dle~\cite{Canteaut,Repka} pohybuje mezi $50$-$60$
+\emph{bity bezpečnosti} a tyto parametry jsou tedy pro praktické použití
+nedostatečné.
 
 
 % --------------------------------------------------------------------
 \subsection{Slabiny kryptosystému}\label{kap_slabiny}
+
 V~této kapitole jsou shrnuty známé slabiny kryptosystému \emph{McEliece}, se
 kterými je nutné počítat a praktické použití šifrování pomocí \emph{McEliece}
 náležitě upravit. Většina z~těchto slabin umožňuje útok pomocí (adaptivně)
@@ -1186,13 +1286,14 @@ Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
 
 
 \subsubsection{Malleability}
+
 Použití šifrování tak, jak je definováno v~kapitole \ref{kap_mceliece_algoritmy}
 umožňuje deterministickým způsobem změnit (neznámou) zašifrovanou zprávu -- tzv.
 \emph{mealleability}.
 
 Zašifrovaná zpráva $c_1$ veřejným klíčem $\hat{G}$ byla zkonstruována (dle
-definice) $c_1 = m_1\hat{G} + z$, kde $z$ je náhodný chybový vektor. Pokud
-je tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsobem:
+definice) $c_1 = m_1\hat{G} + z$, kde $z$ je náhodný chybový vektor. Pokud je
+tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsobem:
 
 \begin{itemize}
     \item Připraví se (otevřená) zpráva $m_1$
@@ -1203,8 +1304,8 @@ je tato zpráva $c_1$ zachycena, je možné ji pozměnit následujícím způsob
     \item Odešle se vzniklá zpráva $c$ původnímu účastníkovi.
 \end{itemize}
 
-Dešifrování proběhne naprosto bezchybným způsobem, ale účastník získá
-místo původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
+Dešifrování proběhne naprosto bezchybným způsobem, ale účastník získá místo
+původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
 
 \begin{align*}
     D_G\left(c\right) &= D_G\left( c_1 + c_2 \right) = \\
@@ -1213,12 +1314,13 @@ místo původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
                       &= (m_1+m_2)
 \end{align*}
 
-Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal} \cite{FIT_KRY}. Stejně jako
-u~těchto algoritmů (např. \emph{OAEP} pro \emph{RSA}) i pro \emph{McEliece} se
-dá tomuto útoku efektivně bránit předem daným formátem zprávy a
-\emph{paddingem}.
+Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal} \cite{FIT_KRY}.
+Stejně jako u~těchto algoritmů (např. \emph{OAEP} pro \emph{RSA}) i~pro
+\emph{McEliece} se dá tomuto útoku efektivně bránit předem daným formátem zprávy
+a~\emph{paddingem}.
 
 \subsubsection{Opakované šifrování stejné zprávy}
+
 Pokud je jedna otevřená zpráva dvakrát zašifrovaná stejným klíčem, je možné ji
 s~velkou pravděpodobností odhalit~\cite{Berson}. Pro každé šifrování je
 generován náhodný (a pravděpodobně tedy jiný) chybový vektor $z$. Sečtením dvou
@@ -1242,7 +1344,10 @@ Dle stejného principu stačí znát \emph{rozdíl} mezi dvěma zprávami. Ozna�
 tento rozdíl jako $\Delta m = m_1 + m_2$. Sečtením dvou odpovídajících šifrových
 textů získáme:
 
-$$ c_1 + c_2 = (m_1\hat{G} + z_1) + (m_2\hat{G} + z_2) = \Delta m \hat{G} + z_1 + z_2 $$
+$$
+    c_1 + c_2 = (m_1\hat{G} + z_1) + (m_2\hat{G} + z_2) =
+    \Delta m \hat{G} + z_1 + z_2
+$$
 
 Ze znalosti $\Delta m$ a veřejného klíče je možné opět získat součet chybových
 vektorů $z_1 + z_2 $ a provést stejný útok na obě zprávy $m_1$ a $m_2$, jak bylo
@@ -1250,6 +1355,7 @@ uvedeno výše.
 
 
 \subsubsection{Znalost části otevřeného textu}
+
 Složitost útoku na šifrovanou zprávu lze též velmi zjednodušit, pokud útočník
 bude znát alespoň část otevřeného textu. Nechť množina $\mathcal{I} \subset
 \{1,2,\ldots,k\}$ reprezentuje pozici bitů, které útočník zná. Potom
@@ -1273,12 +1379,13 @@ $\mathcal{J}$.
 
 
 \subsubsection{Hádání chybových bitů}
+
 Tento útok je též označován jako tzv. \uv{reakční útok}. Pro provedení tohoto
 útoku je třeba mít k~dispozici \emph{dešifrovací orákulum} a útočník musí být
 schopen rozlišit kdy došlo k~chybě v~dešifrování a kdy byla zpráva v~pořádku
 dešifrována\footnote{
-    Podobně jako např. útok \emph{Paddding Oracle} u~blokových šifer
-    \cite{FIT_KRY}.
+    Podobně jako např. útok \emph{Paddding Oracle} u~blokových
+    šifer~\cite{FIT_KRY}.
 }.
 
 Útočník, který zachytí zašifrovanou zprávu $c$, k~ni přičte vektor
@@ -1296,29 +1403,28 @@ znalosti chybového vektoru je pak odhalení tajné zprávy $m$ otázka vyřeše
 soustavy $k$ rovnic v~$O\left( k^3 \right)$ krocích.
 
 Jako účinné zabránění tohoto útoku se nabízí vyžadovat, aby zašifrovaná zpráva
-obsahovala \emph{právě} $t$ chyb. Při šifrování se to dá velmi snadno zařídit a
-při dešifrování pak stačí zkontrolovat \emph{váhu} chybového vektoru (který je
+obsahovala \emph{právě} $t$ chyb. Při šifrování se to dá velmi snadno zařídit
+a~při dešifrování pak stačí zkontrolovat \emph{váhu} chybového vektoru (který je
 získán při dekódování) a pokud není rovna $t$, je jasné, že nastalo k~manipulaci
 se šifrovým textem.
 
 
-% TODO zarovnání
-\vfill
-
 
 % ====================================================================
 \section{Moderní varianty a úpravy}
+
 Použití kryptosystému \emph{McEliece} tak, jak byl popsán na začátku kapitoly
 \ref{kap_mceliece} by bylo pro účely šifrování velmi nerozumné a nepraktické. To
 hlavně z~důvodu slabin, kterými algoritmus trpí (kapitola \ref{kap_slabiny})
-a velikosti klíčů, které jsou v~základní variantě větší než je nezbytně nutné.
+a~velikosti klíčů, které jsou v~základní variantě větší než je nezbytně nutné.
 V~následujících kapitolách je probráno několik úprav \emph{kryptosystému} pro
 praktické použití.
 
 % --------------------------------------------------------------------
 \subsection{Metody na snížení velikosti klíčů}\label{kap_snizeni_velikosti_klicu}
+
 Jednou z~hlavních nevýhod kryptosystému \emph{McEliece} jsou obrovské klíče,
-které reprezentují lineární kódy velkých rozměrů (\emph{Goppa kódy}) a matice
+které reprezentují lineární kódy velkých rozměrů (\emph{Goppa kódy}) a~matice
 odpovídající velikosti, které mají za úkol schovat strukturu použitého kódu.
 Metody na snížení velikosti klíčů se zaměřují hlavně na použití kódů, které je
 možné definovat kompaktním způsobem a způsob uložení či generování
@@ -1335,16 +1441,18 @@ Kromě definovaného kódu jsou v~\emph{soukromém klíči} obsažené též dv�
 matice $S$ a $P$. Snížením velikosti těchto matic se zabývá následující
 kapitola.
 
-Veřejný klíč je pouze jedna matice -- \uv{zamaskovaná} generující $n \times k$ matice
-$\hat{G}$. Jako jediný způsob pro snížení počtu bitů tohoto veřejného klíče je
-uložení matice v~\emph{systematické formě}. V~takovém případě není třeba
-udávat prvních $k$ sloupců -- je jasné, že odpovídají \emph{jednotkové matici}
-$I_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě} se tedy ušetří
-$k^2$ bitů, což při rozumných parametrech odpovídá až $75 $\;\% velikosti matice
-$\hat{G}$. Aby byla zachována bezpečnost kryptosystému při použití takové
-matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz kapitola~\ref{kap_cca2}).
+Veřejný klíč je pouze jedna matice -- \uv{zamaskovaná} generující $n \times k$
+matice $\hat{G}$. Jako jediný způsob pro snížení počtu bitů tohoto veřejného
+klíče je uložení matice v~\emph{systematické formě}. V~takovém případě není
+třeba udávat prvních $k$ sloupců -- je jasné, že odpovídají \emph{jednotkové
+matici} $I_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě} se tedy
+ušetří $k^2$ bitů, což při rozumných parametrech odpovídá až $75 $\;\% velikosti
+matice $\hat{G}$. Aby byla zachována bezpečnost kryptosystému při použití takové
+matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz
+kapitola~\ref{kap_cca2}).
 
 \subsubsection{Význam matic $S$ a $P$}
+
 Jak již bylo řečeno v~kapitole \ref{kap_velikost_klicu}, \emph{permutační}
 matici $P$ není nutné ukládat jako matici bitů, ale pouze jako \emph{indexy}
 permutace a velikost klíče tak komprimovat. Matice $S$ je náhodná regulární
@@ -1357,26 +1465,33 @@ Ač byl \emph{kryptosystém} navržený s~maticemi $S$ a $P$ pro \emph{ukrytí}
 \emph{generující} matice $G$, tak v~\cite{Engelbert} bylo ukázáno, že matice $S$
 nemá žádnou bezpečnostní účel pro skrytí matice $G$. Naopak matice $P$ je velmi
 důležitá a prozrazení této permutace by znamenalo prozrazení \emph{soukromého
-klíče}.
-Existují implementace \emph{kryptosystému}, které matici $S$ ve výpočtech vůbec
-nezahrnují.
-%todo
+klíče}. Existují implementace \emph{kryptosystému}, které matici $S$ ve
+výpočtech vůbec nezahrnují.
+%todo citace?
 
 
 \subsubsection{Kvazi-dyadické Goppa kódy}\label{kap_kvazi}
+
 Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
 použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
 
 \begin{definice}{Dyadická matice}
     \begin{itemize}
         \item Každá $1\times1$ matice je \emph{dyadická}. \\
-        \item Nechť $A$ a $B$ jsou $2^{k-1}\times2^{k-1}$ \emph{dyadické} matice, pak
+
+        \item Nechť $A$ a $B$ jsou $2^{k-1}\times2^{k-1}$ \emph{dyadické}
+            matice, pak
             $2^k\times2^k$ matice
-            $$H = \left(\begin{array}{c c}
-                A & B\\
-                B & A
-            \end{array}\right)$$
+
+            $$
+                H = \left(\begin{array}{c c}
+                    A & B\\
+                    B & A
+                \end{array}\right)
+            $$
+
             je také \emph{dyadická}.
+
     \end{itemize}
 \end{definice}
 
@@ -1403,6 +1518,7 @@ Implementace \emph{kryptosystému} s~\emph{kvazi-dyadickými Goppa} kódy lze
 nalézt např v~\cite{Paustjan,Kratochvil}
 
 \subsubsection{MDPC McEliece}
+
 Asi nejnovější varianta kryptosystému \emph{McEliece} je použití \emph{Moderate
 Density Parity-Check} (\emph{MDPC}) kódů a kvazi-cyklických \emph{MDPC} kódů.
 Autoři v~\cite{Misoczki2} navrhli použití těchto kódů v~roce 2013 a dokázali
@@ -1412,6 +1528,7 @@ bezpečnosti.
 
 % --------------------------------------------------------------------
 \subsection{CCA2-odolná konverze}\label{kap_cca2}
+
 Jak již bylo zmíněno v~kapitole~\ref{kap_slabiny}, základní varianta algoritmu
 \emph{McEliece} trpí některými slabinami. Kvůli těmto slabinám by nebylo možné
 algoritmů prakticky (a opakovaně) využívat. Z~tohoto důvodu bylo navrženo
@@ -1461,7 +1578,8 @@ V~následujícím algoritmu bude použito toto značení:
 \end{center}
 
 % todo pozice
-\paragraph{Délky vektorů} \hfil \\
+\paragraph{Délky vektorů}
+
 \begin{center}
 \begin{tabular}{l l}
     Vektor      & Délka                                 \\
@@ -1521,16 +1639,18 @@ V~následujícím algoritmu bude použito toto značení:
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{materialy/kobara-imai-cca2.png}
-    \caption{Ilustrace CCA2-odolné konverze \emph{Kobara-Imai}
+    \caption{Diagram CCA2-odolné konverze \emph{Kobara-Imai}
     $\gamma$~\cite{Repka,Kobara}}
     \label{obr_cca2}
 \end{figure}
 
 
+%todo
 \clearpage
 
 % --------------------------------------------------------------------
 \subsection{Odolnost vůči kvantovým počítačům}
+
 Jeden z hlavních důvodů popularity algoritmu \emph{McEliece} je fakt, není znám
 algoritmus pro kvantový počítač, který by dokázal kryptosystém prolomit
 rychleji, než na běžných počítačích~\cite{Dinh}. Kryptosystém je tak zařazen
@@ -1540,13 +1660,17 @@ dobu~\cite{Post-Quantum_Cryptography} a jeho varianta s kvazi-cyklickými
 doporučenými \emph{post-kvantovými} asymetrickými kryptosystémy~\cite{Schanck}.
 
 
+
+
+
 % ====================================================================
 % ====================================================================
 % ====================================================================
 \chapter{Implementace}\label{kap_implementace}
+
 Pro implementaci kryptosystému \emph{McEliece} v~této práci byl zvolen software
 \emph{Wolfram Mathematica} \cite{Mathematica}. Tento software byl zvolen hlavně
-díky pohodlnosti některých matematických výpočtů a konstrukcí a také pro
+díky pohodlnosti některých matematických výpočtů a~konstrukcí a~také pro
 přehlednost výstupů. %TODO
 
 Při implementaci \emph{kryptosystému} se ukázaly nedostatky softwaru
@@ -1556,38 +1680,38 @@ implementovány přímo v~softwaru \emph{Mathematica} tak, aby bylo možné jeji
 pohodlné použití i v~jiných oblastech.
 
 Celková práce byla rozdělena do třech ucelených částí -- (binární) \emph{konečná
-tělesa}, (ireducibilní) \emph{binární Goppa kódy} a \emph{kryptosystém
-McEliece} --, kde každou z~nich lze využít jako \emph{balík} či \emph{knihovnu}
-pro další výpočty. Následující kapitoly popisují jednotlivé části.
+tělesa}, (ireducibilní) \emph{binární Goppa kódy} a \emph{kryptosystém McEliece}
+--, kde každou z~nich lze využít jako \emph{balík} či \emph{knihovnu} pro další
+výpočty. Následující kapitoly popisují jednotlivé části.
 
 %\section{Wolfram Mathematica}
 
 % ====================================================================
 \section{Binární konečná tělesa}
+
 Tato kapitola pojednává o~implementaci \emph{binárních konečných těles} včetně
 jejich \emph{rozšíření}. Jsou zmíněna existující řešení v~softwaru
 \emph{Mathematica}, zvolená implementace a popis implementovaných algoritmů.
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Ač jsou funkce implementované v~co nejobecnějším pojetí,
+\paragraph{Poznámka:} Ač jsou funkce implementované v~co nejobecnějším pojetí,
 tak je kladen důraz na efektivnost výpočtů vzhledem k~\emph{binárním} tělesům --
 tedy k~\emph{tělesům} s~charakteristikou $2$. Pro \emph{tělesa} s~jinou
 charakteristikou není chování funkcí definováno.
 
 % --------------------------------------------------------------------
 \subsection{Existující řešení}
+
 Pro operace s~\emph{konečnými tělesy} v~softwaru \emph{Mathematica} byly
 prostudovány interní funkce pro operace s~polynomy a externí balík
 \texttt{FiniteFields}. Vlastnosti těchto řešení jsou popsány v~následujících
 kapitolách.
 
 \subsubsection{Operace s~polynomy}
+
 Software \emph{Mathematica} obsahuje funkce pro operace s~polynomy nad reálnými
 (případně i komplexními) čísly. Většina těchto funkcí má volitelnou
 \emph{možnost}\footnote{
-    Anglicky se tento termín v~softwaru \emph{Mathematica}
-    nazývá \emph{Option}.
+    Anglicky se tento termín v~softwaru \emph{Mathematica} nazývá \emph{Option}.
 } \emph{Modulus}, díky které lze zajistit, aby operace s~koeficienty byly
 prováděny nad celými čísly \emph{modulo} zadané číslo $p$. Tímto způsobem je
 možné implementovat operace nad tělesy $GF(p^n)$, nicméně je téměř nemožné tímto
@@ -1605,14 +1729,15 @@ polynomy od \emph{nejnižšího} členu po \emph{nejvyšší} (např. $1+x^2+x^4
 což je obrácený zápis, než je v~technické literatuře zvykem.
 
 \subsubsection{Balík \texttt{FiniteFields}}
+
 \paragraph{Balík} \emph{Balík} v~softwaru \emph{Mathematica} je soubor
 obsahující rozšiřující funkce, které standardně nejsou k~dispozici. Balík je
 možné načíst pomocí funkcí \texttt{Needs}, či případně \emph{Get}.
 
 Balík \texttt{FiniteFields} obsahuje základní operace pro práci s~tělesy
 $GF(p^n)$. Prvky konečných těles jsou pak určené \emph{seznamem}\footnote{
-    \emph{Seznamem} se myslí struktura v~softwaru
-    \emph{Mathematica} -- \emph{List}.
+    \emph{Seznamem} se myslí struktura v~softwaru \emph{Mathematica}
+    -- \emph{List}.
 } koeficientů a \emph{hlavičkou}, která určuje do jakého tělesa prvek patří.
 Výhoda tohoto opatření je, že pro sčítání a násobení je pak možné využít
 obyčejné symboly operací ($+$, $-$, $*$, $/$) a operace se automaticky provede
@@ -1621,12 +1746,13 @@ v~daném tělese.  Pro parametry $p$ a $n$ je určené jedno těleso $GF(p^n)$
 se opět píše od nejnižšího řádu po nejvyšší (například polynom $x^3 + x + 1$
 z~tělesa $GF(2^5)$ je zapsán jako $GF[2,5][\{1,1,0,1,0\}] $).
 
-Funkce z~balíku \texttt{FiniteFields} nejsou dostatečně zdokumentovány, jak
-je jinak v~softwaru \emph{Mathematica} zvykem. Nepodařilo se využít funkcí
-z~tohoto balíku pro operace s~\emph{rozšířenými tělesy}.
+Funkce z~balíku \texttt{FiniteFields} nejsou dostatečně zdokumentovány, jak je
+jinak v~softwaru \emph{Mathematica} zvykem. Nepodařilo se využít funkcí z~tohoto
+balíku pro operace s~\emph{rozšířenými tělesy}.
 
 % --------------------------------------------------------------------
 \subsection{Zvolené řešení}
+
 Existující řešení pro práci s~\emph{konečnými tělesy} se ukázala jako
 nedostačující. Jejich hlavní nevýhodou je nemožnost použití při výpočtech
 s~\emph{rozšířenými tělesy}. Proto bylo implementováno vlastní řešení pro práci
@@ -1661,22 +1787,21 @@ jednotné rozhraní:
         $GF( {{p^{n_1}}^{\dots}}^{n_{k-1}} )$ a \emph{modulu vnitřního tělesa}: \\
         $modul_k = \left\{i_k,modul_{k-1}\right\}$.
 
-    \item Všem funkcím se předávají nejdřív \emph{operandy} a poté \emph{modul}.\\
-        Například pro prvky $a,b\in GF(p^{\ldots})$, $m\in\mathbb{N}$
-        a odpovídající $modul$: \\
+    \item Všem funkcím se předávají nejdřív \emph{operandy} a poté
+        \emph{modul}.\\ Například pro prvky $a,b\in GF(p^{\ldots})$,
+        $m\in\mathbb{N}$ a odpovídající $modul$: \\
         \hspace*{0.6cm}$krat[a,b,modul]$ \\
         \hspace*{0.6cm}$inverze[a,modul]$ \\
         \hspace*{0.6cm}$mocnina[a,m,modul]$ \\
         \hspace*{0.6cm}\ldots
 
-    \item Pro implementaci operací v~tělesech $GF(p^n)$
-        jsou použité vnitřní funkce softwaru \emph{Mathematica} pro práci
-        s~\emph{polynomy}. Implementované funkce pro tato tělesa tedy
-        zpravidla obsahují převod ze \emph{seznamu} čísel na \emph{polynom},
-        zavolání vnitřní funkce pro \emph{polynomy} a převodu zpět na
-        \emph{seznam} koeficientů. Díky těmto vnitřním funkcím je docíleno
-        rychlejšího výpočtu, než kdyby byla použita vlastní implementace nad
-        \emph{seznamy} celých čísel.
+    \item Pro implementaci operací v~tělesech $GF(p^n)$ jsou použité vnitřní
+        funkce softwaru \emph{Mathematica} pro práci s~\emph{polynomy}.
+        Implementované funkce pro tato tělesa tedy zpravidla obsahují převod ze
+        \emph{seznamu} čísel na \emph{polynom}, zavolání vnitřní funkce pro
+        \emph{polynomy} a převodu zpět na \emph{seznam} koeficientů. Díky těmto
+        vnitřním funkcím je docíleno rychlejšího výpočtu, než kdyby byla použita
+        vlastní implementace nad \emph{seznamy} celých čísel.
 
     \item Pro implementaci operací v~\emph{rozšířených tělesech} byly
         implementovány jednotlivé algoritmy operací (popsané níže), jelikož
@@ -1694,8 +1819,9 @@ k~jednotlivým prvkům a voláním funkcí (druhá složka \emph{modulu} je
 
 % --------------------------------------------------------------------
 \subsection{Implementace operací}
+
 V~následujících kapitolách je popsána implementace hlavních operací
-v~\emph{konečných tělesech} a použitých algoritmů. Pro další informace je
+v~\emph{konečných tělesech} a použitých algoritmů.  Pro další informace je
 doporučeno nahlédnout do zdrojového kódu a příkladů použití.
 
 V~níže uvedených pseudokódech se používá některých prvků ze syntaxe softwaru
@@ -1739,23 +1865,22 @@ modulo $p$.
     \end{algorithmic}
 \end{algoritmus}
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-U~dalších operací s~prvky z~tělesa $GF(p^n)$ (kde $p$ je
+\paragraph{Poznámka:} U~dalších operací s~prvky z~tělesa $GF(p^n)$ (kde $p$ je
 prvočíslo) se prvky (\emph{seznamy}) převádějí na polynomy a využívá se
 implementovaných funkcí softwaru \emph{Mathematica}. Z~tohoto důvodu jsou nadále
 uváděné algoritmy pouze pro \emph{rozšířená tělesa} $GF(q^n)$, kde $q$ je nějaká
 mocnina prvočísla.
 
 \subsubsection{Redukce polynomu}
+
 Redukce polynomu (neboli \emph{modulo} polynom) se používá ve většině dalších
 funkcí. Tato funkce se volá se dvěma parametry -- prvkem $a$ a polynomem
 (\emph{modulem}) $m$. Funkce vrátí zbytek polynomu $a$ po dělení polynomem $m$.
 
 Redukce polynomu pro \emph{rozšířená tělesa} je inspirovaná \emph{Comb metodou}
-z~\cite{Merchan}. K~původnímu prvku $a$ se opakovaně přičítá (od
-nejvyššího řádu) patřičný násobek \emph{polynomu} $m$ tak, aby se daný
-koeficient $a_i$ rovnal nule (viz příklad níže).
+z~\cite{Merchan}. K~původnímu prvku $a$ se opakovaně přičítá (od nejvyššího
+řádu) patřičný násobek \emph{polynomu} $m$ tak, aby se daný koeficient $a_i$
+rovnal nule (viz příklad níže).
 
 Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
 
@@ -1794,8 +1919,8 @@ Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
     \end{algorithmic}
 \end{algoritmus}
 
-\paragraph{Příklad} Redukce polynomu $ x^{12} + x^8 + x^7 + x^5 + x^4 + x^3 + 1 $
-polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
+\paragraph{Příklad} Redukce polynomu $x^{12} + x^8 + x^7 + x^5 + x^4 + x^3 + 1$
+polynomem $x^4 + x + 1$ (nad tělesem $GF(2)$):
 
 %\renewcommand{\0}{{\scriptscriptstyle 0}}
 \begin{align*}
@@ -1816,16 +1941,17 @@ polynomem $ x^4 + x + 1 $ (nad tělesem $GF(2)$):
 $\Rightarrow \left|1000110111001\right|_{10011} = 1101$
 
 \subsubsection{Násobení}
-Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
-stupně $n+m$. Násobení je implementováno tak, že k~výsledku $c$ (na počátku
-je to nulový polynom) se postupně přičítá skalární násobek polynomu $b$
-koeficienty polynomu $a$, který je zároveň \emph{posunutý} o~patřičný počet
-pozic. Využívá se zde faktu, že násobení libovolného \emph{polynomu} $A(x)$
-a $x^i$ je posunutí koeficientů polynomu $A$ o~$i$ pozic doleva. Výsledný
-polynom $c$ je následně \emph{redukován} zadaným modulem (viz výše).
 
-Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů}
-a následné \emph{redukce} \emph{modulem}.
+Výsledkem násobení dvou polynomů $a$ a $b$ stupně $n$ a $m$ je polynom $c$
+stupně $n+m$. Násobení je implementováno tak, že k~výsledku $c$ (na počátku je
+to nulový polynom) se postupně přičítá skalární násobek polynomu $b$ koeficienty
+polynomu $a$, který je zároveň \emph{posunutý} o~patřičný počet pozic. Využívá
+se zde faktu, že násobení libovolného \emph{polynomu} $A(x)$ a $x^i$ je posunutí
+koeficientů polynomu $A$ o~$i$ pozic doleva. Výsledný polynom $c$ je následně
+\emph{redukován} zadaným modulem (viz výše).
+
+Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů} a následné
+\emph{redukce} \emph{modulem}.
 
 \begin{algoritmus}[!ht]
     \caption{Násobení prvků}
@@ -1854,8 +1980,8 @@ a následné \emph{redukce} \emph{modulem}.
     \end{algorithmic}
 \end{algoritmus}
 
-\paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem
-$x^4+x^2+1x+1$ (nad tělesem $GF(2)$):
+\paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem $x^4+x^2+1x+1$ (nad
+tělesem $GF(2)$):
 
 %\renewcommand{\0}{{\scriptscriptstyle 0}}
 \begin{align*}
@@ -1876,6 +2002,7 @@ $\Rightarrow$ Výsledek operace násobení modulo polynom $g$ se získá redukc�
 polynomu $10000001$ polynomem $g$.
 
 \subsubsection{Inverze}
+
 Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
 Euklidova algoritmu}. Tento algoritmus se často vizualizuje jako výpočet tabulky
 po řádkách (viz níže). Ve skutečnosti však pro výpočet dalšího řádku stačí
@@ -1884,6 +2011,7 @@ v~paměti celou tabulku, ale stačí si udržovat hodnoty dvou řádků a po vý
 třetího hodnoty posunout.
 
 Výpočet hodnot dalšího řádku tabulky probíhá následovně:
+
 \begin{itemize}
     \item Hodnoty předchozích řádků jsou:\\
         \hspace*{0.6cm}Polynomy $p_{i-2}$ a $p_{i-1}$ (na začátku inicializovány
@@ -1908,9 +2036,8 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 Inverze v~$GF(p^n)$ je implementovaná pomocí interní funkce
 \texttt{Polynomial\-ExtendedGCD}.
 
-\paragraph{Poznámka:}
-Pro výpočet dělení je v~\emph{rozšířených tělesech} potřeba vypočítat inverzi
-největšího koeficientu dělitele\footnote{
+\paragraph{Poznámka:} Pro výpočet dělení je v~\emph{rozšířených tělesech}
+potřeba vypočítat inverzi největšího koeficientu dělitele\footnote{
     Zde je patrná rekurzivní vlastnost tohoto algoritmu, kdy pro výpočet inverze
     prvku v~tělese $GF(q^n)$ je třeba vypočítat inverzi v tělese $GF(q)$.
 } a dále je algoritmus realizován posouváním dělitele a následnou redukcí pomocí
@@ -1981,8 +2108,9 @@ s~ireducibilním polynomem $1101$):
 \end{center}
 
 $
-\Rightarrow \left|(101)(010)(110)(111)^{-1}\right|_{(001)(011)(011)(001)(011)} =
-(101)(001)(100)(101)
+    \Rightarrow
+    \left|(101)(010)(110)(111)^{-1}\right|_{(001)(011)(011)(001)(011)} =
+    (101)(001)(100)(101)
 $
 
 %%\paragraph{Poznámka} \hfil \\
@@ -1992,23 +2120,29 @@ $
 
 
 \subsubsection{Druhá mocnina}
+
 Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkci
 \uv{na druhou} díky následujícímu tvrzení:
 
 
 \begin{tvrzeni}
-    Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa
-    s~\emph{charakteristikou} $2$, potom platí:
+    Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa s~\emph{charakteristikou}
+    $2$, potom platí:
+
     $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
 \end{tvrzeni}
 
 S~využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
 triviální:
+
 \begin{itemize}
     \item Provedení druhé mocniny všech koeficientů.
     \item Proložení koeficientů polynomu nulovými koeficienty.
     \item Redukování polynomem (viz výše).
 \end{itemize}
+
+%todo
+\vfil
 
 \begin{algoritmus}[!ht]
     \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
@@ -2049,6 +2183,7 @@ triviální:
 \end{align*}
 
 \subsubsection{Mocnění}
+
 Mocnění \emph{polynomů} je implementováno pomocí algoritmu
 \emph{Square-and-Multiply} (\emph{SM}). Algoritmus využívá faktu, že libovolnou
 mocninu lze rozložit na součin mocnin čtverců ($^2$,$^4$,$^8$,\dots). Konkrétně
@@ -2088,12 +2223,10 @@ je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 \end{algoritmus}
 
 
-%\paragraph{Poznámka} \hfil \\
-\paragraph{Poznámka:}
-Takto implementovaný algoritmus je zranitelný vůči odběrové a~časové analýze.
-Pro odolnou implementaci je nutné počítat násobek \emph{vždy} a~pokud je daný
-bit exponentu $1$, přiřadit násobek do mezi výpočtu. Pseudokód i~reálná
-implementace je prováděna tímto (bezpečným) způsobem.
+\paragraph{Poznámka:} Takto implementovaný algoritmus je zranitelný vůči
+odběrové a~časové analýze.  Pro odolnou implementaci je nutné počítat násobek
+\emph{vždy} a~pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
+Pseudokód i~reálná implementace je prováděna tímto (bezpečným) způsobem.
 
 \paragraph{Příklad} \emph{Square-and-Multiply} pro výpočet
 $\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
@@ -2123,10 +2256,12 @@ $ \Rightarrow \left|1001^{26}\right|_{1000011} = 1010 $
 
 % --------------------------------------------------------------------
 \subsection{Možná zlepšení}
-V~této kapitole jsou nastíněny možná zlepšení implementace, která
-zrychlují výpočet některých operací.
+
+V~této kapitole jsou nastíněny možná zlepšení implementace, která zrychlují
+výpočet některých operací.
 
 \subsubsection{Logaritmické tabulky}
+
 Pro zrychlení výpočtu násobení a mocnin prvku lze v~\emph{konečném tělese}
 využít faktu, že vždy existuje \emph{primitivní prvek} a převádět tak operace
 v~tělese na operace s~celými čísly.
@@ -2143,9 +2278,11 @@ Důkaz plyne přímo z~definice.
 
 Násobení dvou prvků $a = \alpha^{i_a}$ a $b = \alpha^{i_b}$ tak lze převést na
 součet mocnin \emph{primitivního prvku}:
+
 $$ a \cdot b = \alpha^{i_a} \cdot \alpha^{i_b} = \alpha^{i_a + i_b} $$
 
 Podobným způsobem je možné zjednodušit umocňování prvku:
+
 $$ a^e = \left(\alpha^i\right)^e = \alpha^{i e} $$
 
 V~obou případech je samozřejmě možné použít \emph{Eulerovu větu} a mocniny
@@ -2166,6 +2303,9 @@ Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti pr
 překladové \emph{log}- a \emph{antilogaritmické} tabulky pro překlad prvků
 z~jedné reprezentace na druhou.
 
+% todo 
+\clearpage
+
 Ač se tak získá podstatné zrychlení výpočtů v~tělese, existuje několik nevýhod
 tohoto přístupu:
 
@@ -2183,23 +2323,24 @@ tohoto přístupu:
             \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
                 $O(m 2^m)$ (konkrétně $2^m - 1$ hodnot, kde každá je
                 reprezentována $m$ bity).
-            \item Jelikož je paměťová náročnost \emph{exponenciální}, je
-                možné tyto tabulky uchovávat pouze pro \emph{malá} $m$ (např.
-                $8$ či $16$, nikoliv však $1024$).
+            \item Jelikož je paměťová náročnost \emph{exponenciální}, je možné
+                tyto tabulky uchovávat pouze pro \emph{malá} $m$ (např.  $8$ či
+                $16$, nikoliv však $1024$).
         \end{itemize}
 
     \item \emph{Nulový prvek} tělesa není možné žádným způsobem zobrazit jako
         mocninu. Při každé operaci je potřeba s~touto skutečností počítat
-        a hlídat jako výjimku.
+        a~hlídat jako výjimku.
 
 \end{itemize}
 
 
-Tohoto vylepšení se dá využít pro operace ve \emph{vnitřním tělese}
-$GF(2^m)$, nad kterým jsou postavené polynomy v~\emph{binárních Goppa kódech}.
+Tohoto vylepšení se dá využít pro operace ve \emph{vnitřním tělese} $GF(2^m)$,
+nad kterým jsou postavené polynomy v~\emph{binárních Goppa kódech}.
 
 
 \subsubsection{Implementace dělení}
+
 Dělení prvkem $b$ v~\emph{konečném tělese} se převádí na násobení $b^{-1}$. Pro
 výpočet \emph{podílu} se tak počítá inverze a následně násobek. Je ale možné
 implementovat rovnou algoritmus pro dělení.
@@ -2207,8 +2348,8 @@ implementovat rovnou algoritmus pro dělení.
 Algoritmus pro dělení prvku $a$ prvkem $b$ je totožný s~algoritmem pro výpočet
 \emph{inverze} prvku $b$ s~tím rozdílem, že je počáteční hodnota koeficientu
 $k_b$ (viz \emph{EEA} -- alg. \ref{alg_eea}) nastavena na hodnotu $a$.
-%Jelikož průběh algoritmu odpovídá ekvivalentním úpravám rovnic,
-%algoritmus skončí s rovnicí:
+%Jelikož průběh algoritmu odpovídá ekvivalentním úpravám rovnic, algoritmus
+%skončí s rovnicí:
 %
 %$$ 1 = (l \cdot a ) \cdot b  + k \cdot m $$
 Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
