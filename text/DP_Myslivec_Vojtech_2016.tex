@@ -140,7 +140,6 @@ Pro ujasnění je uvedena definice tělesa:
             } je \emph{grupa} (nazývána
             \emph{multiplikativní})
         \item Platí (levý i pravý) \emph{distributivní zákon}:
-
             $$
                 \forall a,b,c \in M :
                 \big( a(b+c) = a b + a c \big) \land
@@ -168,13 +167,11 @@ Galois}).
 Jak bude ukázáno dále, je vhodné prvky tělesa $GF(p^n)$ reprezentovat jako
 \emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
 prvek $a \in GF(p^n)$ lze zapsat:
-
 $$ A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p $$
 
 O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (řádu
 maximálně $n-1$)}. Na prvek $a$ je též možné se dívat jako na vektor či $n$-tici
 koeficientů~$a_i$:
-
 $$
     A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong
     a_{n-1} a_{n-2} \ldots a_0
@@ -199,7 +196,6 @@ v~kapitole \ref{kap_implementace}.
 Sčítání v~tělese $GF(p^n)$ je definováno stejně jako sčítání polynomů, s~tím, že
 sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese
 $GF(p)$:
-
 $$
     A(x) + B(x) = \sum a_i x^i + \sum b_i x^i =
     \sum \left|a_i + b_i\right|_p x^i
@@ -215,7 +211,6 @@ u~sčítání. U~takto definované operace by většina prvků neměla (multipli
 
 Při násobení prvků se opět využije jejich reprezentace pomocí polynomů.
 Výsledkem násobení pak je:
-
 $$
     A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
     \sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i
@@ -232,7 +227,6 @@ při operaci násobení.
 \begin{definice}
     Polynom $P(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
     pro každé dva polynomy $A(x)$ a $B(x)$ nad $GF(p)$ platí:
-
     $$
         A(x) \cdot B(x) = P(x) \Rightarrow \left( deg(A(x)) = 0 \right) \lor
         \left( deg(B(x)) = 0 \right)
@@ -245,12 +239,10 @@ nad $GF(p)$ stupně alespoň $1$.
 \paragraph{Příklad} Polynom $x^3+x+1$ je nad tělesem $GF(2)$
 \emph{ireducibilní}, protože neexistuje jeho rozklad na polynomy stupně alespoň
 $1$. Polynom $x^2+1$ není nad tělesem $GF(2)$ \emph{ireducibilní}, protože:
-
 $$ (x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
 
 Nyní je možné zavést operaci násobení dvou prvků tělesa jako násobení dvou
 polynomů \emph{modulo} \emph{zadaný ireducibilní} polynom:
-
 $$
     A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
     \sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x)
@@ -292,7 +284,6 @@ provádí operací $\cdot$ v~daném tělese $GF(p^n)$.
     Nechť $a$ je prvkem a $\mathbb{O}$ neutrálním prvkem \emph{grupy} \\
     $G = (M,\circ)$. Prvek $\bar{a}$ je \emph{inverzí} prvku $a$, pokud
     platí následující rovnice:
-
     $$ a \circ \bar{a} = \mathbb{O} $$
 \end{definice}
 
@@ -300,7 +291,6 @@ provádí operací $\cdot$ v~daném tělese $GF(p^n)$.
 
 Inverze v~\emph{aditivní grupě} je značena znaménkem minus \uv{$-$} a je
 z~definice velmi triviální:
-
 $$
     \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow -A(x) =
     \sum \left|-a_i\right|_p x^i
@@ -314,7 +304,6 @@ Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo} $p$
 
 Inverze v~\emph{multiplikativní grupě} je značena záporným exponentem
 \uv{$^{-1}$} či symbolem dělení.
-
 $$
     \left| A(x) \cdot A(x)^{-1} \right|_p = \left| \frac{A(x)}{A(x)} \right|_p = 1
 $$
@@ -412,12 +401,12 @@ původní zprávy z \emph{kódového slova}.
 \emph{Hammingova váha} vektoru $v$ je pak definována jako \emph{Hammingova
 vzdálenost} vektoru $v$ od \emph{nulového vektoru} patřičné délky. Jinými slovy
 je to počet \emph{nenulových} bitů (\uv{jedniček}) vektoru $v$.
+$$ H(v) = H(v,\mathbf{0}) $$
 
 
 \begin{definice}{Kódová vzdálenost}
     Kódová vzdálenost kódu $\mathcal{K}$ je definována jako minimální
     \emph{Hammingova vzdálenost} mezi všemi kódovými slovy.
-
     $$
         kvzd(\mathcal{K}) =
         \min_{\substack{\forall b1,b2 \in \mathcal{B} \\ b1 \neq b2}} vzd(b1,b2)
@@ -455,17 +444,6 @@ slovo by se měl vektor $c$ dekódovat.
     \subbottom[Příklad liché $kvzd$\label{obr_kvzd_licha}]{\includegraphics[width=0.45\textwidth]{materialy/kvzd_licha.png}}
     \quad
     \subbottom[Příklad sudé $kvzd$\label{obr_kvzd_suda}]{\includegraphics[width=0.38\textwidth]{materialy/kvzd_suda.png}}
-    %\begin{subfigure}[b]{0.45\textwidth}
-    %    \includegraphics[width=\textwidth]{materialy/kvzd_licha.png}
-    %    \caption{Příklad sudé $kvzd$}
-    %    \label{obr_kvzd_suda}
-    %\end{subfigure}
-    %\quad
-    %\begin{subfigure}[b]{0.38\textwidth}
-    %    \includegraphics[width=\textwidth]{materialy/kvzd_suda.png}
-    %    \caption{Příklad liché $kvzd$}
-    %    \label{obr_kvzd_licha}
-    %\end{subfigure}
     \label{obr_kvzd}
     \caption{Ilustrace problému nalezení nejbližšího kódového slova}
 \end{figure}
@@ -593,24 +571,20 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné rozepsat původní
         zprávu~$m$:
-
         $$
             \hat{c} = c P^{-1} = \left( m \hat{G} + z \right) P^{-1} =
             \left(m S G P + z \right) P^{-1} = \hat{c} = m S G + z P^{-1}
         $$
 
     \item Zavedeme substituci $\hat{m} = m S$ a $\hat{z} = z P^{-1}$, potom
-
         $$ \hat{c} = m S G + z P^{-1} = \hat{m} G + \hat{z} $$
 
         Z~poslední rovnosti je vidět, že dekódováním je získán vektor $\hat{m}$,
         neboť $\hat{z}$ je vektor s~\emph{Hammingovou vahou} maximálně $t$
         (matice $P$ jen přehází jednotlivé bity vektoru $z$).
-
         $$ Dek_{G}\left(\hat{c}\right) = \hat{m} $$
 
     \item V~posledním kroku stačí opět dosadit výše použitou substituci:
-
         $$ \hat{m} S^{-1} = m S S^{-1} = m $$
 
 \end{itemize}
@@ -710,7 +684,6 @@ m\hat{G}$. Výběrem $k$ \emph{dimenzí} (množina dimenzí $\mathcal{K} \subset
 $\hat{G}_{\mathcal{K}}$~a~$c_{\mathcal{K}}$ z~matice~$\hat{G}$ respektive
 vektoru~$c$. Pokud je $\hat{G}_{\mathcal{K}}$ regulární, lze řešit soustavu $k$
 nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase $O\left(k^3\right)$:
-
 $$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
 
 Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
@@ -719,7 +692,6 @@ pravděpodobnost, že $c_{\mathcal{K}}$ (ve výběru $k$ dimenzí) je bez chyby 
 $\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
 % TODO je ta pravděpodobnost správně?
 pro vyřešení jedné soustavy rovnic je to přibližně:
-
 $$
     O\left( \frac{n^3}{\left(1-\frac{t}{n}\right)^k} \right) =
     O\left( n^3 \left(\frac{n}{n-t}\right)^k \right)
@@ -815,12 +787,12 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné výpočet rozepsat
         následujícím způsobem:
-    $$
-        \hat{c} =   c \left(S^T\right)^{-1} =
-                    m \hat{H}^T \left(S^T\right)^{-1} =
-                    m P^T H^T S^T \left(S^T\right)^{-1} =
-                    m P^T H^T
-    $$
+        $$
+            \hat{c} =   c \left(S^T\right)^{-1} =
+                        m \hat{H}^T \left(S^T\right)^{-1} =
+                        m P^T H^T S^T \left(S^T\right)^{-1} =
+                        m P^T H^T
+        $$
 
     \item Zavedeme substituci $\hat{m} = m P^T$, potom $\hat{c} = \hat{m} H^T$,
         což odpovídá výpočtu \emph{syndromu} pro použitý kód. Jelikož $\hat{m}$
@@ -870,7 +842,6 @@ by prakticky vždy selhal a nebylo by možné získat žádný výstup jako
 
 Konkrétně pro navrhované parametry $n=1024$, $t=50$ (a $k=524$) je počet vektorů
 do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
-
 $$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808} $$
 
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
@@ -893,7 +864,6 @@ mnohem praktičtější využít kryptosystém \emph{Niederreiter}.
 
 V~článku je dokázán vzorec pro pravděpodobnost, že náhodný \emph{syndrom} délky
 $n-k$ (a při použití \emph{Goppa kódů}) je možné dekódovat je
-
 $$
     \mathcal{P} = \frac{N_{\text{dekódovatelné}}}{N_{\text{celkem}}} \approx
     \frac{\frac{n^t}{t!}}{n^t} = \frac{1}{t!}
@@ -1099,7 +1069,6 @@ byl formalizován a~zobecněn v~\cite{Lee}.
 Útok je založen na výběru $k$ sloupců (dimenzí) (množina $K$) z~veřejně známé
 matice $\hat{G}$ tak, aby vzniklá matice $\hat{G}_{\mathcal{K}}$ byla
 \emph{regulární} a bylo možné vyřešit vzniklou soustavu rovnic
-
 $$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
 
 Tomuto útoku brání fakt, že útočník neví, které bity šifrového textu jsou
@@ -1113,7 +1082,6 @@ je možné tento fakt do algoritmu započítat a bity vektoru $c$ respektive
 $c_{\mathcal{K}}$ invertovat.
 
 Pravděpodobnost, že výběr $k$ dimenzí bude obsahovat maximálně $j$ chyb je
-
 $$
     \mathcal{P}_j= \frac{N_{\text{max. $j$ chyb}}}{N_{\text{celkem}}}
     = \frac{\sum_{i=0}^{j}\binom{t}{i}\binom{n-t}{k-i}}{\binom{n}{k}}
@@ -1122,12 +1090,10 @@ $$
 A~počet všech vektorů $e_\mathcal{K}$, jejichž \emph{Hammingova váha} je menší
 než $j$ (tedy počet vektorů, které je třeba vyzkoušet a zprávu $c$ dle tohoto
 vektoru invertovat) je
-
 $$ N_j = \sum_{i=0}^{j}\binom{k}{i} $$
 
 Pokud je možné řešit soustavu $k$ lineárních rovnic v~$O(k^3)$ počtu krocích, je
 asymptotická složitost tohoto útoku
-
 $$ W_j = O\left( \mathcal{P}_{j}^{-1}\left(k^3 + k N_j \right) \right) $$
 
 V~průměru je totiž provést $\mathcal{P}_{j}^{-1}$ výběrů dimenzí, pro každý
@@ -1145,7 +1111,6 @@ tzv. \emph{útok nalezením slova s~nízkou vahou}. Z~definice šifrování je z
 že $c$ leží ve \emph{vzdálenosti} $t$ od \emph{nějakého} kódového slova.
 Sestrojíme nový kód $\mathcal{K}'$ s~generující maticí $\hat{G}'$ tak, že
 k~matici $\hat{G}$ přidáme šifrový text $c$ jako další řádek matice
-
 $$
     \hat{G}' = \left(\begin{array}{c}
         \hat{G} \\
@@ -1326,7 +1291,6 @@ s~velkou pravděpodobností odhalit~\cite{Berson}. Pro každé šifrování je
 generován náhodný (a pravděpodobně tedy jiný) chybový vektor $z$. Sečtením dvou
 různých šifrových textů jedné zprávy se tak získá součet náhodných chybových
 vektorů:
-
 $$ c_1 + c_2 = (m\hat{G} + z_1) + (m\hat{G} + z_2) = z_1 + z_2 $$
 
 \emph{Váha} každého z~vektorů je $t$ a délka $n$. Sečtením dvou šifrových textů
@@ -1343,7 +1307,6 @@ nižší -- $\binom{2t}{t}$ místo původních $\binom{n}{t}$\footnote{
 Dle stejného principu stačí znát \emph{rozdíl} mezi dvěma zprávami. Označme
 tento rozdíl jako $\Delta m = m_1 + m_2$. Sečtením dvou odpovídajících šifrových
 textů získáme:
-
 $$
     c_1 + c_2 = (m_1\hat{G} + z_1) + (m_2\hat{G} + z_2) =
     \Delta m \hat{G} + z_1 + z_2
@@ -1482,14 +1445,12 @@ použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
         \item Nechť $A$ a $B$ jsou $2^{k-1}\times2^{k-1}$ \emph{dyadické}
             matice, pak
             $2^k\times2^k$ matice
-
             $$
                 H = \left(\begin{array}{c c}
                     A & B\\
                     B & A
                 \end{array}\right)
             $$
-
             je také \emph{dyadická}.
 
     \end{itemize}
@@ -2128,7 +2089,6 @@ Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkc
 \begin{tvrzeni}
     Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa s~\emph{charakteristikou}
     $2$, potom platí:
-
     $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
 \end{tvrzeni}
 
@@ -2161,7 +2121,7 @@ triviální:
 \end{algoritmus}
 
 %TODO poradi
-\paragraph{Důkaz}
+\paragraph{Náznak důkazu}
 \begin{align*}
     A(x)     &=  a_n x^n + \dots + a_2 x^2 + a_1 x + a_0 \\
     {A(x)}^2 &=  (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) =  \\
@@ -2278,11 +2238,9 @@ Důkaz plyne přímo z~definice.
 
 Násobení dvou prvků $a = \alpha^{i_a}$ a $b = \alpha^{i_b}$ tak lze převést na
 součet mocnin \emph{primitivního prvku}:
-
 $$ a \cdot b = \alpha^{i_a} \cdot \alpha^{i_b} = \alpha^{i_a + i_b} $$
 
 Podobným způsobem je možné zjednodušit umocňování prvku:
-
 $$ a^e = \left(\alpha^i\right)^e = \alpha^{i e} $$
 
 V~obou případech je samozřejmě možné použít \emph{Eulerovu větu} a mocniny
