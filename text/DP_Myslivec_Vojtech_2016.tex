@@ -336,14 +336,24 @@ a~\uv{odečítáním} prvků.
 % ====================================================================
 \chapter{Teorie kódování}\label{kap_kody}
 
+V~této kapitole definujeme a vysvětlíme pojmy z teorie kódování, které jsou
+použité v kryptosystému \emph{McEliece} (kapitola~\ref{kap_mceliece}). Definice
+byly čerpané z~\cite{FIT_AAK,Adamek} a pro další studium této problematiky je
+též doporučeno~\cite{McEliece_coding}.
+
+V podkapitolách je definováno základní značení a termíny z oblasti samoopravných
+(\ref{kap_samoopravne_kody}) a lineárních (\ref{kap_linearni_kody}) kódů.
+V~poslední kapitole~\ref{kap_goppa_kody} se věnujeme \emph{binárním Goppa
+kódům}, které jsou přímo použité v kryptosystému \emph{McEliece}.
+
 % ====================================================================
-\section{Samoopravné kódy}
+\section{Samoopravné kódy}\label{kap_samoopravne_kody}
 
 Teorie kódování spadá do oblasti teorie informace a zabývá se způsoby
 \emph{zakódování} či \emph{reprezentací} zpráv a jejich přenosem.
 
-V této kapitole bude použito následujícího značení (odpovídá obrázku
-\ref{obr_kodovani}):
+V~této kapitole budeme používat následujícího značení (odpovídá
+obrázku~\ref{obr_kodovani}):
 
 \begin{center}
 \begin{tabular}{l p{10cm}}
@@ -371,8 +381,9 @@ V této kapitole bude použito následujícího značení (odpovídá obrázku
 
 \begin{definice}{(Binární) kód:}
     Nechť existuje (prosté) zobrazení $\mathcal{K}$ z množiny všech možných
-    zpráv $a$ do množiny kódových slov $b$ ($GF(2)^k \rightarrow GF(2)^n$). Pak
-    toto zobrazení nazveme kódem $\mathcal{K}$.\footnote{
+    zpráv $a$ délky $k$ do množiny kódových slov $b$ délky $n$
+    ($GF(2)^k \rightarrow GF(2)^n$). Pak toto zobrazení nazveme
+    kódem~$\mathcal{K}$ s parametry $(n,k)$.\footnote{
         Obecně lze \emph{kód} definovat jako zobrazení $\mathcal{L}^k
         \rightarrow \mathcal{M}^n$, kde $\mathcal{L}$ je \emph{abeceda} zpráv
         délky $k$ a~$\mathcal{M}$ abeceda kódových slov délky $n$.
@@ -392,7 +403,7 @@ které nepatří do množiny $\mathcal{B}$ nazveme jako \emph{nekódová slova}
 $\mathcal{K}$ a operací dekódování aplikaci $\mathcal{K}^{-1}$, tedy získání
 původní zprávy z \emph{kódového slova}.
 
-\begin{definice}{Hammingova vzdálenost}
+\begin{definice}{Hammingova vzdálenost:}
     \emph{Hammingova vzdálenost} dvou vektorů $u$ a $v$ -- $vzd(u,v)$ či
     $H(u,v)$ -- je počet rozdílných \emph{bitů} ve vektorech $u$ a $v$:
     $vzd(u,v) = \sum \left| u_i - v_i \right|$
@@ -404,7 +415,7 @@ je to počet \emph{nenulových} bitů (\uv{jedniček}) vektoru $v$.
 $$ H(v) = H(v,\mathbf{0}) $$
 
 
-\begin{definice}{Kódová vzdálenost}
+\begin{definice}{Kódová vzdálenost:}
     Kódová vzdálenost kódu $\mathcal{K}$ je definována jako minimální
     \emph{Hammingova vzdálenost} mezi všemi kódovými slovy.
     $$
@@ -426,9 +437,13 @@ $d-1$ chyb.
 \paragraph{Samoopravný kód} \hfil \\
 Kód, který dokáže při dekódování dokáže opravit chybu při přenosu, nazýváme
 kódem \emph{samoopravným}. Při kódové vzdálenosti $d$ je z principu možné
-opravit $\lfloor \frac{d-1}{2} \rfloor$ chyb. Operace \emph{dekódování} potom z
-nekódového slova dokáže nalézt nejbližší (ve smyslu \emph{Hammingově
-vzdálenosti}) slovo kódové.
+opravit $t = \lfloor \frac{d-1}{2} \rfloor$ chyb. Operace \emph{dekódování}
+potom z nekódového slova dokáže nalézt nejbližší (ve smyslu \emph{Hammingově
+vzdálenosti}) slovo \emph{kódové}. U samoopravných kódů uvádíme parametry včetně
+počtu chyb, které kód dokáže opravit, tedy $(n,k,t)$\footnote{
+    V některých zdrojích se místo počtu opravitelných chyb objevuje kódová
+    vzdálenost, tedy $(n,k,d)$, což odpovídá $(n,k,2t+1)$.
+}.
 
 
 Počet opravitelných chyb naznačují obrázky~\ref{obr_kvzd}. Vrcholy úseček
@@ -458,25 +473,176 @@ V této práci budeme nadále pracovat pouze se \emph{samoopravnými kódy}.
 
 
 % ====================================================================
-\section{Lineární kódy}
+\section{Lineární kódy}\label{kap_linearni_kody}
+Dalším důležitým pojmem, který budeme v práci používat jsou \emph{lineární
+kódy}.
 
-vzdálenost váha nejmenšího nenulového slova
+\begin{definice}{Lineární kód:}
+    Nechť je zobrazení odpovídající kódu $\mathcal{K}$ \emph{lineární},
+    pak nazýváme tento kód \emph{lineárním}.
+\end{definice}
 
-syndrom
+Jinými slovy \emph{kódová slova} kódu $\mathcal{K}$ tvoří \emph{lineární
+prostor} -- přesněji \emph{lineární podprostor} vektorového prostoru $GF(2)^n$.
+V tomto prostoru definujeme klasické operace sčítání dvou vektorů jako operaci
+\emph{XOR} a násobení skaláru s vektorem jako operaci násobení po jednotlivých
+složkách vektoru. Je jasné, že v případě násobení skalárem $0$ je výsledek
+operace násobení skalárem \emph{nulový vektor} ($0 \cdot \mathbf{v} = \mathbf{0}$)
+a násobením skalárem $1$ získáme původní (nezměněný) vektor
+($1 \cdot \mathbf{v} = \mathbf{v}$).
+
+Z definice lineárního prostoru též plyne, že \emph{nulový vektor} $\mathbf{0}$
+je vždy kódovým slovem \emph{lineárního} kódu $\mathcal{K}$.
+
+\begin{tvrzeni}
+    Kódová vzdálenost lineárního kódu $\mathcal{K}$ odpovídá minimální váze ze
+    všech kódových slov (kromě nulového vektoru).
+    $$
+        kvzd(\mathcal{K}) =
+        \min_{\forall b \in \mathcal{B} \setminus \mathbf{0}} H(b)
+    $$
+\end{tvrzeni}
+
+\paragraph{Náznak důkazu} \hfil \\
+Důkaz vyplývá z faktu, že minimální \emph{vzdálenost} daného kódového slova $b$
+ke všem ostatním kódovým slovům je pro všechna kódová slova stejná:
+$$
+    \forall b :
+    \min_{\forall b_i \in \mathcal{B} \setminus b} H( b,     b_i ) =
+    \min_{\forall b_i \in \mathcal{B} \setminus b} H( b-b_i, 0   ) =
+    \min_{\forall b_i \in \mathcal{B} \setminus b} H( b_j,   0   )
+$$
+sečtením (odečtením) dvou kódových slov vznikne opět kódové slovo. Proto $b_j$
+je pouze substituce naznačující \emph{nějaké} kódové slovo. Pokud je pro všechny
+stejná, tak odpovídá \emph{kódové vzdálenosti} a~když se podíváme na
+\emph{nulový vektor} (kódové slovo), tak nejbližší kódové slovo odpovídá
+kódovému slovu s nejnižší \emph{Hammingovou vahou}.
+
+
+\begin{definice}{Generující matice:}
+    Nechť soubor vektorů $g_1,g_2,\ldots,g_k$ tvoří bázi prostoru
+    kódových slov $\mathcal{B}$ \emph{lineárního kódu} $\mathcal{K}$. Potom
+    matici $G$, sestavenou po řádkách vektory $g_i$, nazveme \emph{generující
+    maticí} kódu $\mathcal{K}$.
+\end{definice}
+
+Matice $G$ je vlastně matice \emph{lineárního zobrazení} $\mathcal{K}$ z
+prostoru (všech) zpráv do prostoru kódových slov ($\mathcal{A} \to
+\mathcal{B}$ \footnote{
+    Kde $\mathcal{A} = GF(2)^k$ a $\mathcal{B} \subset \subset GF(2)^n$.
+}).
+
+Operace zakódování $K$ zprávy $a$ potom u \emph{lineárního} kódu odpovídá
+násobení vektoru s generující maticí:
+$$ K_G(a) : b = aG $$
+
+Toto maticové násobení ve odpovídá sečtení řádků matice $G$, které
+jsou určené vektorem $a$ (sečtení vektorů $g_i$).
+
+\begin{definice}{Systematický kód:}
+    Pokud je \emph{generující} matice kódu $\mathcal{K}$ ve tvaru \\
+    $G=(\mathbb{I}_k|F)$, kde $\mathbb{I}_k$ je jednotková matice $k \times k$ a
+    $F$ je matice $r \times k$, říkáme, že kód $\mathcal{K}$ je
+    \emph{systematický}.
+\end{definice}
+
+Prvních $k$ bitů \emph{kódových} slov \emph{systematického} kódu pak přesně
+odpovídá původní zprávě $a$. Těmto bitům říkáme \emph{informační} bity
+a~posledním $r$\;bitům pak bity \emph{kontrolní}. Při dekódování kódového slova
+pak stačí jednoduše odstranit \emph{kontrolní} bity a~zůstanou tak bity původní
+zprávy
+$$ D(c) : d = MSB_k(c) $$
+
+Samozřejmě toto je možné pouze pokud bylo přijaté slovo \emph{kódové}. Pro
+detekci a~opravu chyb budeme potřebovat \emph{kontrolní} matici.
+
+\begin{definice}{Kontrolní matice:}\footnote{
+    V některých zdrojích uváděna jako matice \emph{prověrková}.
+}
+    Nechť $G$ je \emph{generující} matice \emph{lineárního kódu}~$\mathcal{K}$.
+    Pak definujeme \emph{kontrolní matici} $H$ tohoto kódu jako:
+    $$ G H^T = \textbf{0} $$
+    Kde $\textbf{0}$ je \emph{nulová matice} .
+\end{definice}
+
+
+Vezmeme-li řádky matice $H$ jako soubor vektorů $h_i$, pak jsou tyto vektory
+\emph{bází} \emph{ortogonálního doplňku}\footnote{
+    Nebo též \emph{nulového} prostoru.
+} $\mathcal{H}$ k~prostoru \emph{kódových
+slov} $\mathcal{B}$. Neboli
+$$ \forall b \in \mathcal{B}, \forall h \in \mathcal{H} : b \perp h $$
+
+Na matici $H$ se lze dívat též jako na generující matici kódu $\mathcal{K}'$
+s~parametry $(n,n-k)$, pak samozřejmě platí, že matice $G$ je \emph{kontrolní}
+maticí tohoto kódu. Kód $\mathcal{K}'$ se nazývá \emph{duálním kódem} ke
+kódu~$\mathcal{K}$.
+
+
+\begin{tvrzeni}
+    Pokud je \emph{generující} matice $G$ v~systematické formě
+    $G=(\mathbb{I}_k|F)$, tak má \emph{kontrolní} matice tvar
+    $$ H=(F^T|\mathbb{I}_r) $$
+\end{tvrzeni}
+
+\paragraph{Důkaz} \hfil \\
+Dosazením do definice \emph{kontrolní} matice:
+$$
+    G H^T = (\mathbb{I}_k|F)(F^T|\mathbb{I}_r)^T =
+    (\mathbb{I}_k|F)(\frac{F}{\mathbb{I}_r}) = F + F = \textbf{0}
+$$
+je vidět, že matice $H$ definici splňuje.
+
+Pokud $G$ není v~tomto \emph{systematickém} tvaru, lze ji pomocí
+\emph{elementárních operací} převést na matici $G'$ v~\emph{systematickém} tvaru
+a získat dle tvrzení výše kontrolní matici $H'$. Matice $H'$ je pak
+i~\emph{kontrolní} maticí k~původní matici $G$, jelikož \emph{elementární}
+úpravy nemění \emph{prostor}, který matice generuje~\cite{Adamek}.
+
+\begin{definice}{Syndrom:}
+    Nechť $H$ je \emph{kontrolní} matice \emph{lineárního} kódu $\mathcal{K}$ a
+    $c$ je přijatý vektor. \emph{Syndrom} $s$ tohoto přijatého vektoru je
+    $$ s = c H^T $$
+\end{definice}
+
+\begin{tvrzeni}
+    \emph{Syndrom} záleží pouze na chybovém vektoru $e$ a pro nulový vektor $e$
+    (kódová slova $c$) je syndrom také \emph{nulový}.
+\end{tvrzeni}
+
+\paragraph{Důkaz} \hfil \\
+Při dosazení $c=b+e$ získáme rovnost:
+$$ s = c H^T = (b+e)H^T = b H^T + e H^T $$
+a z definice \emph{ortogonálního doplňku} platí: $ b H^T = \textbf{0} $
+$$ \Rightarrow s = e H^T $$
+
+Vypočítaný \emph{syndrom} se používá pro detekci, zda bylo přijaté slovo
+\emph{kódové} či nikoliv. \emph{Samoopravné} kódy zpravidla využívají
+\emph{syndrom} pro rekonstrukci chyby a opravení přijatého vektoru $c$ na slovo
+kódové.
 
 % --------------------------------------------------------------------
 \subsection{Hammingovy kódy}
+Jako příklad \emph{lineárních} kódu uvádíme \emph{Hammingovy} kódy.
+
+\begin{definice}{Hammingův kód}
+    Generující matice \emph{lineárního samoopravného Hammingova} kódu lze
+    sestrojit:
+
+\end{definice}
 
 % ====================================================================
-\section{Goppa kódy}
+\section{Binární Goppa kódy}\label{kap_goppa_kody}
+\cite{Goppa,Berlekamp2}
 
 \emph{Ireducibilní binární Goppa kódy}
 
 \emph{Pattersonův algoritmus}
+\cite{Patterson}
 
 \emph{Chien search} , \ldots
 
-\emph{List Decoding}  \cite{Repka}
+\emph{List Decoding}  \cite{Repka,Bernstein2}
 
 
 
@@ -675,7 +841,7 @@ hrubou silou je \emph{neschůdné}\footnote{
 
 Druhý způsob znamená dekódovat původní zprávu $m$ z~přijaté zprávy $c$, která
 navíc obsahuje chybový vektor. Provést toto dekódování bez znalosti použitého
-kódu je \emph{NP-těžký} problém \cite{Berlekamp}.
+kódu je \emph{NP-těžký} problém \cite{Berlekamp1}.
 
 \paragraph{Naznačení problému} \hfil \\
 V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost $c =
@@ -978,7 +1144,7 @@ možné považovat kryptosystém McEliece \emph{bezpečný}:
     \item Problém nalezení kódového slova \emph{obecného lineárního kódu}
         s~minimální vzdáleností k~danému vektoru
         -- \emph{problém obecného dekódování} -- je \emph{NP-těžký}
-        \cite{Berlekamp}
+        \cite{Berlekamp1}
     \item Není znám žádný algoritmus, který by \emph{bez znalosti tajných parametrů}
         dokázal nalézt kódové slovo efektivněji, než \emph{za použití obecného kódu}.
 \end{enumerate}
@@ -1171,7 +1337,7 @@ uvedeno několik tabulek z~různých zdrojů, které odhadují \emph{míru bezpe
 kryptosystému \emph{McEliece}.
 
 V~tabulce \ref{tab_Bernstein} shrnuje parametry kryptosystému \emph{McEliece}
-pro dosažení požadované míry bezpečnosti dle \cite{Bernstein} a tabulka
+pro dosažení požadované míry bezpečnosti dle \cite{Bernstein1} a tabulka
 \ref{tab_Repka} dle \cite{Repka}. Tyto tabulky obsahují informaci o~velikosti
 \emph{veřejného klíče} v~\emph{systematické formě}. Tabulka \ref{tab_Engelbert}
 inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické složitosti šifrování
@@ -1206,7 +1372,7 @@ Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
         $128$\;b    & $\left(2960,2288,56\right)$   & $1502$\;kb    \\
         $256$\;b    & $\left(6624,5129,115\right)$  & $7488$\;kb    \\
     \end{tabular}
-    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Bernstein}}
+    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Bernstein1}}
     \label{tab_Bernstein}
     \end{center}
 \end{table}
@@ -1438,7 +1604,7 @@ výpočtech vůbec nezahrnují.
 Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
 použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
 
-\begin{definice}{Dyadická matice}
+\begin{definice}{Dyadická matice:}
     \begin{itemize}
         \item Každá $1\times1$ matice je \emph{dyadická}. \\
 
@@ -1457,7 +1623,7 @@ použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
 \end{definice}
 
 
-\begin{definice}{Kvazi-dyadická matice}
+\begin{definice}{Kvazi-dyadická matice:}
     Matice, která není \emph{dyadická}, ale skládá se z~\emph{dyadických}
     submatic je \emph{kvazi-dyadická}.
 \end{definice}
@@ -2352,18 +2518,39 @@ odpovídá výrazu $a/b$.
         42-44} Jenuary and February 1978, strany 114–116. Dostupné online
         \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
 
-    \bibitem{Berlekamp}
+    \bibitem{Adamek}
+        Jiří \textsc{Adámek}. \emph{Kódování}. Edice Matematika pro vysoké školy
+        technické. SNTL, 1989.
+
+    \bibitem{Berlekamp1}
         Elwyn R. \textsc{Berlekamp}, Robert J. \textsc{McEliece}, Henk C. A. van
         \textsc{Tilborg}.  On the Inherent Intractibility v~\emph{IEEE
         Transactions of Information Theory}, vol. IT-24, No. 3, strany 384-386.
         IEEE, květen 1978.
 
-    \bibitem{Bernstein}
+    \bibitem{Berlekamp2}
+        Elwyn R. \textsc{Berlekamp}. Goppa Codes v~\emph{IEEE Transactions on
+        Information Theory}, vol. 19, strany 590-592. IEEE, 1973. Dostupné
+        online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1055088}
+
+    \bibitem{Bernstein1}
         Daniel J. \textsc{Bernstein}, Tanja \textsc{Lange}, Christiane
         \textsc{Peters}. Attacking and Defending the McEliece Cryptosystem
         v~\emph{Post-Quantum Cryptography}, strany 31-46. Springer Berlin
         Heidelberg 2008. Dostupné online
         \url{http://link.springer.com/chapter/10.1007/978-3-540-88403-3\_3}
+
+    \bibitem{Bernstein2}
+        Daniel J. \textsc{Bernstein}. List decoding for binary Goppa codes
+        v~\emph{Coding and Cryptology}, vol. 6639, strany 62-80. Springer Berlin
+        Heidelberg 2011. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-20901-7\_4}
+
+    \bibitem{Post-Quantum_Cryptography}
+        Daniel J. \textsc{Bernstein}, Johannes \textsc{Buchmann}, Erik
+        \textsc{Dahmen}. \emph{Post-Quantum Cryptography}. ISBN
+        978-3-540-88701-0.  Springer Berlin Heidelberg, 2009.
 
     \bibitem{Berson}
         T. A. \textsc{Berson}. Failure of the McEliece public-key cryptosystem under
@@ -2428,6 +2615,10 @@ odpovídá výrazu $a/b$.
 %        Integration of Asymmetric and Symmetric Encryption Schemes
 %        v~\emph{CRYPTO}, vol. 1666, strany 535-554. 1999.
 
+    \bibitem{Goppa}
+        Valery D. \textsc{Goppa}. A New Class of Linear Correcting Codes
+        v~\emph{Problemy Peredachi Informatsii}, vol. 6, strany 24-30. 1970.
+
     \bibitem{Heyse}
         Stefan \textsc{Heyse}. \emph{Code-based Cryptography}: Implementing the
         McEliece Scheme on Reconfigurable Hardware. Diplomová práce.
@@ -2464,6 +2655,11 @@ odpovídá výrazu $a/b$.
         Information Theory}, vol. 34, strany 1354-1359. IEEE, 1988. Dostupné
         online
         \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=21270}
+
+    \bibitem{McEliece_coding}
+        Robert \textsc{McEliece}. \emph{The Theory of Information and Coding}.
+        Encyclopedia of Mathematics and its Applications, vol. 3.
+        Addison-Wesley, 1977.
 
     \bibitem{Merchan}
         J. G. \textsc{Merchan}, S. \textsc{Kumar}, C. \textsc{Paar},
@@ -2506,7 +2702,15 @@ odpovídá výrazu $a/b$.
         based on Quasi-Dyadic Goppa Codes. Diplomová práce. Ruhr-University
         Bochum, 2010.
 
+%    todo?
 %    \bibitem{Pointcheval}
+
+    \bibitem{Patterson}
+        Nicholas J. \textsc{Patterson}, The algebraic decoding of Goppa codes
+        v~\emph{IEEE Transactions on Information Theory}, vol. 21, strany
+        203-207. IEEE 1975. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1055350}
+
 
     \bibitem{Randall}
         Dana \textsc{Randall}. \emph{Efficient Generation of Random Nonsingular
@@ -2565,11 +2769,6 @@ odpovídá výrazu $a/b$.
         cryptosystems v~\emph{IEEE Transactions on Information Theory}, vol. 40,
         strany 271-273. IEEE, leden 1994. Dostupné online
         \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=272496}
-
-    \bibitem{Post-Quantum_Cryptography}
-        Daniel J. Bernstein,Johannes Buchmann,Erik Dahmen
-        Post-Quantum Cryptography
-        %TODO
 
 % přednášky
     \bibitem{FIT_AAK} Přednášky MI-AAK
