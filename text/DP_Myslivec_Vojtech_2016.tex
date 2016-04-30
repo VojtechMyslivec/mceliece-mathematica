@@ -26,7 +26,7 @@
 % \makeglossaries
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
-\newcommand{\0}{{\textcolor[gray]{0.80}{0}}}
+\newcommand{\0}{{\textcolor[gray]{0.75}{0}}}
 
 \newsubfloat{figure}
 
@@ -1911,7 +1911,7 @@ jednotné rozhraní:
         $modul_1 = \left\{i_1,p\right\}$ \\
         Pro rozšířená tělesa se \emph{modul} skládá z~odpovídajícího
         \emph{polynomu} $i_k$ stupně $n_k$ nad tělesem
-        $GF( {{p^{n_1}}^{\dots}}^{n_{k-1}} )$ a \emph{modulu vnitřního tělesa}: \\
+        $GF( {{p^{n_1}}^{\ldots}}^{n_{k-1}} )$ a \emph{modulu vnitřního tělesa}: \\
         $modul_k = \left\{i_k,modul_{k-1}\right\}$.
 
     \item Všem funkcím se předávají nejdřív \emph{operandy} a poté
@@ -1965,6 +1965,7 @@ V~níže uvedených pseudokódech se používá některých prvků ze syntaxe so
     \caption{Prvky syntaxe jazyka softwaru \emph{Mathematica}}
 \end{table}
 
+
 \subsubsection{Sčítání}
 Jelikož operace sčítání se v~jakémkoliv \emph{tělese} provádí po jednotlivých
 koeficientech \emph{modulo} $p$, je tato funkce jediná volána místo celkového
@@ -1983,8 +1984,8 @@ modulo $p$.
      \EndFunction
     \end{algorithmic}
     \begin{algorithmic}[1]
-     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(q^n)$, $q$ je $p^{\dots}$}
-        \For{$ i \gets 1\dots Length[a] $}
+     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(q^n)$, $q$ je $p^{\ldots}$}
+        \For{$ i \gets 1\ldots Length[a] $}
             \State $c[[i]] \gets plus[a[[i]],b[[i]],p]$
         \EndFor
         \State \Return $c$
@@ -1997,6 +1998,7 @@ prvočíslo) se prvky (\emph{seznamy}) převádějí na polynomy a využívá se
 implementovaných funkcí softwaru \emph{Mathematica}. Z~tohoto důvodu jsou nadále
 uváděné algoritmy pouze pro \emph{rozšířená tělesa} $GF(q^n)$, kde $q$ je nějaká
 mocnina prvočísla.
+
 
 \subsubsection{Redukce polynomu}
 
@@ -2046,26 +2048,30 @@ Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
     \end{algorithmic}
 \end{algoritmus}
 
-\paragraph{Příklad} Redukce polynomu $x^{12} + x^8 + x^7 + x^5 + x^4 + x^3 + 1$
-polynomem $x^4 + x + 1$ (nad tělesem $GF(2)$):
+\paragraph{Příklad} Redukce polynomu $(10)x^5 + (10)x^4 + (01)$
+polynomem $(10)x^3 + (01)x^2 + (11)x + (10)$ (nad tělesem $GF(2^2)$
+s~ireducibilním polynomem $111$):
 
-%\renewcommand{\0}{{\scriptscriptstyle 0}}
+\renewcommand{\0}{{\textcolor[gray]{0.75}{(00)}}}
 \begin{align*}
-& 1000110111001 \mod 10011: \\
+&(10)(10)(00)(00)(00)(01) \mod (10)(01)(11)(10) : \\
 & \arraycolsep=1pt
-\begin{array}{*{13}{l}}
-        1 &  0 &  0 &  0 &  1 &  1 &  0 &  1 &  1 &  1 &  0 &  0 &  1   \\
+\begin{array}{*{6}{l}}
+        (10) & (10) & (00) & (00) & (00) & (01) \\
     \hline
-        1 &  0 &  0 &  1 &  1 & \0 & \0 & \0 & \0 & \0 & \0 & \0 & \0   \\
-       \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0 & \0 & \0 & \0   \\
-       \0 & \0 & \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0 & \0   \\
-       \0 & \0 & \0 & \0 & \0 & \0 &  1 &  0 &  0 &  1 &  1 & \0 & \0   \\
+        (10) & (01) & (11) & (10) &  \0  &  \0  \\
+         \0  & (11) & (10) & (01) & (11) &  \0  \\
+         \0  &  \0  & (01) & (11) & (10) & (01) \\
     \hline
-          &    &    &    &    &    &    &    &    &  1 &  1 &  0 &  1   \\
+             &      &      & (00) & (01) & (00) \\
 \end{array}
 \end{align*}
 
-$\Rightarrow \left|1000110111001\right|_{10011} = 1101$
+$
+    \Rightarrow
+    \left| (10)(10)(00)(00)(00)(01) \right|_{(10)(01)(11)(10)} = (00)(01)(00)
+$
+
 
 \subsubsection{Násobení}
 
@@ -2107,26 +2113,27 @@ Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů} a nás
     \end{algorithmic}
 \end{algoritmus}
 
-\paragraph{Příklad} Násobení polynomu $x^3+x+1$ polynomem $x^4+x^2+1x+1$ (nad
-tělesem $GF(2)$):
+\paragraph{Příklad} Násobení polynomu $(110)x^2 + (101)x + (001)$ polynomem
+$(001)x^3 + (010)x + (011))$ (nad tělesem $GF(2^3)$ s~ireducibilním
+polynomem $1011$):
 
-%\renewcommand{\0}{{\scriptscriptstyle 0}}
+\renewcommand{\0}{{\textcolor[gray]{0.75}{(000)}}}
 \begin{align*}
-& 1011 \cdot 10111: \\
+& (110)(101)(001) \cdot (001)(000)(010)(011) : \\
 & \arraycolsep=1pt
 \begin{array}{r *{8}{l}}
-        1 (x^4) &  1 &  0 &  1 &  1 & \0 & \0 & \0 & \0 \\
-        0 (x^3) & \0 &  0 &  0 &  0 &  0 & \0 & \0 & \0 \\
-        1 (x^2) & \0 & \0 &  1 &  0 &  1 &  1 & \0 & \0 \\
-        1 (x^1) & \0 & \0 & \0 &  1 &  0 &  1 &  1 & \0 \\
-        1 (x^0) & \0 & \0 & \0 & \0 &  1 &  0 &  1 &  1 \\
+        (001) x^3 : \quad \; & (110) & (101) & (001) &   \0  &   \0  &   \0  \\
+        (000) x^2 : \quad \; &   \0  & (000) & (000) & (000) &   \0  &   \0  \\
+        (010) x^1 : \quad \; &   \0  &   \0  & (111) & (001) & (010) &   \0  \\
+        (011) x^0 : \quad \; &   \0  &   \0  &   \0  & (001) & (100) & (011) \\
     \hline
-                & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+                             & (110) & (101) & (110) & (000) & (110) & (011) \\
 \end{array}
 \end{align*}
 
 $\Rightarrow$ Výsledek operace násobení modulo polynom $g$ se získá redukcí
-polynomu $10000001$ polynomem $g$.
+polynomu $(110)(101)(110)(000)(110)(011)$ polynomem $g$.
+
 
 \subsubsection{Inverze}
 
@@ -2196,25 +2203,6 @@ sčítání.
     \label{alg_eea}
 \end{algoritmus}
 
-
-%\paragraph{Příklad} \emph{Rozšířený Euklidův algoritmus} pro výpočet
-%\emph{inverze} polynomu $x^3+x^2+1$ \emph{modulo} $x^6+x+1$ (nad tělesem
-%$GF(2)$):
-%
-%\begin{center}
-%    \begin{tabular}{r|r r r}
-%          Podíl &    Zbytek &       Koeficienty \\
-%        \hline
-%        \hline
-%                & $1000011$ &       $0$ &   $1$ \\
-%                &    $1101$ &       $1$ &   $0$ \\
-%        \hline
-%         $1110$ &     $101$ &   $-1110$ &   $1$ \\
-%           $11$ &      $10$ &   $10011$ & $-11$ \\
-%           $10$ &       $1$ & $-101000$ & $111$ \\
-%    \end{tabular}
-%\end{center}
-
 \paragraph{Příklad} \emph{Rozšířený Euklidův algoritmus} pro výpočet
 \emph{inverze} polynomu $(101)x^3 + (010)x^2 + (110)x + (111)$ \emph{modulo}
 $(001)x^4 + (011)x^3 + (011)x^2 + (001)x + (011)$ (nad tělesem $GF(2^3)$
@@ -2240,12 +2228,6 @@ $
     (101)(001)(100)(101)
 $
 
-%%\paragraph{Poznámka} \hfil \\
-%\paragraph{Poznámka:}
-%Poslední sloupec tabulky se v~algoritmu nepočítá, je zde uveden pouze pro
-%úplnost.
-
-
 \subsubsection{Druhá mocnina}
 
 Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkci
@@ -2253,9 +2235,9 @@ Pro prvky tělesa s~\emph{charakteristikou} $2$ Je výhodné implementovat funkc
 
 
 \begin{tvrzeni}
-    Nechť $A=(a_n \dots a_2 a_1 a_0)$ je prvek tělesa s~\emph{charakteristikou}
+    Nechť $A=(a_n \ldots a_2 a_1 a_0)$ je prvek tělesa s~\emph{charakteristikou}
     $2$, potom platí:
-    $$ A^2 = (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2) $$
+    $$ A^2 = (a_n^2 0 \ldots 0 a_2^2 0 a_1^2 0 a_0^2) $$
 \end{tvrzeni}
 
 S~využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
@@ -2274,7 +2256,7 @@ triviální:
     \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
-        \For{$ i \gets 1 \dots Length[i]$}
+        \For{$ i \gets 1 \ldots Length[i]$}
             \State $ a[[i]] \gets naDruhou[ a[[i]], modul_{vnitrni} ] $
         \EndFor
         \State $ nula \gets nulovyPolynom[ \ldots ]$
@@ -2289,33 +2271,33 @@ triviální:
 %TODO poradi
 \paragraph{Náznak důkazu}
 \begin{align*}
-    A(x)     &=  a_n x^n + \dots + a_2 x^2 + a_1 x + a_0 \\
-    {A(x)}^2 &=  (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) =  \\
-             &= a_n x^n   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                              \\
-             & \qquad \vdots                                                                                \\
-             &  {} + a_2 x^2   \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                         \\
-             &  {} + a_1 x \, \:  \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) + {}                      \\
-             &  {} + a_0 \quad \cdot (a_n x^n + \dots + a_2 x^2 + a_1 x + a_0) =                            \\
-             &= a_n^2 x^{2n}    + \dots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {}              \\
-             & \qquad \vdots                                                                                \\
-             &  {} + a_n a_2 x^{n+2} + \dots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {}         \\
-             &  {} + a_n a_1 x^{n+1} + \dots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {}         \\
-             &  {} + a_n a_0 x^n     + \dots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2       =            \\
-             &= a_n^2 x^{2n} + \dots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + 2 ( a_2 a_0 ) x^2 + a_1^2 x^2 + 2 ( a_1 a_0 ) x + a_0^2 = \\
-             &= \sum_{i=0}^{n} a_i^2 x^{2i} + 2 \sum_{i=1}^{n+1}\sum_{\substack{j<k \\ j+k = i}} a_j a_k =  \\
+    A(x)     &=  a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0 \\
+    {A(x)}^2 &=  (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) = \\
+             &= a_n x^n   \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) + {}                              \\
+             & \qquad \vdots                                                                                 \\
+             &  {} + a_2 x^2   \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) + {}                         \\
+             &  {} + a_1 x \, \:  \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) + {}                      \\
+             &  {} + a_0 \quad \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) =                            \\
+             &= a_n^2 x^{2n}    + \ldots + a_n a_2 x^{n+2} + a_n a_1 x^{n+1} + a_n a_0 x^n + {}              \\
+             & \qquad \vdots                                                                                 \\
+             &  {} + a_n a_2 x^{n+2} + \ldots + a_2^2 x^4       + a_2 a_1 x^3     + a_2 a_0 x^2 + {}         \\
+             &  {} + a_n a_1 x^{n+1} + \ldots + a_2 a_1 x^3     + a_1^2 x^2       + a_1 a_0 x   + {}         \\
+             &  {} + a_n a_0 x^n     + \ldots + a_2 a_0 x^2     + a_1 a_0 x       + a_0^2       =            \\
+             &= a_n^2 x^{2n} + \ldots  + 2 ( a_3 a_0 + a_2 a_1 ) x^3  + 2 ( a_2 a_0 ) x^2 + a_1^2 x^2 + 2 ( a_1 a_0 ) x + a_0^2 = \\
+             &= \sum_{i=0}^{n} a_i^2 x^{2i} + 2 \sum_{i=1}^{n+1}\sum_{\substack{j<k \\ j+k = i}} a_j a_k =   \\
              &= \sum_{i=0}^{n} a_i^2 x^{2i}
-    \hspace{2.5cm} \cong (a_n^2 0 \dots 0 a_2^2 0 a_1^2 0 a_0^2)
-%             &= a_n^2 x^{2n} + \dots + a_2 x^4 + a_1^2 x^2 + a_0^2  \\
+    \hspace{2.5cm} \cong (a_n^2 0 \ldots 0 a_2^2 0 a_1^2 0 a_0^2)
 \end{align*}
+
 
 \subsubsection{Mocnění}
 
 Mocnění \emph{polynomů} je implementováno pomocí algoritmu
 \emph{Square-and-Multiply} (\emph{SM}). Algoritmus využívá faktu, že libovolnou
-mocninu lze rozložit na součin mocnin čtverců ($^2$,$^4$,$^8$,\dots). Konkrétně
+mocninu lze rozložit na součin mocnin čtverců ($^2$, $^4$, $^8$, \ldots). Konkrétně
 byla implementována varianta provádějící výpočet od nejvíce významného bitu
 exponentu\footnote{
-    Uváděna jako \emph{MSB} -- z~anglického \emph{most significant bit}.
+    Uváděna jako \emph{MSB} -- z~anglického \emph{Most Significant Bit}.
 }. Algoritmus má vstupy polynom $a$ a exponent $e$. Exponent se vyjádří jako
 číslo v~\emph{binární} soustavě a poté algoritmus provádí cyklus přes bity
 tohoto rozvoje. V~každém kroku se mezivýsledek umocní na druhou a v~případě, že
@@ -2354,31 +2336,34 @@ odběrové a~časové analýze.  Pro odolnou implementaci je nutné počítat n�
 \emph{vždy} a~pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
 Pseudokód i~reálná implementace je prováděna tímto (bezpečným) způsobem.
 
-\paragraph{Příklad} \emph{Square-and-Multiply} pro výpočet
-$\left(x^3+1\right)^{26}$ \emph{modulo} $x^6+x+1$ (nad tělesem $GF(2)$):
+\paragraph{Příklad} Algoritmus \emph{Square-and-Multiply} pro výpočet
+$\left( (11)x^2 + (10) \right)^{26}$ \emph{modulo} $(01)x^3 + (11)x + (01)$
+(nad tělesem $GF(2^2)$ s~ireducibilním polynomem~$111$):
 
-%\renewcommand{\0}{{\scriptscriptstyle 0}}
+\renewcommand{\0}{{\textcolor[gray]{0.75}{(00)}}}
 \begin{center}
     \begin{tabular}{c|r|l|r|r}
         \multirow{2}{*}{Op.} & \multicolumn{2}{c}{Mocnina} & \multicolumn{1}{c}{\multirow{2}{*}{Výpočet}} & \multirow{2}{*}{Výsledek} \\
-                &  dek. & bin.    &                   &              \\
+                &  dek. & bin.    &                                     &                \\
         \hline
         \hline
-                & $  1$ & $1    $ &                   & $ 1001$      \\
+                & $  1$ & $1    $ &                                     & $(11)(00)(10)$ \\
         \hline
-    \textbf{S}  & $  2$ & $1    $ & $    1\00\00\01 $ & $   10$      \\
-    \textbf{M}  & $  3$ & $11   $ & $ 10 \cdot 1001 $ & $10010$      \\
+    \textbf{S}  & $  2$ & $1    $ & $                (10)\0(00)\0(11) $ & $(01)(10)(11)$ \\
+    \textbf{M}  & $  3$ & $11   $ & $ (01)(10)(11) \cdot (11)(00)(10) $ & $(10)(11)(00)$ \\
         \hline
-    \textbf{S}  & $  6$ & $110  $ & $ 1\00\00\01\00 $ & $ 1000$      \\
+    \textbf{S}  & $  6$ & $110  $ & $                (11)\0(10)\0(00) $ & $    (11)(00)$ \\
         \hline
-    \textbf{S}  & $ 12$ & $1100 $ & $    1\00\00\00 $ & $   11$      \\
-    \textbf{M}  & $ 13$ & $1101 $ & $ 11 \cdot 1001 $ & $11011$      \\
+    \textbf{S}  & $ 12$ & $1100 $ & $                      (10)\0(00) $ & $(10)(00)(00)$ \\
+    \textbf{M}  & $ 13$ & $1101 $ & $ (10)(00)(00) \cdot (11)(01)(10) $ & $    (01)(00)$ \\
         \hline
-    \textbf{S}  & $ 26$ & $11010$ & $     1\01\00\01\01 $ & $ 1010$      \\
+    \textbf{S}  & $ 26$ & $11010$ & $                      (01)\0(00) $ & $(01)(00)(00)$ \\
     \end{tabular}
 \end{center}
-
-$ \Rightarrow \left|1001^{26}\right|_{1000011} = 1010 $
+$
+    \Rightarrow
+    \left| (11)(00)(10)^{26} \right|_{(01)(00)(11)(01)} = (01)(00)(00)
+$
 
 % --------------------------------------------------------------------
 \subsection{Možná zlepšení}
@@ -2427,7 +2412,7 @@ Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti pr
 překladové \emph{log}- a \emph{antilogaritmické} tabulky pro překlad prvků
 z~jedné reprezentace na druhou.
 
-% todo 
+% todo
 \clearpage
 
 Ač se tak získá podstatné zrychlení výpočtů v~tělese, existuje několik nevýhod
