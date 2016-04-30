@@ -336,15 +336,15 @@ a~\uv{odečítáním} prvků.
 % ====================================================================
 \chapter{Teorie kódování}\label{kap_kody}
 
-V~této kapitole definujeme a vysvětlíme pojmy z teorie kódování, které jsou
-použité v kryptosystému \emph{McEliece} (kapitola~\ref{kap_mceliece}). Definice
+V~této kapitole definujeme a vysvětlíme pojmy z~teorie kódování, které jsou
+použité v~kryptosystému \emph{McEliece} (kapitola~\ref{kap_mceliece}). Definice
 byly čerpané z~\cite{FIT_AAK,Adamek} a pro další studium této problematiky je
 též doporučeno~\cite{McEliece_coding}.
 
-V podkapitolách je definováno základní značení a termíny z oblasti samoopravných
+V~podkapitolách je definováno základní značení a termíny z~oblasti samoopravných
 (\ref{kap_samoopravne_kody}) a lineárních (\ref{kap_linearni_kody}) kódů.
 V~poslední kapitole~\ref{kap_goppa_kody} se věnujeme \emph{binárním Goppa
-kódům}, které jsou přímo použité v kryptosystému \emph{McEliece}.
+kódům}, které jsou přímo použité v~kryptosystému \emph{McEliece}.
 
 % ====================================================================
 \section{Samoopravné kódy}\label{kap_samoopravne_kody}
@@ -358,7 +358,7 @@ obrázku~\ref{obr_kodovani}):
 \begin{center}
 \begin{tabular}{l p{10cm}}
     $+$     &   binární bitová operace \emph{XOR} \\
-    $-$     &   inverzní operace k $+$, tedy též \emph{XOR} \\
+    $-$     &   inverzní operace k~$+$, tedy též \emph{XOR} \\
     $a$     &   zpráva délky $k$ \\
     $K()$   &   operace \emph{zakódování} \\
     $b$     &   zakódovaná zpráva délky $n$; $b=K(a)$ a zpravidla platí $n>k$ \\
@@ -380,28 +380,28 @@ obrázku~\ref{obr_kodovani}):
 
 
 \begin{definice}{(Binární) kód:}
-    Nechť existuje (prosté) zobrazení $\mathcal{K}$ z množiny všech možných
+    Nechť existuje (prosté) zobrazení $\mathcal{K}$ z~množiny všech možných
     zpráv $a$ délky $k$ do množiny kódových slov $b$ délky $n$
     ($GF(2)^k \rightarrow GF(2)^n$). Pak toto zobrazení nazveme
-    kódem~$\mathcal{K}$ s parametry $(n,k)$.\footnote{
+    kódem~$\mathcal{K}$ s~parametry $(n,k)$.\footnote{
         Obecně lze \emph{kód} definovat jako zobrazení $\mathcal{L}^k
         \rightarrow \mathcal{M}^n$, kde $\mathcal{L}$ je \emph{abeceda} zpráv
         délky $k$ a~$\mathcal{M}$ abeceda kódových slov délky $n$.
     }
 \end{definice}
 
-\paragraph{Poznámka:} V této práci se nadále předpokládá pouze s~\emph{blokovými
-kódy} (dle definice).  Dají se definovat i kódy s proměnlivou délkou kódových
+\paragraph{Poznámka:} V~této práci se nadále předpokládá pouze s~\emph{blokovými
+kódy} (dle definice).  Dají se definovat i kódy s~proměnlivou délkou kódových
 slov.
 
-Z definice vyplývá, že existuje kódové slovo pro všechny zprávy a že existuje
+Z~definice vyplývá, že existuje kódové slovo pro všechny zprávy a že existuje
 inverzní zobrazení $\mathcal{K}^{-1}$. Množina všech kódových slov je
 jednoznačně určena zobrazením množiny zpráv:
 $\mathcal{B}=\mathcal{K}(GF(2)^k)=\mathcal{K}(\mathcal{A})$. Vektory délky $n$,
 které nepatří do množiny $\mathcal{B}$ nazveme jako \emph{nekódová slova}
 (vektory). Operací \emph{zakódování} budeme rozumět aplikaci zobrazení
 $\mathcal{K}$ a operací dekódování aplikaci $\mathcal{K}^{-1}$, tedy získání
-původní zprávy z \emph{kódového slova}.
+původní zprávy z~\emph{kódového slova}.
 
 \begin{definice}{Hammingova vzdálenost:}
     \emph{Hammingova vzdálenost} dvou vektorů $u$ a $v$ -- $vzd(u,v)$ či
@@ -426,22 +426,22 @@ $$ H(v) = H(v,\mathbf{0}) $$
 
 Dále budeme značit $d = kvzd(\mathcal{K})$. Pokud je $d > 1$, tak je jasné, že
 můžeme za jistých okolností odhalit (detekovat), že při přenosu kódového slova
-nastala chyba. Pokud by ale nastalo $d$ a více chyb, je možné, aby se z jednoho
+nastala chyba. Pokud by ale nastalo $d$ a více chyb, je možné, aby se z~jednoho
 \emph{kódového slova} stalo \emph{kódové slovo} jiné.
 
 \paragraph{Detekční kód} \hfil \\
 Kód, který dokáže při dekódování zjistit, že při přenosu nastala chyba nazýváme
-kódem \emph{detekčním}. Při kódové vzdálenosti $d$ je z principu možné detekovat
+kódem \emph{detekčním}. Při kódové vzdálenosti $d$ je z~principu možné detekovat
 $d-1$ chyb.
 
 \paragraph{Samoopravný kód} \hfil \\
 Kód, který dokáže při dekódování dokáže opravit chybu při přenosu, nazýváme
-kódem \emph{samoopravným}. Při kódové vzdálenosti $d$ je z principu možné
+kódem \emph{samoopravným}. Při kódové vzdálenosti $d$ je z~principu možné
 opravit $t = \lfloor \frac{d-1}{2} \rfloor$ chyb. Operace \emph{dekódování}
-potom z nekódového slova dokáže nalézt nejbližší (ve smyslu \emph{Hammingově
-vzdálenosti}) slovo \emph{kódové}. U samoopravných kódů uvádíme parametry včetně
+potom z~nekódového slova dokáže nalézt nejbližší (ve smyslu \emph{Hammingově
+vzdálenosti}) slovo \emph{kódové}. U~samoopravných kódů uvádíme parametry včetně
 počtu chyb, které kód dokáže opravit, tedy $(n,k,t)$\footnote{
-    V některých zdrojích se místo počtu opravitelných chyb objevuje kódová
+    V~některých zdrojích se místo počtu opravitelných chyb objevuje kódová
     vzdálenost, tedy $(n,k,d)$, což odpovídá $(n,k,2t+1)$.
 }.
 
@@ -468,13 +468,13 @@ své podstatě určuje, jakým způsobem bude probíhat konstrukce kódu (respek
 kódového slova), aby se zajistila určitá kódová vzdálenost $d$ a při dekódování
 bylo možné nalézt patřičný počet chyb $t$.
 
-V této práci budeme nadále pracovat pouze se \emph{samoopravnými kódy}.
+V~této práci budeme nadále pracovat pouze se \emph{samoopravnými kódy}.
 
 
 
 % ====================================================================
 \section{Lineární kódy}\label{kap_linearni_kody}
-Dalším důležitým pojmem, který budeme v práci používat jsou \emph{lineární
+Dalším důležitým pojmem, který budeme v~práci používat jsou \emph{lineární
 kódy}.
 
 \begin{definice}{Lineární kód:}
@@ -484,14 +484,14 @@ kódy}.
 
 Jinými slovy \emph{kódová slova} kódu $\mathcal{K}$ tvoří \emph{lineární
 prostor} -- přesněji \emph{lineární podprostor} vektorového prostoru $GF(2)^n$.
-V tomto prostoru definujeme klasické operace sčítání dvou vektorů jako operaci
-\emph{XOR} a násobení skaláru s vektorem jako operaci násobení po jednotlivých
-složkách vektoru. Je jasné, že v případě násobení skalárem $0$ je výsledek
+V~tomto prostoru definujeme klasické operace sčítání dvou vektorů jako operaci
+\emph{XOR} a násobení skaláru s~vektorem jako operaci násobení po jednotlivých
+složkách vektoru. Je jasné, že v~případě násobení skalárem $0$ je výsledek
 operace násobení skalárem \emph{nulový vektor} ($0 \cdot \mathbf{v} = \mathbf{0}$)
 a násobením skalárem $1$ získáme původní (nezměněný) vektor
 ($1 \cdot \mathbf{v} = \mathbf{v}$).
 
-Z definice lineárního prostoru též plyne, že \emph{nulový vektor} $\mathbf{0}$
+Z~definice lineárního prostoru též plyne, že \emph{nulový vektor} $\mathbf{0}$
 je vždy kódovým slovem \emph{lineárního} kódu $\mathcal{K}$.
 
 \begin{tvrzeni}
@@ -504,7 +504,7 @@ je vždy kódovým slovem \emph{lineárního} kódu $\mathcal{K}$.
 \end{tvrzeni}
 
 \paragraph{Náznak důkazu} \hfil \\
-Důkaz vyplývá z faktu, že minimální \emph{vzdálenost} daného kódového slova $b$
+Důkaz vyplývá z~faktu, že minimální \emph{vzdálenost} daného kódového slova $b$
 ke všem ostatním kódovým slovům je pro všechna kódová slova stejná:
 $$
     \forall b :
@@ -516,7 +516,7 @@ sečtením (odečtením) dvou kódových slov vznikne opět kódové slovo. Prot
 je pouze substituce naznačující \emph{nějaké} kódové slovo. Pokud je pro všechny
 stejná, tak odpovídá \emph{kódové vzdálenosti} a~když se podíváme na
 \emph{nulový vektor} (kódové slovo), tak nejbližší kódové slovo odpovídá
-kódovému slovu s nejnižší \emph{Hammingovou vahou}.
+kódovému slovu s~nejnižší \emph{Hammingovou vahou}.
 
 
 \begin{definice}{Generující matice:}
@@ -526,14 +526,14 @@ kódovému slovu s nejnižší \emph{Hammingovou vahou}.
     maticí} kódu $\mathcal{K}$.
 \end{definice}
 
-Matice $G$ je vlastně matice \emph{lineárního zobrazení} $\mathcal{K}$ z
-prostoru (všech) zpráv do prostoru kódových slov ($\mathcal{A} \to
+Matice $G$ je vlastně matice \emph{lineárního zobrazení} $\mathcal{K}$
+z~prostoru (všech) zpráv do prostoru kódových slov ($\mathcal{A} \to
 \mathcal{B}$ \footnote{
     Kde $\mathcal{A} = GF(2)^k$ a $\mathcal{B} \subset \subset GF(2)^n$.
 }).
 
-Operace zakódování $K$ zprávy $a$ potom u \emph{lineárního} kódu odpovídá
-násobení vektoru s generující maticí:
+Operace zakódování $K$ zprávy $a$ potom u~\emph{lineárního} kódu odpovídá
+násobení vektoru s~generující maticí:
 $$ K_G(a) : b = aG $$
 
 Toto maticové násobení ve odpovídá sečtení řádků matice $G$, které
@@ -557,7 +557,7 @@ Samozřejmě toto je možné pouze pokud bylo přijaté slovo \emph{kódové}. P
 detekci a~opravu chyb budeme potřebovat \emph{kontrolní} matici.
 
 \begin{definice}{Kontrolní matice:}\footnote{
-    V některých zdrojích uváděna jako matice \emph{prověrková}.
+    V~některých zdrojích uváděna jako matice \emph{prověrková}.
 }
     Nechť $G$ je \emph{generující} matice \emph{lineárního kódu}~$\mathcal{K}$.
     Pak definujeme \emph{kontrolní matici} $H$ tohoto kódu jako:
@@ -577,7 +577,6 @@ Na matici $H$ se lze dívat též jako na generující matici kódu $\mathcal{K}
 s~parametry $(n,n-k)$, pak samozřejmě platí, že matice $G$ je \emph{kontrolní}
 maticí tohoto kódu. Kód $\mathcal{K}'$ se nazývá \emph{duálním kódem} ke
 kódu~$\mathcal{K}$.
-
 
 \begin{tvrzeni}
     Pokud je \emph{generující} matice $G$ v~systematické formě
@@ -599,6 +598,10 @@ a získat dle tvrzení výše kontrolní matici $H'$. Matice $H'$ je pak
 i~\emph{kontrolní} maticí k~původní matici $G$, jelikož \emph{elementární}
 úpravy nemění \emph{prostor}, který matice generuje~\cite{Adamek}.
 
+Tento způsob převodu matic je invertibilní a je tak možné získat
+\emph{generující} matici z~matice \emph{kontrolní}. \emph{Lineární kód} je tedy
+určen \emph{jednoznačně} jak \emph{generující} tak i~\emph{kontrolní} maticí.
+
 \begin{definice}{Syndrom:}
     Nechť $H$ je \emph{kontrolní} matice \emph{lineárního} kódu $\mathcal{K}$ a
     $c$ je přijatý vektor. \emph{Syndrom} $s$ tohoto přijatého vektoru je
@@ -613,7 +616,7 @@ i~\emph{kontrolní} maticí k~původní matici $G$, jelikož \emph{elementární
 \paragraph{Důkaz} \hfil \\
 Při dosazení $c=b+e$ získáme rovnost:
 $$ s = c H^T = (b+e)H^T = b H^T + e H^T $$
-a z definice \emph{ortogonálního doplňku} platí: $ b H^T = \textbf{0} $
+a z~definice \emph{ortogonálního doplňku} platí: $ b H^T = \textbf{0} $
 $$ \Rightarrow s = e H^T $$
 
 Vypočítaný \emph{syndrom} se používá pro detekci, zda bylo přijaté slovo
@@ -623,13 +626,120 @@ kódové.
 
 % --------------------------------------------------------------------
 \subsection{Hammingovy kódy}
-Jako příklad \emph{lineárních} kódu uvádíme \emph{Hammingovy} kódy.
 
-\begin{definice}{Hammingův kód}
-    Generující matice \emph{lineárního samoopravného Hammingova} kódu lze
-    sestrojit:
+\emph{Hammingovy} kódy jsou příkladem \emph{lineárních samoopravných} kódů.
+Dokáží opravit \emph{jednu chybu} a jejich parametry $(n,k,t)$ jsou určené de
+facto jedním parametrem~$r$.
 
-\end{definice}
+Pro každé $r \geq 2$ můžeme sestrojit \emph{kontrolní} matici \emph{Hammingova
+kódu}~$(n,k,t) = (2^r-1,n-r,1)$ jednoduše tak, že vygenerujeme všechny možné
+\emph{nenulové} a vzájemně různé sloupcové vektory $h_i$ (délky $r$).
+$$
+    H = \left(
+    \begin{array}{*{4}{c}}
+        h_1 & h_2 & \ldots & h_n
+    \end{array}
+    \right), h_i \in GF(2)^r \setminus \textbf{0}, h_i \neq h_j
+$$
+
+Pokud chceme získat \emph{systematický} kód, tak $k$ posledních sloupců bude
+tvořit \emph{jednotkovou} matici $\mathbb{I}_k$ a~\emph{generující} matici
+takového kódu získáme převodem z~matice $H$ popsaným výše.
+
+\paragraph{Oprava jedné chyby} \hfill \\
+\emph{Syndrom} délky $r$ přijatého slova $c$ vypočítáme výše definovaným
+způsobem
+$$ s = cH^T $$
+Dle tvrzení výše víme, že \emph{syndrom} závisí pouze na \emph{chybovém} vektoru
+$e$ (délky~$n$) -- platí tedy, že $s = e H^T$.
+
+V~případě, že $c$ je kódové slovo, bude \emph{syndrom} nulový a z~$c$ tak můžeme
+rovnou \emph{dekódovat} slovo $d$ (vybráním \emph{informačních} bitů).
+
+Nyní předpokládejme, že nastala pouze 1 chyba v~dimenzi $i$. Chybový vektor
+označíme $e_i$. Výpočtem $e_i H^T$ tak získáme \emph{syndrom}, který odpovídá
+$i$-tému sloupcovému vektoru matice $H$ ($h_i$), protože každý sloupec
+matice~$H$ je jiný a~žádný není nulový. Dle \emph{syndromu} jsme tedy schopni
+odhalit chybu $e_i$ a z~přijatého slova $c$ získat $c' = c + e_i$. Slovo $d$ pak
+dekódujeme stejným způsobem jako v~případě bez chyby, ale z~vektoru $c'$.
+
+\paragraph{Poznámka:} Pokud by nastaly chyby ve dvou dimenzích~$i$~a~$j$,
+\emph{syndrom} by tak byl součtem dvou~různých sloupců matice $H$ a vznikl by
+tak \emph{syndrom} odpovídající úplně jinému sloupcovému vektoru ($h_k, k \neq i
+\neq j$). Pokud by nastalo tři a více chyb, může se dokonce při přenosu stát
+z~kódového slova $b$ jiné kódové slovo. To plyne z~faktu, že \emph{kódová
+vzdálenost} \emph{Hammingových} kódů $d=3$~\cite{Adamek}.
+
+\paragraph{Příklad} \hfill \\
+Zvolme parametr $r = 3$. Potom $n = 2^3 - 1 = 7$ a $k = 7-3$. Vygenerujeme tedy
+\emph{kontrolní} matici $H$ \emph{Hammingova kódu} s~parametry $(7,4,1)$:
+$$
+    H = \left(
+    \begin{array}{*{8}{c}}
+        1 & 1 & 0 & 1 & & 1 & 0 & 0 \\
+        1 & 0 & 1 & 1 & & 0 & 1 & 0 \\
+        1 & 1 & 1 & 0 & & 0 & 0 & 1 \\
+    \end{array}
+    \right) = \left( F | \mathbb{I}_3 \right)
+$$
+
+Matice $H$ je v~systematickém tvaru (tři poslední sloupce tvoří jednotková
+matice) a můžeme ji tak snadno převést na \emph{generující} matici $G$:
+$$
+    G = \left( \mathbb{I}_4 | F^T \right) = \left(
+    \begin{array}{*{8}{c}}
+        1 & 0 & 0 & 0 & & 1 & 1 & 1 \\
+        0 & 1 & 0 & 0 & & 1 & 0 & 1 \\
+        0 & 0 & 1 & 0 & & 0 & 1 & 1 \\
+        0 & 0 & 0 & 1 & & 1 & 1 & 0 \\
+    \end{array}
+    \right)
+$$
+
+Zvolme $a=(1010)$. \emph{Kódové} slovo $b$ získáme z~definice vynásobením
+vektoru s~maticí $b = aG$, neboli sečteme 1. a 3. řádek matice $G$.
+$$ b = aG = (1010100) $$
+Vyšleme tedy tento vektor kanálem příjemci.
+
+
+\begin{enumerate}
+    \item V~prvním případě nenastala žádná chyba. Vektor $e$ je
+        tedy nulový a $c = b$. Vypočteme \emph{syndrom}
+        $$ s_1 = c H^T = (000) $$
+        Syndrom je nulový a víme tedy, že přijaté $c$ je kódové slovo.
+        Jelikož je kód \emph{systematický}, dekódování $d$ je realizováno
+        výběrem prvních $k$ dimenzí:
+        $$ d = D(c) = MSB_4(1010100) = (1010) $$
+        Je vidět, že $d$ odpovídá původní zprávě $a$.
+
+    \item V~druhém případě nastala právě jedna chyba -- vektor $e=(0010000)$.
+        Přijatý vektor je nyní $c = b + e = (1000100)$. Vypočteme syndrom $s_2$:
+        $$ s_2 = c H^T = (011) $$
+        Tento syndrom odpovídá 3. sloupci matice $H$. Invertujeme tedy 3. bit
+        přijatého slova $c$ a opět dekódujeme $d$:
+        $$ d = D(c') = MSB_4(1010100) = 1010 $$
+        Pokud nastala 1 chyba, byli jsme ji schopni opravit a získat původní
+        zprávu $a$.
+
+    \item Ve třetím případe nastane chyba ve dvou dimenzích. Chybový vektor bude
+        nyní $e=(1000010)$ a přijatý vektor $c = b + e = (0010110)$. Vypočteme
+        \emph{syndrom}
+        $$ s_3 = c H^T = (101) $$
+        Tento syndrom odpovídá 2. sloupci matice a tak při dekódování
+        invertujeme 2. bit vektoru $c$
+        $$ d = D(c') = MSB_4(0110110) = 0110 $$
+        Nyní je tedy dekódováním získáno slovo $d$, které neodpovídá původní
+        zprávě $a$
+
+\end{enumerate}
+
+\paragraph{Poznámka:} \emph{Hammingovy kódy} jsou tzv. \emph{perfektní} kódy.
+U~\emph{perfektního} kódu \emph{každý} syndrom odpovídá \emph{nějaké} (v~tomto
+případě jedné) či \emph{žádné} chybě. Pokud je \emph{Hammingův} kód použitý pro
+opravu jedné chyby, tak pokud nastane 2 a více chyb, nebude dekódované slovo
+odpovídat původnímu a ani není možné tuto situaci nijak \emph{detekovat}.
+
+
 
 % ====================================================================
 \section{Binární Goppa kódy}\label{kap_goppa_kody}
@@ -702,7 +812,7 @@ možné matice generovat například dle~\cite{Randall}
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}\label{kap_mceliece_algoritmy}
 
-V této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování tak, jak
+V~této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování tak, jak
 byly definovány \emph{Robertem McEliece} v~\cite{McEliece}. Na závěr podkapitoly
 je uveden důkaz dešifrování, neboli vysvětlení, že dešifrovacím algoritmem je
 získána původní zašifrovaná zpráva.
@@ -901,7 +1011,7 @@ $S$ a $P$ jsou \emph{soukromý klíč}.
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}
 
-V této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování
+V~této podkapitole jsou uvedeny algoritmy pro šifrování a dešifrování
 z~\cite{Niederreiter} a důkaz toho, že dešifrovacím algoritmem je získána
 původní zpráva.
 
@@ -1778,12 +1888,12 @@ V~následujícím algoritmu bude použito toto značení:
 % --------------------------------------------------------------------
 \subsection{Odolnost vůči kvantovým počítačům}
 
-Jeden z hlavních důvodů popularity algoritmu \emph{McEliece} je fakt, není znám
+Jeden z~hlavních důvodů popularity algoritmu \emph{McEliece} je fakt, není znám
 algoritmus pro kvantový počítač, který by dokázal kryptosystém prolomit
 rychleji, než na běžných počítačích~\cite{Dinh}. Kryptosystém je tak zařazen
 mezi kandidáty asymetrické kryptografie pro tzv. \emph{post-kvantovou}
-dobu~\cite{Post-Quantum_Cryptography} a jeho varianta s kvazi-cyklickými
-\emph{MDPC} kódy se vyskytla v~draftu z roku 2016 společnosti \emph{IEEE} mezi
+dobu~\cite{Post-Quantum_Cryptography} a jeho varianta s~kvazi-cyklickými
+\emph{MDPC} kódy se vyskytla v~draftu z~roku 2016 společnosti \emph{IEEE} mezi
 doporučenými \emph{post-kvantovými} asymetrickými kryptosystémy~\cite{Schanck}.
 
 
@@ -2173,7 +2283,7 @@ Inverze v~$GF(p^n)$ je implementovaná pomocí interní funkce
 \paragraph{Poznámka:} Pro výpočet dělení je v~\emph{rozšířených tělesech}
 potřeba vypočítat inverzi největšího koeficientu dělitele\footnote{
     Zde je patrná rekurzivní vlastnost tohoto algoritmu, kdy pro výpočet inverze
-    prvku v~tělese $GF(q^n)$ je třeba vypočítat inverzi v tělese $GF(q)$.
+    prvku v~tělese $GF(q^n)$ je třeba vypočítat inverzi v~tělese $GF(q)$.
 } a dále je algoritmus realizován posouváním dělitele a následnou redukcí pomocí
 sčítání.
 
@@ -2601,7 +2711,7 @@ odpovídá výrazu $a/b$.
 %        v~\emph{CRYPTO}, vol. 1666, strany 535-554. 1999.
 
     \bibitem{Goppa}
-        Valery D. \textsc{Goppa}. A New Class of Linear Correcting Codes
+        Valery D. \textsc{Goppa}. A~New Class of Linear Correcting Codes
         v~\emph{Problemy Peredachi Informatsii}, vol. 6, strany 24-30. 1970.
 
     \bibitem{Heyse}
