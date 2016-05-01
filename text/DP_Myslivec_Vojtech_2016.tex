@@ -333,14 +333,57 @@ a~\uv{odečítáním} (respektive sčítáním) prvků.
 
 % ====================================================================
 \section{Rozšířená tělesa}
+V~algebře se dá rozšíření těles definovat velmi obecně. Pro účely naší práce
+nás ale budou ve své podstatě zajímat pouze tělesa $GF(2^n)^m$.
 
-% TODO
-$\mathbb{F}[x]$
+\begin{definice}{Rozšíření tělesa:}
+    Nechť $T$ je těleso a~$P$ podmnožina množiny tělesa $T$. Pokud $P$ tvoří
+    (s~původními operacemi) opět těleso, říkáme, že $P$ je \emph{podtělesem}~$T$
+    a~zároveň $T$ je \emph{rozšířením} tělesa $P$.
+\end{definice}
 
-\emph{Prvotěleso}
 
-\emph{Ireducibilita}, testy
+\paragraph{Polynomy jako rozšířená tělesa} \hfil \\
+Na konečná tělesa $GF(p^n)$ realizované polynomy, jak byly představeny v~minulé
+kapitole je možné se dívat jako na \emph{rozšíření} tělesa $GF(2)$. Stejně tak,
+jako jsme sestrojily polynomy nad $GF(2^n)$ (\uv{polynomy nad polynomy}).
 
+\begin{definice}{Okruh polynomů:}
+    Nechť $\mathbb{F}$ je těleso. Množinu okruhu polynomů $R = \mathbb{F}[x]$
+    definujeme jako všechny polynomy s~koeficienty z~tělesa $\mathbb{F}$
+    a~operace tohoto okruhu jako klasické operace s~polynomy s~tím, že operace
+    s~koeficienty jsou prováděny v~tělese $\mathbb{F}$.
+\end{definice}
+
+Tato definice jistě dává smysl, protože operace v~tělese $\mathbb{F}$ jsou
+\emph{uzavřené} a~výsledkem sčítání respektive násobení dvou polynomů
+z~$\mathbb{F}[x]$ vznikne polynom, který opět patří do tohoto okruhu.
+
+V~případě zavedení operace \emph{modulo polynom} můžeme zavést násobení stejným
+způsobem, jako bylo uvedeno v~předešlé kapitole.
+
+\begin{tvrzeni}
+    Nechť $\mathbb{F}$ je konečné těleso a~$g \in \mathbb{F}[x]$ \emph{ireducibilní}
+    polynom stupně~$n$. Potom množina všech polynomů z~$\mathbb{F}[x]$ stupně
+    menší než $t$ tvoří s~klasickou operací s~polynomy $+$ a~s~násobením
+    modulo~$g$ \emph{konečné těleso} $\mathbb{F}^n$.\footnote{
+        Toto těleso se dá též značit jako (faktorokruh) $\mathbb{F}[x]/(g)$, kde
+        $(g)$ je \emph{ideál} generovaný polynomem $g$.
+    }
+\end{tvrzeni}
+
+V~této práci budeme nadále používat termín \emph{rozšířené těleso} ve smyslu
+konečného tělesa reprezentované polynomy s~koeficienty z~tělesa $GF(2^m)$.
+Rozšířením tak získáme těleso $GF(2^m)^n$.\footnote{
+    Toto těleso je izomorfní s~tělesem  $GF(2^{mn})$.
+}
+
+
+\paragraph{Poznámka:} Pokud rozšířením konečného tělesa vnikne opět konečné
+těleso (dle tvrzení výše), je možné toto těleso opět rozšířit a~induktivním
+krokem tak rozšiřovat tělesa do libovolné \uv{hloubky}. Jinými slovy polynomy
+s~operací modulo (ireducibilní) polynom tvoří opět těleso a~jdou tak využít jako
+koeficienty dalších polynomů.
 
 
 
