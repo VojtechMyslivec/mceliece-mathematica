@@ -49,18 +49,15 @@
 \authorFN{Myslivec}
 \authorWithDegrees{Bc. Vojtěch Myslivec}
 \supervisor{prof. Ing. Róbert Lórencz, CSc.}
-%TODO
-%\acknowledgements{Rodina, Lórencz, Kalvoda, Guth}
-%TODO
+%\acknowledgements{Rodina, Lórencz, Kalvoda, Kotil, Guth} %TODO
 \abstractCS{Tady bude nejaky kuuul abstakt } %TODO
-%TODO
-\abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
+\abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.} %TODO
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{McEliece, asymetrická kryptografie, postkvantová kryptografie,
 binární Goppa kódy, konečná tělesa, polynomy, Wolfram Mathematica}
 \keywordsEN{McEliece, public-key cryptography, post-quantum cryptography, binary
-Goppa codes, finite fields, polynomy, Wolfram Mathematica}
+Goppa codes, finite fields, polynomials, Wolfram Mathematica}
 
 
 
@@ -79,14 +76,13 @@ Goppa codes, finite fields, polynomy, Wolfram Mathematica}
 % ====================================================================
 \begin{introduction}
 
-% todo
+% TODO
 
 Tato práce se zabývá asymetrickým kryptosystémem \emph{McEliece}. Mezi největší
 přednosti tohoto systému patří jeho odolnost vůči kvantovým počítačům a je tak
 jedním z~vhodných kandidátů pro asymetrickou kryptografii pro postkvantovou
 dobu.
 
-%TODO
 V~prvních kapitolách této práce jsou popsány nezbytné primitivy z~oblasti
 matematiky a teorie kódování, které jsou potřeba pro pochopení a použití
 kryptosystému McEliece. Jedná se především o~počítání s~\emph{konečnými tělesy}
@@ -339,7 +335,11 @@ a~\uv{odečítáním} (respektive sčítáním) prvků.
 \section{Rozšířená tělesa}
 
 % TODO
+$\mathbb{F}[x]$
+
 \emph{Prvotěleso}
+
+\emph{Ireducibilita}, testy
 
 
 
@@ -774,18 +774,221 @@ například v~\cite{McEliece_coding}.
 }, nicméně v~této práci se budeme zabývat pouze podkategorií, tzv.
 \emph{binárními Goppa kódy}.
 
-\subsection{Definování Goppa kódu}
-\emph{Ireducibilní binární Goppa kódy}
 
+% --------------------------------------------------------------------
+\subsection{Sestrojení Goppa kódu}
+
+Nechť existuje polynom $g$ z~okruhu polynomů nad konečným tělesem $GF(2^m)$
+stupně~$t$ a~posloupnost~$L$ $n$~navzájem různých prvků z~$GF(2^m)$, které
+zároveň nejsou \emph{kořeny} polynomu $g$.
+$$ g \in \mathbb{F} = GF(2^m)[x] $$
+$$
+    L = \left( L_1, \ldots, L_n \right),
+        \forall i,j : L_i \in \mathbb{F} \land L_i \neq L_j \land g(L_i) \neq \mathbf{0}
+$$
+Pak \emph{binární Goppa} kód (prostor kódových slov) $\Gamma$ definujeme:
+$$
+    \Gamma(g,L) =
+        \left\{
+            c \in GF(2^n)
+            \;|\;
+            \sum_{i=1}^{n} \frac{c_i}{x - L_i} \equiv 0 \mod g(x)
+        \right\}
+$$
+Polynom $g(x)$ nazýváme \emph{Goppův}
+polynom a~$n$-tici $L$ \emph{podporou} kódu\footnote{
+    Anglicky \emph{Goppa polynomial}~$g$ a~\emph{support}~$L$.
+}.
+
+Takto sestrojený kód má parametry $(n,k,t) = (n,2^m-tm,t)$
+
+\paragraph{Poznámka:} U~\emph{binárních Goppa} kódů je polynom $x - L_i$ je
+vlastně prvek $(0\ldots01)(L_i)$. Důvod podmínky $g(L_i) \neq \mathbf{0}$ je tak
+jasně vidět z~definice, protože musí existovat inverze tohoto prvku. Důvod druhé
+podmínky -- vzájemně různé prvky $L_i$ -- bude vidět později, ale podobně jako
+u~\emph{Hammingových} kódů dle sloupcového vektoru matice $H$ zjišťujeme pozici,
+kde nastala chyba, tak u~\emph{Goppa} kódů budeme zjišťovat pozici dle
+prvků~$L_i$ a~proto se také jedná o~posloupnost, nikoliv o~množinu.
+
+\paragraph{Ireducibilní binární Goppa kódy} \hfil \\
+Pokud je $g$ \emph{ireducibilní}, nazveme $\Gamma$ \emph{ireducibilním
+binárním Goppa} kódem. V~tomto případě může mít množina $L$ až $n=2^m$ prvků,
+neboť \emph{ireducibilní} polynom nemá \emph{žádné} kořeny a~tak pro všechny
+$a \in GF(2^m)$ (včetně $\mathbf{0}$) platí podmínka $g(L_i) \neq \mathbf{0}$.
+Takový kód má tedy paramtery $(n,k,t) = ( 2^m, 2^m - mt, t )$, a jsou tedy
+jednoznačně určené parametrem~$m$ (\uv{velikostí vnitřního tělesa}) a~stupněm
+polynomu~$g$, neboli počtem opravitelných chyb~$t$.
+
+\paragraph{Sestrojení kontrolní matice} \hfil \\
+Z~definice lze sestrojit \emph{kontrolní} matici $H$ v~následujícím tvaru
+(detailní postup sestrojení matice lze nalézt např. v~\cite{Kotil}):
+$$
+    H = \left(\begin{array}{r c r}
+        (           g_t) g(L_1)^{-1} & \ldots & (           g_t) g(L_n)^{-1} \\
+        (g_{t-1}L_1 g_t) g(L_1)^{-1} & \ldots & (g_{t-1}L_n g_t) g(L_n)^{-1} \\
+        \vdots \qquad \;             & \ddots & \vdots \qquad \;             \\
+        (g_1 + L_1 g_2 + \ldots + L_1^{t-1} g_t) g(L_1)^{-1} &
+            \ldots  &
+            %(g_1 + L_n g_2 + \ldots + L_n^{t-1} g_t) g(L_n)^{-1} \\
+            (g_1 + \ldots + L_n^{t-1} g_t) g(L_n)^{-1} \\
+    \end{array}\right)
+$$
+a~tato matice lze vyjádřit jako součin matic $ H = KVD $, kde $K$ je matice
+koeficientů polynomu $g$, $V$ je tzv.  \emph{Vandermondova} matice a~$D$ je
+diagonální matice:
+$$
+    K = \left(\begin{array}{c c c c}
+        g_t     & 0      & \ldots & 0      \\
+        g_{t-1} & g_t    & \ldots & 0      \\
+        \vdots  & \vdots & \ddots & \vdots \\
+        g_1     & g_2    & \ldots & g_t    \\
+    \end{array}\right)
+    \quad
+    V = \left(\begin{array}{c c c c}
+        1         & 1         & \ldots & 1         \\
+        L_1       & L_2       & \ldots & L_n       \\
+        \vdots    & \vdots    & \ddots & \vdots    \\
+        L_1^{t-1} & L_2^{t-1} & \ldots & L_n^{t-1} \\
+    \end{array}\right)
+$$
+%$$
+%    D = \left(\begin{array}{c c c c}
+%        g(L_1)^{-1}             & \multicolumn{2}{c}{\ldots} & 0                       \\
+%        \multirow{2}{*}{\vdots} & g(L_2)^{-1} &              & \multirow{2}{*}{\vdots} \\
+%                                &             & \ddots       &                         \\
+%        0                       & \multicolumn{2}{c}{\ldots} & g(L_n)^{-1}             \\
+%    \end{array}\right)
+%$$
+$$
+    D = \left(\begin{array}{c c c c}
+        g(L_1)^{-1} &             &        &             \\
+                    & g(L_2)^{-1} &        &             \\
+                    &             & \ddots &             \\
+                    &             &        & g(L_n)^{-1} \\
+    \end{array}\right)
+$$
+
+Matice $K$ je regulární ($g_t \neq \mathbf{0}$ a~řádky jsou tedy jistě
+\emph{lineárně nezávislé}), existuje tedy $K^{-1}$. Z~definice kontrolní matice
+$GH^T = \mathbf{0}$ můžeme tedy sestrojit jednodušší kontrolní matici:
+\begin{align*}
+    G H^T = G (KVD)^T                   &= \mathbf{0} \\
+    G (KVD)^T\left(K^T\right)^{-1}      &= \mathbf{0} \left(K^T\right)^{-1} \\
+    G (VD)^T K^T \left(K^T\right)^{-1}  &= \mathbf{0} \\
+    G (VD)^T                            &= \mathbf{0} \\
+\end{align*}
+Matice $VD$ tedy splňuje definici \emph{kontrolní} matice a~navíc je jednodušší
+na sestrojení než $KVD$. Proto \emph{kontrolní} matici \emph{binárního Goppa}
+kódu definujeme jako $H=VD$.
+
+$H$ je $n \times t$ matice nad tělesem $GF(2^m)$. $H$ nad $GF(2)$ získáme
+jednoduše \uv{rozbalením} prvků $GF(2^m)$ do sloupcových vektorů $m$ bitů.
+\emph{Binární kontrolní} matice $H$ pak má rozměry $n \times r =
+(2^m) \times (mt)$ a~\emph{generující} matici $G$ získáme klasickým převodem,
+jak bylo popsáno v~kapitole~\ref{kap_linearni_kody}.
+
+
+% --------------------------------------------------------------------
 \subsection{Dekódování}
-\emph{Pattersonův algoritmus}
-\cite{Patterson}
-\emph{Chien search} , \ldots
 
-\emph{List Decoding}  \cite{Repka,Bernstein2}
+Pro dekódování, respektive opravu chyb, existuje několik algoritmů. V~této
+kapitole uvedeme \emph{Pattersonův algoritmus}, který byl představen \emph{Nicholasem
+Pattersonem} v~roce 1975 v~\cite{Patterson}. Další algoritmy pro dekódování
+algoritmů -- především tzv. \emph{List Decoding} algoritmy -- se dají nalézt
+v~\cite{Repka,Bernstein2}.
 
-\subsection{Další varianty}
-Kvazi-dyadické Goppa kódy, MDPC, \ldots
+\paragraph{Pattersonův algoritmus} \hfil \\
+\emph{Syndrom} přijatého slova $c$ je možné počítat z~kontrolní matice $H$ nebo
+též jako polynom z~definice kódu~$\Gamma$:
+$$ s(x) \equiv \sum_{i=1}^{n}\frac{c_i}{x-L_i} \mod g(x) $$
+Takto spočítaný syndrom jistě závisí pouze na chybovém vektoru $e$:
+$$
+    \sum_{i=1}^{n}\frac{c_i}{x-L_i} =
+    \sum_{i=1}^{n}\frac{b_i}{x-L_i} + \sum_{i=1}^{n}\frac{e_i}{x-L_i}
+$$
+$$
+    \sum_{i=1}^{n}\frac{b_i}{x-L_i} + \sum_{i=1}^{n}\frac{e_i}{x-L_i} \equiv
+    \sum_{i=1}^{n}\frac{e_i}{x-L_i} \mod g(x)
+$$
+
+Pokud je $s$ \emph{nulový}, přijali jsme kódové slovo a~zprávu $d$ můžeme získat
+výběrem patřičných dimenzí (dle matice $G$). Pokud $s$ není nulový vektor,
+provedeme následující kroky pro opravení vzniklých chyb:
+
+
+\begin{enumerate}
+    \item Vypočítáme $r(x) = \sqrt{x-s(x)^{-1}}$ v~tělese určeném polynomem $g$.
+
+    \item Rozložíme $r$ na polynomy $\alpha$ stupně $\leq \lfloor\frac{t}{2}\rfloor$
+        a~$\beta$ stupně $\leq \lfloor\frac{t-1}{2}\rfloor$ tak, že:
+        $$ \alpha(x) \equiv \beta(x) r(x) \mod g(x) $$
+
+    \item Sestrojíme polynom $\sigma = \alpha^2 + x \beta^2$,
+        tzv. \emph{lokátor chyb}.
+
+    \item Kořeny $L_i$ (z~podpory $L$) polynomu $\sigma$ odpovídají chybám
+        na pozici $i$.
+
+    \item Z~nalezených kořenů sestrojíme chybový vektor $e$ a~opravíme přijaté
+        slovo $c$ standardním způsobem $c' = c + e$.
+\end{enumerate}
+
+Odvození tohoto algoritmu je možné nalézt v~\cite{Patterson}. Poznámky
+k~jednotlivým krokům algoritmu uvádíme níže.
+
+\paragraph{Výpočet odmocniny} \hfil \\
+Odmocninu v~rozšířeném binárním tělese můžeme jednoduše odvodit. Prvek $r$
+je \emph{odmocninou} prvku $b$ (z~tělesa $\mathbb{F}$, pokud platí:
+$$ r^2 = a \quad \Rightarrow r = \sqrt{a} $$
+
+Nechť $N$ je počet prvků \emph{multiplikativní grupy} tělesa $\mathbb{F}$, potom
+položíme \\
+$r = a^{\frac{N+1}{2}} $ a~umocníme $r$ na druhou:
+$$ r^2 = a^{\frac{N+1}{2} 2} = a^{N+1} = a^N \cdot a^1 $$
+
+Dle \emph{Lagrangeovy} věty platí, že $a^N = 1 $ a~tudíž zvolené $r$ (pokud
+existuje) je právě hledaná odmocnina. V~tělese s~charakteristikou $2$ je počet
+prvků vždy lichý (například v~rozšířeném tělese je to $2^{mt}-1$) a~tudíž zlomek
+$\frac{N+1}{2}$ dává smysl a~odmocninu lze vypočítat jako mocninu:
+$$ \sqrt{a} = a^{\frac{(2^{mt}-1) + 1}{2}} = a^{2^{mt - 1}} $$
+
+\paragraph{Rozložení polynomu} \hfil \\
+Rozložení polynomu $r$ na $\alpha$ a~$\beta$ je ve skutečnosti snadné. Rovnice
+$\alpha(x) \equiv \beta(x) r(x) \mod g(x)$ je rovnicí, která vzniká při výpočtu
+\emph{rozšířeného Euklidova algoritmu}. Polynom $\alpha$ odpovídá \uv{zbytku}
+a~$\beta$ \uv{koeficientu} při výpočtu \emph{EEA} (viz příklad \emph{EEA}
+v~kapitole~\ref{kap_implementace_inverze}). Polynomy požadovaného stupně získáme
+zastavením výpočtu \emph{EEA} přesně v~polovině, respektive v~kroku, kdy
+stupeň \uv{zbytku} klesne pod $\lfloor\frac{t}{2}\rfloor$.
+
+\paragraph{Nalezení kořenů polynomu} \hfil \\
+Tento krok algoritmu je asymptoticky nejnáročnější. Základní způsob pro nalezení
+kořenů polynomu je hrubou silou vypočítat hodnotu $\sigma(L_i)$ pro všechny
+koeficienty $L_i$ z~podpory $L$.
+
+Efektivnější algoritmem je tzv. \emph{Chienův
+způsob} hledání kořenů\footnote{
+    Tento algoritmus byl původně navržený pro \emph{BCH} kódy~v~\cite{Chien}
+}~\cite{FIT_AAK,Heyse}, který využívá výpočtu kořenů pomocí primitivního
+prvku~$\alpha$. Pro všechny prvky $\alpha^i$ tělesa $GF(2^m)$ (kromě nulového
+prvku) platí:
+\begin{align*}
+    \sigma\left(\alpha^i\right)     &= \sigma_s \cdot \left(\alpha^i\right)^s     &+ \ldots &+ \sigma_1 \cdot \left(\alpha^i\right)     &+ \sigma_0 &= \\
+                                    &= \gamma_{s,i}                               &+ \ldots &+ \gamma_{1,i}                             &+ \gamma_0 &  \\
+    \sigma\left(\alpha^{i+1}\right) &= \sigma_s \cdot \left(\alpha^{i+1}\right)^s &+ \ldots &+ \sigma_1 \cdot \left(\alpha^{i+1}\right) &+ \sigma_0 &= \\
+                                    &= \alpha \cdot \gamma_{s,i}                  &+ \ldots &+ \alpha \cdot \gamma_{1,i}                &+ \gamma_0 &  \\
+\end{align*}
+Z~posledního řádku je vidět, jak lze tohoto faktu při výpočtu všech kořenů
+využít. Vypočteme-li tedy hodnotu $\sigma(\alpha)$, tak další hodnoty
+$\sigma\left(\alpha^i\right)$ vypočteme pomocí $s-1$ operací násobení a~$s-1$
+sčítání $\Rightarrow O(t)$ násobení. Prostým dosazením všech prvků do polynomu
+$\sigma$ musíme pro \emph{každý} prvek vypočítat $\sim s-2$~mocnin navíc.
+
+Druhým způsobem, jak nalézt kořeny polynomu $\sigma$ je \emph{rozložení} tohoto
+polynomu na faktory ve tvaru $(x-L_i)$. Toho se dá docílit \emph{Berklekampovým}
+algoritmem~\cite{Berlekamp3}. Nalezení pozic chyb pak je pouhým vyhledáním
+získaných $L_i$ v~posloupnosti~$L$.
+
 
 
 
@@ -2292,7 +2495,7 @@ $\Rightarrow$ Výsledek operace násobení modulo polynom $g$ se získá redukc�
 polynomu $(110)(101)(110)(000)(110)(011)$ polynomem $g$.
 
 
-\subsubsection{Inverze}
+\subsubsection{Inverze}\label{kap_implementace_inverze}
 
 Výpočet multiplikativní \emph{inverze} je implementován pomocí \emph{rozšířeného
 Euklidova algoritmu}. Tento algoritmus se často vizualizuje jako výpočet tabulky
@@ -2677,6 +2880,10 @@ odpovídá výrazu $a/b$.
         online
         \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1055088}
 
+    \bibitem{Berlekamp3}
+        Elwyn R. \textsc{Berlekamp}. Factoring polynomials over large finite
+        fields v~\emph{Mathematics of Computation}, strany 713-755. 1970.
+
     \bibitem{Bernstein1}
         Daniel J. \textsc{Bernstein}, Tanja \textsc{Lange}, Christiane
         \textsc{Peters}. Attacking and Defending the McEliece Cryptosystem
@@ -2712,6 +2919,12 @@ odpovídá výrazu $a/b$.
         v~\emph{Research Report LIENS-95-21}. École Normale Supérieure, 1995
         Dostupné online
         \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.1645}
+
+    \bibitem{Chien}
+        Robert T. \textsc{Chien}. Cyclic decoding procedures for Bose-
+        Chaudhuri-Hocquenghem codes v~\emph{IEEE Transactions on Information
+        Theory}, vol. 10, strany 357-363. IEEE, 1964. Dostupné online
+        \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1053699}
 
     \bibitem{Courtois}
         Nicolas T. \textsc{Courtois}, Matthieu \textsc{Finiasz}, Nicolas
@@ -2780,6 +2993,10 @@ odpovídá výrazu $a/b$.
         Berlin Heidelberg, 2001. Dostupné online
         \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.5.9666}
 
+    \bibitem{Kotil}
+        Jaroslav \textsc{Kotil}. \emph{Goppa kódy a~jejich aplikace}. Diplomová
+        práce. Matematicko-fyzikální fakulta Univerzity Karlovy, Praha, 2013.
+
     \bibitem{Kratochvil}
         Miroslav \textsc{Kratochvíl}. \emph{Implementation of cryptosystem based
         on error-correcting codes}. Bakalářská práce. Matematicko-fyzikální
@@ -2841,7 +3058,7 @@ odpovídá výrazu $a/b$.
 
     \bibitem{Paustjan}
         Olga \textsc{Paustjan}. \emph{Post Quantum Cryptography on Embedded
-        Devices}: An Ecient Implementation of the McEliece Public Key Scheme
+        Devices}: An Efficient Implementation of the McEliece Public Key Scheme
         based on Quasi-Dyadic Goppa Codes. Diplomová práce. Ruhr-University
         Bochum, 2010.
 
@@ -2853,7 +3070,6 @@ odpovídá výrazu $a/b$.
         v~\emph{IEEE Transactions on Information Theory}, vol. 21, strany
         203-207. IEEE 1975. Dostupné online
         \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1055350}
-
 
     \bibitem{Randall}
         Dana \textsc{Randall}. \emph{Efficient Generation of Random Nonsingular
