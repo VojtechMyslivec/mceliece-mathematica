@@ -932,7 +932,7 @@ jak bylo popsáno v~kapitole~\ref{kap_linearni_kody}.
 
 
 % --------------------------------------------------------------------
-\subsection{Dekódování}
+\subsection{Dekódování}\label{kap_goppa_dekodovani}
 
 Pro dekódování, respektive opravu chyb, existuje několik algoritmů. V~této
 kapitole uvedeme \emph{Pattersonův algoritmus}, který byl představen \emph{Nicholasem
@@ -1009,8 +1009,7 @@ Tento krok algoritmu je asymptoticky nejnáročnější. Základní způsob pro 
 kořenů polynomu je hrubou silou vypočítat hodnotu $\sigma(L_i)$ pro všechny
 koeficienty $L_i$ z~podpory $L$.
 
-Efektivnější algoritmem je tzv. \emph{Chienův
-způsob} hledání kořenů\footnote{
+Efektivnější algoritmem je tzv. \emph{Chienův způsob} hledání kořenů\footnote{
     Tento algoritmus byl původně navržený pro \emph{BCH} kódy~v~\cite{Chien}
 }~\cite{FIT_AAK,Heyse}, který využívá výpočtu kořenů pomocí primitivního
 prvku~$\alpha$. Pro všechny prvky $\alpha^i$ tělesa $GF(2^m)$ (kromě nulového
@@ -2214,7 +2213,7 @@ výpočty. Následující kapitoly popisují jednotlivé části.
 
 
 % ====================================================================
-\section{Binární konečná tělesa}
+\section{Binární konečná tělesa}\label{kap_implementace_teles}
 
 V~této podkapitole pojednáváme o~implementaci \emph{binárních konečných těles}
 včetně jejich \emph{rozšíření}. Zmíníme existující řešení v~softwaru
@@ -2380,14 +2379,14 @@ seznamů. Pro sčítání těchto prvků funkce používá obyčejné sčítán�
 modulo $p$.
 
 \begin{algoritmus}[!ht]
-    \caption{Sčítání polynomů}
+    \caption{Sčítání prvků}
     \begin{algorithmic}[1]
-     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(p^n)$, $p$ je prvočíslo}
+     \Function{plus[ $a$, $b$, $p$ ]}{}\Comment{Pro $GF(p^n)$, $p$ je prvočíslo}
         \State \Return $Mod[a+b,p]$
      \EndFunction
     \end{algorithmic}
     \begin{algorithmic}[1]
-     \Function{plus[$a$,$b$,$p$]}{}\Comment{Pro $GF(q^n)$, $q$ je $p^{\ldots}$}
+     \Function{plus[ $a$, $b$, $p$ ]}{}\Comment{Pro $GF(q^n)$, $q$ je $p^{\ldots}$}
         \For{$ i \gets 1\ldots Length[a] $}
             \State $c[[i]] \gets plus[a[[i]],b[[i]],p]$
         \EndFor
@@ -2417,7 +2416,7 @@ rovnal nule (viz příklad níže).
 Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
 
 \begin{algoritmus}[!ht]
-    \caption{Redukce polynomu v~tělese s~charakteristikou $2$}
+    \caption{Redukce prvku v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{redukuj[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
         \State $ l_a \gets stupen[a] + 1 $
@@ -2633,7 +2632,7 @@ $
 $
 
 
-\subsubsection{Druhá mocnina}
+\subsubsection{Druhá mocnina}\label{kap_druha_mocnina}
 
 Pro prvky tělesa s~\emph{charakteristikou} $2$ je výhodné implementovat funkci
 \uv{na druhou} díky následujícímu tvrzení:
@@ -2868,12 +2867,246 @@ $k_b$ (viz \emph{EEA} -- alg. \ref{alg_eea}) nastavena na hodnotu $a$.
 Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
 odpovídá výrazu $a/b$.
 
+% todo pozice
+\clearpage
 
 % ====================================================================
 \section{Ireducibilní binární Goppa kódy}
 
+Pro implementaci kryptosystému jsme zvolili ireducibilní Goppa kódy, které jsme
+popsali v~kapitole~\ref{kap_goppa_kody}.  V~podkapitole~\ref{kap_generovani}
+popíšeme algoritmy, které slouží pro vygenerování kódu dle zadaných parametrů
+a~v~podkapitole~\ref{kap_patterson} \emph{Pattersonův} algoritmus pro dekódování
+a~(opravu) chyb vzniklých při přenosu.
+
+
+% --------------------------------------------------------------------
+\subsection{Generování Goppa kódu}\label{kap_generovani}
+
+Parametry \emph{ireducibilního binárního Goppa kódu} $(n,k,t)$ jsou jednoznačně
+určené parametry~$m$ a~$t$. Parametr~$m$ určuje řád vnitřního tělesa $GF(2^m)$
+a~parametr~$t$ stupeň (ireducibilního) \emph{Goppova} polynomu~$g$. Parametr~$n$
+(počet prvků podpory~$L$) je $2^m$, protože posloupnost~$L$ obsahuje
+\emph{všechny} prvky z~tělesa $GF(2^m)$. Redundance takového kódu je $r=mt$,
+jelikož vygenerovaná matice~$H$ má $t$~řádků nad tělesem $GF(2^m)$, neboli
+$mt$~řádků nad tělesem $GF(2)$. Parametr~$k$ je pak jednoznačně určený
+z~definice kódu jako $n-k$ tedy $2^m-mt$.
+
+
+Pro sestrojení \emph{kontrolní} matice~$H$ potřebujeme vygenerovat
+\emph{podporu} kódu~$L$ a~matice $V$ a~$D$. Pro sestrojení těchto objektů je též
+třeba vygenerovat \emph{modul} vnitřního tělesa~$GF(2^m)$ a~samozřejmě
+\emph{Goppův} polynom $g$. Pro sestrojení \emph{modulu} využijeme funkcí
+definovaných v~předešlé kapitole~\ref{kap_implementace_teles} a~pro vygenerování
+matic a~podpory jsou implementovány dílčí funkce popsané níže.
+
+
+\begin{algoritmus}[!ht]
+    \caption{Generování Goppa kódu}
+    \begin{algorithmic}[1]
+     \Function{generujGoppaKod[ $m$, $t$ ]}{}
+        \State $ n \gets 2^m ; \quad r \gets t m ; \quad k \gets n - r $
+
+        // Ireducibilní polynom stupně $m$ pro vnitřní \emph{modul}
+        \State $ modul_{vnitrni} \gets \{ ireducibilniPolynom[ 2, m+1 ], 2 \}$
+
+        // \emph{Goppův} polynom $g$ stupně $t$
+        \State $ g \gets ireducibilniPolynom[ modul_{vnitrni}, t+1 ] $
+        \State $ modul \gets \{ g, modul_{vnitrni} \}$
+
+        \hfil
+        \State $ L \gets generujPodporuL[ m ] $
+            \Comment{Generování posloupnosti $L$}
+        \State $ V \gets maticeV[ podporaL, t, modul_{vnitrni} ] $
+            \Comment{\emph{Vandermondova} matice}
+        \State $ D \gets maticeD[ podporaL, modul ] $
+            \Comment{\emph{Diagonální} matice}
+
+        \hfil
+        \State $ H \gets dotNadF[ V, D, modul_{vnitrni} ] $
+            \Comment{Násobení matic nad $GF(2^m)$}
+        \State $ H \gets Flatten[Transpose \mathbin{/@} H, 1 ] $
+            \Comment{\emph{Rozbalení} prvků matice $H$}
+
+        // Převod matice $H$ na $G$ -- \emph{ortogonální doplněk}
+        \State $ G \gets NullSpace[ H, Modulus \to 2 ] $
+
+        \hfil
+        \State $ X \gets \{ jednotkovyPolynom[\ldots], nulovyPolynom[\ldots] \} $
+            \Comment{Polynom~$x$}
+
+        // předpočítané dílčí syndromy $\left(x-L_i\right)^{-1}$
+        \For{$ i \gets 1 \ldots n $}
+            \Comment{Ve skutečnosti pomocí funkce \texttt{Map}}
+            \State $ syndromyL[[i]] \gets inverze[ plus[X, L[[i]], 2], modul ] $
+        \EndFor
+
+        \hfil
+        \State \Return $ \{ G, modul, L, syndromyL \}$
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+
+
+\paragraph{Podpora $L$} \hfil \\
+Generování podpory~$L$ je velmi jednoduché. Dle parametru~$m$ se vygenerují
+všechny vektory z~$\{0,1\}^m$ a~náhodně se permutují (zamíchají). Tuto funkci
+lze jednoduše řešit pomocí vnitřních funkcí softwaru \emph{Mathematica}
+\texttt{Tuple} a~\texttt{Ran\-domSample}. % todo rozdeleni slov
+
+
+\paragraph{Matice $D$} \hfil \\
+Matice~$D$ je diagonální $n \times n$ maticí (nad $GF(2^m)$), kde na diagonále
+jsou inverze v~$GF(2^m)$ prvků~z~$L$ dosazených do polynomu $g$, neboli $D_{i,i}
+= g(L_i)^{-1}$. Pro výpočet této matice je potřeba zadat \emph{modul} tělesa
+$GF(2^m)$, polynom~$g$ a~podporu~$L$. Výpočet je pak proveden pomocí
+\emph{aplikování} (\texttt{Map}) funkcí dosazení do polynomu a~inverze
+v~tělese na prvky seznamu $L$.\footnote{
+    Zde by šlo dosazení do polynomu všech prvků z~$L$ zrychlit stejným způsobem,
+    jako byl uvedený u~\emph{Chienova} hledání kořenů
+    v~kapitole~\ref{kap_goppa_dekodovani}.
+}
+
+
+\paragraph{Matice $V$} \hfil \\
+\emph{Vandermondova} $n \times t$ matice~$V$ nad $GF(2^m)$ obsahuje na prvním
+řádku \emph{jednotkové prvky} a~na dalších řádcích mocniny prvků z~$L$.
+Konkrétně tedy $V_{j,i} = L_i^{j-1}$, pro $i\geq 2$. Vypočítání všech mocnin
+pro každé $i,j$ by bylo velmi neefektivní. Rychlejší způsob je vygenerovat první
+řádek \emph{jednotkových} prvků a~každý další řádek vypočítat přinásobením
+příslušného~$L_i$ k~řádku předešlému. Tento výpočet je realizován funkcí
+softwaru \emph{Mathematica} \texttt{NestList}.
+
+
+% --------------------------------------------------------------------
+\subsection{Pattersonův algoritmus}\label{kap_patterson}
+
+Pro zakódování zprávy do kódového slova stačí použít prostého maticového
+násobení (nad $GF(2)$). Pro dekódování, respektive opravu chyb byl
+implementovaný \emph{Pattersonův algoritmus}, jak je popsaný
+v~\ref{kap_patterson}.
+
+\begin{algoritmus}[!ht]
+    \caption{Dekódování Goppa kódu}
+    \begin{algorithmic}[1]
+     \Function{dekodujGoppaKod[ $c$, $G$, $ \{ g, modul_{vnitrni} \}$, $L$, $syndromyL$ ]}{}
+        \State $ (n,k,t); \; m $
+            \Comment{Parametry \emph{Goppa} kódu -- dle $G$ a~$g$}
+
+        // \emph{Syndrom} $ s(x) = \sum_{i=1}^{n} \frac{c_i}{x-L_i} \mod g(x) $.
+        \State $ s \gets \sum c[[i]] \cdot syndromyL[[i]] $
+            \Comment{Realizováno funkcí \texttt{Apply} a \texttt{Plus} }
+        \If{$ s = \mathbf{0}$ }
+            \Comment{Pokud je syndrom nulový, chyba nenastala}
+            \State $ e \gets nulovyPolynom[ 2, n ] $
+        \Else
+            \hfil
+            \State $ X \gets \{ jednotkovyPolynom[\ldots], nulovyPolynom[\ldots] \} $
+                \Comment{Polynom~$x$}
+
+            // $ r = \sqrt{s(x)^{-1} - x} \mod g(x) $
+            \State $ r \gets plus[ inverze[ s, modul ], X, 2 ] $
+            \State $ r \gets umocni[ r, 2^{mt - 1}, modul ] $
+                \Comment{Výpočet odmocniny}
+
+            // Rozložení polynomu $r(x)$: $\alpha(x) = \beta(x) r(x) \mod g(x) $
+            \State $ \{ \alpha, \beta \} \gets modifikovanyEEA[ r, modul ] $
+
+            \hfil
+            \State $ \beta \gets posunPolynom[ \beta^2, 1 ] ; \;  \alpha \gets \alpha^2 $
+
+            // \emph{Lokátor chyb} $ \sigma = \beta^2 x + \alpha^2 $ -- bez redukce $g$!
+            \State $ \sigma \gets plus[ \beta, \alpha, 2 ] $
+
+            \hfil
+            \For{$ i \in 1 \ldots n $}
+                \Comment{Dosazení $L_i$ do \emph{lokátoru} (opět pomocí \texttt{Map})}
+                \State $ e[[i]] \gets dosadDoPolynomu[ \sigma, L[[i]], modul_{vnitrni} ] == 0 $
+            \EndFor
+        \EndIf
+
+        \hfil
+        \State $ c' \gets plus[ c, e, 2 ] $
+            \Comment{Opravené přijaté slovo $c$}
+
+        // Invertování zakódování maticí $G$
+        \State $ d \gets invertujZakodovani[ c', G ] $
+
+        \hfil
+        \State \Return $ \{ d, e \} $
+            \Comment{Vrátí dekódovanou zprávu i chybový vektor}
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+\paragraph{Druhá mocnina} \hfil \\
+Druhá mocnina je implementována přímo v~rámci algoritmu, jelikož je třeba
+vynechat redukci polynomu. Tato druhá mocnina se vypočítá\footnote{
+    Výpočet druhé mocniny pomocí $ kratBezRedukce[ a, a, modul_{vnitrni} ] $ není
+    efektivní.
+} stejným způsobem, jako byl uveden v~kapitole~\ref{kap_druha_mocnina}.
+
+
+\paragraph{Modifikovaný \emph{EEA}} \hfil \\
+Rozložení polynomu~$r$ je realizováno modifikovaným \emph{rozšířeným Euklidovým
+algoritmem}, jak bylo popsáno v~kapitole~\ref{kap_goppa_dekodovani}.
+
+
+\paragraph{Dosazení do polynomu} \hfil \\
+Funkce \texttt{dosadDoPolynomu} je implementována v~části zabývající se
+konečnými tělesy a~výpočet dosazení prvku do polynomu je realizován pomocí tzv.
+\emph{Hornerova schématu}.
+
+% todo pozice
+\vfil
+
+\paragraph{Invertování zakódování} \hfil \\
+Posledním krokem algoritmu je získání původní zprávy~$d$ z~opraveného.
+Bit zprávy~$d$ na $i$-té pozici odpovídá bitu vektoru~$c'$ na pozici sloupce
+matice~$G$, který má v~$i$-tém řádku $1$ a~v~ostatních $0$. V~tomto kroku
+vlastně vyhledáme pozice \emph{informačních bitů}, které tvoří původní
+zprávu~$d$.\footnote{
+    Jedná se vlastně o~řešení soustavy $k$~rovnic pro $k$~neznámých určených
+    vybranou maticí $G_\mathcal{K}$. Je jistě nejjednodušší vybrat si takové
+    dimenze~$\mathcal{K}$, že~$G_\mathcal{K}$ je jednotková matice.
+}
+
+
+% --------------------------------------------------------------------
+\subsection{Možná zlepšení}
+
+Nejnáročnější část dekódování je hledání kořenů \emph{lokátoru chyb}~$\sigma$.
+Opakované dosazování do polynomu lze efektivněji implementovat pomocí
+\emph{Chienova} hledání kořenů, či případně faktorizací polynomu $\sigma$. Více
+informací ohledně tohoto problému jsme uvedli
+v~kapitole~\ref{kap_goppa_dekodovani}.
+
+V~případě, že je matice generována v~\emph{systematické} formě, tak zprávě~$d$
+odpovídá prvních~$k$~(informačních) bitů vektoru $c'$. Matice~$G$ však
+v~\emph{systematické} formě nemusí existovat. Aby matici šlo sestrojit v~této
+formě, museli bychom prohazovat dimenze kódu a~tím pádem i~posloupnosti~$L$. To
+není z~důvodu bezpečnosti žádoucí, neboť bychom snižovali počet možných
+permutací podpory~$L$ a~tím pádem i~počet možných využitelných kódu. Z~tohoto
+důvodu je nutné invertování zakódování maticí~$G$ provádět způsobem, který jsme
+popsali výše.  Nicméně nalezení daných dimenzí není nutné provádět opakovaně
+a~mohli bychom si tento krok předpočítat a~v~definici kódu uvádět definici pozic
+informačních bitů.
+
+Stejně tak je při každém dekódování počítán počet prvků tělesa pro vypočítání
+odmocniny. Tento počet prvků -- respektive číslo, na které je nutné prvek umocnit,
+abychom nalezli odmocninu -- je možné pro zrychlení výpočtu též uložit mezi
+parametry definující kód. Oproti ostatním operacím se však jedná o~minoritní
+výpočet a~tak toto zrychlení by nebylo nijak významné.
+
+
+% todo pozice
+\clearpage
+
 % ====================================================================
 \section{McEliece}
+
+
 
 % ====================================================================
 \section{Měření}
@@ -3197,21 +3430,26 @@ odpovídá výrazu $a/b$.
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
-        \item[CCA2] \emph{Adaptive Chosen Ciphertext Attack} -- útok s~adaptivní volbou šifrového textu
-        \item[DH]   Algoritmus \emph{Diffie-Hellman}
-        \item[DSA]  \emph{Digital Signature Algorithm}
-        \item[ECC]  \emph{Elliptic Curve Cryptography}
-        \item[EEA]  \emph{Extended Euclidean Algorithm} -- rozšířený Euklidův algoritmus
-        \item[GCD]  \emph{Greatest Common Divisor} -- největší společný dělitel
-        \item[GRS]  \emph{Generalised Reed-Solomon code} -- zobecněný Reed-Solomon kód
-        \item[GF]   \emph{Gallois field} -- konečné těleso
-        \item[LSB]  \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
-        \item[MDCP] \emph{Moderate Density Parity-Check} kódy
-        \item[MSB]  \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
-        \item[OAEP] \emph{Optimal asymmetric encryption padding} -- schéma pro asymetrické šifrování
-        \item[RSA]  Algoritmus \emph{RSA} -- \emph{Rivest}, \emph{Shamir}, \emph{Adleman}
-        \item[S\&M] Algoritmus \emph{Square-and-Multiply}
-        %\item[TLS] Three Letter Shortcut
+    \item[BCH]      \emph{Bose-Chaudhuri-Hocquenghem} kódy
+    \item[CPA]      \emph{Chosen Plaintext Attack} -- útok s~voleným otevřeným textem
+    \item[CCA]      (\textbf{CCA1}) \emph{Chosen Ciphertext Attack} -- útok s~voleným šifrovým textem
+    \item[CCA2]     \emph{Adaptive Chosen Ciphertext Attack} -- útok s~adaptivní volbou šifrového textu
+    \item[DH]       Algoritmus \emph{Diffie-Hellman}
+    \item[DSA]      \emph{Digital Signature Algorithm}
+    \item[ECC]      \emph{Elliptic Curve Cryptography}
+    \item[EEA]      \emph{Extended Euclidean Algorithm} -- rozšířený Euklidův algoritmus
+    \item[GCD]      \emph{Greatest Common Divisor} -- největší společný dělitel
+    \item[GRS]      \emph{Generalised Reed-Solomon code} -- zobecněný Reed-Solomon kód
+    \item[GF]       \emph{Gallois Field} -- konečné těleso
+    \item[LSB]      \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
+    \item[MDPC]     \emph{Moderate Density Parity-Check} kódy
+    \item[MSB]      \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
+    \item[OAEP]     \emph{Optimal Asymmetric Encryption Padding} -- schéma pro asymetrické šifrování
+    \item[PKC]      \emph{Public-Key Cryptography} -- asymetrická kryptografie s~veřejným klíčem
+    \item[QC-MDPC]  \emph{Quasi-Cyclic MDPC} kódy
+    \item[RSA]      Algoritmus \emph{RSA} -- \emph{Rivest}, \emph{Shamir}, \emph{Adleman}
+    \item[S\&M]     Algoritmus \emph{Square-and-Multiply}
+    %\item[TLS]     Three Letter Shortcut
 \end{description}
 
 % TODO

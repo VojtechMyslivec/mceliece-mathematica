@@ -5,5 +5,6 @@ sablona
 *.out
 *.snm
 *.toc
+*.loa
 *.lot
 *.lof
