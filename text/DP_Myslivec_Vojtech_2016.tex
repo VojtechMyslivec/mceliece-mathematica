@@ -388,6 +388,22 @@ s~operací modulo (ireducibilní) polynom tvoří opět těleso a~jdou tak využ
 koeficienty dalších polynomů.
 
 
+\paragraph{Použité značení} \hfil \\
+Příklady počítání operací v~těchto \emph{rozšířených} tělesech jsou uvedeny
+v~kapitole implementace~\ref{kap_implementace_teles}. Pro ujasnění způsobu
+značení prvků z~těchto těles zde uvedeme příklad tohoto značení.
+
+Máme těleso $\mathbb{F} = GF(2^3)$ s~ireducibilním polynomem
+$$  g(y) = y^3 + y + 1$$
+Tento polynom budeme zkráceně zapisovat jako $1011$. Potom polynom~$a$
+z~okru\-hu~$\mathbb{F}[x]$ zapisujeme těmito ekvivalentními způsoby:
+\begin{align*}
+    a(x) &= (y^2 + 1)x^3 + (y)x + (y+1)         \cong \\
+         &\cong (101)x^3 + (010)x + (011) \quad \cong \\
+         &\cong (101)(000)(010)(011)
+\end{align*}
+
+
 
 
 
@@ -1622,7 +1638,7 @@ který generuje \emph{veřejný klíč} $\hat{G}$. Pokud by bylo množství mož
 hrubou silou odhalit použitý \emph{Goppa kód}. Z~tohoto důvodu je nutné, aby
 generované \emph{Goppa polynomy} měly koeficienty z~větších binárních těles. Čím
 větší budou vnitřní tělesa, tím více existuje možných (ireducibilních) polynomů
-a není tak možné projít všechny možnosti hrubou silou~\cite{Repka}.
+a~není tak možné projít všechny možnosti hrubou silou~\cite{Repka}.
 
 
 \subsubsection{Útok s~informační množinou}
@@ -2839,8 +2855,6 @@ tohoto přístupu:
         překlad.
         \begin{itemize}
             \item Tato tabulka lze implementovat pomocí obyčejného pole či
-                %todo
-                % seznamu, kde se k~danému indexu v~seznamu vyskytuje
                 sezna\-mu, kde se k~danému indexu v~seznamu vyskytuje
                 odpovídající hodnota.
             \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
@@ -2883,11 +2897,12 @@ odpovídá výrazu $a/b$.
 % ====================================================================
 \section{Ireducibilní binární Goppa kódy}
 
-Pro implementaci kryptosystému jsme zvolili ireducibilní Goppa kódy, které jsme
-popsali v~kapitole~\ref{kap_goppa_kody}.  V~podkapitole~\ref{kap_generovani}
-popíšeme algoritmy, které slouží pro vygenerování kódu dle zadaných parametrů
-a~v~podkapitole~\ref{kap_patterson} \emph{Pattersonův} algoritmus pro dekódování
-a~(opravu) chyb vzniklých při přenosu.
+Pro implementaci kryptosystému jsme zvolili \emph{ireducibilní Goppa kódy},
+které jsme popsali v~kapitole~\ref{kap_goppa_kody}.
+V~podkapitole~\ref{kap_generovani} popíšeme algoritmy, které slouží pro
+vygenerování kódu dle zadaných parametrů a~v~podkapitole~\ref{kap_patterson}
+\emph{Pattersonův} algoritmus pro dekódování a~(opravu) chyb vzniklých při
+přenosu.
 
 
 % --------------------------------------------------------------------
@@ -2902,7 +2917,6 @@ jelikož vygenerovaná matice~$H$ má $t$~řádků nad tělesem $GF(2^m)$, nebol
 $mt$~řádků nad tělesem $GF(2)$. Parametr~$k$ je pak jednoznačně určený
 z~definice kódu jako $n-k$ tedy $2^m-mt$.
 
-
 Pro sestrojení \emph{kontrolní} matice~$H$ potřebujeme vygenerovat
 \emph{podporu} kódu~$L$ a~matice $V$ a~$D$. Pro sestrojení těchto objektů je též
 třeba vygenerovat \emph{modul} vnitřního tělesa~$GF(2^m)$ a~samozřejmě
@@ -2910,19 +2924,15 @@ třeba vygenerovat \emph{modul} vnitřního tělesa~$GF(2^m)$ a~samozřejmě
 definovaných v~předešlé kapitole~\ref{kap_implementace_teles} a~pro vygenerování
 matic a~podpory jsou implementovány dílčí funkce popsané níže.
 
-
 \begin{algoritmus}[!ht]
     \caption{Generování Goppa kódu}
     \begin{algorithmic}[1]
      \Function{generujGoppaKod[ $m$, $t$ ]}{}
         \State $ n \gets 2^m ; \quad r \gets t m ; \quad k \gets n - r $
 
-        // Ireducibilní polynom stupně $m$ pro vnitřní \emph{modul}
-        \State $ modul_{vnitrni} \gets \{ ireducibilniPolynom[ 2, m+1 ], 2 \}$
-
-        // \emph{Goppův} polynom $g$ stupně $t$
-        \State $ g \gets ireducibilniPolynom[ modul_{vnitrni}, t+1 ] $
-        \State $ modul \gets \{ g, modul_{vnitrni} \}$
+        // ireducibilní \emph{Goppův} polynom $g$ stupně $t$ nad tělesem $GF(2^m)$
+        \State $ modul \gets generujModul[ \{ 2, m \}, t ] $
+        \State $ \{ g, modul_{vnitrni} \} \gets modul $
 
         \hfil
         \State $ L \gets generujPodporuL[ m ] $
@@ -2957,6 +2967,14 @@ matic a~podpory jsou implementovány dílčí funkce popsané níže.
     \end{algorithmic}
 \end{algoritmus}
 
+
+\paragraph{Generování \emph{Goppova} polynomu} \hfil \\
+Pro sestrojení \emph{ireducibilního Goppa kódu} je potřeba vygenerovat
+\emph{ireducibilní} polynom nad konečným tělesem $GF(2^m)$. Pro skutečné
+generování náhodného ireducibilního polynomu by bylo třeba implementovat test
+ireducibility polynomu (např. dle~\cite{Gao}). Pro použití \emph{Goppa} kódů
+v~této práci bylo několik ireducibilních polynomů předgenerováno v~softwaru
+\emph{Sage math}~\cite{Sage}.
 
 
 \paragraph{Podpora $L$} \hfil \\
@@ -2994,8 +3012,8 @@ softwaru \emph{Mathematica} \texttt{NestList}.
 
 Pro zakódování zprávy do kódového slova stačí použít prostého maticového
 násobení (nad $GF(2)$). Pro dekódování, respektive opravu chyb byl
-implementovaný \emph{Pattersonův algoritmus}, jak je popsaný
-v~\ref{kap_patterson}.
+implementovaný \emph{Pattersonův algoritmus}, který byl uveden
+v~kapitole~\ref{kap_goppa_dekodovani}.
 
 \begin{algoritmus}[!ht]
     \caption{Dekódování Goppa kódu}
@@ -3011,9 +3029,10 @@ v~\ref{kap_patterson}.
             \Comment{Pokud je syndrom nulový, chyba nenastala}
             \State $ e \gets nulovyPolynom[ 2, n ] $
         \Else
-            \hfil
+            \Comment{Jinak provede opravu chyb -- \emph{Pattersonův alg.}}
+
+            // Polynom~$x$
             \State $ X \gets \{ jednotkovyPolynom[\ldots], nulovyPolynom[\ldots] \} $
-                \Comment{Polynom~$x$}
 
             // $ r = \sqrt{s(x)^{-1} - x} \mod g(x) $
             \State $ r \gets plus[ inverze[ s, modul ], X, 2 ] $
@@ -3050,6 +3069,9 @@ v~\ref{kap_patterson}.
     \end{algorithmic}
 \end{algoritmus}
 
+% todo pozice
+\vfill
+
 \paragraph{Druhá mocnina} \hfil \\
 Druhá mocnina je implementována přímo v~rámci algoritmu, jelikož je třeba
 vynechat redukci polynomu. Tato druhá mocnina se vypočítá\footnote{
@@ -3068,9 +3090,6 @@ Funkce \texttt{dosadDoPolynomu} je implementována v~části zabývající se
 konečnými tělesy a~výpočet dosazení prvku do polynomu je realizován pomocí tzv.
 \emph{Hornerova schématu}.
 
-% todo pozice
-\vfil
-
 \paragraph{Invertování zakódování} \hfil \\
 Posledním krokem algoritmu je získání původní zprávy~$d$ z~opraveného.
 Bit zprávy~$d$ na $i$-té pozici odpovídá bitu vektoru~$c'$ na pozici sloupce
@@ -3085,6 +3104,11 @@ zprávu~$d$.\footnote{
 
 % --------------------------------------------------------------------
 \subsection{Možná zlepšení}
+
+Pro praktické použití Goppa kódů v~oblasti bezpečnosti je potřeba generovat
+\emph{ireducibilní} polynomy~$g$ náhodně. Pro účely této práce bylo
+předgenerováno pouze několik ireducibilních polynomů a~v~případě rozvíjení této
+implementace by bylo vhodné soustředit se primárně na tuto skutečnost.
 
 Nejnáročnější část dekódování je hledání kořenů \emph{lokátoru chyb}~$\sigma$.
 Opakované dosazování do polynomu lze efektivněji implementovat pomocí
@@ -3116,11 +3140,26 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 % ====================================================================
 \section{McEliece}
 
+\uv{školní varianta}
+
+% --------------------------------------------------------------------
+\subsection{Generování klíčů}
+
+% --------------------------------------------------------------------
+\subsection{Šifrování}
+
+% --------------------------------------------------------------------
+\subsection{Dešifrování}
+
+
+
 
 
 % ====================================================================
 \section{Měření}
 
+Jistě je vhodné implementovat Chien search či počítání násobení a mocnin pomocí
+primitivního prvku.
 
 
 
@@ -3130,6 +3169,7 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 \begin{conclusion}
         %sem napište závěr Vaší práce
     draft \cite{Schanck}
+    Zdůraznit dřinu, která byla odvedena, rozumně se pochválit
 \end{conclusion}
 
 
@@ -3256,6 +3296,13 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 %        Eiichiro \textsc{Fujisaki}, Tatsuaki \textsc{Okamoto}. Secure
 %        Integration of Asymmetric and Symmetric Encryption Schemes
 %        v~\emph{CRYPTO}, vol. 1666, strany 535-554. 1999.
+
+    \bibitem{Gao}
+        Shuhong \textsc{Gao}, Daniel \textsc{Panario}. Tests and Constructions
+        of Irreducible Polynomials over Finite Fields v~\emph{Foundations of
+        Computational Mathematics}, strany 346-361. Springer Berlin Heidelberg,
+        1997. Dostupné online
+        \url{http://link.springer.com/chapter/10.1007\%2F978-3-642-60539-0\_27}
 
     \bibitem{Goppa}
         Valery D. \textsc{Goppa}. A~New Class of Linear Correcting Codes
@@ -3425,12 +3472,17 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
         ČVUT, 2008.
 
 % přednášky
+        % TODO
     \bibitem{FIT_AAK} Přednášky MI-AAK
+
     \bibitem{FIT_BHW} Přednášky MI-BHW
+
     \bibitem{FIT_KRY} Přednášky MI-KRY
 
 % software
     \bibitem{Mathematica} Wolfram Mathematica
+
+    \bibitem{Sage} Sage math
 \end{thebibliography}
 
 \appendix
