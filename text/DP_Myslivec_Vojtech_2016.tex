@@ -101,7 +101,7 @@ systému odolná vůči těmto aspektům.
 V~poslední části  práce je probrána implementace kryptosystému \emph{McEliece}
 v~softwaru \emph{Wolfram Mathematica} včetně změřených časových
 % TODO a prostorových
-složitostí (kapitola \ref{kap_implementace}),.
+složitostí (kapitola \ref{kap_implementace}).
 
 \end{introduction}
 
@@ -234,9 +234,9 @@ Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modu
 (respektive v~tělese~$\mathbb{F}$).
 
 Kvůli uzavřenosti násobení v~tělese je nutné zavést operaci \uv{zbytek po dělení
-polynomu} $A(x)$ polynomem $P(x)$, neboli $A(x) \mod P(x)$. Dále je třeba pro
-jednoznačné určení tělesa $GF(p^n)$ určit příslušný  \emph{ireducibilní}
-polynom, který bude použitý při operaci násobení.
+polynomu} $A(x)$ polynomem $P(x)$, neboli $A(x) \mod P(x)$. Navíc pro pro
+jednoznačné určení tělesa $GF(p^n)$ je třeba určit příslušný \emph{ireducibilní}
+polynom $P(x)$, který bude použitý při operaci násobení modulo $P(x)$.
 
 \begin{definice}
     Polynom $P(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
@@ -316,7 +316,9 @@ Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo}~$p$
 Inverze v~\emph{multiplikativní grupě} značíme záporným exponentem~\uv{$^{-1}$}
 či symbolem dělení.
 $$
-    \left| A(x) \cdot A(x)^{-1} \right|_p = \left| \frac{A(x)}{A(x)} \right|_p = 1
+    \left| A(x) \cdot A(x)^{-1} \right|_{P(x)} =
+    \left| \frac{A(x)}{A(x)} \right|_{P(x)} =
+    \mathbf{1}
 $$
 
 Tuto \emph{multiplikativní inverzi} je třeba počítat \emph{rozšířeným Euklidovým
@@ -470,14 +472,14 @@ obrázku~\ref{obr_kodovani}):
 \emph{blokových kódů} (dle definice). Dají se definovat i~kódy s~proměnlivou
 délkou kódových slov.
 
-Z~definice vyplývá, že existuje kódové slovo pro všechny zprávy a~že existuje
-inverzní zobrazení $\mathcal{K}^{-1}$. Množina všech kódových slov je
-jednoznačně určena zobrazením množiny zpráv $\mathcal{B} =
-\mathcal{K}(GF(2)^k) = \mathcal{K}(\mathcal{A})$. Vektory délky $n$, které
-nepatří do množiny $\mathcal{B}$ nazveme jako \emph{nekódová slova} (vektory).
-Operací \emph{zakódování} budeme rozumět aplikaci zobrazení $\mathcal{K}$
-a~operací dekódování aplikaci $\mathcal{K}^{-1}$, tedy získání původní zprávy
-z~(\emph{kódového}) slova.
+Z~definice prostého zobrazení vyplývá, že existuje \emph{kódové slovo} pro
+\emph{všechny} zprávy a~že existuje \emph{inverzní} zobrazení
+$\mathcal{K}^{-1}$. Množina všech kódových slov je jednoznačně určena zobrazením
+množiny zpráv $\mathcal{B} = \mathcal{K}(GF(2)^k) = \mathcal{K}(\mathcal{A})$.
+Vektory délky $n$, které nepatří do množiny $\mathcal{B}$ nazveme jako
+\emph{nekódová slova} (vektory). Operací \emph{zakódování} budeme rozumět
+aplikaci zobrazení $\mathcal{K}$ a~operací dekódování aplikaci
+$\mathcal{K}^{-1}$, tedy získání původní zprávy z~(\emph{kódového}) slova.
 
 \begin{definice}{Hammingova vzdálenost:}
     \emph{Hammingova vzdálenost} dvou vektorů $u$ a~$v$ -- $vzd(u,v)$ či
@@ -525,9 +527,9 @@ parametry včetně počtu chyb, které kód dokáže opravit, tedy $(n,k,t)$\foo
 
 Počet opravitelných chyb naznačují obrázky~\ref{obr_kvzd}. Vrcholy úseček
 představují vektory délky~$n$ mezi dvěma kódovými slovy~$b_1$ a~$b_2$ (naznačení
-nejkratší \emph{kódové vzdálenosti} v~prostoru $GF(2^n)$), V~případě, že~$d$ je
-sudé~\ref{obr_kvzd_suda}, vždy existuje jednoznačný nejbližší vektor. V~případě,
-že~$d$ je liché~\ref{obr_kvzd_licha}, tak pokud přijatý vektor~$c$ leží přesně
+nejkratší \emph{kódové vzdálenosti} v~prostoru $GF(2^n)$). V~případě, že~$d$ je
+liché~\ref{obr_kvzd_licha}, vždy existuje jednoznačný nejbližší vektor. V~případě,
+že~$d$ je sudé~\ref{obr_kvzd_suda}, tak pokud přijatý vektor~$c$ leží přesně
 uprostřed mezi dvěma nejbližšími vektory, není možné rozhodnout, na které kódové
 slovo by se měl vektor~$c$ dekódovat.
 
@@ -536,8 +538,7 @@ slovo by se měl vektor~$c$ dekódovat.
     \subbottom[Příklad liché $kvzd$\label{obr_kvzd_licha}]{\includegraphics[width=0.45\textwidth]{materialy/kvzd_licha.png}}
     \quad
     \subbottom[Příklad sudé $kvzd$\label{obr_kvzd_suda}]{\includegraphics[width=0.38\textwidth]{materialy/kvzd_suda.png}}
-    \label{obr_kvzd}
-    \caption{Ilustrace problému nalezení nejbližšího kódového slova}
+    \caption{Ilustrace problému nalezení nejbližšího kódového slova \label{obr_kvzd}}
 \end{figure}
 
 Existuje několik kategorií \emph{samoopravných} kódů. Definice kategorie kódu ve
@@ -598,7 +599,7 @@ kódovému slovu s~nejnižší \emph{Hammingovou vahou}.
 \begin{definice}{Generující matice:}
     Nechť soubor vektorů~$g_1,g_2,\ldots,g_k$ tvoří bázi prostoru
     kódových slov~$\mathcal{B}$ \emph{lineárního kódu}~$\mathcal{K}$. Potom
-    matici~$G$, sestavenou po řádkách vektory~$g_i$, nazveme \emph{generující
+    matici~$G$, sestavenou po řádcích vektory~$g_i$, nazveme \emph{generující
     maticí} kódu~$\mathcal{K}$.
 \end{definice}
 
@@ -612,8 +613,8 @@ Operace zakódování~$K$ zprávy~$a$ potom u~\emph{lineárního} kódu odpovíd
 násobení vektoru s~generující maticí:
 $$ K_G(a) : b = aG $$
 
-Toto maticové násobení ve odpovídá sečtení řádků matice~$G$, které
-jsou určené vektorem~$a$ (sečtení vektorů~$g_i$).
+Toto maticové násobení odpovídá sečtení řádků matice~$G$, které jsou určené
+vektorem~$a$ (sečtení vektorů~$g_i$).
 
 \begin{definice}{Systematický kód:}
     Pokud je \emph{generující} matice kódu~$\mathcal{K}$ ve tvaru \\
@@ -780,8 +781,8 @@ Vyšleme tedy tento vektor kanálem příjemci.
 
 \begin{enumerate}
     \item V~prvním případě nenastala žádná chyba. Vektor~$e$ je
-        tedy nulový a~$c = b$. Vypočteme \emph{syndrom}
-        $$ s_1 = c H^T = (000) $$
+        nulový a~$c$ tedy odpovídá~$b$. Vypočteme \emph{syndrom}
+        $$ s_1 = c H^T = b H^T = (000) $$
         Syndrom je nulový a~víme tedy, že přijaté~$c$ je kódové slovo.
         Jelikož je kód \emph{systematický}, dekódování $d$ je realizováno
         výběrem prvních $k$ dimenzí:
@@ -863,9 +864,9 @@ polynom a~$n$-tici $L$ \emph{podporou} kódu\footnote{
 
 Takto sestrojený kód má parametry $(n,k,t) = (n,2^m-tm,t)$
 
-\paragraph{Poznámka:} U~\emph{binárních Goppa} kódů je polynom $x - L_i$ je
-vlastně prvek $(0\ldots01)(L_i)$. Důvod podmínky $g(L_i) \neq \mathbf{0}$ je tak
-jasně vidět z~definice, protože musí existovat inverze tohoto prvku. Důvod druhé
+\paragraph{Poznámka:} U~\emph{binárních Goppa} kódů je polynom $x - L_i$
+prvek~$(0\ldots01)(L_i)$. Důvod podmínky $g(L_i) \neq \mathbf{0}$ je tak jasně
+vidět z~definice, protože musí existovat inverze tohoto prvku. Důvod druhé
 podmínky -- vzájemně různé prvky $L_i$ -- bude vidět později, ale podobně jako
 u~\emph{Hammingových} kódů dle sloupcového vektoru matice $H$ zjišťujeme pozici,
 kde nastala chyba, tak u~\emph{Goppa} kódů budeme zjišťovat pozici dle
@@ -3482,7 +3483,7 @@ primitivního prvku.
 % software
     \bibitem{Mathematica} Wolfram Mathematica
 
-    \bibitem{Sage} Sage math
+    \bibitem{Sage} Sage Math
 \end{thebibliography}
 
 \appendix
