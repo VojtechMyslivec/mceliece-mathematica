@@ -1,0 +1,363 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11912,        354]
+NotebookOptionsPosition[     10750,        307]
+NotebookOutlinePosition[     11083,        322]
+CellTagsIndexPosition[     11040,        319]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Vojt\[EHacek]ch Myslivec, FIT \[CapitalCHacek]VUT v Praze, 2015/2016 ", \
+"Text",
+ EvaluatorNames->{"Local" -> {"AutoStartOnLaunch" -> True}},
+ Editable->False,
+ Evaluator->"Local",
+ Selectable->True,
+ Deletable->False,
+ CellFrame->False,
+ CellDingbat->None,
+ ShowCellBracket->True,
+ ShowSelection->True,
+ ShowGroupOpener->False,
+ WholeCellGroupOpener->False,
+ GroupOpenerInsideFrame->False,
+ ShowClosedCellArea->False,
+ ShowShortBoxForm->False,
+ CellMargins->{{66, 10}, {7, 7}},
+ GroupOpenerColor->GrayLevel[0.49999237048905165`],
+ CellBracketOptions->{
+ "Color"->RGBColor[0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "HoverColor"->RGBColor[
+  0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "Margins"->{0, 2},
+ "OverlapContent"->Automatic,
+ "Thickness"->0.25,
+ "Widths"->{0, 7}},
+ CellElementSpacings->{"CellMinHeight"->12,
+ "ClosedCellHeight"->19,
+ "ClosedGroupTopMargin"->4},
+ PrivateCellOptions->{"CellGroupBaseStyle"->{},
+ "ContentsOpacity"->1.,
+ "EvaluationUnmatchedStyle"->"EvaluationUnmatched",
+ "PagewiseNotebookBaseStyle"->{}},
+ Deployed->False,
+ Enabled->True,
+ CellEditDuplicate->False,
+ CellEditDuplicateMakesCopy->False,
+ ReturnCreatesNewCell->False,
+ StyleKeyMapping->{},
+ CellSplitCopiesTags->True,
+ Evaluatable->False,
+ EvaluationMode->"Mathematica",
+ Copyable->True,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ AllowGroupClose->Automatic,
+ AllowReverseGroupClose->Automatic,
+ ConversionRules->None,
+ TaggingRules->None,
+ CreateCellID->False,
+ TextClipboardType->"PlainText",
+ StripStyleOnPaste->False,
+ CellHorizontalScrolling->False,
+ SpeechNavigation->False,
+ SpeechNavigationOptions->{"Delete"->True,
+ "Input"->True,
+ "Motion"->True,
+ "Output"->True,
+ "Parameters"->{},
+ "Paste"->True,
+ "Select"->True},
+ DataCompression->True,
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ GroupPageBreakWithin->Automatic,
+ OutputSizeLimit->1048576,
+ CellContext->"Global`",
+ CellProlog->None,
+ CellEpilog->None,
+ CellEvaluationFunction->Identity,
+ AllowDebugging->True,
+ DynamicUpdating->Automatic,
+ VariableChangesAreEdits->Automatic,
+ MaintainDynamicCaches->False,
+ InitializationCell->False,
+ InitializationGroup->False,
+ CellEvaluationDuplicate->False,
+ GeneratedCell->False,
+ CellAutoOverwrite->False,
+ GenerateImageCachesOnPlacement->False,
+ LegacyGraphicsCompatibility->False,
+ PreserveOldOutputGraphicsAttributes->True,
+ CellEventActions->None,
+ CellDynamicExpression:>Null,
+ DynamicEvaluationTimeout->6.,
+ TemporaryControlActiveInterval->2.,
+ ShowCellLabel->True,
+ CellLabelStyle->"CellLabel",
+ CellLabelPositioning->Automatic,
+ CellLabelAutoDelete->True,
+ CellLabelMargins->{{12, Inherited}, {Inherited, Inherited}},
+ CellFrameMargins->8,
+ CellFrameColor->GrayLevel[0.],
+ CellFrameStyle->{},
+ CellFrameLabels->{{None, None}, {None, None}},
+ CellFrameLabelMargins->6,
+ ShowCellTags->False,
+ CellSize->{Automatic, 14},
+ CellBaseline->Baseline,
+ DefaultNewCellStyle->"Input",
+ DefaultNewInlineCellStyle->{},
+ DefaultDuplicateCellStyle->"Input",
+ DefaultReturnCreatedCellStyle->Automatic,
+ DefaultFormatType->"DefaultTextFormatType",
+ DefaultInlineFormatType->"DefaultTextInlineFormatType",
+ DefaultDockedCellStyle->"DockedCell",
+ DefaultAttachedCellStyle->"AttachedCell",
+ CellChangeTimes->{{3.653651326635659*^9, 3.65365137144851*^9}, {
+  3.6620618518350363`*^9, 3.6620618786928473`*^9}},
+ TextAlignment->Right,
+ MenuSortingValue->1400,
+ MenuCommandKey->"7",
+ StyleMenuListing->None,
+ CounterStyleMenuListing->Automatic,
+ FormatTypeAutoConvert->True,
+ VirtualGroupData->None,
+ FontFamily->"Nimbus Sans L",
+ FontSize->10,
+ Magnification->1.,
+ Background->None],
+
+Cell[CellGroupData[{
+
+Cell["Kryptosyst\[EAcute]m McEliece", "Title",
+ CellChangeTimes->{{3.653651316366556*^9, 3.653651320866796*^9}, {
+  3.6644645214640923`*^9, 3.66446455314363*^9}}],
+
+Cell["Nutno vyhodnotit notebook src_mceliece.nb", "Text",
+ CellChangeTimes->{{3.6713850611858664`*^9, 3.6713850853885593`*^9}, {
+  3.671385121740944*^9, 3.671385122459216*^9}, {3.671385174564104*^9, 
+  3.6713851753001003`*^9}, {3.671385263595504*^9, 3.67138527383537*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["McEliece \[Dash] P\[RHacek]\[IAcute]klad pou\[ZHacek]it\[IAcute]", \
+"Section",
+ CellChangeTimes->{{3.671359210411894*^9, 3.671359214433103*^9}, 
+   3.671359254136877*^9, 3.671375498462309*^9}],
+
+Cell[CellGroupData[{
+
+Cell["Generov\[AAcute]n\[IAcute] kl\[IAcute]\[CHacek]\[URing]", "Subsection",
+ CellChangeTimes->{{3.653646366305992*^9, 3.6536463775455112`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"m", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"t", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"soukromyKlic", ",", "verejnyKlic", ",", "parametry"}], "}"}], 
+   "=", 
+   RowBox[{"generujMcEliece", "[", 
+    RowBox[{"m", ",", "t", ",", "True"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6713603724576674`*^9, 3.671360381328889*^9}, {
+   3.671360450145152*^9, 3.671360477056061*^9}, 3.671360610771421*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\[CapitalSHacek]ifrov\[AAcute]ni", "Subsection",
+ CellChangeTimes->{{3.671359808829418*^9, 3.671359830772794*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"zprava", "=", 
+  RowBox[{"nahodnyPolynom", "[", 
+   RowBox[{"2", ",", 
+    RowBox[{
+    "parametry", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"c", "=", 
+  RowBox[{"sifrujMcEliece", "[", 
+   RowBox[{"zprava", ",", "verejnyKlic", ",", "parametry"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.67135912928223*^9, 3.671359195706626*^9}, 
+   3.671375686215321*^9, {3.671375905077162*^9, 3.6713759053076153`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["De\[SHacek]ifrov\[AAcute]ni", "Subsection",
+ CellChangeTimes->{{3.671359808829418*^9, 3.6713598257486258`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"m", "=", 
+  RowBox[{"desifrujMcEliece", "[", 
+   RowBox[{"c", ",", "soukromyKlic", ",", "parametry"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"m", "\[Equal]", "zprava"}]}], "Input",
+ CellChangeTimes->{{3.653650655283976*^9, 3.653650685163961*^9}, 
+   3.65365072911593*^9, {3.653650918519286*^9, 3.653650993237533*^9}, {
+   3.653651076252922*^9, 3.6536511251395273`*^9}, {3.653651170474865*^9, 
+   3.653651188066774*^9}, {3.653651234338327*^9, 3.653651251648265*^9}, {
+   3.653652110368943*^9, 3.653652110566141*^9}, {3.653652573406355*^9, 
+   3.653652617933343*^9}, {3.653812670923972*^9, 3.653812671663965*^9}, {
+   3.653812975091044*^9, 3.653812979234729*^9}, {3.6538130491696653`*^9, 
+   3.653813052903908*^9}, {3.653813140654736*^9, 3.6538131899731216`*^9}, {
+   3.65492940311578*^9, 3.654929403266553*^9}, {3.664470503975278*^9, 
+   3.664470535252441*^9}, {3.6713594391382627`*^9, 3.671359460319346*^9}, {
+   3.6713597604935427`*^9, 3.671359782726632*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\[CapitalCHacek]asov\[EAcute] slo\[ZHacek]itosti", "Section",
+ CellChangeTimes->{{3.653646366305992*^9, 3.6536463775455112`*^9}, {
+  3.653648802849202*^9, 3.653648805832546*^9}, {3.653650615500993*^9, 
+  3.653650618684745*^9}, {3.6539316708937902`*^9, 3.653931675709524*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"cas", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"#", ",", 
+       RowBox[{
+        RowBox[{"Timing", "[", 
+         RowBox[{"nahodnaRegularniMatice", "[", "#", "]"}], "]"}], 
+        "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], "}"}], 
+     "&"}], "/@", 
+    RowBox[{"Range", "[", "200", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"cas", ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.653929718271284*^9, 3.653929719823001*^9}, {
+  3.653929756336919*^9, 3.653929884225915*^9}, {3.6539302736300163`*^9, 
+  3.6539302795554943`*^9}, {3.653931002071138*^9, 3.653931007915127*^9}, {
+  3.653931542433872*^9, 3.653931549544725*^9}, {3.6547924060366077`*^9, 
+  3.65479240629799*^9}, {3.655199719853181*^9, 3.655199720882638*^9}, {
+  3.655200264167966*^9, 3.6552002646208*^9}, {3.671360910870038*^9, 
+  3.6713609160613194`*^9}, {3.6713759219006977`*^9, 3.671375925738996*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{}, 
+    {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.009166666666666668], 
+     AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJxdlUtI1FEUhy8uwkULFxJBEVOIREVlb7PymqlpPmbG8TEv5z/vKaIiIqgg
+xkUURBBU9BIaoqJExN4WEv/IwHbhVqKJFhG1qGXRogbPBOcbEPk853d+5557
+7rg8cdifrjDGzPz7Kf2e//xoNPpj/zz4OduVOCJ/r7Q6XAWuBi8GLwV7wCvA
+NeBa8ErwKvAa8FrwenAdzrsB8Y3gTeDN4C2otxXxbeB68HboGxDfAd4J3gV9
+I+JWc94ivwnxJsR3Iw42zTo/DzZ7oAebFuhbEG9FvBXxNtRvg/9exMGmHfXb
+Ee+AvgP19yEONp2Sf1HqdyLeBf8y56V+N+p3I95jT1WPt306eVn0PYh7dX3r
+tb9PH5g6duma5Hu13vWiPx/04DzY9el6xq/7seC8H3o//Ht1Pdsr/Z8TfS/0
+YBPQ+RacD+D8AcyvzzZ87Llw9dBt0ffh/H26ngs2/Th/mQui74e+H/MbgP8A
++h/Q9V2wGcT8BkV/X/SIu4N6X01Q92uD8A9CH4Q+hPmHcP4Q+g9BH7ZL1n2o
+WTD8VPRh+Iclf0L0Ydx/xNY/mTn+6tao6CPYvwjmH9H9mSjuL4r7j9pQqnRD
+z0UftS/bF1asPntP9EOY/5D97ptcdubba9EP6ffogk0M84/hvccwvxj2z9Hn
+9zjYJ8Qdx574WltXOTYi9R1b6tY3OT7PBUfO90z8HN1vEfVNHP5gG9d+Tlzq
+TYo/4oU47gvxYtzO/SolPBb/hL4PT0Lvi03o+ToJvX95cCGh+3dRr5iQ8z8S
+/6Ts71vxT9qRac/E0dxD8U/a0ZK8akb8k3p+eXAhifkn7fCV5vMHv8yJf1Lf
+l0lpvSeFfUzJvN6Ifwr/H8r5d8Qfejel32cR+Sat8z1gm9b346Thn9bzLaRt
+Ryl90TvxR34RbDLYv4zeF5vR++Jk8P2YsTeulz4vxB96F1zMwD8r8THxz8r9
+y/u3WX1fThbvD/pCmafEH/Fi1gY+37057Xkv/jndvyeH/QM7OZm3K/452Z9Z
+8c/p9+Lm9H4Vc3h/+//zXw8nTFU=
+      "]]}, {}}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{},
+  PlotRange->{{0, 200.}, {0, 0.436}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{3.671376350980834*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1440, 809},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3663, 120, 28, "Text",
+ Evaluatable->False,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ InitializationCell->False,
+ InitializationGroup->False],
+Cell[CellGroupData[{
+Cell[4246, 144, 162, 2, 96, "Title"],
+Cell[4411, 148, 272, 3, 33, "Text"],
+Cell[CellGroupData[{
+Cell[4708, 155, 199, 3, 67, "Section"],
+Cell[CellGroupData[{
+Cell[4932, 162, 145, 1, 47, "Subsection"],
+Cell[5080, 165, 518, 13, 77, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5635, 183, 120, 1, 47, "Subsection"],
+Cell[5758, 186, 498, 12, 55, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6293, 203, 117, 1, 47, "Subsection"],
+Cell[6413, 206, 993, 16, 55, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7455, 228, 281, 3, 67, "Section"],
+Cell[CellGroupData[{
+Cell[7761, 235, 1019, 22, 55, "Input"],
+Cell[8783, 259, 1927, 43, 243, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,497 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     13892,        488]
+NotebookOptionsPosition[     12280,        427]
+NotebookOutlinePosition[     12613,        442]
+CellTagsIndexPosition[     12570,        439]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Vojt\[EHacek]ch Myslivec, FIT \[CapitalCHacek]VUT v Praze, 2015/2016 ", \
+"Text",
+ EvaluatorNames->{"Local" -> {"AutoStartOnLaunch" -> True}},
+ Editable->False,
+ Evaluator->"Local",
+ Selectable->True,
+ Deletable->False,
+ CellFrame->False,
+ CellDingbat->None,
+ ShowCellBracket->True,
+ ShowSelection->True,
+ ShowGroupOpener->False,
+ WholeCellGroupOpener->False,
+ GroupOpenerInsideFrame->False,
+ ShowClosedCellArea->False,
+ ShowShortBoxForm->False,
+ CellMargins->{{66, 10}, {7, 7}},
+ GroupOpenerColor->GrayLevel[0.49999237048905165`],
+ CellBracketOptions->{
+ "Color"->RGBColor[0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "HoverColor"->RGBColor[
+  0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "Margins"->{0, 2},
+ "OverlapContent"->Automatic,
+ "Thickness"->0.25,
+ "Widths"->{0, 7}},
+ CellElementSpacings->{"CellMinHeight"->12,
+ "ClosedCellHeight"->19,
+ "ClosedGroupTopMargin"->4},
+ PrivateCellOptions->{"CellGroupBaseStyle"->{},
+ "ContentsOpacity"->1.,
+ "EvaluationUnmatchedStyle"->"EvaluationUnmatched",
+ "PagewiseNotebookBaseStyle"->{}},
+ Deployed->False,
+ Enabled->True,
+ CellEditDuplicate->False,
+ CellEditDuplicateMakesCopy->False,
+ ReturnCreatesNewCell->False,
+ StyleKeyMapping->{},
+ CellSplitCopiesTags->True,
+ Evaluatable->False,
+ EvaluationMode->"Mathematica",
+ Copyable->True,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ AllowGroupClose->Automatic,
+ AllowReverseGroupClose->Automatic,
+ ConversionRules->None,
+ TaggingRules->None,
+ CreateCellID->False,
+ TextClipboardType->"PlainText",
+ StripStyleOnPaste->False,
+ CellHorizontalScrolling->False,
+ SpeechNavigation->False,
+ SpeechNavigationOptions->{"Delete"->True,
+ "Input"->True,
+ "Motion"->True,
+ "Output"->True,
+ "Parameters"->{},
+ "Paste"->True,
+ "Select"->True},
+ DataCompression->True,
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ GroupPageBreakWithin->Automatic,
+ OutputSizeLimit->1048576,
+ CellContext->"Global`",
+ CellProlog->None,
+ CellEpilog->None,
+ CellEvaluationFunction->Identity,
+ AllowDebugging->True,
+ DynamicUpdating->Automatic,
+ VariableChangesAreEdits->Automatic,
+ MaintainDynamicCaches->False,
+ InitializationCell->False,
+ InitializationGroup->False,
+ CellEvaluationDuplicate->False,
+ GeneratedCell->False,
+ CellAutoOverwrite->False,
+ GenerateImageCachesOnPlacement->False,
+ LegacyGraphicsCompatibility->False,
+ PreserveOldOutputGraphicsAttributes->True,
+ CellEventActions->None,
+ CellDynamicExpression:>Null,
+ DynamicEvaluationTimeout->6.,
+ TemporaryControlActiveInterval->2.,
+ ShowCellLabel->True,
+ CellLabelStyle->"CellLabel",
+ CellLabelPositioning->Automatic,
+ CellLabelAutoDelete->True,
+ CellLabelMargins->{{12, Inherited}, {Inherited, Inherited}},
+ CellFrameMargins->8,
+ CellFrameColor->GrayLevel[0.],
+ CellFrameStyle->{},
+ CellFrameLabels->{{None, None}, {None, None}},
+ CellFrameLabelMargins->6,
+ ShowCellTags->False,
+ CellSize->{Automatic, 14},
+ CellBaseline->Baseline,
+ DefaultNewCellStyle->"Input",
+ DefaultNewInlineCellStyle->{},
+ DefaultDuplicateCellStyle->"Input",
+ DefaultReturnCreatedCellStyle->Automatic,
+ DefaultFormatType->"DefaultTextFormatType",
+ DefaultInlineFormatType->"DefaultTextInlineFormatType",
+ DefaultDockedCellStyle->"DockedCell",
+ DefaultAttachedCellStyle->"AttachedCell",
+ CellChangeTimes->{{3.653651326635659*^9, 3.65365137144851*^9}, {
+  3.6620618518350363`*^9, 3.6620618786928473`*^9}},
+ TextAlignment->Right,
+ MenuSortingValue->1400,
+ MenuCommandKey->"7",
+ StyleMenuListing->None,
+ CounterStyleMenuListing->Automatic,
+ FormatTypeAutoConvert->True,
+ VirtualGroupData->None,
+ FontFamily->"Nimbus Sans L",
+ FontSize->10,
+ Magnification->1.,
+ Background->None],
+
+Cell[CellGroupData[{
+
+Cell["Moduly", "Title",
+ CellChangeTimes->{{3.653651316366556*^9, 3.653651320866796*^9}, {
+  3.6644645214640923`*^9, 3.66446455314363*^9}, {3.671385438098319*^9, 
+  3.671385438993966*^9}}],
+
+Cell["Nutno vyhodnotit notebook src_moduly.nb", "Text",
+ CellChangeTimes->{{3.6713850611858664`*^9, 3.6713850853885593`*^9}, {
+  3.671385121740944*^9, 3.671385122459216*^9}, {3.671385174564104*^9, 
+  3.6713851753001003`*^9}, {3.671385254571291*^9, 3.67138525681126*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Moduly \[Dash] Priklad pouziti", "Section",
+ CellChangeTimes->{{3.671379143632532*^9, 3.6713791646202307`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["generujModul", "Subsection",
+ CellChangeTimes->{{3.671383963735323*^9, 3.671383965526925*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["neni implementovano", "Subsubsection",
+ CellChangeTimes->{{3.671385559619355*^9, 3.671385565104735*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"3", ",", "4"}], "}"}], ",", "3"}], "]"}]], "Input",
+ CellChangeTimes->{{3.67137920876486*^9, 3.671379213388421*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "10"}], "}"}], ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379092097364*^9, 3.671379103140909*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "3"}], "}"}], ",", "10"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379111799075*^9, 3.6713791134456797`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "2"], ")"}], "n"], TraditionalForm]],
+  FormatType->"TraditionalForm"]
+}], "Subsubsection",
+ CellChangeTimes->{{3.6713854526290007`*^9, 3.671385458906187*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "2"}], "}"}], ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671383487680073*^9, 3.6713834997601967`*^9}, {
+  3.671385653496483*^9, 3.671385659544973*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "3"], ")"}], "n"], TraditionalForm]]]
+}], "Subsubsection",
+ CellChangeTimes->{{3.671385464239077*^9, 3.671385466771221*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "3"}], "}"}], ",", "1"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "3"}], "}"}], ",", "2"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.671383511040903*^9, 3.671383533279457*^9}, {
+  3.6713856638333406`*^9, 3.67138566986454*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "4"], ")"}], "n"], TraditionalForm]]]
+}], "Subsubsection",
+ CellChangeTimes->{{3.671385471402972*^9, 3.6713854743236513`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "4"}], "}"}], ",", "1"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "4"}], "}"}], ",", "2"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "4"}], "}"}], ",", "3"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.6713835735446873`*^9, 3.671383595328664*^9}, {
+  3.671385672747755*^9, 3.671385686336709*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "5"], ")"}], "n"], TraditionalForm]]]
+}], "Subsubsection",
+ CellChangeTimes->{{3.671385477279234*^9, 3.671385480979163*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "1"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "2"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "3"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "4"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "5"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "5"}], "}"}], ",", "6"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.6713836617201023`*^9, 3.671383708567346*^9}, {
+  3.671385689059351*^9, 3.671385707768346*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "6"], ")"}], "n"], TraditionalForm]]]
+}], "Subsubsection",
+ CellChangeTimes->{{3.6713854859647617`*^9, 3.671385489275484*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "1"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "2"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "3"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "4"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "5"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "6"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "7"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "8"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "9"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "6"}], "}"}], ",", "10"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.671383733648924*^9, 3.671383853880013*^9}, {
+  3.671385709819229*^9, 3.671385734104332*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Pro telesa ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"GF", "(", 
+     SuperscriptBox["2", "7"], ")"}], "n"], TraditionalForm]]]
+}], "Subsubsection",
+ CellChangeTimes->{{3.671385497827091*^9, 3.671385500107429*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "1"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "2"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "3"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "4"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "5"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "6"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "7"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "8"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "9"}], "]"}], "\n", 
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "10"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.671383865104274*^9, 3.6713839347908173`*^9}, {
+  3.671385735924686*^9, 3.671385758553166*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1440, 809},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3663, 120, 28, "Text",
+ Evaluatable->False,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ InitializationCell->False,
+ InitializationGroup->False],
+Cell[CellGroupData[{
+Cell[4246, 144, 188, 3, 96, "Title"],
+Cell[4437, 149, 270, 3, 33, "Text"],
+Cell[CellGroupData[{
+Cell[4732, 156, 117, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[4874, 161, 100, 1, 47, "Subsection"],
+Cell[CellGroupData[{
+Cell[4999, 166, 110, 1, 37, "Subsubsection"],
+Cell[5112, 169, 202, 5, 32, "Input"],
+Cell[5317, 176, 204, 5, 32, "Input"],
+Cell[5524, 183, 206, 5, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5767, 193, 285, 9, 41, "Subsubsection"],
+Cell[6055, 204, 254, 6, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6346, 215, 250, 8, 41, "Subsubsection"],
+Cell[6599, 225, 376, 10, 55, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7012, 240, 252, 8, 41, "Subsubsection"],
+Cell[7267, 250, 498, 14, 77, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7802, 269, 250, 8, 41, "Subsubsection"],
+Cell[8055, 279, 901, 28, 143, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8993, 312, 252, 8, 41, "Subsubsection"],
+Cell[9248, 322, 1344, 42, 231, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10629, 369, 250, 8, 41, "Subsubsection"],
+Cell[10882, 379, 1346, 42, 231, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

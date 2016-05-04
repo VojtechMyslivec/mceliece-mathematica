@@ -1,0 +1,383 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     13120,        374]
+NotebookOptionsPosition[     11744,        322]
+NotebookOutlinePosition[     12077,        337]
+CellTagsIndexPosition[     12034,        334]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Vojt\[EHacek]ch Myslivec, FIT \[CapitalCHacek]VUT v Praze, 2015/2016 ", \
+"Text",
+ EvaluatorNames->{"Local" -> {"AutoStartOnLaunch" -> True}},
+ Editable->False,
+ Evaluator->"Local",
+ Selectable->True,
+ Deletable->False,
+ CellFrame->False,
+ CellDingbat->None,
+ ShowCellBracket->True,
+ ShowSelection->True,
+ ShowGroupOpener->False,
+ WholeCellGroupOpener->False,
+ GroupOpenerInsideFrame->False,
+ ShowClosedCellArea->False,
+ ShowShortBoxForm->False,
+ CellMargins->{{66, 10}, {7, 7}},
+ GroupOpenerColor->GrayLevel[0.49999237048905165`],
+ CellBracketOptions->{
+ "Color"->RGBColor[0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "HoverColor"->RGBColor[
+  0.5400015259021896, 0.5539940489814603, 0.7869993133440146],
+ "Margins"->{0, 2},
+ "OverlapContent"->Automatic,
+ "Thickness"->0.25,
+ "Widths"->{0, 7}},
+ CellElementSpacings->{"CellMinHeight"->12,
+ "ClosedCellHeight"->19,
+ "ClosedGroupTopMargin"->4},
+ PrivateCellOptions->{"CellGroupBaseStyle"->{},
+ "ContentsOpacity"->1.,
+ "EvaluationUnmatchedStyle"->"EvaluationUnmatched",
+ "PagewiseNotebookBaseStyle"->{}},
+ Deployed->False,
+ Enabled->True,
+ CellEditDuplicate->False,
+ CellEditDuplicateMakesCopy->False,
+ ReturnCreatesNewCell->False,
+ StyleKeyMapping->{},
+ CellSplitCopiesTags->True,
+ Evaluatable->False,
+ EvaluationMode->"Mathematica",
+ Copyable->True,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ AllowGroupClose->Automatic,
+ AllowReverseGroupClose->Automatic,
+ ConversionRules->None,
+ TaggingRules->None,
+ CreateCellID->False,
+ TextClipboardType->"PlainText",
+ StripStyleOnPaste->False,
+ CellHorizontalScrolling->False,
+ SpeechNavigation->False,
+ SpeechNavigationOptions->{"Delete"->True,
+ "Input"->True,
+ "Motion"->True,
+ "Output"->True,
+ "Parameters"->{},
+ "Paste"->True,
+ "Select"->True},
+ DataCompression->True,
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ GroupPageBreakWithin->Automatic,
+ OutputSizeLimit->1048576,
+ CellContext->"Global`",
+ CellProlog->None,
+ CellEpilog->None,
+ CellEvaluationFunction->Identity,
+ AllowDebugging->True,
+ DynamicUpdating->Automatic,
+ VariableChangesAreEdits->Automatic,
+ MaintainDynamicCaches->False,
+ InitializationCell->False,
+ InitializationGroup->False,
+ CellEvaluationDuplicate->False,
+ GeneratedCell->False,
+ CellAutoOverwrite->False,
+ GenerateImageCachesOnPlacement->False,
+ LegacyGraphicsCompatibility->False,
+ PreserveOldOutputGraphicsAttributes->True,
+ CellEventActions->None,
+ CellDynamicExpression:>Null,
+ DynamicEvaluationTimeout->6.,
+ TemporaryControlActiveInterval->2.,
+ ShowCellLabel->True,
+ CellLabelStyle->"CellLabel",
+ CellLabelPositioning->Automatic,
+ CellLabelAutoDelete->True,
+ CellLabelMargins->{{12, Inherited}, {Inherited, Inherited}},
+ CellFrameMargins->8,
+ CellFrameColor->GrayLevel[0.],
+ CellFrameStyle->{},
+ CellFrameLabels->{{None, None}, {None, None}},
+ CellFrameLabelMargins->6,
+ ShowCellTags->False,
+ CellSize->{Automatic, 14},
+ CellBaseline->Baseline,
+ DefaultNewCellStyle->"Input",
+ DefaultNewInlineCellStyle->{},
+ DefaultDuplicateCellStyle->"Input",
+ DefaultReturnCreatedCellStyle->Automatic,
+ DefaultFormatType->"DefaultTextFormatType",
+ DefaultInlineFormatType->"DefaultTextInlineFormatType",
+ DefaultDockedCellStyle->"DockedCell",
+ DefaultAttachedCellStyle->"AttachedCell",
+ CellChangeTimes->{{3.653651326635659*^9, 3.65365137144851*^9}, {
+  3.6620618518350363`*^9, 3.6620618786928473`*^9}},
+ TextAlignment->Right,
+ MenuSortingValue->1400,
+ MenuCommandKey->"7",
+ StyleMenuListing->None,
+ CounterStyleMenuListing->Automatic,
+ FormatTypeAutoConvert->True,
+ VirtualGroupData->None,
+ FontFamily->"Nimbus Sans L",
+ FontSize->10,
+ Magnification->1.,
+ Background->None],
+
+Cell[CellGroupData[{
+
+Cell["Ireducibilni binarni Goppa kody", "Title",
+ CellChangeTimes->{{3.656679605853833*^9, 3.656679624614275*^9}, {
+  3.664463761709483*^9, 3.664463771709049*^9}, {3.6713846635995817`*^9, 
+  3.67138466406369*^9}}],
+
+Cell["\<\
+Nutno vyhodnotit notebook src_ireducibilniBinarniGoppaKody.nb\
+\>", "Text",
+ CellChangeTimes->{{3.6568423277077637`*^9, 3.656842356462532*^9}, {
+  3.671376595263193*^9, 3.671376618254869*^9}, {3.671385183189432*^9, 
+  3.671385215491708*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["GoppaKod \[Dash] priklad pouziti", "Section",
+ CellChangeTimes->{{3.655409956224971*^9, 3.6554099655232067`*^9}, {
+  3.655409996204875*^9, 3.6554100066613092`*^9}, {3.655410051388155*^9, 
+  3.655410053939539*^9}, {3.664462496918601*^9, 3.664462528170842*^9}, {
+  3.664463908988948*^9, 3.6644639101961184`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Parametry", "Subsubsection",
+ CellChangeTimes->{{3.658413710282765*^9, 3.6584137414669943`*^9}, {
+  3.6644595107955847`*^9, 3.6644595112687073`*^9}, {3.664463222505568*^9, 
+  3.664463234489238*^9}, {3.664465019860487*^9, 3.6644650216283503`*^9}}],
+
+Cell["Binarni, pocet koeficientu vnitrniho telesa a pocet chyb.", "Text",
+ CellChangeTimes->{{3.664465022432184*^9, 3.6644650309100227`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"p", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"m", "=", "5"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"t", "=", "4"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.658396223864108*^9, 3.658396312786516*^9}, {
+   3.658396420961011*^9, 3.658396517917156*^9}, {3.65839656355892*^9, 
+   3.658396587917408*^9}, {3.6583968681370068`*^9, 3.6583968712093763`*^9}, {
+   3.658396940292746*^9, 3.658396961108481*^9}, {3.658397012220622*^9, 
+   3.658397016947153*^9}, {3.658410957422592*^9, 3.658410966749804*^9}, {
+   3.658411006654211*^9, 3.658411006788823*^9}, 3.6584134774909143`*^9, {
+   3.658413690372476*^9, 3.658413715556892*^9}, {3.658414512746935*^9, 
+   3.6584145236107473`*^9}, {3.658414646937619*^9, 3.658414664447246*^9}, {
+   3.658510885923279*^9, 3.6585109104727087`*^9}, {3.6585109602975407`*^9, 
+   3.6585109798085537`*^9}, {3.658511048495709*^9, 3.658511064726754*^9}, {
+   3.659003002933676*^9, 3.6590030121163607`*^9}, {3.659003084428257*^9, 
+   3.659003085259413*^9}, 3.664381174099153*^9, {3.664383875794448*^9, 
+   3.664383911298153*^9}, {3.664383959767915*^9, 3.664383974744768*^9}, {
+   3.664384179872403*^9, 3.6643841805111*^9}, {3.6643865193693132`*^9, 
+   3.6643865202085*^9}, {3.6644536637752113`*^9, 3.664453664029344*^9}, 
+   3.6644595239036617`*^9, {3.664465013997034*^9, 3.6644650165074*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Generovani kodu", "Subsubsection",
+ CellChangeTimes->{{3.664462549408577*^9, 3.6644625535823936`*^9}}],
+
+Cell["Ukazka s vystupem.", "Text",
+ CellChangeTimes->{{3.6713846063691196`*^9, 3.671384625008062*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"generujBinarniGoppaKod", "[", 
+   RowBox[{"4", ",", "3", ",", "True"}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6644625966619387`*^9, 3.664462601878503*^9}, {
+  3.67138451181151*^9, 3.671384554411763*^9}, {3.671384599897334*^9, 
+  3.671384603280635*^9}}],
+
+Cell["Vygenerovani dle zadanych parametru.", "Text",
+ CellChangeTimes->{{3.671384613912414*^9, 3.6713846259838953`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"goppaKod", "=", 
+   RowBox[{"generujBinarniGoppaKod", "[", 
+    RowBox[{"m", ",", "t"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"matG", ",", "modul", ",", "podporaL", ",", "syndromyL"}], "}"}], 
+   "=", "goppaKod"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"k", ",", "n"}], "}"}], "=", 
+    RowBox[{"Dimensions", "[", "matG", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{
+  "\"\<Binarni Goppa kod (\>\"", ",", "n", ",", "\"\<,\>\"", ",", "k", ",", 
+   "\"\<) opravujici \>\"", ",", "t", ",", "\"\< chyb.\>\""}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.664462538502404*^9, 3.664462701916296*^9}, {
+  3.664462829471887*^9, 3.664462847588931*^9}, {3.6644632451069613`*^9, 
+  3.664463253442656*^9}, {3.671384611729903*^9, 3.6713846123837643`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Zakodovani slova", "Subsubsection",
+ CellChangeTimes->{{3.658510398208199*^9, 3.658510409316427*^9}, {
+  3.664462622901394*^9, 3.664462624605529*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", "=", 
+   RowBox[{"nahodnyPolynom", "[", 
+    RowBox[{"p", ",", "k"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"b", "=", 
+  RowBox[{"zakodujBinarniGoppaKod", "[", 
+   RowBox[{"a", ",", "matG"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.658489523111228*^9, 3.658489646889885*^9}, {
+   3.658489852623386*^9, 3.658489881503993*^9}, {3.6584899730287943`*^9, 
+   3.658490009053075*^9}, {3.658490043820755*^9, 3.658490087155242*^9}, {
+   3.658490141043437*^9, 3.6584901562747507`*^9}, {3.658509769380376*^9, 
+   3.6585097820747128`*^9}, {3.658510412109208*^9, 3.658510413734046*^9}, {
+   3.658511004160783*^9, 3.6585110094803343`*^9}, {3.658511183438004*^9, 
+   3.658511185611312*^9}, {3.659009799007468*^9, 3.659009802061173*^9}, {
+   3.6590122520611143`*^9, 3.659012375332453*^9}, 3.6590124208109303`*^9, {
+   3.659015965065246*^9, 3.659015998854144*^9}, {3.659017232198567*^9, 
+   3.6590172330225077`*^9}, {3.662788293789716*^9, 3.662788318700354*^9}, {
+   3.66437638528445*^9, 3.6643764161302633`*^9}, {3.664380804566132*^9, 
+   3.664380848069806*^9}, {3.664381532961969*^9, 3.664381533079801*^9}, {
+   3.664458808546418*^9, 3.6644588126718893`*^9}, {3.664461426862856*^9, 
+   3.6644614322867327`*^9}, {3.664461473279622*^9, 3.6644614803672457`*^9}, {
+   3.664462735813867*^9, 3.664462743917726*^9}, {3.6713845898170137`*^9, 
+   3.671384590360519*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Vygenerovani chyby", "Subsubsection",
+ CellChangeTimes->{{3.658510398208199*^9, 3.658510409316427*^9}, {
+  3.664462622901394*^9, 3.664462624605529*^9}, {3.66446272112486*^9, 
+  3.6644627265085287`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"e", "=", 
+  RowBox[{"nahodnyChybovyVektor", "[", 
+   RowBox[{"n", ",", "t"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"c", "=", 
+  RowBox[{"plus", "[", 
+   RowBox[{"b", ",", "e", ",", "p"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.664462748101234*^9, 3.6644627494871273`*^9}, {
+   3.664463508280937*^9, 3.6644635576141367`*^9}, {3.664463589745492*^9, 
+   3.664463599806035*^9}, {3.6644636825535316`*^9, 3.664463694190989*^9}, {
+   3.664464958870569*^9, 3.664464971884427*^9}, {3.671106342706944*^9, 
+   3.671106342879903*^9}, 3.671210208232462*^9, 3.671210675974515*^9, {
+   3.6713845932570953`*^9, 3.6713845934727373`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Dekodovani slova", "Subsubsection",
+ CellChangeTimes->{{3.664462755082406*^9, 3.664462758390986*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"d", ",", "chyba"}], "}"}], "=", 
+   RowBox[{"dekodujBinarniGoppaKod", "[", 
+    RowBox[{"c", ",", "goppaKod"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", "d", "\[IndentingNewLine]", "chyba", "\
+\[IndentingNewLine]", 
+ RowBox[{"chyba", "\[Equal]", "e"}], "\[IndentingNewLine]", 
+ RowBox[{"d", "\[Equal]", "a"}]}], "Input",
+ CellChangeTimes->{{3.664462797412285*^9, 3.6644627990843897`*^9}, {
+  3.664463289361286*^9, 3.6644632928251247`*^9}, {3.664463379577458*^9, 
+  3.664463400352529*^9}, {3.6644637218942966`*^9, 3.664463735108966*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1440, 809},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3663, 120, 28, "Text",
+ Evaluatable->False,
+ CellOpen->True,
+ CellGroupingRules->"NormalGrouping",
+ PageBreakAbove->Automatic,
+ PageBreakWithin->Automatic,
+ PageBreakBelow->Automatic,
+ InitializationCell->False,
+ InitializationGroup->False],
+Cell[CellGroupData[{
+Cell[4246, 144, 213, 3, 96, "Title"],
+Cell[4462, 149, 251, 5, 33, "Text"],
+Cell[CellGroupData[{
+Cell[4738, 158, 316, 4, 67, "Section"],
+Cell[CellGroupData[{
+Cell[5079, 166, 252, 3, 37, "Subsubsection"],
+Cell[5334, 171, 141, 1, 33, "Text"],
+Cell[5478, 174, 1361, 22, 77, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6876, 201, 108, 1, 37, "Subsubsection"],
+Cell[6987, 204, 102, 1, 33, "Text"],
+Cell[7092, 207, 295, 6, 32, "Input"],
+Cell[7390, 215, 120, 1, 33, "Text"],
+Cell[7513, 218, 945, 24, 121, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8495, 247, 156, 2, 37, "Subsubsection"],
+Cell[8654, 251, 1399, 23, 55, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10090, 279, 208, 3, 37, "Subsubsection"],
+Cell[10301, 284, 653, 12, 55, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10991, 301, 107, 1, 37, "Subsubsection"],
+Cell[11101, 304, 603, 13, 121, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
