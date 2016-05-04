@@ -2208,9 +2208,12 @@ implementovány přímo v~softwaru \emph{Mathematica} tak, aby bylo možné jeji
 pohodlné použití i v~jiných oblastech.
 
 Celkově byla práce rozdělena do třech ucelených částí -- (binární) \emph{konečná
-tělesa}, (ireducibilní) \emph{binární Goppa kódy} a \emph{kryptosystém McEliece}
+tělesa}, (ireducibilní) \emph{binární Goppa kódy} a~\emph{kryptosystém McEliece}
 --, kde každou z~nich lze využít jako \emph{balík} či \emph{knihovnu} pro další
-výpočty. Následující kapitoly popisují jednotlivé části.
+výpočty. V~následujících sekcích popíšeme jednotlivé části implementace, včetně
+použitých algoritmů a~příkladů výpočtů. Příklady použití a~zdrojové kódy
+implementace jsou k~nalezení na přiloženém disku a~též online
+na~\url{https://github.com/VojtechMyslivec/mceliece-mathematica}.
 
 
 
@@ -2220,11 +2223,6 @@ výpočty. Následující kapitoly popisují jednotlivé části.
 V~této podkapitole pojednáváme o~implementaci \emph{binárních konečných těles}
 včetně jejich \emph{rozšíření}. Zmíníme existující řešení v~softwaru
 \emph{Mathematica}, zvolenou implementace a~popíšeme implementované algoritmy.
-
-\paragraph{Poznámka:} Ač jsou funkce implementované v~co nejobecnějším pojetí,
-tak je kladen důraz na efektivnost výpočtů vzhledem k~\emph{binárním} tělesům --
-tedy k~\emph{tělesům} s~charakteristikou $2$. Pro \emph{tělesa} s~jinou
-charakteristikou není chování funkcí definováno.
 
 % --------------------------------------------------------------------
 \subsection{Existující řešení}
@@ -2304,18 +2302,22 @@ jednotné rozhraní:
         dorovná \emph{nulovými} koeficienty.
 
     \item Počet koeficientů vnitřních prvků (koeficientů) musí být vždy stejný. \\
-        Například prvek $\{\{0,0\},\{1\},\{1,0\}\}$ není dovolený.
+        Například prvek $\{\{0,0\},\{1\},\{1,0\}\}$ není platný.
 
     \item Jednotlivým funkcím je kromě operandů předáván též i~\emph{modul}
         skládající se z~odpovídajících (ireducibilních) polynomů, včetně
-        charakteristiky tělesa. Tento \emph{modul} je definovaný následovně: \\
-        Pro tělesa $GF(p^{n_1})$ je \emph{modul} složen z~(ireducibilního)
-        polynomu $i_1$ stupně $n_1$ a~dané charakteristiky $p$:
-        $modul_1 = \left\{i_1,p\right\}$ \\
-        Pro rozšířená tělesa se \emph{modul} skládá z~odpovídajícího
-        \emph{polynomu} $i_k$ stupně $n_k$ nad tělesem
-        $GF( {{p^{n_1}}^{\ldots}}^{n_{k-1}} )$ a~\emph{modulu vnitřního tělesa}: \\
-        $modul_k = \left\{i_k,modul_{k-1}\right\}$.
+        charakteristiky tělesa. Tento \emph{modul} je definovaný následovně:
+        \begin{itemize}
+            \item Pro tělesa $GF(p^{n_1})$ je \emph{modul} složen
+                z~(ireducibilního) polynomu $i_1$ stupně~$n_1$ a~dané
+                charakteristiky $p$:\\
+                $modul_1 = \left\{i_1,p\right\}$
+            \item Pro rozšířená tělesa se \emph{modul} skládá z~odpovídajícího
+                \emph{polynomu} $i_k$ stupně $n_k$ nad tělesem $GF(
+                {{p^{n_1}})^{\ldots}}^{n_{k-1}}$ a~\emph{modulu vnitřního
+                tělesa}: \\
+                $modul_k = \left\{i_k,modul_{k-1}\right\}$.
+        \end{itemize}
 
     \item Všem funkcím se předávají nejdřív \emph{operandy} a~poté
         \emph{modul}.\\
@@ -2323,7 +2325,7 @@ jednotné rozhraní:
         a~odpovídající $modul$: \\
         \hspace*{0.6cm}$krat[a,b,modul]$ \\
         \hspace*{0.6cm}$inverze[a,modul]$ \\
-        \hspace*{0.6cm}$mocnina[a,m,modul]$ \\
+        \hspace*{0.6cm}$mocnina[a,e,modul]$ \\
         \hspace*{0.6cm}\ldots
 
     \item Pro implementaci operací v~tělesech $GF(p^n)$ jsou použité vnitřní
@@ -2348,6 +2350,11 @@ k~jednotlivým prvkům a voláním funkcí (druhá složka \emph{modulu} je
 \emph{modul} \emph{vnitřního tělesa}, prvky \emph{polynomu} jsou opět
 \emph{polynomy}, \ldots).
 
+\paragraph{Poznámka:} Ač jsou funkce implementované v~co nejobecnějším pojetí,
+tak je kladen důraz na efektivnost výpočtů vzhledem k~\emph{binárním} tělesům --
+tedy k~\emph{tělesům} s~charakteristikou $2$. Pro \emph{tělesa} s~jinou
+charakteristikou není chování funkcí definováno.
+
 % --------------------------------------------------------------------
 \subsection{Implementace operací}
 
@@ -2371,6 +2378,7 @@ V~níže uvedených pseudokódech se používá některých prvků ze syntaxe so
 
 
 \subsubsection{Sčítání}
+
 Jelikož operace sčítání se v~jakémkoliv \emph{tělese} provádí po jednotlivých
 koeficientech \emph{modulo} $p$, je tato funkce jediná volána místo celkového
 modulu pouze se zadanou charakteristikou $p$.
