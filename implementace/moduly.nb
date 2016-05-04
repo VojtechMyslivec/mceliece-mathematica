@@ -1,0 +1,1421 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     47087,       1412]
+NotebookOptionsPosition[     45778,       1367]
+NotebookOutlinePosition[     46110,       1382]
+CellTagsIndexPosition[     46067,       1379]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Moduly \[Dash] implementace", "Section",
+ CellChangeTimes->{{3.671383392920692*^9, 3.67138339796041*^9}, {
+  3.671383975500285*^9, 3.671383976540435*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["generujModul", "Subsection",
+ CellChangeTimes->{{3.671383963735323*^9, 3.671383965526925*^9}}],
+
+Cell["\<\
+Vrati predpocitany modul pozadovanych rozmeru, imlementovano jen pro \
+GF(2^n)^m. Pro GF(p^n) je mozne vyuzit
+Ireducibilni polynomy byly cerpany ze softwaru Sage math \
+https://cloud.sagemath.com/
+a generovano pomoci skriptu generate.sagews\
+\>", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Unprotect", "[", "generujModul", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "generujModul", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"generujModul", "::", "nimpl"}], "=", 
+   "\"\<Neni implementovano.\>\""}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671383423343952*^9, 3.671383439104735*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"generujModul", "[", 
+   RowBox[{
+    RowBox[{"ff", ":", 
+     RowBox[{"{", 
+      RowBox[{"q_", ",", "n_Integer"}], "}"}]}], ",", "r_Integer"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{"Message", "[", 
+   RowBox[{"generujModul", "::", "nimpl"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6713835422640142`*^9, 3.6713835447278433`*^9}}],
+
+Cell["Pro telesa GF(2^2)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "2"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671383487680073*^9, 3.6713834997601967`*^9}}],
+
+Cell["Pro telesa GF(2^3)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "0", ",", "1", ",", "1"}], "}"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "3"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "3"}], "}"}], ",", "2"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671383511040903*^9, 3.671383533279457*^9}}],
+
+Cell["Pro telesa GF(2^4)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "4"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "4"}], "}"}], ",", "2"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "4"}], "}"}], ",", "3"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "1", ",", "0"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "0"}], "}"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6713835735446873`*^9, 3.671383595328664*^9}}],
+
+Cell["Pro telesa GF(2^5)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], "}"}]}],
+    ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "2"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "1", ",", "0", ",", "0"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "3"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "4"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "0"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "5"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "1", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "5"}], "}"}], ",", "6"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "1", ",", "1", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+          
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "1", ",", "0", ",", "1"}], "}"}]}], 
+         "}"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6713836617201023`*^9, 3.671383708567346*^9}}],
+
+Cell["Pro telesa GF(2^6)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1"}], 
+     "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "2"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "3"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "4"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "5"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "6"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "7"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "8"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "9"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "6"}], "}"}], ",", "10"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671383733648924*^9, 3.671383853880013*^9}}],
+
+Cell["Pro telesa GF(2^7)^n", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"i", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", 
+      "1"}], "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "1"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "2"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "3"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "4"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "5"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "6"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "7"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "8"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "9"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generujModul", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"2", ",", "7"}], "}"}], ",", "10"}], "]"}], "=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"g", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0"}], 
+           "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "0"}], 
+           "}"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"g", ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "2"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "i", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671383865104274*^9, 3.6713839347908173`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Protect", "[", "generujModul", "]"}], ";"}]], "Input",
+ CellChangeTimes->{3.671383445136545*^9}]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Moduly \[Dash] Priklad pouziti", "Section",
+ CellChangeTimes->{{3.671379143632532*^9, 3.6713791646202307`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["generujModul", "Subsection",
+ CellChangeTimes->{{3.671383963735323*^9, 3.671383965526925*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "3"}], "}"}], ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379092097364*^9, 3.671379098213305*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "7"}], "}"}], ",", "10"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379121285063*^9, 3.671379125092942*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"3", ",", "4"}], "}"}], ",", "3"}], "]"}]], "Input",
+ CellChangeTimes->{{3.67137920876486*^9, 3.671379213388421*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "10"}], "}"}], ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379092097364*^9, 3.671379103140909*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generujModul", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"2", ",", "3"}], "}"}], ",", "10"}], "]"}]], "Input",
+ CellChangeTimes->{{3.671379111799075*^9, 3.6713791134456797`*^9}}]
+}, Closed]]
+}, Open  ]]
+},
+WindowSize->{719, 809},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 160, 2, 67, "Section"],
+Cell[CellGroupData[{
+Cell[765, 28, 100, 1, 47, "Subsection"],
+Cell[868, 31, 264, 6, 99, "Text"],
+Cell[1135, 39, 395, 11, 77, "Input"],
+Cell[1533, 52, 379, 10, 55, "Input"],
+Cell[1915, 64, 36, 0, 33, "Text"],
+Cell[1954, 66, 995, 31, 209, "Input"],
+Cell[2952, 99, 36, 0, 33, "Text"],
+Cell[2991, 101, 1843, 57, 341, "Input"],
+Cell[4837, 160, 36, 0, 33, "Text"],
+Cell[4876, 162, 2845, 84, 473, "Input"],
+Cell[7724, 248, 36, 0, 33, "Text"],
+Cell[7763, 250, 6747, 198, 935, "Input"],
+Cell[14513, 450, 36, 0, 33, "Text"],
+Cell[14552, 452, 14127, 395, 1727, "Input"],
+Cell[28682, 849, 36, 0, 33, "Text"],
+Cell[28721, 851, 15570, 460, 1793, "Input"],
+Cell[44294, 1313, 131, 3, 32, "Input"]
+}, Closed]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44474, 1322, 117, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[44616, 1327, 100, 1, 47, "Subsection"],
+Cell[44719, 1330, 203, 5, 32, "Input"],
+Cell[44925, 1337, 204, 5, 32, "Input"],
+Cell[45132, 1344, 202, 5, 32, "Input"],
+Cell[45337, 1351, 204, 5, 32, "Input"],
+Cell[45544, 1358, 206, 5, 32, "Input"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
