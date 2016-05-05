@@ -25,8 +25,8 @@
 (*Chybove zpravy*)
 
 
-McEliece::delkam="Zpr\[AAcute]va m mus\[IAcute] b\[YAcute]t d\[EAcute]lky k";
-McEliece::delkac="Zpr\[AAcute]va c mus\[IAcute] b\[YAcute]t d\[EAcute]lky n";
+McEliece::delkam = "Zpr\[AAcute]va m mus\[IAcute] b\[YAcute]t d\[EAcute]lky k";
+McEliece::delkac = "Zpr\[AAcute]va c mus\[IAcute] b\[YAcute]t d\[EAcute]lky n";
 
 
 (* ::Subsection::Closed:: *)
@@ -37,14 +37,14 @@ McEliece::delkac="Zpr\[AAcute]va c mus\[IAcute] b\[YAcute]t d\[EAcute]lky n";
 (*N\[AAcute]hodn\[AAcute] permuta\[CHacek]n\[IAcute] matice n*n*)
 
 
-Unprotect[nahodnaPermutacniMatice];
-ClearAll[nahodnaPermutacniMatice];
+Unprotect[ nahodnaPermutacniMatice ];
+ClearAll[ nahodnaPermutacniMatice ];
 
 
-nahodnaPermutacniMatice[n_]:=RandomSample[IdentityMatrix[n]]
+nahodnaPermutacniMatice[ n_ ] := RandomSample[ IdentityMatrix[ n]]
 
 
-Protect[nahodnaPermutacniMatice];
+Protect[ nahodnaPermutacniMatice ];
 
 
 (* ::Subsection::Closed:: *)
@@ -56,23 +56,23 @@ Protect[nahodnaPermutacniMatice];
 (*Vraci matici M a pocet pokusu, kolik matic bylo treba vygenerovat.*)
 
 
-Unprotect[nahodnaRegularniMatice];
-ClearAll[nahodnaRegularniMatice];
+Unprotect[ nahodnaRegularniMatice ];
+ClearAll[ nahodnaRegularniMatice ];
 
 
-nahodnaRegularniMatice[k_]:=Module[
-{r=0,M,i=0},
+nahodnaRegularniMatice[ k_ ] := Module[
+{ r = 0, M, i = 0 },
 While[
-r!=k,
-M=RandomChoice[{0,1},{k,k}];
-r=MatrixRank[M,Modulus->2];
+r != k,
+M = RandomChoice[ { 0, 1 }, {k, k } ];
+r = MatrixRank[ M, Modulus->2 ];
 i++
 ];
-{M,i}
+{ M, i }
 ]
 
 
-Protect[nahodnaRegularniMatice];
+Protect[ nahodnaRegularniMatice ];
 
 
 (* ::Subsection::Closed:: *)
@@ -91,43 +91,43 @@ Protect[nahodnaRegularniMatice];
 (*\!\(\*OverscriptBox[\(\(G\)\()\)\), \(^\)]\), soukrom\[YAcute] kl\[IAcute]\[CHacek] (G, S^-1, P^-1)*)
 
 
-Unprotect[generujMcEliece];
-ClearAll[generujMcEliece];
+Unprotect[ generujMcEliece ];
+ClearAll[ generujMcEliece ];
 
 
 generujMcEliece[
-m_Integer/;m>= 2,
-t_Integer/;t>=2,
-verbose_Symbol:False
-]/;BooleanQ[verbose]:=Module[{
-p=2,n,k,
-GoppaKod,matG,matS,matP,hatG,
-soukromyKlic,verejnyKlic,parametry
+m_Integer /; m>= 2,
+t_Integer /; t >= 2,
+verbose_Symbol : False
+] /; BooleanQ[ verbose ] := Module[ {
+p = 2, n, k,
+GoppaKod, matG, matS, matP, hatG,
+soukromyKlic, verejnyKlic, parametry
 },
-n=p^m;k=n-m t;
+n = p^m;k = n-m t;
 
-GoppaKod=generujBinarniGoppaKod[m,t];
-matG=GoppaKod[[1]];
-matS=nahodnaRegularniMatice[k][[1]];
-matP=nahodnaPermutacniMatice[n];
-hatG=dotNad2[matS,matG,matP];
+GoppaKod = generujBinarniGoppaKod[ m, t ];
+matG = GoppaKod[[1]];
+matS = nahodnaRegularniMatice[ k ][[1]];
+matP = nahodnaPermutacniMatice[ n ];
+hatG = dotNad2[ matS, matG, matP ];
 
-If[verbose==True,
+If[ verbose == True,
 Print[
-"\!\(\*OverscriptBox[\(G\), \(^\)]\) = SGP = ",matS//MatrixForm,matG//MatrixForm,matP//MatrixForm ,
-"\n\!\(\*OverscriptBox[\(G\), \(^\)]\) =",hatG//MatrixForm
+"\!\(\*OverscriptBox[ \(G\), \(^\) ]\) = SGP = ", matS // MatrixForm, matG // MatrixForm, matP // MatrixForm ,
+"\n\!\(\*OverscriptBox[ \(G\), \(^\) ]\) =", hatG // MatrixForm
 ];
 ];
 
-parametry={n,k,t};
-verejnyKlic={hatG};
-soukromyKlic={GoppaKod,Inverse[matS,Modulus->2],Inverse[matP,Modulus->2]};
+parametry = { n, k, t };
+verejnyKlic = { hatG };
+soukromyKlic = { GoppaKod, Inverse[ matS, Modulus->2 ], Inverse[ matP, Modulus->2 ] };
 
-{soukromyKlic,verejnyKlic,parametry}
+{ soukromyKlic, verejnyKlic, parametry }
 ]
 
 
-Protect[generujMcEliece];
+Protect[ generujMcEliece ];
 
 
 (* ::Subsection::Closed:: *)
@@ -141,29 +141,29 @@ Protect[generujMcEliece];
 (*\!\(\*OverscriptBox[\(G\), \(^\)]\)+z*)
 
 
-Unprotect[sifrujMcEliece];
-ClearAll[sifrujMcEliece];
-sifrujMcEliece::delkam=McEliece::delkam;
+Unprotect[ sifrujMcEliece ];
+ClearAll[ sifrujMcEliece ];
+sifrujMcEliece::delkam = McEliece::delkam;
 
 
 sifrujMcEliece[
 m_List,
-verejnyKlic:{hatG_List},
-parametry:{n_Integer,k_Integer,t_Integer}
-]:=Module[{
-p=2,c,
-z=nahodnyChybovyVektor[n,t]
+verejnyKlic : { hatG_List },
+parametry : { n_Integer, k_Integer, t_Integer }
+] := Module[ {
+p = 2, c,
+z = nahodnyChybovyVektor[ n, t]
 },
-If[Length[m]!=k,
-Print[sifrujMcEliece::delkam];
-Return[]
+If[ Length[ m ] != k,
+Print[ sifrujMcEliece::delkam ];
+Return[ ]
 ];
-c=plus[dotNad2[m,hatG],z,p];
+c = plus[ dotNad2[ m, hatG ], z, p ];
 c
 ]
 
 
-Protect[sifrujMcEliece];
+Protect[ sifrujMcEliece ];
 
 
 (* ::Subsection::Closed:: *)
@@ -181,27 +181,27 @@ Protect[sifrujMcEliece];
 (*\!\(\*OverscriptBox[\(m\), \(^\)]\) S^-1*)
 
 
-Unprotect[desifrujMcEliece];
-ClearAll[desifrujMcEliece];
-desifrujMcEliece::delkac=McEliece::delkac;
+Unprotect[ desifrujMcEliece ];
+ClearAll[ desifrujMcEliece ];
+desifrujMcEliece::delkac = McEliece::delkac;
 
 
 desifrujMcEliece[
 c_List,
-soukromyKlic:{GoppaKod_List,invS_List,invP_List},
-parametry:{n_Integer,k_Integer,t_Integer}
-]:=Module[{
-hatc,hatm,m
+soukromyKlic : { GoppaKod_List, invS_List, invP_List },
+parametry : { n_Integer, k_Integer, t_Integer }
+] := Module[ {
+hatc, hatm, m
 },
-If[Length[c]!=n,
-Print[desifrujMcEliece::delkac];
-Return[]
+If[ Length[ c ] != n,
+Print[ desifrujMcEliece::delkac ];
+Return[ ]
 ];
-hatc=dotNad2[c,invP];
-hatm=dekodujBinarniGoppaKod[hatc,GoppaKod][[1]];
-m=dotNad2[hatm,invS];
+hatc = dotNad2[ c, invP ];
+hatm = dekodujBinarniGoppaKod[ hatc, GoppaKod ][[1]];
+m = dotNad2[ hatm, invS ];
 m
 ]
 
 
-Protect[desifrujMcEliece];
+Protect[ desifrujMcEliece ];
