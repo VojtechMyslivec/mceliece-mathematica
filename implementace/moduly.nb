@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     13892,        488]
-NotebookOptionsPosition[     12280,        427]
-NotebookOutlinePosition[     12613,        442]
-CellTagsIndexPosition[     12570,        439]
+NotebookDataLength[     14162,        501]
+NotebookOptionsPosition[     12471,        437]
+NotebookOutlinePosition[     12806,        452]
+CellTagsIndexPosition[     12763,        449]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -147,10 +147,20 @@ Cell["Moduly", "Title",
   3.6644645214640923`*^9, 3.66446455314363*^9}, {3.671385438098319*^9, 
   3.671385438993966*^9}}],
 
-Cell["Nutno vyhodnotit notebook src_moduly.nb", "Text",
- CellChangeTimes->{{3.6713850611858664`*^9, 3.6713850853885593`*^9}, {
-  3.671385121740944*^9, 3.671385122459216*^9}, {3.671385174564104*^9, 
-  3.6713851753001003`*^9}, {3.671385254571291*^9, 3.67138525681126*^9}}],
+Cell[CellGroupData[{
+
+Cell["Z\[AAcute]vislosti", "Subsection",
+ CellChangeTimes->{{3.671439765779551*^9, 3.671439772132731*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<src/moduly.m\>\"", "]"}]}], "Input",
+ CellChangeTimes->{{3.67143978208982*^9, 3.671439811131627*^9}, {
+  3.671439873338519*^9, 3.671439941987124*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -425,8 +435,8 @@ Cell[BoxData[{
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1440, 809},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowSize->{1440, 864},
+WindowMargins->{{0, Automatic}, {-30, Automatic}},
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -452,40 +462,43 @@ Cell[558, 20, 3663, 120, 28, "Text",
  InitializationGroup->False],
 Cell[CellGroupData[{
 Cell[4246, 144, 188, 3, 96, "Title"],
-Cell[4437, 149, 270, 3, 33, "Text"],
 Cell[CellGroupData[{
-Cell[4732, 156, 117, 1, 67, "Section"],
-Cell[CellGroupData[{
-Cell[4874, 161, 100, 1, 47, "Subsection"],
-Cell[CellGroupData[{
-Cell[4999, 166, 110, 1, 37, "Subsubsection"],
-Cell[5112, 169, 202, 5, 32, "Input"],
-Cell[5317, 176, 204, 5, 32, "Input"],
-Cell[5524, 183, 206, 5, 32, "Input"]
+Cell[4459, 151, 106, 1, 47, "Subsection"],
+Cell[4568, 154, 318, 7, 55, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5767, 193, 285, 9, 41, "Subsubsection"],
-Cell[6055, 204, 254, 6, 32, "Input"]
+Cell[4923, 166, 117, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[5065, 171, 100, 1, 47, "Subsection"],
+Cell[CellGroupData[{
+Cell[5190, 176, 110, 1, 37, "Subsubsection"],
+Cell[5303, 179, 202, 5, 32, "Input"],
+Cell[5508, 186, 204, 5, 32, "Input"],
+Cell[5715, 193, 206, 5, 32, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6346, 215, 250, 8, 41, "Subsubsection"],
-Cell[6599, 225, 376, 10, 55, "Input"]
+Cell[5958, 203, 285, 9, 41, "Subsubsection"],
+Cell[6246, 214, 254, 6, 32, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7012, 240, 252, 8, 41, "Subsubsection"],
-Cell[7267, 250, 498, 14, 77, "Input"]
+Cell[6537, 225, 250, 8, 41, "Subsubsection"],
+Cell[6790, 235, 376, 10, 55, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7802, 269, 250, 8, 41, "Subsubsection"],
-Cell[8055, 279, 901, 28, 143, "Input"]
+Cell[7203, 250, 252, 8, 41, "Subsubsection"],
+Cell[7458, 260, 498, 14, 77, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8993, 312, 252, 8, 41, "Subsubsection"],
-Cell[9248, 322, 1344, 42, 231, "Input"]
+Cell[7993, 279, 250, 8, 41, "Subsubsection"],
+Cell[8246, 289, 901, 28, 143, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10629, 369, 250, 8, 41, "Subsubsection"],
-Cell[10882, 379, 1346, 42, 231, "Input"]
+Cell[9184, 322, 252, 8, 41, "Subsubsection"],
+Cell[9439, 332, 1344, 42, 231, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10820, 379, 250, 8, 41, "Subsubsection"],
+Cell[11073, 389, 1346, 42, 231, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

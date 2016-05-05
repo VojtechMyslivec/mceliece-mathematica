@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     13120,        374]
-NotebookOptionsPosition[     11744,        322]
-NotebookOutlinePosition[     12077,        337]
-CellTagsIndexPosition[     12034,        334]
+NotebookDataLength[     13899,        397]
+NotebookOptionsPosition[     12406,        341]
+NotebookOutlinePosition[     12741,        356]
+CellTagsIndexPosition[     12698,        353]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -153,6 +153,25 @@ Nutno vyhodnotit notebook src_ireducibilniBinarniGoppaKody.nb\
  CellChangeTimes->{{3.6568423277077637`*^9, 3.656842356462532*^9}, {
   3.671376595263193*^9, 3.671376618254869*^9}, {3.671385183189432*^9, 
   3.671385215491708*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Z\[AAcute]vislosti", "Subsection",
+ CellChangeTimes->{{3.671439765779551*^9, 3.671439772132731*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<src/moduly.m\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<src/rozsirenaBinarniTelesa.m\>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<src/ireducibilniBinarniGoppaKody.m\>\"", 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.67143978208982*^9, 3.671439811131627*^9}, {
+  3.671439873338519*^9, 3.6714398988343782`*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -320,8 +339,8 @@ Cell[BoxData[{
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1440, 809},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowSize->{1440, 864},
+WindowMargins->{{0, Automatic}, {-30, Automatic}},
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -349,30 +368,34 @@ Cell[CellGroupData[{
 Cell[4246, 144, 213, 3, 96, "Title"],
 Cell[4462, 149, 251, 5, 33, "Text"],
 Cell[CellGroupData[{
-Cell[4738, 158, 316, 4, 67, "Section"],
-Cell[CellGroupData[{
-Cell[5079, 166, 252, 3, 37, "Subsubsection"],
-Cell[5334, 171, 141, 1, 33, "Text"],
-Cell[5478, 174, 1361, 22, 77, "Input"]
+Cell[4738, 158, 106, 1, 47, "Subsection"],
+Cell[4847, 161, 516, 11, 99, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6876, 201, 108, 1, 37, "Subsubsection"],
-Cell[6987, 204, 102, 1, 33, "Text"],
-Cell[7092, 207, 295, 6, 32, "Input"],
-Cell[7390, 215, 120, 1, 33, "Text"],
-Cell[7513, 218, 945, 24, 121, "Input"]
+Cell[5400, 177, 316, 4, 67, "Section"],
+Cell[CellGroupData[{
+Cell[5741, 185, 252, 3, 37, "Subsubsection"],
+Cell[5996, 190, 141, 1, 33, "Text"],
+Cell[6140, 193, 1361, 22, 77, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8495, 247, 156, 2, 37, "Subsubsection"],
-Cell[8654, 251, 1399, 23, 55, "Input"]
+Cell[7538, 220, 108, 1, 37, "Subsubsection"],
+Cell[7649, 223, 102, 1, 33, "Text"],
+Cell[7754, 226, 295, 6, 32, "Input"],
+Cell[8052, 234, 120, 1, 33, "Text"],
+Cell[8175, 237, 945, 24, 121, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10090, 279, 208, 3, 37, "Subsubsection"],
-Cell[10301, 284, 653, 12, 55, "Input"]
+Cell[9157, 266, 156, 2, 37, "Subsubsection"],
+Cell[9316, 270, 1399, 23, 55, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10991, 301, 107, 1, 37, "Subsubsection"],
-Cell[11101, 304, 603, 13, 121, "Input"]
+Cell[10752, 298, 208, 3, 37, "Subsubsection"],
+Cell[10963, 303, 653, 12, 55, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11653, 320, 107, 1, 37, "Subsubsection"],
+Cell[11763, 323, 603, 13, 121, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
