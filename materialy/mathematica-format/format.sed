@@ -8,8 +8,11 @@
 # problemovy vyskyt
 /^[ \t]*(\*/!s|]:=|] :=|g
 
-#mezera kolem : ne ale :: a := a :>
+# mezera kolem : ne ale :: a := a :>
 /^[ \t]*(\*/!s|\([^: ]\):\([^>:= ]\)|\1 : \2|g
+
+# and a or
+s|\([^ ]\)\\\[\(And\|Or\)]\([^ ]\)|\1 \[\2] \3|g
 
 
 # mezera za carkou a slozenou zavorkou ',' -> ', '
@@ -25,6 +28,10 @@
 /^[ \t]*(\*/!s|\(\\\[[^]]\+\) ]|\1]|g
 
 
-# mezery kolem /@ nebo /. nebo /; nebo // nebo :>
-/^[ \t]*(\*/!s,\([^ ]\)\(/@\|/\.\|/;\|//\|:>\)\([^ ]\),\1 \2 \3,g
+# mezery kolem /@ nebo /. nebo /; nebo // nebo :> nebo @@
+/^[ \t]*(\*/!s,\([^ ]\)\(/@\|/\.\|/;\|//\|:>\|@@\)\([^ ]\),\1 \2 \3,g
+
+# drobne opravy
+s|\[ \(..\?\) ]|[\1]|g
+s|\[ ]|[]|g
 
