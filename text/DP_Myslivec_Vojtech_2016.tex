@@ -110,7 +110,7 @@ složitostí (kapitola \ref{kap_implementace}).
 %TODO
 Kryptosystém \emph{McEliece} je asymetrický šifrovací algoritmus, publikovaný
 poprvé v~roce \emph{1978} \emph{Robertem McEliece} \cite{McEliece}.
-V~kapitole\ref{kap_mceliece} uvádíme algoritmy navržené
+V~kapitole~\ref{kap_mceliece} uvádíme algoritmy navržené
 \emph{Robertem McEliece} z~tohoto článku. Dále v~\ref{kap_niederreiter} zmíníme
 příbuzný kryptosystém \emph{Niederreiter} a~v~\ref{kap_podpis} schéma pro
 získání elektronického podpisu. Dále jsou probrány výsledky a~závěry
@@ -123,8 +123,8 @@ a~nakonec se věnujeme aktuálním variantám a~úpravám
 
 % --------------------------------------------------------------------
 \paragraph{Odolnost vůči kvantovým počítačům} \hfil \\
-Jeden z~hlavních důvodů popularity algoritmu \emph{McEliece} je fakt, není znám
-algoritmus pro kvantový počítač, který by dokázal kryptosystém prolomit
+Jeden z~hlavních důvodů popularity algoritmu \emph{McEliece} je fakt, že není
+znám algoritmus pro kvantový počítač, který by dokázal kryptosystém prolomit
 rychleji, než na běžných počítačích~\cite{Dinh}. Kryptosystém je tak zařazen
 mezi kandidáty asymetrické kryptografie pro tzv. \emph{post-kvantovou}
 dobu~\cite{Post-Quantum_Cryptography} a~jeho varianta s~kvazi-cyklickými
@@ -206,7 +206,7 @@ Obdrženou zašifrovanou zprávu $c$ (délky $n$) dešifrujeme následujícím z
     \item Vypočítáme vektor $\hat{c}$ délky $n$: $\hat{c} = c P^{-1}$.
     \item Vektor $\hat{c}$ dekódujeme zvoleným kódem na vektor $\hat{m}$ \\
         $\hat{m} = Dek_{G}\left(\hat{c}\right)$
-    \item Vypočítáme původní zpráva $m$: $m = \hat{m} S^{-1}$
+    \item Vypočítáme původní zprávu $m$: $m = \hat{m} S^{-1}$
 \end{enumerate}
 
 \paragraph{Důkaz dešifrování} \hfil \\
@@ -260,8 +260,9 @@ $274576$\;b $\approx 268$\;kb a~(inverze) matice $P$ $1048576$\;b $= 1$\;Mb.
 
 Matice $P$ je ve skutečnosti velmi \emph{řídká} -- každý \emph{řádek}
 (respektive i~\emph{sloupec}) obsahuje pouze jednu jedničku, jinak je nulová. Je
-to permutační matice a~lze tak uchovat ve formě $\log_2 n$ $n$-bitových indexů.
-Pro výše zmíněné hodnoty je to $10240$\;b $=10$\;kb.
+to permutační matice a~lze ji reprezentovat prostou \emph{permutací}, tedy ve
+formě $\log_2 n$ $n$-bitových indexů. Pro výše zmíněné hodnoty je to $10240$\;b
+$=10$\;kb.
 
 % TODO odkaz na velikost kódu
 % $3 m 2^m + (1-m)mt + m + 1 $
@@ -497,7 +498,7 @@ Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že v
 délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně $2^{-216}$
 \cite{McEliece}.
 
-Algoritmus \emph{Niederreiter} selhává naprosto stejným stejným způsobem
+Algoritmus \emph{Niederreiter} selhává naprosto stejným způsobem
 \cite{Courtois}.
 
 % --------------------------------------------------------------------
@@ -696,7 +697,7 @@ $$
             (g_1 + \ldots + L_n^{t-1} g_t) g(L_n)^{-1} \\
     \end{array}\right)
 $$
-a~tato matice lze vyjádřit jako součin matic $ H = KVD $, kde $K$ je matice
+a~tuto matici lze vyjádřit jako součin matic $ H = KVD $, kde $K$ je matice
 koeficientů polynomu $g$, $V$ je tzv.  \emph{Vandermondova} matice a~$D$ je
 diagonální matice:
 $$
@@ -850,7 +851,7 @@ $\sigma$ musíme pro \emph{každý} prvek vypočítat $\sim s-2$~mocnin navíc.
 
 Druhým způsobem, jak nalézt kořeny polynomu $\sigma$ je \emph{rozložení} tohoto
 polynomu na faktory ve tvaru $(x-L_i)$. Toho se dá docílit \emph{Berklekampovým}
-algoritmem~\cite{Berlekamp3}. Nalezení pozic chyb pak je pouhým vyhledáním
+algoritmem~\cite{Berlekamp3}. Nalezení pozic chyb je pak pouhým vyhledáním
 získaných $L_i$ v~posloupnosti~$L$.
 
 
@@ -858,32 +859,30 @@ získaných $L_i$ v~posloupnosti~$L$.
 \chapter{Kryptoanalýza systému McEliece}\label{kap_kryptoanalyza}
 
 Již v~původním článku \cite{McEliece} byly naznačeny 2 aspekty, díky kterým je
-možné považovat kryptosystém McEliece \emph{bezpečný}:
-
+možné považovat kryptosystém \emph{McEliece} za \emph{bezpečný}:
 
 \begin{enumerate}
     \item Problém nalezení kódového slova \emph{obecného lineárního kódu}
-        s~minimální vzdáleností k~danému vektoru
-        -- \emph{problém obecného dekódování} -- je \emph{NP-těžký}
-        \cite{Berlekamp1}
+        s~minimální vzdáleností k~danému vektoru -- \emph{problém obecného
+        dekódování} -- je \emph{NP-těžký}~\cite{Berlekamp1}
+
     \item Není znám žádný algoritmus, který by \emph{bez znalosti tajných parametrů}
         dokázal nalézt kódové slovo efektivněji, než \emph{za použití obecného kódu}.
 \end{enumerate}
 
-
 Druhý z~těchto aspektů neplatí za použití libovolného kódu, jak bude ukázáno
-v~kapitole \ref{kap_utoky_na_strukturu_kodu}. Při použití některých lineárních
+v~kapitole~\ref{kap_utoky_na_strukturu_kodu}. Při použití některých lineárních
 kódů je možné odhalit strukturu použitého kódu.
 
 I~přes tato tvrzení je nutné zvolit parametry $n$, $k$ a $t$ tak, aby útok
 hrubou silou byl časově (a~případně i~prostorově) neschůdný. Volbu bezpečných
-parametrů probíráme v~kapitole \ref{kap_bezpecne_parametry}.
+parametrů probíráme v~kapitole~\ref{kap_bezpecne_parametry}.
 
 
 % --------------------------------------------------------------------
 \section{Útoky na McEliece}
 
-V~této kapitole uvedeme některé z~útoků na kryptosystém \emph{McEliece}.
+V~této podkapitole uvedeme některé z~útoků na kryptosystém \emph{McEliece}.
 Dle~\cite{Engelbert} se útoky dají rozdělit do dvou hlavních kategorií:
 
 \begin{itemize}
@@ -899,8 +898,8 @@ z~\emph{šifrového textu} odhalují text \emph{otevřený}. To zahrnuje \emph{�
 s~informační množinou}, navržený již Robertem McEliece, \emph{nalezení kódového
 slova s~nízkou vahou} a~další útoky na kryptosystém \emph{McEliece}.
 
-Nerozumné použití kryptosystému vede na zneužití několika \emph{slabin}, které
-jsou probrány ve zvláštní kapitole~\ref{kap_slabiny}\footnote{
+Nerozumné použití kryptosystému vede k~možnému zneužití několika \emph{slabin},
+které jsou probrány ve zvláštní podkapitole~\ref{kap_slabiny}\footnote{
     Nejedná se totiž o~útoky na kryptosystém ale spíše o~nepříjemné
     \emph{vlastnosti} kryptosystému, se kterými je nutné počítat.
 }.
@@ -990,8 +989,8 @@ V~průměru je totiž provést $\mathcal{P}_{j}^{-1}$ výběrů dimenzí, pro ka
 výběr provést v~průměru $k N_k$ invertování bitů a~nakonec vyřešit soustavu
 rovnic -- pokud je řešitelná.
 
-Autoři uvádí, že pro minimalizaci $W_j$ je při rozumných velikostech kódů volit
-$j=2$. Tento útok v~době publikování snížil složitost útoku na
+Autoři uvádí, že pro minimalizaci $W_j$ je rozumné -- při rozumných velikostech
+kódů -- volit $j=2$. Tento útok v~době publikování snížil složitost útoku na
 \emph{kryptosystém McEliece} přibližně $2^11$-krát~\cite{Lee}.
 
 
@@ -1056,7 +1055,7 @@ jelikož takto \uv{silný} algoritmus lze (či půjde) prolomit v~dostatečně k
 čase (méně než desítky let)~\cite{Paar}.
 
 Kryptosystém \emph{McEliece} má na rozdíl např. od \emph{RSA} několik parametrů
--- $n$, $k$, $t$ -- a~celkové množství variant je tedy velmi mnoho. Odhady
+-- $n$, $k$, $t$, \ldots -- a~množství variant je tedy velmi široké. Odhady
 složitostí jednotlivých útoků se navíc celkem liší, a~proto v~této kapitole
 uvádíme několik tabulek z~různých zdrojů, které odhadují \emph{míru bezpečnosti}
 kryptosystému \emph{McEliece}.
@@ -1143,11 +1142,11 @@ Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
 
 \subsection{Malleability}
 
-Použití šifrování tak, jak je definováno v~kapitole \ref{kap_mceliece_algoritmy}
+Použití šifrování tak, jak je definováno v~kapitole~\ref{kap_mceliece_algoritmy}
 umožňuje deterministickým způsobem změnit (neznámou) zašifrovanou zprávu -- tzv.
 \emph{mealleability}.
 
-Zašifrovanou zprávu $c_1$ veřejným klíčem $\hat{G}$ jsme zkonstruovali(dle
+Zašifrovanou zprávu $c_1$ veřejným klíčem $\hat{G}$ jsme zkonstruovali (dle
 definice) $c_1 = m_1\hat{G} + z$, kde $z$ je náhodný chybový vektor. Pokud
 tuto zprávu $c_1$ zachytí útočník, může ji pozměnit následujícím způsobem:
 
@@ -1228,7 +1227,7 @@ lze rozdělit (dle dimenzí):
 \end{align*}
 
 
-Stačí tedy útočit na dimenze určené množinou $\mathcal{J}$ a~velikost
+Stačí tedy út očit na dimenze určené množinou $\mathcal{J}$ a~velikost
 \emph{informační množiny} je tak zkrácena z~$k$ na velikost množiny
 $\mathcal{J}$.
 
@@ -1243,7 +1242,7 @@ dešifrována\footnote{
     šifer~\cite{FIT_KRY}.
 }.
 
-Útočník, který zachytí zašifrovanou zprávu $c$, k~ni přičte vektor
+Útočník, který zachytí zašifrovanou zprávu $c$, k~ní přičte vektor
 s~\emph{Hammingovou vahou} 1: $\left(0\ldots010\ldots0\right)$. Takto upravenou
 zprávu odešle \emph{orákulu} a~pozoruje, jestli došlo k~úspěšnému dešifrování či
 nikoliv. Pokud dešifrování selhalo, je jasné, že odeslaná upravená zpráva
@@ -1260,7 +1259,7 @@ soustavy $k$ rovnic v~$O\left( k^3 \right)$ krocích.
 Jako účinné zabránění tohoto útoku se nabízí vyžadovat, aby zašifrovaná zpráva
 obsahovala \emph{právě} $t$ chyb. Při šifrování se to dá velmi snadno zařídit
 a~při dešifrování pak stačí zkontrolovat \emph{váhu} chybového vektoru (který je
-získán při dekódování) a~pokud není rovna $t$, je jasné, že nastalo k~manipulaci
+získán při dekódování) a~pokud není rovna $t$, je jasné, že došlo k~manipulaci
 se šifrovým textem.
 
 
@@ -1319,7 +1318,7 @@ tajného \emph{seedu} pro \emph{CSPRNG}.
 
 Ač byl \emph{kryptosystém} navržený s~maticemi $S$ a~$P$ pro \emph{ukrytí}
 \emph{generující} matice $G$, tak v~\cite{Engelbert} bylo ukázáno, že matice $S$
-nemá žádnou bezpečnostní účel pro skrytí matice $G$. Naopak matice $P$ je velmi
+nemá žádný bezpečnostní účel pro skrytí matice $G$. Naopak matice $P$ je velmi
 důležitá a~prozrazení této permutace by znamenalo prozrazení \emph{soukromého
 klíče}.
 %Existují implementace \emph{kryptosystému}, které matici $S$ ve
@@ -1356,20 +1355,20 @@ použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
     submatic je \emph{kvazi-dyadická}.
 \end{definice}
 
-Dyadická matice $H$ lze jednoznačně vyjádřit pomocí jediného (prvního) řádku
-matice. Z~definice lze zkonstruovat celou původní matici $H$. Kvazi-dyadická
+Dyadickou matici~$H$ lze jednoznačně vyjádřit pomocí jediného (prvního) řádku
+matice. Z~definice lze zkonstruovat celou původní matici~$H$. Kvazi-dyadická
 matice lze tak vyjádřit pomocí prvních řádků \emph{dyadických} submatic.
 
 
 V~\cite{Misoczki1} autoři ukázali, že je možné sestrojit (binární) \emph{Goppa
 kód}, který má kontrolní matici v~\emph{dyadické} formě -- tzv. \emph{dyadický
-Goppa kód}. Takto sestrojený kód by ale bylo velmi snadné zrekonstruovat
-z~veřejného klíče a~navrhli tak použití \emph{kvazi-dyadického Goppa kódu} --
-s~kontrolní maticí v~\emph{kvazi-dyadické} formě.
+Goppa kód}. Takto sestrojený kód by bylo velmi snadné zrekonstruovat z~veřejného
+klíče a~navrhli tak použití \emph{kvazi-dyadického Goppa kódu} -- s~kontrolní
+maticí v~\emph{kvazi-dyadické} formě.
 
 S~použitím \emph{kvazi-dyadických Goppa kódů} je dosaženo $n$ krát menších klíčů
 než za použití obecných (binárních) \emph{Goppa kódů}~\cite{Misoczki1}.
-Implementace \emph{kryptosystému} s~\emph{kvazi-dyadickými Goppa} kódy lze
+Implementaci \emph{kryptosystému} s~\emph{kvazi-dyadickými Goppa} kódy lze
 nalézt např v~\cite{Paustjan,Kratochvil}
 
 
@@ -1397,7 +1396,7 @@ konverze \emph{OAEP} v~kryptosystému \emph{RSA}. Dále to jsou například konv
 \emph{Fujisaki-Okamoto} a~\emph{Pointcheval}.
 
 Nicméně \emph{K. Kobara} a~\emph{H. Imai} v~\cite{Kobara} uvádí, že tyto
-konverze nejsou \emph{CCA2}-odolné a~tak stále tak umožňují např. \emph{reakční
+konverze nejsou \emph{CCA2}-odolné a~stále tak umožňují např. \emph{reakční
 útok} (viz kapitola~\ref{kap_slabiny}). Sami pak navrhli 3~možné
 \emph{CCA2}-odolné konverze, z~nichž třetí -- označená jako \emph{Kobara-Imai
 $\gamma$ konverze} -- je nejúčinější. Tato konverze $\gamma$ je popsána
@@ -1534,7 +1533,7 @@ na~\url{https://github.com/VojtechMyslivec/mceliece-mathematica}.
 
 V~této podkapitole pojednáváme o~implementaci \emph{binárních konečných těles}
 včetně jejich \emph{rozšíření}. Zmíníme existující řešení v~softwaru
-\emph{Mathematica}, zvolenou implementace a~popíšeme implementované algoritmy.
+\emph{Mathematica}, zvolenou implementaci a~popíšeme implementované algoritmy.
 
 % --------------------------------------------------------------------
 \subsection{Existující řešení}
@@ -2128,7 +2127,7 @@ můžeme vyhnout násobení a~umocňování prvků v~tělese a~nahradit ho sčí
 a~násobením celých čísel, což je řádově jednodušší. V~případě sčítání prvků
 v~tělese je však nutné mít jejich standardní reprezentaci (seznam koeficientů),
 jelikož se sčítání provádí po jednotlivých koeficientech, respektive bitech.
-Není možné nahradit sčítání dvou prvků jiné operaci s~mocninami
+Není možné nahradit sčítání dvou prvků jinou operací s~mocninami
 \emph{primitivního prvku}.
 
 Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti programu
@@ -2147,7 +2146,7 @@ tohoto přístupu:
     \item Je nutné vygenerovat a uchovat v~paměti počítače obě tabulky pro
         překlad.
         \begin{itemize}
-            \item Tato tabulka lze implementovat pomocí obyčejného pole či
+            \item Tuto tabulku lze implementovat pomocí obyčejného pole či
                 sezna\-mu, kde se k~danému indexu v~seznamu vyskytuje
                 odpovídající hodnota.
             \item Pro binární  tělesa $GF(2^m)$ je velikost jedné tabulky
@@ -2414,7 +2413,7 @@ odpovídá prvních~$k$~(informačních) bitů vektoru $c'$. Matice~$G$ však
 v~\emph{systematické} formě nemusí existovat. Aby matici šlo sestrojit v~této
 formě, museli bychom prohazovat dimenze kódu a~tím pádem i~posloupnosti~$L$. To
 není z~důvodu bezpečnosti žádoucí, neboť bychom snižovali počet možných
-permutací podpory~$L$ a~tím pádem i~počet možných využitelných kódu. Z~tohoto
+permutací podpory~$L$ a~tím pádem i~počet možných využitelných kódů. Z~tohoto
 důvodu je nutné invertování zakódování maticí~$G$ provádět způsobem, který jsme
 popsali výše.  Nicméně nalezení daných dimenzí není nutné provádět opakovaně
 a~mohli bychom si tento krok předpočítat a~v~definici kódu uvádět definici pozic
@@ -2881,19 +2880,19 @@ Galois}).
 
 Jak ukážeme dále, je vhodné prvky konečného tělesa $GF(p^n)$ reprezentovat jako
 \emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
-prvek $a \in GF(p^n)$ lze zapsat:
+prvek $A \in GF(p^n)$ lze zapsat:
 $$
     A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p
 $$
 O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (stupně
-maximálně $n-1$)}. Na prvek $a$ se je možné dívat též jako na vektor či $n$-tici
+maximálně $n-1$)}. Na prvek~$a$ je možné dívat se též jako na vektor či $n$-tici
 koeficientů~$a_i$:
 $$
     A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong
     a_{n-1} a_{n-2} \ldots a_0
 $$
 
-V~této práci budeme mezi těmito reprezentacemi nadále volně přechází, jak bude
+V~této práci budeme mezi těmito reprezentacemi nadále volně přecházet, jak bude
 v~daném kontextu potřeba\footnote{
     V~některých materiálech se používá i obráceného zápisu
     $(a_0 a_1 \ldots a_{n-1})$.
@@ -3077,8 +3076,8 @@ způsobem, jako bylo uvedeno v~předešlé kapitole.
 \begin{tvrzeni}
     Nechť $\mathbb{F}$ je konečné těleso a~$g \in \mathbb{F}[x]$ \emph{ireducibilní}
     polynom stupně~$n$. Potom množina všech polynomů z~$\mathbb{F}[x]$ stupně
-    menší než $t$ tvoří s~klasickou operací s~polynomy $+$ a~s~násobením
-    modulo~$g$ \emph{konečné těleso} $\mathbb{F}^n$.\footnote{
+    menší než~$t$ tvoří s~klasickou operací s~polynomy $+$ a~s~násobením
+    modulo~$g$ \emph{konečné těleso}~$\mathbb{F}^n$.\footnote{
         Toto těleso se dá též značit jako (faktorokruh) $\mathbb{F}[x]/(g)$, kde
         $(g)$ je \emph{ideál} generovaný polynomem $g$.
     }
@@ -3506,7 +3505,7 @@ Vyšleme tedy tento vektor kanálem příjemci.
         Pokud nastala 1 chyba, byli jsme ji schopni opravit a~získat původní
         zprávu $a$.
 
-    \item Ve třetím případe nastane chyba ve dvou dimenzích. Chybový vektor bude
+    \item Ve třetím případě nastane chyba ve dvou dimenzích. Chybový vektor bude
         nyní $e=(1000010)$ a~přijatý vektor $c = b + e = (0010110)$. Vypočteme
         \emph{syndrom}
         $$ s_3 = c H^T = (101) $$
@@ -3573,12 +3572,12 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
             \DTcomment{adresář s~implementací v~softwaru \emph{Mathematica}}.
             .2 src
                 \DTcomment{adresář s~připravenými \emph{balíky}}.
-            .2 mereni
-                \DTcomment{adresář se soubory z~měření}.
             .2 *.nb
                 \DTcomment{ukázky použití kódu}.
         .1 materialy
             \DTcomment{adresář s~dodatečnými soubory a skripty}.
+        .1 mereni
+            \DTcomment{adresář se soubory s~měřením}.
         .1 text
             \DTcomment{text práce}.
             .2 DP\_Myslivec\_Vojtech\_2016.tex
