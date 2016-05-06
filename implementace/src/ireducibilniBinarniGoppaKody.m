@@ -408,7 +408,8 @@ generujBinarniGoppaKod[
         matV, matD, (* matK, *)
         matHnadFF, matHnadGF2, matH, matG,
         polyX, syndromyL,
-        i, iMax
+        i, iMax,
+        tMatV, tMatD, tMatH, tMatG, tSyndromy
     },
     n = p^m; r = t*m; k = n - r;
     If[ k <= 0,
@@ -425,15 +426,23 @@ generujBinarniGoppaKod[
     modulVnitrni = modul[[2]];
 
     podporaL = generujNticiL[m];
-    matV = maticeV[ podporaL, modulVnitrni, t ];
-    matD = Quiet[ maticeD[ podporaL, modul ] ];
+    tMatV = AbsoluteTiming[
+        matV = maticeV[ podporaL, modulVnitrni, t ];
+    ][[1]];
+    tMatD = AbsoluteTiming[
+        matD = Quiet[ maticeD[ podporaL, modul ] ];
+    ][[1]];
     (*matK=maticeK[polyG];*)
 
-    matHnadFF = dotNadFF[ matV, matD, modulVnitrni ];
-    (*matHnadFF=dotNadFF[matK,matHnadFF,modulVnitrni];*)
-    matHnadGF2 = Flatten[ Transpose /@ matHnadFF, 1 ];
-    matH = DeleteCases[ RowReduce[ matHnadGF2, Modulus->2 ], {a__Integer} /; a == 0 ];
-    matG = NullSpace[ matH, Modulus->2 ];
+    tMatH = AbsoluteTiming[
+        matHnadFF = dotNadFF[ matV, matD, modulVnitrni ];
+        (*matHnadFF=dotNadFF[matK,matHnadFF,modulVnitrni];*)
+        matHnadGF2 = Flatten[ Transpose /@ matHnadFF, 1 ];
+        matH = RowReduce[ matHnadGF2, Modulus->2 ];
+    ][[1]];
+    tMatG = AbsoluteTiming[
+        matG = NullSpace[ matH, Modulus->2 ];
+    ][[1]];
 
     If[ verbose,
         Print[ "L = ", {podporaL } // MatrixForm ];
@@ -454,10 +463,12 @@ generujBinarniGoppaKod[
 
     (* predpocitane dilci syndromy := {1/(x-Subscript[L, i]) mod G(x)}*)
     polyX = { jednotkovyPolynom[ p, m ], nulovyPolynom[ p, m ] };
-    syndromyL = inverze[ plus[ polyX, {#}, p ], modul ]& /@ podporaL;
+    tSyndromy = AbsoluteTiming[
+        syndromyL = inverze[ plus[ polyX, {#}, p ], modul ]& /@ podporaL;
+    ][[1]];
 
     (* vraci nasledujici hodnoty: *)
-    { matG, modul, podporaL, syndromyL }
+    { { tMatV, tMatD, tMatH, tMatG, tSyndromy }, { matG, modul, podporaL, syndromyL } }
 ]
 
 Protect[ generujBinarniGoppaKod ];
@@ -504,11 +515,15 @@ dekodujBinarniGoppaKod[
         nula, jedna,
         polyS, polyR, polyX,
         polyAlpha, polyBeta, polySigma,
-        eVektor, cOpravene, d
+        eVektor, cOpravene, d,
+        tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni
     },
+
     nula = nulovyPolynom[ p, m ];jedna = jednotkovyPolynom[ p, m ];
     (* S(x) = Sum c_i/(x - Li) mod G(x) *)
-    polyS = Mod[ Plus@@( c*syndromyL ), p ];
+    tPolyS = AbsoluteTiming[
+        polyS = Mod[ Plus@@( c*syndromyL ), p ];
+    ][[1]];
     (* pokud je syndrom nula, neni co opravovat *)
     If[ polyS === ( nula& /@ Range[t] ),
 
@@ -519,28 +534,36 @@ dekodujBinarniGoppaKod[
         (* R(x) = Sqrt[S(x)^-1-x] mod G(x) *)
         (* Sqrt[a] je a^((N+1)/2)kde N je pocet prvku, pro bin. telesa tedy a^2^(mt-1) *)
         polyX = { jedna, nula };
-        polyR = umocni[ plus[ polyX, inverze[ polyS, modul ], p ], 2^(m*t-1), modul ];
+        tPolyR = AbsoluteTiming[
+            polyR = umocni[ plus[ polyX, inverze[ polyS, modul ], p ], 2^(m*t-1), modul ];
+        ][[1]];
 
-        { polyAlpha, polyBeta } = modifikovanyEEA[ polyR, modul ];
+        tEEA = AbsoluteTiming[
+            { polyAlpha, polyBeta } = modifikovanyEEA[ polyR, modul ];
+        ][[1]];
 
         (* Sigma(x) = Beta^2x + Alpha^2 *)
-        (* Alpha^2 *)
-        polyAlpha = naDruhou[ #, modulVnitrni ]& /@ polyAlpha;
-        polyAlpha = Riffle[ polyAlpha, {nula} ];
-        (* Beta^2 *)
-        polyBeta = naDruhou[ #, modulVnitrni ]& /@ polyBeta;
-        polyBeta = Riffle[ polyBeta, {nula} ];
-        (* Sigma(x) = Beta^2x + Alpha^2 *)
-        polySigma = plus[ polyAlpha, posunPolynom[ polyBeta, 1 ], 2 ];
+        tPolySigma = AbsoluteTiming[
+            (* Alpha^2 *)
+            polyAlpha = naDruhou[ #, modulVnitrni ]& /@ polyAlpha;
+            polyAlpha = Riffle[ polyAlpha, {nula} ];
+            (* Beta^2 *)
+            polyBeta = naDruhou[ #, modulVnitrni ]& /@ polyBeta;
+            polyBeta = Riffle[ polyBeta, {nula} ];
+            (* Sigma(x) = Beta^2x + Alpha^2 *)
+            polySigma = plus[ polyAlpha, posunPolynom[ polyBeta, 1 ], 2 ];
+        ][[1]];
 
         (* hledani korenu *)
         (* TODO: Chien search!, nyni jen dosazeni do polynomu *)
-        eVektor = ( ( dosadDoPolynomu[ polySigma, #, modulVnitrni ] == nula )& /@ podporaL  ) /. { True->1, False->0 }
+        tDosazeni = AbsoluteTiming[
+            eVektor = ( ( dosadDoPolynomu[ polySigma, #, modulVnitrni ] == nula )& /@ podporaL  ) /. { True->1, False->0 }
+        ][[1]];
     ];
     cOpravene = plus[ c, eVektor, p ];
 
     d = invertujZakodovaniMatG[ cOpravene, matG ];
-    { d, eVektor }
+    { { tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni }, { d, eVektor } }
 ]
 
 Protect[ dekodujBinarniGoppaKod ];

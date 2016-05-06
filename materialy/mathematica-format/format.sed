@@ -4,7 +4,7 @@
 
 # vse e provadi nad nezakomentovanymi radky
 # mezera kolem operatoru = <= >= ...
-/^[ \t]*(\*/!s|\([^ ]\)\([<>!=:]\{0,2\}=\)\([^ ]\)|\1 \2 \3|g
+/^[ \t]*(\*/!s|\([^ ]\)\([<>!=:+-]\{0,2\}=\)\([^ ]\)|\1 \2 \3|g
 # problemovy vyskyt
 /^[ \t]*(\*/!s|]:=|] :=|g
 

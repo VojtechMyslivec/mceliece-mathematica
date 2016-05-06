@@ -98,24 +98,33 @@ generujMcEliece::nkod = McEliece::nkod;
 
 generujMcEliece[
         m_Integer /; m >= 2,
-        t_Integer /; t >= 2,
+        t_Integer /; t >= 1,
         verbose_Symbol : False
     ] /; BooleanQ[ verbose ] := Module[ {
         p = 2, n, k,
         GoppaKod, matG, matS, matP, hatG,
-        soukromyKlic, verejnyKlic, parametry
+        soukromyKlic, verejnyKlic, parametry,
+        genKod,
+        tKod, tMatS, tMatP, tMatHatG, tInv
     },
     n = p^m; k = n - m*t;
 
-    GoppaKod = generujBinarniGoppaKod[ m, t ];
-    If[ GoppaKod == Null,
+    genKod = generujBinarniGoppaKod[ m, t ];
+    If[ genKod == Null,
         Message[ generujMcEliece::nkod ];
         Return[];
     ];
+    { tKod, GoppaKod } = genKod;
     matG = GoppaKod[[1]];
-    matS = nahodnaRegularniMatice[k][[1]];
-    matP = nahodnaPermutacniMatice[n];
-    hatG = dotNad2[ matS, matG, matP ];
+    tMatS = AbsoluteTiming[
+        matS = nahodnaRegularniMatice[k][[1]];
+    ][[1]];
+    tMatP = AbsoluteTiming[
+        matP = nahodnaPermutacniMatice[n];
+    ][[1]];
+    tMatHatG = AbsoluteTiming[
+        hatG = dotNad2[ matS, matG, matP ];
+    ][[1]];
 
     If[ verbose == True,
         Print[
@@ -124,14 +133,16 @@ generujMcEliece[
         ];
     ];
 
-    matS = Inverse[ matS, Modulus->2 ];
-    matP = Inverse[ matP, Modulus->2 ];
+    tInv = AbsoluteTiming[
+        matS = Inverse[ matS, Modulus->2 ];
+        matP = Inverse[ matP, Modulus->2 ];
+    ][[1]];
 
     soukromyKlic = { GoppaKod, matS, matP };
     verejnyKlic  = { hatG };
     parametry    = { n, k, t };
 
-    { soukromyKlic, verejnyKlic, parametry }
+    { { tKod, { tMatS, tMatP, tMatHatG, tInv } }, { soukromyKlic, verejnyKlic, parametry } }
 ]
 
 
@@ -197,16 +208,17 @@ desifrujMcEliece[
         soukromyKlic : { GoppaKod_List, invS_List, invP_List },
         parametry : { n_Integer, k_Integer, t_Integer }
     ] := Module[ {
-        hatc, hatm, m
+        hatc, hatm, m, e,
+        tDek
     },
     If[ Length[c] != n,
         Message[ desifrujMcEliece::delkac ];
         Return[]
     ];
     hatc = dotNad2[ c, invP ];
-    hatm = dekodujBinarniGoppaKod[ hatc, GoppaKod ][[1]];
+    {tDek, {hatm, e}} = dekodujBinarniGoppaKod[ hatc, GoppaKod ];
     m = dotNad2[ hatm, invS ];
-    m
+    { tDek, m }
 ]
 
 
