@@ -38,15 +38,15 @@ print_item(pole)
 p = R.irreducible_element(3)
 print(p)
 
-sys.stdout.write('{')
+sys.stdout.write('{ ')
 for coef in list(reversed(p.coefficients( sparse=False )))[:-1]:
     pole = norm_coef( coef, m )
 
     print_item(pole)
-    sys.stdout.write(',')
+    sys.stdout.write(', ')
 pole = norm_coef( p.coefficients()[0], m )
 print_item(pole)
-sys.stdout.write('}')
+sys.stdout.write(' }')
 
 
 
