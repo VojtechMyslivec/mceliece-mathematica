@@ -27,7 +27,7 @@ Get["src/mceliece.m"]
 (*Mereni*)
 
 
-pocetMereni = 5;
+pocetMereni = 10;
 mereniM = {};
 
 For[ m = 3, m <= 8, m++,
@@ -92,7 +92,7 @@ For[ m = 3, m <= 8, m++,
 
         AppendTo[ mereniT, list ];
     ];
-    AppendTo[ mereniM, mereniT ];
+    AppendTo[ mereniM, { m, mereniT } ];
 ]
 
 
@@ -101,15 +101,17 @@ For[ m = 3, m <= 8, m++,
 (*{*)
 (* { *)
 (*   m,*)
-(*   { *)
-(*     t,*)
-(*     {*)
-(*       { tGen, { tMatV, tMatD, tMatH, tMatG, tSyndromy, tMatS, tMatP, tMatHatG, tInv } }*)
-(*       { tSifr }*)
-(*       { tDesifr, { tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni } }*)
-(*     }*)
-(*   },*)
-(*   ...*)
+(*   {*)
+(*     { *)
+(*       t,*)
+(*       {*)
+(*         { tGen, { tMatV, tMatD, tMatH, tMatG, tSyndromy, tMatS, tMatP, tMatHatG, tInv } }*)
+(*         { tSifr }*)
+(*         { tDesifr, { tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni } }*)
+(*       }*)
+(*     },*)
+(*     ...*)
+(*   }*)
 (* },*)
 (* ...*)
 (*}*)
@@ -123,19 +125,17 @@ For[ m = 3, m <= 8, m++,
 (*Ziskani dat pro grafy*)
 
 
-mereniT = mereniM[[1]];
+mereniT = mereniM[[3,2]];
 Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]] } ] // MatrixForm
 Transpose[ { mereniT[[All,1]], mereniT[[All,2,2,1]] } ] // MatrixForm
 Transpose[ { mereniT[[All,1]], mereniT[[All,2,3,1]] } ] // MatrixForm
 
 
-mereniT = mereniM[[2]];
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]] } ] // MatrixForm
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,2,1]] } ] // MatrixForm
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,3,1]] } ] // MatrixForm
+(* ::Text:: *)
+(*Grafy*)
 
 
-mereniT = mereniM[[1]];
+mereniT = mereniM[[6,2]];
 listGen    = Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]] } ];
 listSifr   = Transpose[ { mereniT[[All,1]], mereniT[[All,2,2,1]] } ];
 listDesifr = Transpose[ { mereniT[[All,1]], mereniT[[All,2,3,1]] } ];
@@ -145,5 +145,8 @@ ListPlot[ listSifr,   AxesOrigin->0 ]
 ListPlot[ listDesifr, AxesOrigin->0 ]
 
 
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,2]] } ] // MatrixForm
+(* ::Text:: *)
+(*Tabulka hodnot: { t, generovani, sifrovani, desifrovani }*)
 
+
+Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]], mereniT[[All,2,2,1]], mereniT[[All,2,3,1]] } ] // MatrixForm
