@@ -27,6 +27,7 @@
 
 McEliece::delkam = "Zprava m musi byt delky k";
 McEliece::delkac = "Zprava c musi byt delky n";
+McEliece::nkod   = "Neni k dispozici kod pozadovanych rozmeru.";
 
 
 (* ::Subsection::Closed:: *)
@@ -92,10 +93,11 @@ Protect[ nahodnaRegularniMatice ];
 
 Unprotect[ generujMcEliece ];
 ClearAll[ generujMcEliece ];
+generujMcEliece::nkod = McEliece::nkod;
 
 
 generujMcEliece[
-        m_Integer /; m>= 2,
+        m_Integer /; m >= 2,
         t_Integer /; t >= 2,
         verbose_Symbol : False
     ] /; BooleanQ[ verbose ] := Module[ {
@@ -106,9 +108,13 @@ generujMcEliece[
     n = p^m; k = n - m*t;
 
     GoppaKod = generujBinarniGoppaKod[ m, t ];
+    If[ GoppaKod == Null,
+        Message[ generujMcEliece::nkod ];
+        Return[];
+    ];
     matG = GoppaKod[[1]];
-    matS = nahodnaRegularniMatice[ k ][[1]];
-    matP = nahodnaPermutacniMatice[ n ];
+    matS = nahodnaRegularniMatice[k][[1]];
+    matP = nahodnaPermutacniMatice[n];
     hatG = dotNad2[ matS, matG, matP ];
 
     If[ verbose == True,
@@ -153,10 +159,10 @@ sifrujMcEliece[
         parametry : { n_Integer, k_Integer, t_Integer }
     ] := Module[ {
         p = 2, c,
-        z = nahodnyChybovyVektor[ n, t]
+        z = nahodnyChybovyVektor[ n, t ]
     },
-    If[ Length[ m ] != k,
-        Print[ sifrujMcEliece::delkam ];
+    If[ Length[m] != k,
+        Message[ sifrujMcEliece::delkam ];
         Return[]
     ];
     c = plus[ dotNad2[ m, hatG ], z, p ];
@@ -193,9 +199,9 @@ desifrujMcEliece[
     ] := Module[ {
         hatc, hatm, m
     },
-    If[ Length[ c ] != n,
-        Print[ desifrujMcEliece::delkac ];
-        Return[ ]
+    If[ Length[c] != n,
+        Message[ desifrujMcEliece::delkac ];
+        Return[]
     ];
     hatc = dotNad2[ c, invP ];
     hatm = dekodujBinarniGoppaKod[ hatc, GoppaKod ][[1]];
