@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 (* ::Text:: *)
-(*Vojt\[EHacek]ch Myslivec, FIT \[CapitalCHacek]VUT v Praze, 2015/2016 *)
+(*Vojtech Myslivec, FIT CVUT v Praze, 2015/2016 *)
 
 
 (* ::Title:: *)
@@ -9,7 +9,7 @@
 
 
 (* ::Section:: *)
-(*Casov\[EAcute] slozitosti*)
+(*Mereni*)
 
 
 (* ::Subsection:: *)
@@ -27,13 +27,37 @@ Get["src/mceliece.m"]
 (*Mereni*)
 
 
+(* ::Text:: *)
+(*Hodnoty jsou ve formatu*)
+(*{*)
+(* { *)
+(*   m,*)
+(*   {*)
+(*     { *)
+(*       t,*)
+(*       {*)
+(*         { tGen, { tMatV, tMatD, tMatH, tMatG, tSyndromy, tMatS, tMatP, tMatHatG, tInv } }*)
+(*         { tSifr }*)
+(*         { tDesifr, { tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni } }*)
+(*       }*)
+(*     },*)
+(*     ...*)
+(*   }*)
+(* },*)
+(* ...*)
+(*}*)
+
+
+mMin = 3; mMax = 8; tMin = 2;
+
+
 pocetMereni = 10;
 mereniM = {};
 
-For[ m = 3, m <= 8, m++,
+For[ m = mMin, m <= mMax, m++,
     mereniT = {};
 
-    For[ t = 2, 2^m - m*t > 0, t++,
+    For[ t = tMin, 2^m - m*t > 0, t++,
         Print[ "m = ", m, ", t = ", t ];
 
         sumaGen = sumaSifr = sumaDesifr = 0;
@@ -95,58 +119,3 @@ For[ m = 3, m <= 8, m++,
     AppendTo[ mereniM, { m, mereniT } ];
 ]
 
-
-(* ::Text:: *)
-(*Hodnoty jsou ve formatu*)
-(*{*)
-(* { *)
-(*   m,*)
-(*   {*)
-(*     { *)
-(*       t,*)
-(*       {*)
-(*         { tGen, { tMatV, tMatD, tMatH, tMatG, tSyndromy, tMatS, tMatP, tMatHatG, tInv } }*)
-(*         { tSifr }*)
-(*         { tDesifr, { tPolyS, tPolyR, tEEA, tPolySigma, tDosazeni } }*)
-(*       }*)
-(*     },*)
-(*     ...*)
-(*   }*)
-(* },*)
-(* ...*)
-(*}*)
-
-
-(* ::Subsection:: *)
-(*Vykresleni grafu*)
-
-
-(* ::Text:: *)
-(*Ziskani dat pro grafy*)
-
-
-mereniT = mereniM[[3,2]];
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]] } ] // MatrixForm
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,2,1]] } ] // MatrixForm
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,3,1]] } ] // MatrixForm
-
-
-(* ::Text:: *)
-(*Grafy*)
-
-
-mereniT = mereniM[[6,2]];
-listGen    = Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]] } ];
-listSifr   = Transpose[ { mereniT[[All,1]], mereniT[[All,2,2,1]] } ];
-listDesifr = Transpose[ { mereniT[[All,1]], mereniT[[All,2,3,1]] } ];
-
-ListPlot[ listGen,    AxesOrigin->0 ]
-ListPlot[ listSifr,   AxesOrigin->0 ]
-ListPlot[ listDesifr, AxesOrigin->0 ]
-
-
-(* ::Text:: *)
-(*Tabulka hodnot: { t, generovani, sifrovani, desifrovani }*)
-
-
-Transpose[ { mereniT[[All,1]], mereniT[[All,2,1,1]], mereniT[[All,2,2,1]], mereniT[[All,2,3,1]] } ] // MatrixForm
