@@ -45,24 +45,39 @@
 \supervisor{prof. Ing. Róbert Lórencz, CSc.}
 \website{https://github.com/VojtechMyslivec/mceliece-mathematica}
 
-%\acknowledgements{Rodina, Lórencz, Kalvoda, Kotil, Guth} %TODO
-
-\abstractCS{
-
-V~této práci přinášíme ucelený pohled na asymetrický kryptosystém
-\emph{McEliece}. Tento kryptosystém je založený na samoopravných lineárních
-kódech a~je jedním z~kandidátů pro asymetrickou postkvantovou kryptografii.
-V~práci uvádíme základní definici tohoto kryptosystému, příbuzný kryptosystém
-\emph{Niederreiter}, variantu pro digitální podpis a~věnujeme se též existujícím
-kryptoanalýzám a~praktickým aspektům tohoto systému. V~rámci práce vznikla
-ukázková implementace v~softwaru Wolfram Mathematica.
-
-}
-
-\abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.} %TODO
-
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
+
+% Tady to musí být bez odsazení za závorkou '{', což nevypadá dobře :-(
+%\acknowledgements{Předně bych chtěl poděkovat Róbertu Lórenczovi za konstruktivní kritiku při
+%    vedení této práce a~hlavně za velmi zajímavé téma, které mi nabídl
+%    k~vypracování. Nejvíce děkuji své rodině za podporu, veškerou pomoc a~hlavně
+%    trpělivost. Bez nich by tato práce nevznikla. Děkuji Tomáši Kalvodovi, za
+%    časté konzultace v~oblasti matematiky a~Jaroslavu Kotilovi za radu ohledně
+%    Goppa kódů. Nakonec bych rád poděkoval Ondřeji Guthovi za vytvoření použité
+%    šablony pro \LaTeX.
+%} %TODO
+
+\abstractCS{
+    V~této práci se zabýváme asymetrickým kryptosystémem \emph{McEliece}, který
+    je založený na samoopravných lineárních kódech a~je jedním z~kandidátů pro
+    asymetrickou postkvantovou kryptografii. V~práci uvádíme základní definici
+    tohoto kryptosystému, variantu pro digitální podpis a~věnujeme se též
+    existujícím kryptoanalýzám a~praktickým aspektům tohoto systému. V~rámci
+    práce vznikla ukázková implementace v~softwaru Wolfram Mathematica, na které
+    bylo provedeno měření časových závislostí algoritmů.
+}
+
+% stejně jako s poděkováním :-(
+\abstractEN{In this work, we deal with a code-based public-key cryptosystem
+    \emph{McEliece} which is one of the candidates for post-quantum
+    cryptography.  We provide a~definition of the cryptosystem, its variant for
+    digital signature scheme, and we focus on the cryptanalysis and practical
+    aspects of this cryptosystem. An illustrative implementation in Wolfram
+    Mathematica software was developed and we evaluated the time complexity of
+    the algorithms.
+} %TODO
+
 \keywordsCS{McEliece, asymetrická kryptografie, postkvantová kryptografie,
 binární Goppa kódy, konečná tělesa, polynomy, Wolfram Mathematica}
 \keywordsEN{McEliece, public-key cryptography, post-quantum cryptography, binary
@@ -100,11 +115,12 @@ kvantový počítač, který by dokázal \emph{kryptosystém} prolomit rychleji,
 běžných počítačích~\cite{Dinh}. Mezi kandidáty pro tzv. postkvantovou dobu je
 uveden např. v~publikaci \emph{Post-Quantum Cryptography} autorů \emph{Bernstein
 a~spol.}~\cite{Post-Quantum_Cryptography}. Dále varianta \emph{kryptosystému}
-s~kvazi-cyklickými \emph{MDPC} kódy se vyskytla v~draftu z~roku 2016 společnosti
-\emph{IEEE} mezi doporučenými \emph{postkvantovými} asymetrickými
+s~kvazi-cyklickými \emph{MDPC} kódy se vyskytla v~draftu z~roku \emph{2016}
+společnosti \emph{IEEE} mezi doporučenými \emph{postkvantovými} asymetrickými
 kryptosystémy~\cite{Schanck}.
 
 \vfil
+% TODO nejake propojeni
 
 V~\ref{kap_mceliece}.~kapitole představíme \emph{kryptosystém} \emph{McEliece}
 tak, jak byl definován v~původní publikaci \emph{Roberta McEliece}, uvedeme jeho
@@ -124,9 +140,10 @@ několik moderních variant, včetně konverze pro zabránění útoku s~volený
 šifrovým textem. Těmto moderním variantám se věnujeme
 v~kapitole~\ref{kap_upravy}.
 
-Poslední kapitola~\ref{kap_implementace} se zabývá ukázkovou implementací tohoto
-kryptosystému v~softwaru \emph{Wolfram Mathematica} a~měřením časových
-složitostí algoritmů.
+Kapitola~\ref{kap_implementace} se zabývá ukázkovou implementací tohoto
+kryptosystému v~softwaru \emph{Wolfram Mathematica} a~v~poslední
+kapitole~\ref{kap_mereni} jsou demonstrovány výsledky z~provedených měření
+složitostí algoritmů na této implementaci.
 
 \vfil
 
@@ -367,7 +384,7 @@ $O\left(k^3\right)$:
 $$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
 
 % todo pozice
-\clearpage
+\newpage
 
 Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
 náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
@@ -438,10 +455,6 @@ $\hat{H}$ je \emph{veřejný klíč} a~kód s~\emph{kontrolní} maticí $H$ a~ma
 $S$ a~$P$ jsou \emph{soukromým klíč}.
 
 
-%TODO pozice
-\clearpage
-
-
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}
 
@@ -455,7 +468,7 @@ původní zpráva.
 Šifrování zprávy probíhá následujícím způsobem:
 
 \begin{enumerate}
-    \item Zpráva $m$ dlouhá $n$ bitů s~\emph{Hammingovou vahou} maximálně $t$.
+    \item Máme zprávu~$m$ dlouhou $n$~bitů s~\emph{Hammingovou vahou} maximálně~$t$.
         Tato zpráva reprezentuje \emph{chybový vektor} pro použitý kód.
     \item Šifrový text $c$ (délky $n-k$) spočteme jako \emph{syndrom} zprávy
         $m$ (respektive chyby) za použití matice $\hat{H}$: $c = m \hat{H}^T$.
@@ -564,7 +577,7 @@ do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
 $$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808} $$
 
 % todo pozice
-\clearpage
+\newpage
 
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
 délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně
@@ -741,7 +754,7 @@ Obecné \emph{Goppa} kódy jsou definovány pomocí
 }, nicméně v~této práci se budeme zabývat pouze podkategorií, tzv.
 \emph{binárními Goppa kódy}.
 
-% todo
+% todo pozice
 \vfil
 
 
@@ -1654,16 +1667,16 @@ V~následujícím algoritmu použijeme toto značení:
 % ====================================================================
 \chapter{Implementace}\label{kap_implementace}
 
-Pro implementaci kryptosystému \emph{McEliece} v~této práci jsme zvolili software
-\emph{Wolfram Mathematica} \cite{Mathematica}. Tento software jsme zvolili hlavně
-díky pohodlnosti některých matematických výpočtů a~konstrukcí a~také pro
-přehlednost výstupů. %TODO
+Pro implementaci kryptosystému \emph{McEliece} v~této práci jsme zvolili
+software \emph{Wolfram Mathematica}~\cite{Mathematica}. Tento software jsme
+zvolili hlavně díky pohodlnosti některých matematických výpočtů a~konstrukcí
+a~také pro přehlednost výstupů.
 
 Při implementaci \emph{kryptosystému} se ukázaly nedostatky softwaru
 \emph{Mathematica} a~bylo nutné zpracovat problematiku (rozšířených)
 \emph{konečných těles} a~\emph{binárních Goppa kódů}. Tyto dvě oblasti byly
 implementovány přímo v~softwaru \emph{Mathematica} tak, aby bylo možné jejich
-pohodlné použití i v~jiných oblastech.
+pohodlné použití i~v~jiných oblastech.
 
 Celkově byla práce rozdělena do třech ucelených částí -- (binární) \emph{konečná
 tělesa}, (ireducibilní) \emph{binární Goppa kódy} a~\emph{kryptosystém McEliece}
@@ -2126,7 +2139,7 @@ triviální:
     \item Redukování polynomem (viz výše).
 \end{itemize}
 
-%todo
+%todo pozice
 \vfil
 
 \begin{algoritmus}[!ht]
@@ -2295,12 +2308,11 @@ Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti pr
 překladové \emph{log}- a~\emph{antilogaritmické} tabulky pro překlad prvků
 z~jedné reprezentace na druhou.
 
-% todo
-\clearpage
+% todo pozice
+\newpage
 
 Ač se tak získá podstatné zrychlení výpočtů v~tělese, existuje několik nevýhod
 tohoto přístupu:
-
 \begin{itemize}
     \item Je nutné nalézt \emph{primitivní prvek tělesa}.
 
@@ -2345,7 +2357,7 @@ Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
 odpovídá výrazu $a/b$.
 
 % todo pozice
-\clearpage
+\newpage
 
 
 
@@ -2436,7 +2448,7 @@ v~této práci bylo několik ireducibilních polynomů předgenerováno v~softwa
 Generování podpory~$L$ je velmi jednoduché. Dle parametru~$m$ se vygenerují
 všechny vektory z~$\{0,1\}^m$ a~náhodně se permutují (zamíchají). Tuto funkci
 lze jednoduše řešit pomocí vnitřních funkcí softwaru \emph{Mathematica}
-\texttt{Tuple} a~\texttt{Ran\-domSample}. % todo rozdeleni slov
+\texttt{Tuple} a~\texttt{Ran\-domSample}.
 
 
 \paragraph{Matice $D$} \hfil \\
@@ -2592,7 +2604,7 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 
 
 % todo pozice
-\clearpage
+\newpage
 
 
 
@@ -2615,23 +2627,125 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 
 
 
+
 % ====================================================================
-\section{Měření}
+% ====================================================================
+% ====================================================================
+\chapter{Měření}\label{kap_mereni}
+
+
+
+% ====================================================================
+\section{Velikosti klíčů}
+Analyticky
+
+
+% ====================================================================
+\section{Způsob měření}
+Při měřen
+
+
+
+% ====================================================================
+\section{Naměřená data}
+Použitý git -- ve větvi \texttt{mereni} \url{...}. Na Přiloženém disku je umístěno
+v~podadresáři \texttt{implementace/mereni}.
+
 
 Jistě je vhodné implementovat Chien search či počítání násobení a mocnin pomocí
 primitivního prvku.
 
-Použitý git -- ve větvi měření \url{...}. Na Přiloženém disku je umístěno
-v~podadresáři \texttt{implementace/mereni}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_generovani.pdf}
+    \caption{
+        Závislost doby generování klíčů na parametru~$t$ (při různých
+        volbách~$m$
+    }
+    \label{obr_mereni_t_gen}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_sifrovani.pdf}
+    \caption{
+        Závislost doby šifrování zprávy na parametru~$t$ (při různých
+        volbách~$m$
+    }
+    \label{obr_mereni_t_sifr}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_desifrovani.pdf}
+    \caption{
+        Závislost doby dešifrování zprávy na parametru~$t$ (při různých
+        volbách~$m$
+    }
+    \label{obr_mereni_t_desifr}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_generovani.pdf}
+    \caption{
+        Závislost doby generování klíčů na parametru~$m$ (parametr~$t$ je
+        zvolen jako polovina maximální možné hodnoty~$t$)
+    }
+    \label{obr_mereni_m_gen}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_sifrovani.pdf}
+    \caption{
+        Závislost doby šifrování zprávy na parametru~$m$ (parametr~$t$ je zvolen
+        jako polovina maximální možné hodnoty~$t$)
+    }
+    \label{obr_mereni_m_sifr}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_desifrovani.pdf}
+    \caption{
+        Závislost doby dešifrování zprávy na parametru~$m$ (parametr~$t$ je
+        zvolen jako polovina maximální možné hodnoty~$t$)
+    }
+    \label{obr_mereni_m_desifr}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_generovani.png}
+    \caption{
+        Poměr významných částí výpočtu při generování klíčů v~závislosti na
+        parametru~$t$ (při $m=8$)
+    }
+    \label{obr_mereni_pomer_gen}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_desifrovani.png}
+    \caption{
+        Poměr významných částí výpočtu při dešifrování zprávy v~závislosti na
+        parametru~$t$ (při $m=8$)
+    }
+    \label{obr_mereni_pomer_desifr}
+\end{figure}
+
+
+
+
 
 
 % ====================================================================
 % ====================================================================
 % ====================================================================
 \begin{conclusion}
-        %sem napište závěr Vaší práce
-    draft \cite{Schanck}
-    Zdůraznit dřinu, která byla odvedena, rozumně se pochválit
+    %Zdůraznit dřinu, která byla odvedena, rozumně se pochválit
 \end{conclusion}
 
 
