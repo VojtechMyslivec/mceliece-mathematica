@@ -71,17 +71,21 @@
 % stejně jako s poděkováním :-(
 \abstractEN{In this work, we deal with a code-based public-key cryptosystem
     \emph{McEliece} which is one of the candidates for post-quantum
-    cryptography.  We provide a~definition of the cryptosystem, its variant for
-    digital signature scheme, and we focus on the cryptanalysis and practical
-    aspects of this cryptosystem. An illustrative implementation in Wolfram
-    Mathematica software was developed and we evaluated the time complexity of
-    the algorithms.
-} %TODO
+    cryptography. We provide a~definition of the cryptosystem, its variant for
+    digital signature scheme, and we focus on the practical aspects of this
+    cryptosystem and its cryptanalysis. We evaluate the time complexity of
+    the algorithms using an illustrative implementation in Mathematica.
+}
 
-\keywordsCS{McEliece, asymetrická kryptografie, postkvantová kryptografie,
-binární Goppa kódy, konečná tělesa, polynomy, Wolfram Mathematica}
-\keywordsEN{McEliece, public-key cryptography, post-quantum cryptography, binary
-Goppa codes, finite fields, polynomials, Wolfram Mathematica}
+\keywordsCS{
+    McEliece, asymetrická kryptografie, postkvantová kryptografie, binární Goppa
+    kódy, konečná tělesa, polynomy, Wolfram Mathematica
+}
+
+\keywordsEN{
+    McEliece, public-key cryptography, post-quantum cryptography, binary Goppa
+    codes, finite fields, polynomials, Wolfram Mathematica
+}
 
 
 
@@ -110,6 +114,10 @@ jsou mnohonásobně větší, než klíče u~aktuálně používaných šifer (\
 roste, a~to především díky tomu, že je to jeden z~kandidátů pro postkvantovou
 asymetrickou kryptografii.
 
+
+% ====================================================================
+\section*{Motivace a cíl práce}
+
 Za téměř 40 let, co je algoritmus veřejně znám, nebyl nalezený algoritmus pro
 kvantový počítač, který by dokázal \emph{kryptosystém} prolomit rychleji, než na
 běžných počítačích~\cite{Dinh}. Mezi kandidáty pro tzv. postkvantovou dobu je
@@ -119,8 +127,18 @@ s~kvazi-cyklickými \emph{MDPC} kódy se vyskytla v~draftu z~roku \emph{2016}
 společnosti \emph{IEEE} mezi doporučenými \emph{postkvantovými} asymetrickými
 kryptosystémy~\cite{Schanck}.
 
-\vfil
-% TODO nejake propojeni
+V~posledních letech se tomuto \emph{kryptosystému} (jako i~dalším post-kvantovým
+algoritmům) věnuje čím dál více pozornosti. Cílem práce je získat ucelený pohled
+na tento \emph{kryptosystém} a demonstrovat použití tohoto algoritmu na ukázkové
+implementaci. Dále je důležité prozkoumat existující kryptoanalýzy tohoto
+kryptosystému a zdůraznit jeho slabiny. V~práci se budeme věnovat dílčím
+oblastem a~algoritmům, které tento kryptosystém využívá. Na konci práce se
+věnujeme měřením výpočtu a~zdůrazníme tak kritická místa, na které je dobré se
+soustředit.
+
+
+% ====================================================================
+\section*{Struktura práce}
 
 V~\ref{kap_mceliece}.~kapitole představíme \emph{kryptosystém} \emph{McEliece}
 tak, jak byl definován v~původní publikaci \emph{Roberta McEliece}, uvedeme jeho
@@ -147,7 +165,6 @@ složitostí algoritmů na této implementaci.
 
 \vfil
 
-
 \paragraph{Poznámka:} V~práci předpokládáme základní znalosti z~teorie kódování
 a obecné algebry. Tyto znalosti jsou potřeba pro pochopení definice
 \emph{kryptosystému} a~též i~jeho použití. Pro případné ujasnění těchto poznatků
@@ -168,6 +185,7 @@ a~teorii kódování v~příloze~\ref{app_kodovani}.
 \chapter{Kryptosystém McEliece}\label{kap_mceliece}
 
 
+% v teto kapiotle popisujeme
 V~následujících podkapitolách je popsán kryptosystém \emph{McEliece}, jak byl
 definován v~\cite{McEliece}. V~této kapitole jsou použité základní termíny
 z~oblasti kódování, které jsou případně ujasněné v~příloze~\ref{app_kodovani}.
@@ -179,20 +197,21 @@ s~hodnotami z~tělesa $GF(2)$, respektive s~\emph{bity}.
 
 
 % ====================================================================
-\section{Generování klíčů}
+\section{Generování klíčů}\label{kap_generovani_klicu}
 
 Generování klíčů probíhá následovně:
 
 \begin{enumerate}
-    \item Zvolíme \emph{lineární kód}\footnote{
+    \item Zvolíme \emph{lineární kód}~$\mathcal{K}$ s~parametry~$(n,k,t)$
+        (opravující~$t$ chyb) a~$k \times n$ \emph{generující mati\-cí}~$G$,
+        pro který je znám efektivní dekódovací algoritmus\footnote{
             V~článku je kryptosystém definovaný pro libovolný \emph{lineární
             kód} opravující zvolený počet chyb a jsou zmíněny \emph{Goppa} kódy
-            jako vhodný příklad k~použití. Jak ukážeme dále, ne všechny
-            lineární kódy jsou pro \emph{McEliece} vhodné.
-        } $(n,k)$, opravující $t$ chyb (a pro který je znám efektivní dekódovací
-        algoritmus) s~odpovídající $k \times n$ \emph{generující mati\-cí}~$G$.
-    \item Vygenerujeme \emph{náhodnou} $k \times k$ \emph{regulární} matici $S$.
-    \item Vygenerujeme \emph{náhodnou} $n \times n$ \emph{permutační} matici $P$.
+            jako vhodný příklad k~použití. Jak ukážeme dále, ne všechny lineární
+            kódy jsou pro \emph{McEliece} vhodné.
+        }.
+    \item Vygenerujeme \emph{náhodnou} $k \times k$ \emph{regulární} matici~$S$.
+    \item Vygenerujeme \emph{náhodnou} $n \times n$ \emph{permutační} matici~$P$.
     \item Vypočítáme $k \times n$ matici $\hat{G} = S G P$.
 \end{enumerate}
 
@@ -206,7 +225,7 @@ $S$. Pravděpodobnost, že náhodná čtvercová matice nad $GF(2)$ je regulárn
 přibližně $33$\;\%.  Toto tvrzení nebylo dokázáno, nicméně numerické výpočty
 tomu nasvědčují~\cite{Heyse}. Pro získání této matice je tak v~průměru potřeba
 vygenerovat $3$~náhodné matice, což znamená $3\times n^2$\;bitů. Efektivněji je
-možné matice generovat například dle~\cite{Randall}
+možné matice generovat například dle~\cite{Randall}.
 
 
 
@@ -230,7 +249,8 @@ následujícím způsobem:
             pracích na toto téma se uvádí právě $t$. Důvody jsou vysvětleny
             v~kapitole~\ref{kap_kryptoanalyza}.
         }.
-    \item Šifrovou zprávu $c$ délky $n$ sestrojíme následujícím způsobem:
+    \item Šifrovou zprávu~$c$ délky~$n$ sestrojíme zakódováním generující
+        maticí~$\hat{G}$ a~přičtením chybového vektoru~$z$.
         $$ c = m \hat{G} + z $$
 \end{enumerate}
 
@@ -241,7 +261,7 @@ Obdrženou zašifrovanou zprávu $c$ (délky $n$) dešifrujeme následujícím z
 \begin{enumerate}
     \item Vypočítáme vektor $\hat{c}$ délky $n$: $\hat{c} = c P^{-1}$.
     \item Vektor $\hat{c}$ dekódujeme zvoleným kódem na vektor $\hat{m}$ \\
-        $\hat{m} = Dek_{G}\left(\hat{c}\right)$
+        $\hat{m} = Dek_{\mathcal{K}}\left(\hat{c}\right)$
     \item Vypočítáme původní zprávu $m$: $m = \hat{m} S^{-1}$
 \end{enumerate}
 
@@ -263,7 +283,7 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
         Z~poslední rovnosti je vidět, že dekódováním je získán vektor $\hat{m}$,
         neboť $\hat{z}$ je vektor s~\emph{Hammingovou vahou} maximálně $t$
         (matice $P$ jen přehází jednotlivé bity vektoru $z$).
-        $$ Dek_{G}\left(\hat{c}\right) = \hat{m} $$
+        $$ Dek_{\mathcal{K}}\left(\hat{c}\right) = \hat{m} $$
 
     \item V~posledním kroku stačí opět dosadit výše použitou substituci:
         $$ \hat{m} S^{-1} = m S S^{-1} = m $$
@@ -376,19 +396,17 @@ kódu je \emph{NP-těžký} problém \cite{Berlekamp1}.
 \paragraph{Naznačení problému} \hfil \\
 V~případě, že by byl chybový vektor \emph{nulový}, platila by rovnost
 $c = m\hat{G}$. Výběrem $k$ \emph{dimenzí} (množina dimenzí
-$\mathcal{K} \subset \{1,2,\ldots,n\}$ mající $k$ prvků) vznikne
-$\hat{G}_{\mathcal{K}}$~a~$c_{\mathcal{K}}$ z~matice~$\hat{G}$ respektive
-vektoru~$c$. Pokud je $\hat{G}_{\mathcal{K}}$ regulární, lze řešit soustavu
+$\mathcal{D} \subset \{1,2,\ldots,n\}$ mající $k$ prvků) vznikne
+$\hat{G}_{\mathcal{D}}$~a~$c_{\mathcal{D}}$ z~matice~$\hat{G}$ respektive
+vektoru~$c$. Pokud je $\hat{G}_{\mathcal{D}}$ regulární, lze řešit soustavu
 $k$ nerovnic pro $k$ neznámých ($m_i$) v~polynomiálním (!) čase
 $O\left(k^3\right)$:
-$$ c_{\mathcal{K}} = m \hat{G}_{\mathcal{K}} $$
+$$ c_{\mathcal{D}} = m \hat{G}_{\mathcal{D}} $$
 
-% todo pozice
-\newpage
 
 Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
 náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
-pravděpodobnost, že $c_{\mathcal{K}}$ (ve výběru $k$ dimenzí) je bez chyby je
+pravděpodobnost, že $c_{\mathcal{D}}$ (ve výběru $k$ dimenzí) je bez chyby je
 $\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
 % TODO je ta pravděpodobnost správně?
 pro vyřešení jedné soustavy rovnic je to přibližně:
@@ -867,11 +885,14 @@ Matice $VD$ tedy splňuje definici \emph{kontrolní} matice a~navíc je jednodu�
 na sestrojení než $KVD$. Proto \emph{kontrolní} matici \emph{binárního Goppa}
 kódu definujeme jako $H=VD$.
 
-$H$ je $n \times t$ matice nad tělesem $GF(2^m)$. $H$ nad $GF(2)$ získáme
-jednoduše \uv{rozbalením} prvků $GF(2^m)$ do sloupcových vektorů $m$ bitů.
-\emph{Binární kontrolní} matice $H$ pak má rozměry $n \times r =
-(2^m) \times (mt)$ a~\emph{generující} matici $G$ získáme klasickým převodem,
-jak bylo popsáno v~příloze~\ref{app_linearni_kody}.
+$H$ je $t \times n$ matice nad tělesem $GF(2^m)$. $H$ nad $GF(2)$ získáme
+jednoduše \uv{rozbalením} prvků $GF(2^m)$ do sloupcových vektorů $m$\;bitů.
+Z~každé řádky nad $GF(2^m)$ tedy vznikne $m$ řádků nad $GF(2)$ a~tato
+\emph{kontrolní} matice~$H$ pak má rozměry $r \times n = (mt) \times (2^m)$.
+\emph{Generující} $k \times n$ matici~$G$ získáme klasickým převodem těchto
+matic u~\emph{lineárních kódů}\footnote{
+    Pro úplnost tento postup uvádíme v~příloze~\ref{app_linearni_kody}.
+}.
 
 
 
@@ -931,6 +952,13 @@ provedeme následující kroky pro opravení vzniklých chyb:
 Odvození tohoto algoritmu je možné nalézt v~\cite{Patterson}. Poznámky
 k~jednotlivým krokům algoritmu uvádíme níže.
 
+
+\paragraph{Předpočítané dílčí syndromy} \hfil \\
+Pro výpočet syndromu přijatého slova je nutné počítat výraz $(x-L_i)^{-1}$ (pro
+každý prvek podpory~$L_i$, kde odpovídající bit $c_i$ je rovný $1$). Tento výraz
+je stejný pro dekódování \emph{každého} slova a~je tedy vhodné si tyto tzv.
+\emph{dílčí syndromy} předpočítat a~uložit je v~rámci parametrů určující daný
+kód~$\Gamma$.
 
 \paragraph{Výpočet odmocniny} \hfil \\
 Odmocninu v~rozšířeném binárním tělese můžeme jednoduše odvodit. Prvek $r$ je
@@ -1117,7 +1145,7 @@ $$
     = \frac{\sum_{i=0}^{j}\binom{t}{i}\binom{n-t}{k-i}}{\binom{n}{k}}
 $$
 
-A~počet všech vektorů $e_\mathcal{K}$, jejichž \emph{Hammingova váha} je menší
+A~počet všech vektorů $z_\mathcal{K}$, jejichž \emph{Hammingova váha} je menší
 než $j$ (tedy počet vektorů, které je třeba vyzkoušet a~zprávu $c$ dle tohoto
 vektoru invertovat) je
 $$ N_j = \sum_{i=0}^{j}\binom{k}{i} $$
@@ -1308,10 +1336,10 @@ Dešifrování proběhne naprosto bezchybným způsobem, ale účastník získá
 původní zprávy $m_1$ podvrženou zprávu $m_1+m_2$.
 
 \begin{align*}
-    D_G\left(c\right) &= D_G\left( c_1 + c_2 \right) = \\
-                      &= D_G\left( (m_1\hat{G} + z) + m_2\hat{G} \right) = \\
-                      &= D_G\left( (m_1+m_2)\hat{G} + z~\right) =\\
-                      &= (m_1+m_2)
+    D_{SK}\left(c\right) &= D_{SK}\left( c_1 + c_2 \right) = \\
+                         &= D_{SK}\left( (m_1\hat{G} + z) + m_2\hat{G} \right) = \\
+                         &= D_{SK}\left( (m_1+m_2)\hat{G} + z~\right) = \\
+                         &= (m_1+m_2)
 \end{align*}
 
 Podobnou slabinu mají i algoritmy \emph{RSA} či \emph{ElGamal}~\cite{FIT_KRY}.
@@ -1419,12 +1447,12 @@ se šifrovým textem.
 % ====================================================================
 \chapter{Moderní varianty a úpravy}\label{kap_upravy}
 
-Použití kryptosystému \emph{McEliece} tak, jak byl popsán na začátku kapitoly
-\ref{kap_mceliece} by bylo pro účely šifrování velmi nerozumné a nepraktické. To
-hlavně z~důvodu slabin, kterými algoritmus trpí (kapitola \ref{kap_slabiny})
-a~velikosti klíčů, které jsou v~základní variantě větší než je nezbytně nutné.
-V~následujících kapitolách probereme několik úprav \emph{kryptosystému} pro
-jeho praktické použití.
+Použití kryptosystému \emph{McEliece} tak, jak byl popsán
+v~\ref{kap_mceliece}.~kapitole by bylo pro účely šifrování velmi nerozumné
+a~nepraktické. To hlavně z~důvodu slabin, kterými algoritmus trpí (viz kapitola
+\ref{kap_slabiny}) a~velikosti klíčů, které jsou v~základní variantě větší než
+je nezbytně nutné.  V~následujících kapitolách probereme několik úprav
+\emph{kryptosystému} pro jeho praktické použití.
 
 
 
@@ -1438,7 +1466,7 @@ Metody na snížení velikosti klíčů se zaměřují hlavně na použití kód
 možné definovat kompaktním způsobem a~způsob uložení či generování
 matic~$S$~a~$P$.
 
-Zatím byly všechny pokusy vyměnit původní \emph{Goppa kódy} jinými,
+Zatím byly všechny pokusy nahradit původní \emph{Goppa kódy} jinými,
 kompaktnějšími lineárními kódy, neúspěšné. Nalezly se slabiny ve struktuře kódu,
 které lze využít pro jejich sestrojení bez znalosti tajných matic $S$ a~$P$ (viz
 kapitola~\ref{kap_utoky_na_strukturu_kodu}. Jediné alternativní kódy, jejichž
@@ -1446,17 +1474,20 @@ použití zatím nebylo prolomeno, jsou \emph{kvazi-dyadické Goppa kódy}, kter
 zmíníme v~kapitole~\ref{kap_kvazi} a~\emph{MDPC} kódy v~kapitole~\ref{kap_MDPC}.
 
 Kromě definovaného kódu jsou v~\emph{soukromém klíči} obsažené též dvě velké
-matice $S$ a~$P$. Snížením velikosti těchto matic se zabývá následující
-kapitola.
+matice $S$ a~$P$. Snížením velikosti těchto matic se zabýváme v~podkapitole~.
 
-Veřejný klíč je pouze jedna matice -- \uv{zamaskovaná} generující $n \times k$
+
+% --------------------------------------------------------------------
+\subsection{Matice $\hat{G}$ v~systematické formě}
+
+Veřejný klíč je pouze jedna matice -- \uv{zamaskovaná} generující $k \times n$
 matice $\hat{G}$. Jako jediný způsob pro snížení počtu bitů tohoto veřejného
 klíče je uložení matice v~\emph{systematické formě}. V~takovém případě není
 třeba udávat prvních $k$~sloupců -- je jasné, že odpovídají \emph{jednotkové
-matici} $I_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě} se tedy
-ušetří $k^2$ bitů, což při rozumných parametrech odpovídá až $75 $\;\% velikosti
-matice $\hat{G}$. Aby byla zachována bezpečnost kryptosystému při použití takové
-matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz
+matici} $\mathbb{I}_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě}
+se tedy ušetří $k^2$ bitů, což při rozumných parametrech odpovídá až $75$\;\%
+velikosti matice $\hat{G}$. Aby byla zachována bezpečnost kryptosystému při
+použití takové matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz
 kapitola~\ref{kap_cca2}).
 
 
@@ -1582,7 +1613,8 @@ V~následujícím algoritmu použijeme toto značení:
     $E_{\hat{G}}(m,e)$
                     &   šifrovací algoritmus \emph{McEliece} (vstupem je
                         zpráva $m$ a chybový vektor $z$) \\
-    $D_G(c)$        &   dešifrovací algoritmus \emph{McEliece} \\
+    $D_{SK}(c)$     &   dešifrovací algoritmus \emph{McEliece} se soukromým
+                        klíčem $SK$ \\
     $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
     $LSB_n(l)$      &   $n$ nejméně významných (pravých) bitů vektoru $l$ \\
 \end{tabular}
@@ -1637,7 +1669,7 @@ V~následujícím algoritmu použijeme toto značení:
     \begin{algorithmic}[1]
         \Function{decrypt}{ $c$, $const$ }
         \State $ y_5 \gets MSB_{|c|-n} $
-        \State $ (y_3,e) \gets D_G(LSB_n(c)) $
+        \State $ (y_3,e) \gets D_{SK}(LSB_n(c)) $
             \Comment{4.}
         \State $ y_4 \gets conv^{-1}(e) $
             \Comment{3.}
@@ -1679,11 +1711,11 @@ implementovány přímo v~softwaru \emph{Mathematica} tak, aby bylo možné jeji
 pohodlné použití i~v~jiných oblastech.
 
 Celkově byla práce rozdělena do třech ucelených částí -- (binární) \emph{konečná
-tělesa}, (ireducibilní) \emph{binární Goppa kódy} a~\emph{kryptosystém McEliece}
---, kde každou z~nich lze využít jako \emph{balík} či \emph{knihovnu} pro další
-výpočty. V~následujících sekcích popíšeme jednotlivé části implementace, včetně
-použitých algoritmů a~příkladů výpočtů. Příklady použití a~zdrojové kódy
-implementace jsou k~nalezení na přiloženém disku a~též online
+tělesa}, (ireducibilní) \emph{binární Goppa kódy} a~\emph{kryptosystém
+McEliece}. Každou z~těchto částí lze využít jako \emph{balík} či \emph{knihovnu}
+pro další výpočty. V~následujících sekcích popíšeme jednotlivé části
+implementace, včetně použitých algoritmů a~příkladů výpočtů. Příklady použití
+a~zdrojové kódy implementace jsou k~nalezení na přiloženém disku a~též online
 na~\url{https://github.com/VojtechMyslivec/mceliece-mathematica}.
 
 
@@ -1692,12 +1724,19 @@ na~\url{https://github.com/VojtechMyslivec/mceliece-mathematica}.
 \section{Binární konečná tělesa}\label{kap_implementace_teles}
 
 V~této podkapitole pojednáváme o~implementaci \emph{binárních konečných těles}
-včetně jejich \emph{rozšíření}. Zmíníme existující řešení v~softwaru
-\emph{Mathematica}, zvolenou implementaci a~popíšeme implementované algoritmy.
+včetně jejich \emph{rozšíření}. V~podkapitole~\ref{kap_existujici_reseni}
+zmíníme existující řešení v~softwaru \emph{Mathematica}
+a~v~\ref{kap_zvolene_reseni} odůvodníme a~představíme zvolené řešení
+implementace. Dále se v~podkapitole~\ref{kap_implementace_operaci} detailně
+věnujeme implementovanými algoritmy a~též jsou zde uvedené příklady výpočtů.
+Nakonec v~\ref{kap_telesa_mozna_zlepseni} zmíníme některá možná zlepšení
+implementovaných operací.
 
+\paragraph{Poznámka:} Potřebná teorie z~oblasti obecné algebry a~především
+konečných těles je k~nalezení v~příloze~\ref{app_algebra}.
 
 % --------------------------------------------------------------------
-\subsection{Existující řešení}
+\subsection{Existující řešení}\label{kap_existujici_reseni}
 
 Pro operace s~\emph{konečnými tělesy} v~softwaru \emph{Mathematica} byly
 prostudovány interní funkce pro operace s~polynomy a~externí balík
@@ -1753,7 +1792,7 @@ balíku pro operace s~\emph{rozšířenými tělesy}.
 
 
 % --------------------------------------------------------------------
-\subsection{Zvolené řešení}
+\subsection{Zvolené řešení}\label{kap_zvolene_reseni}
 
 Existující řešení pro práci s~\emph{konečnými tělesy} se ukázala jako
 nedostačující. Jejich hlavní nevýhodou je nemožnost použití při výpočtech
@@ -1832,11 +1871,12 @@ charakteristikou není chování funkcí definováno.
 
 
 % --------------------------------------------------------------------
-\subsection{Implementace operací}
+\subsection{Implementace operací}\label{kap_implementace_operaci}
 
 V~následujících kapitolách je popsána implementace hlavních operací
 v~\emph{konečných tělesech} a použitých algoritmů. Pro další informace je
-doporučeno nahlédnout do zdrojového kódu a~příkladů použití.
+doporučeno nahlédnout do zdrojového kódu v~souboru
+\texttt{src/rozsirenaBinarniTelesa.m} a~příkladů použití.
 
 V~níže uvedených pseudokódech se používá některých prvků ze syntaxe softwaru
 \emph{Mathematica}:
@@ -1876,6 +1916,9 @@ modulo $p$.
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
+
+%todo pozice
+\vfil
 
 
 \paragraph{Poznámka:} U~operací s~prvky z~tělesa $GF(p^n)$ jsou prvky --
@@ -1965,7 +2008,7 @@ Výsledkem násobení dvou polynomů $a$ a~$b$ stupně $n$ a~$m$ je polynom $c$
 stupně $n+m$. Násobení je implementováno tak, že k~výsledku $c$ (na počátku je
 to nulový polynom) se postupně přičítá skalární násobek polynomu $b$ koeficienty
 polynomu $a$, který je zároveň \emph{posunutý} o~patřičný počet pozic. Využívá
-se zde faktu, že násobení libovolného \emph{polynomu} $A(x)$ a~$x^i$ je posunutí
+se zde faktu, že násobení libovolného \emph{polynomu} $a(x)$ a~$x^i$ je posunutí
 koeficientů polynomu $A$ o~$i$ pozic doleva. Výsledný polynom $c$ je následně
 \emph{redukován} zadaným modulem (viz výše).
 
@@ -1998,6 +2041,9 @@ Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů} a~nás
      \EndFunction
     \end{algorithmic}
 \end{algoritmus}
+
+% todo pozice
+\vfil
 
 
 \paragraph{Příklad} Násobení polynomu $(110)x^2 + (101)x + (001)$ polynomem
@@ -2057,14 +2103,6 @@ Výpočet hodnot dalšího řádku tabulky probíhá následovně:
 Inverze v~$GF(p^n)$ je implementovaná pomocí interní funkce
 \texttt{Polynomial\-ExtendedGCD}.
 
-
-\paragraph{Poznámka:} Pro výpočet dělení je v~\emph{rozšířených tělesech}
-potřeba vypočítat inverzi největšího koeficientu dělitele\footnote{
-    Zde je patrná rekurzivní vlastnost tohoto algoritmu, kdy pro výpočet inverze
-    prvku v~tělese $GF(q^n)$ je třeba vypočítat inverzi v~tělese $GF(q)$.
-} a~dále je algoritmus realizován posouváním dělitele a~následnou redukcí pomocí
-sčítání.
-
 \begin{algoritmus}[!ht]
     \caption{Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}}
     \begin{algorithmic}[1]
@@ -2090,6 +2128,14 @@ sčítání.
     \end{algorithmic}
     \label{alg_eea}
 \end{algoritmus}
+
+
+\paragraph{Poznámka:} Pro výpočet dělení je v~\emph{rozšířených tělesech}
+potřeba vypočítat inverzi největšího koeficientu dělitele\footnote{
+    Zde je patrná rekurzivní vlastnost tohoto algoritmu, kdy pro výpočet inverze
+    prvku v~tělese $GF(q^n)$ je třeba vypočítat inverzi v~tělese $GF(q)$.
+} a~dále je algoritmus realizován posouváním dělitele a~následnou redukcí pomocí
+sčítání.
 
 
 \paragraph{Příklad} \emph{Rozšířený Euklidův algoritmus} pro výpočet
@@ -2123,7 +2169,6 @@ $
 
 Pro prvky tělesa s~\emph{charakteristikou} $2$ je výhodné implementovat funkci
 \uv{na druhou} díky následujícímu tvrzení:
-
 \begin{tvrzeni}
     Nechť $A=(a_n \ldots a_2 a_1 a_0)$ je prvek tělesa s~\emph{charakteristikou}
     $2$, potom platí:
@@ -2132,17 +2177,14 @@ Pro prvky tělesa s~\emph{charakteristikou} $2$ je výhodné implementovat funkc
 
 S~využitím tohoto tvrzení je realizace funkce na počítání druhé mocniny
 triviální:
-
 \begin{itemize}
     \item Provedení druhé mocniny všech koeficientů.
     \item Proložení koeficientů polynomu nulovými koeficienty.
     \item Redukování polynomem (viz výše).
 \end{itemize}
 
-%todo pozice
-\vfil
 
-\begin{algoritmus}[!ht]
+\begin{algoritmus}[!htb]
     \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
     \begin{algorithmic}[1]
      \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
@@ -2160,11 +2202,10 @@ triviální:
 \end{algoritmus}
 
 
-
 \paragraph{Náznak důkazu}
 \begin{align*}
-    A(x)     &=  a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0 \\
-    {A(x)}^2 &=  (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) = \\
+    a(x)     &=  a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0 \\
+    {a(x)}^2 &=  (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0)\cdot(a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) = \\
              &= a_n x^n   \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) + {}                              \\
              & \qquad \vdots                                                                                 \\
              &  {} + a_2 x^2   \cdot (a_n x^n + \ldots + a_2 x^2 + a_1 x + a_0) + {}                         \\
@@ -2180,7 +2221,6 @@ triviální:
              &= \sum_{i=0}^{n} a_i^2 x^{2i}
     \hspace{2.5cm} \cong (a_n^2 0 \ldots 0 a_2^2 0 a_1^2 0 a_0^2)
 \end{align*}
-
 
 \subsubsection{Obecné umocňování}
 
@@ -2228,6 +2268,8 @@ odběrové a~časové analýze. Pro odolnou implementaci je nutné počítat ná
 \emph{vždy} a~pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
 Pseudokód i~reálná implementace je prováděna tímto (bezpečným) způsobem.
 
+% todo pozice
+\vfil
 
 \paragraph{Příklad} Algoritmus \emph{Square-and-Multiply} pro výpočet
 $\left( (11)x^2 + (10) \right)^{26}$ \emph{modulo} $(01)x^3 + (11)x + (01)$
@@ -2260,14 +2302,13 @@ $
 
 
 % --------------------------------------------------------------------
-\subsection{Možná zlepšení}
+\subsection{Možná zlepšení}\label{kap_telesa_mozna_zlepseni}
 
 V~této kapitole nastíníme možná zlepšení implementace, která zrychlují
 výpočet některých operací.
 
 
-\subsubsection{Logaritmické tabulky}
-
+\paragraph{Logaritmické tabulky} \hfil \\
 Pro zrychlení výpočtu násobení a~mocnin prvku lze v~\emph{konečném tělese}
 využít faktu, že vždy existuje \emph{primitivní prvek} a~převádět tak operace
 v~tělese na operace s~celými čísly.
@@ -2308,9 +2349,6 @@ Pro použití tohoto zrychlení výpočtů je tak nutné připravit v~paměti pr
 překladové \emph{log}- a~\emph{antilogaritmické} tabulky pro překlad prvků
 z~jedné reprezentace na druhou.
 
-% todo pozice
-\newpage
-
 Ač se tak získá podstatné zrychlení výpočtů v~tělese, existuje několik nevýhod
 tohoto přístupu:
 \begin{itemize}
@@ -2340,8 +2378,7 @@ Toto vylepšení bychom mohli využít pro operace ve \emph{vnitřním tělese}
 $GF(2^m)$, nad kterým jsou postavené polynomy v~\emph{binárních Goppa kódech}.
 
 
-\subsubsection{Implementace dělení}
-
+\paragraph{Implementace dělení} \hfil \\
 Dělení prvkem $b$ v~\emph{konečném tělese} převádíme na násobení $b^{-1}$. Pro
 výpočet \emph{podílu} se tak počítá inverze a~následně násobek. Je ale možné
 implementovat rovnou algoritmus pro dělení.
@@ -2362,14 +2399,19 @@ odpovídá výrazu $a/b$.
 
 
 % ====================================================================
-\section{Ireducibilní binární Goppa kódy}
+\section{Ireducibilní binární Goppa kódy}\label{kap_implementace_goppa_kody}
 
 Pro implementaci kryptosystému jsme zvolili \emph{ireducibilní Goppa kódy},
 které jsme popsali v~kapitole~\ref{kap_goppa_kody}.
 V~podkapitole~\ref{kap_generovani} popíšeme algoritmy, které slouží pro
-vygenerování kódu dle zadaných parametrů a~v~podkapitole~\ref{kap_patterson}
+vygenerování kódu dle zadaných parametrů a~v~\ref{kap_patterson}
 \emph{Pattersonův} algoritmus pro dekódování a~(opravu) chyb vzniklých při
-přenosu.
+přenosu. Zdrojový kód této části implementace je k~nalezení v~souboru
+\texttt{src/ireducibilni\-BinarniGoppaKody.m}.
+
+V~podkapitole~\ref{kap_goppa_ukazka} uvedeme krátký příklad generování
+\emph{Goppa kódu} a~nakonec v~\ref{kap_goppa_zlepseni} zmíníme možná zlepšení
+implementovaných algoritmů.
 
 
 % --------------------------------------------------------------------
@@ -2438,10 +2480,10 @@ matic a~podpory jsou implementovány dílčí funkce popsané níže.
 \paragraph{Generování \emph{Goppova} polynomu} \hfil \\
 Pro sestrojení \emph{ireducibilního Goppa kódu} je potřeba vygenerovat
 \emph{ireducibilní} polynom nad konečným tělesem $GF(2^m)$. Pro skutečné
-generování náhodného ireducibilního polynomu by bylo třeba implementovat test
-ireducibility polynomu (např. dle~\cite{Gao}). Pro použití \emph{Goppa} kódů
-v~této práci bylo několik ireducibilních polynomů předgenerováno v~softwaru
-\emph{SageMath}~\cite{Sage}.
+generování náhodného ireducibilního polynomu by bylo třeba implementovat
+\emph{test ireducibility polynomu} (např. dle~\cite{Gao}). Pro použití
+\emph{Goppa} kódů v~této práci bylo několik ireducibilních polynomů
+předgenerováno v~softwaru \emph{SageMath}~\cite{Sage}.
 
 
 \paragraph{Podpora $L$} \hfil \\
@@ -2453,11 +2495,11 @@ lze jednoduše řešit pomocí vnitřních funkcí softwaru \emph{Mathematica}
 
 \paragraph{Matice $D$} \hfil \\
 Matice~$D$ je diagonální $n \times n$ maticí (nad $GF(2^m)$), kde na diagonále
-jsou inverze v~$GF(2^m)$ prvků~z~$L$ dosazených do polynomu $g$, neboli $D_{i,i}
-= g(L_i)^{-1}$. Pro výpočet této matice je potřeba zadat \emph{modul} tělesa
-$GF(2^m)$, polynom~$g$ a~podporu~$L$. Výpočet je pak proveden pomocí
-\emph{aplikování} (\texttt{Map}) funkcí dosazení do polynomu a~inverze
-v~tělese na prvky seznamu $L$.\footnote{
+jsou inverze v~$GF(2^m)$ prvků~z~$L$ dosazených do polynomu $g$, neboli
+$D_{i,i} = g(L_i)^{-1}$. Pro výpočet této matice je potřeba zadat \emph{modul}
+tělesa $GF(2^m)$, polynom~$g$ a~podporu~$L$. Výpočet je pak proveden pomocí
+\emph{aplikování} (\texttt{Map}) funkcí dosazení do polynomu a~inverze v~tělese
+na prvky seznamu $L$.\footnote{
     Zde by šlo dosazení do polynomu všech prvků z~$L$ zrychlit stejným způsobem,
     jako byl uvedený u~\emph{Chienova} hledání kořenů
     v~kapitole~\ref{kap_goppa_dekodovani}.
@@ -2465,7 +2507,7 @@ v~tělese na prvky seznamu $L$.\footnote{
 
 
 \paragraph{Matice $V$} \hfil \\
-\emph{Vandermondova} $n \times t$ matice~$V$ nad $GF(2^m)$ obsahuje na prvním
+\emph{Vandermondova} $t \times n$ matice~$V$ nad $GF(2^m)$ obsahuje na prvním
 řádku \emph{jednotkové prvky} a~na dalších řádcích mocniny prvků z~$L$.
 Konkrétně tedy $V_{j,i} = L_i^{j-1}$, pro $i\geq 2$. Vypočítání všech mocnin
 pro každé $i,j$ by bylo velmi neefektivní. Rychlejší způsob je vygenerovat první
@@ -2570,21 +2612,141 @@ zprávu~$d$.\footnote{
     dimenze~$\mathcal{K}$, že~$G_\mathcal{K}$ je jednotková matice.
 }
 
+% todo pozice
+\vfil
 
 % --------------------------------------------------------------------
-\subsection{Možná zlepšení}
+\subsection{Ukázka}\label{kap_goppa_ukazka}
 
+V~této sekci uvádíme krátkou ukázku vygenerovaného kódu s~parametry $m = 3$
+a~$t = 2$. Ukázky s~většími parametry a~příklady použití jsou připravené
+v~souboru \texttt{ireducibilniBinarniGoppaKody.nb}.
+
+\paragraph{Příklad:} \hfil \\
+Máme ireducibilní \emph{Goppův} polynom $g(x) = (001)x^2 + (100)x + (001)$ nad
+tělesem $GF(2^m)$ s~ireducibilním polynomem $1011$.
+
+Vygenerujeme podporu~$L$, což je posloupnost~o~$2^m = 8$~prvcích z~vnitřního
+tělesa $GF(2^m)$, neboli náhodná permutace všech prvků z~tohoto tělesa.
+$$
+    L = \left(
+            100, 001, 111, 011, 010, 000, 101, 110 \\
+    \right)
+$$
+
+Sestrojíme \emph{Vandermondovu} matici~$V$ a~\emph{diagonální} matici~$D$. Pro
+prvky matice~$V$ platí předpis $V_{j,i} = L_i^{j-1}$, tedy první řádek jsou
+\emph{jednotky} z~\emph{vnitřního} tělesa a~po řádkách vždy přinásobíme
+\emph{podporu}~$L$.
+$$
+    V = \left(
+        \begin{array}{*{8}{c}}
+            001 & 001 & 001 & 001 & 001 & 001 & 001 & 001 \\
+            100 & 001 & 111 & 011 & 010 & 000 & 101 & 110 \\
+        \end{array}
+    \right)
+$$
+
+Prvky na hlavní diagonále matice~$D$ mají tvar $D_{i,i} = g(L_i)^{-1}$:
+$$
+    D = \left(
+        \begin{array}{*{8}{c}}
+            001 &     &     &     &     &     &     &     \\
+                & 111 &     &     &     &     &     &     \\
+                &     & 110 &     &     &     &     &     \\
+                &     &     & 110 &     &     &     &     \\
+                &     &     &     & 011 &     &     &     \\
+                &     &     &     &     & 001 &     &     \\
+                &     &     &     &     &     & 111 &     \\
+                &     &     &     &     &     &     & 011 \\
+        \end{array}
+    \right)
+$$
+
+% todo pozice
+\newpage
+
+Vynásobením těchto dvou matic získáme \emph{kontrolní} matici~$H$ (nad
+$GF(2^m)$) \emph{ireducibilního binárního Goppa kódu}~$\Gamma$:
+$$
+    H = VD = \left(
+        \begin{array}{*{8}{c}}
+            001 & 111 & 110 & 110 & 011 & 001 & 111 & 011 \\
+            100 & 111 & 100 & 001 & 110 & 000 & 110 & 001 \\
+        \end{array}
+    \right)
+$$
+a rozbalením vektorů do sloupců nad $GF(2)$:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    H = \left(
+        \begin{array}{*{8}{c}}
+            0   & 1   & 1   & 1   & 0   & 0   & 1   & 0   \\
+             0  &  1  &  1  &  1  &  1  &  0  &  1  &  1  \\
+              1 &   1 &   0 &   0 &   1 &   1 &   1 &   1 \\
+            \\
+            1   & 1   & 1   & 0   & 1   & 0   & 1   & 0   \\
+             0  &  1  &  0  &  0  &  1  &  0  &  1  &  0  \\
+              0 &   1 &   0 &   1 &   0 &   0 &   0 &   1 \\
+        \end{array}
+    \right)
+$$
+
+$H$ je pak možné převést na generující matici~$G$ tohoto kódu (standardním
+způsobem pro \emph{lineární kódy}, který je případně uveden
+v~příloze~\ref{app_linearni_kody}):
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    G = \left(
+        \begin{array}{*{8}{c}}
+            1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 \\
+            1 & 1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+        \end{array}
+    \right)
+$$
+kde \emph{informačními} bity jsou tedy například poslední dva bity přijatého
+slova.
+
+Nakonec se předpočítají \emph{syndromy} (posloupnost polynomů z~$GF(2^m)^t$) dle
+definice ${S_L}_i = (x-L_i)^{-1} = \Big( (001)(000) + L_i \Big)^{-1} =
+\Big((001)(L_i)\Big)^{-1}$
+\begin{align*}
+    S_L = \big( & \\
+                & \quad (001)(000), \quad (111)(110), \quad (110)(001), \quad (110)(100), \\
+                & \quad (011)(001), \quad (001)(100), \quad (111)(111), \quad (011)(110)  \\
+    \big)       &
+\end{align*}
+
+Kód $\Gamma$ je určen (dle definice) \emph{polynomem}~$g(x)$,
+\emph{podporou}~$L$ a~případně vnitřním tělesem $GF(2^m)$ (jeho modulem).
+K~těmto hodnotám ještě přidáme předpočítané \emph{syndromy}~$S_L$, aby se při
+každém dekódování nebylo nutné zbytečně počítat. Tento vygenerovaný kód $\Gamma$
+má parametry~$(n,k,t) = (8,2,2)$
+
+
+
+% --------------------------------------------------------------------
+\subsection{Možná zlepšení}\label{kap_goppa_zlepseni}
+
+V~následujících odstavcích se krátce zmíníme o~více či méně významných
+zlepšeních, který by bylo vhodné implementovat.
+
+\paragraph{Generování ireducibilních polynomů} \hfil \\
 Pro praktické použití Goppa kódů v~oblasti bezpečnosti je potřeba generovat
 \emph{ireducibilní} polynomy~$g$ náhodně. Pro účely této práce bylo
 předgenerováno pouze několik ireducibilních polynomů a~v~případě rozvíjení této
 implementace by bylo vhodné soustředit se primárně na tuto skutečnost.
 
+\paragraph{Hledání kořenů} \hfil \\
 Nejnáročnější část dekódování je hledání kořenů \emph{lokátoru chyb}~$\sigma$.
 Opakované dosazování do polynomu lze efektivněji implementovat pomocí
 \emph{Chienova} hledání kořenů, či případně faktorizací polynomu $\sigma$. Více
 informací ohledně tohoto problému jsme uvedli
 v~kapitole~\ref{kap_goppa_dekodovani}.
 
+\paragraph{Invertování zakódování} \hfil \\
 V~případě, že je matice generována v~\emph{systematické} formě, tak zprávě~$d$
 odpovídá prvních~$k$~(informačních) bitů vektoru $c'$. Matice~$G$ však
 v~\emph{systematické} formě nemusí existovat. Aby matici šlo sestrojit v~této
@@ -2596,12 +2758,12 @@ popsali výše.  Nicméně nalezení daných dimenzí není nutné provádět op
 a~mohli bychom si tento krok předpočítat a~v~definici kódu uvádět definici pozic
 informačních bitů.
 
+\paragraph{Řád tělesa} \hfil \\
 Stejně tak je při každém dekódování počítán počet prvků tělesa pro vypočítání
 odmocniny. Tento počet prvků -- respektive číslo, na které je nutné prvek umocnit,
 abychom nalezli odmocninu -- je možné pro zrychlení výpočtu též uložit mezi
 parametry definující kód. Oproti ostatním operacím se však jedná o~minoritní
 výpočet a~tak toto zrychlení by nebylo nijak významné.
-
 
 % todo pozice
 \newpage
@@ -2611,20 +2773,381 @@ výpočet a~tak toto zrychlení by nebylo nijak významné.
 % ====================================================================
 \section{McEliece}
 
-\uv{školní varianta}
+Pro ukázkovou implementaci kryptosystému \emph{McEliece} jsme zvolili základní
+variantu \emph{kryptosystému}, která byla popsána
+v~\ref{kap_mceliece}.~kapitole. Jedná se tedy o~tzv. \uv{školní variantu}, která
+by v~praktickém použití selhala, a to hlavně kvůli slabinám, které jsme popsali
+v~kapitole~\ref{kap_slabiny}. Pro praktické použití by bylo třeba implementovat
+tzv. \emph{CCA2} odolnou konverzi, kterou jsme popsali
+v~kapitole~\ref{kap_cca2}). Jedná se však pouze o~rozšíření základní varianty
+a~je tedy možné tuto základní implementaci v~budoucnu rozvinout tak, aby
+zmíněnou \emph{CCA2} odolnou konverzi též obsahovala. Zdrojový kód této části
+implementace je k~nalezení v~souboru \texttt{src/mceliece.m}.
+
+V~podkapitole~\ref{kap_mceliece_generovani} se věnujeme implementaci algoritmu
+pro generování klíčů \emph{kryptosystému McEliece},
+v~\ref{kap_mceliece_sifrovani} pro šifrování a~v~\ref{kap_mceliece_desifrovani}
+pro dešifrování. Praktickou ukázku s~malými parametry uvádíme
+v~podkapitole~\ref{kap_mceliece_ukazka} a~nakonec v~\ref{kap_mceliece_zlepseni}
+diskutujeme možná zlepšení bezpečnosti i~efektivity implementace.
+
+% --------------------------------------------------------------------
+\subsection{Generování klíčů}\label{kap_mceliece_generovani}
+
+Generování klíčů je implementováno dle definice uvedené
+v~kapitole~\ref{kap_generovani_klicu}. Při generování klíčů je třeba vygenerovat
+lineární samoopravný kód opravující zvolený počet chyb~$t$, dále náhodnou
+\emph{regulární} $k \times k$ matici~$S$ a~náhodnou \emph{permutační}
+$n \times n$ matici~$P$. Z~generující $k \times n$ matice~$G$ zvoleného kódu
+sestrojíme veřejný klíč, matici $\hat{G}$, která vznikne součinem matic~$S$, $G$
+a~$P$.
+
+\begin{algoritmus}[!ht]
+    \caption{Generování klíčů pro McEliece}
+    \begin{algorithmic}[1]
+     \Function{generujMcEliece[ $m$, $t$ ]}{}
+        \State $ n \gets 2^m ; \quad k \gets n - tm $
+            \Comment{Rozměry matic dle \emph{Goppa} kódu}
+        \State $ GoppaKod \gets generujGoppaKod[ m, t ] $
+
+        \hfil
+
+        \State $ G \gets GoppaKod[[1]] $
+        \State $ S \gets nahodnaRegularniMatice[k] $
+        \State $ P \gets nahodnaPermutacniMatice[n] $
+
+        \hfil
+        \State $ \hat{G} \gets Dot[ S, G, P, Modulus\to2 ] $
+            \Comment{Násobení matic}
+
+        // Předpočítání inverzí
+        \State $ invS \gets Inverse[ S, Modulus\to2 ] $
+        \State $ invP \gets Inverse[ P, Modulus\to2 ] $
+
+        \hfil
+        \State $ soukromyKlic \gets \{ GoppaKod, invS, invP \} $
+        \State $ verejnyKlic  \gets \{ \hat{G} \} $
+        \State $ parametry    \gets \{ n, k, t \} $
+        \State \Return $ \{ soukromyKlic, verejnyKlic, parametry \} $
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+Použitým lineárním kódem jsou \emph{ireducibilní binární Goppa kódy}, kterými
+jsme se věnovali v~minulé kapitole. Díky tomu jsou parametry
+\emph{kryptosystému} (respektive kódu) jednoznačně určené volbou parametrů~$m$
+a~$t$, tedy $(n,k,t) = (2^m, 2^m - tm, t)$.
+
+
+\paragraph{Generování regulární matice} \hfil \\
+Generování regulární matice je realizováno velmi primitivním způsobem. Pomocí
+vnitřní funkce \texttt{RandomChoice} se vygeneruje náhodná $k \times k$ matice
+a~poté se testuje, jestli je \emph{regulární} (funkcí \texttt{MatrixRank}).
+Náhodné matice se tak opakovaně generují dokud nenalezneme matici regulární.
+
+
+\paragraph{Generování permutační matice} \hfil \\
+Permutační matice je vygenerována náhodným permutováním jednotkové
+matice~$\mathbb{I}_n$ pomocí vnitřní funkce softwaru Mathematica
+\texttt{RandomSample}.
+
+
+\paragraph{Inverze a násobení matic} \hfil \\
+Násobení matic, stejně jako jejich inverze, je v~tomto algoritmu realizováno
+pomocí vnitřních funkcí \texttt{Dot} respektive \texttt{Inverse}. Volitelný
+parametr \texttt{Modulus} určuje, že výpočet jednotlivých prvků se provádí
+v~daném modulu respektive nad tělesem $GF(2)$.
 
 
 % --------------------------------------------------------------------
-\subsection{Generování klíčů}
+\subsection{Šifrování}\label{kap_mceliece_sifrovani}
+
+Jak bylo zmíněno výše, šifrování probíhá standardním způsobem, který jsme
+ukázali v~kapitole~\ref{kap_mceliece_algoritmy}. Toto šifrování je vlastně
+prostým násobením matice vektorem a~přičtení náhodného chybového vektoru
+s~\emph{Hammingovou} vahou~$t$.
+
+\begin{algoritmus}[!ht]
+    \caption{Šifrování McEliece}
+    \begin{algorithmic}[1]
+     \Function{sifrujMcEliece[ $m$, $\hat{G}$, $parametry : \{n,k,t\}$ ]}{}
+
+        // Chybový vektor délky $n$
+        \State $ z \gets nahodnyChybovyVektor[ n, t ] $
+
+        // Zpráva $m$ délky $k$
+        \State $ b \gets Dot[ m, \hat{G}, Modulus\to2 ] $
+            \Comment{Maticové násobení}
+
+        // Výsledný šifrový text délky $n$
+        \State $ c \gets Mod[ b + z, Modulus\to2 ] $
+        \State \Return $ c $
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
+
+
+\paragraph{Násobení matic a sčítání vektorů} \hfil \\
+Stejně jako u~generování kódu je zde pro násobení matice vektorem použito
+vnitřní funkce \texttt{Dot}.  Aplikování chybového vektoru je zde možné
+realizovat jako prosté sčítání dvou vektorů -- listů -- modulo $2$.
+
+
+\paragraph{Náhodný chybový vektor} \hfil \\
+Náhodný vektor \emph{váhy}~$t$ je sestrojen pomocí náhodného permutování vektoru
+s~$t$ jedničkami a~$n-t$ nulami vnitřní funkcí \texttt{RandomSample}.
 
 
 % --------------------------------------------------------------------
-\subsection{Šifrování}
+\subsection{Dešifrování}\label{kap_mceliece_desifrovani}
+
+Dešifrování je opět implementováno tak, jak jsme tento algoritmus popsali
+v~kapitole~\ref{kap_mceliece_algoritmy}. Nejdůležitější částí tohoto algoritmu
+je dekódování přijatého slova, které je realizováno dekódováním, které jsme
+popsali v~implementaci \emph{binárních Goppa kódů}.
+
+\begin{algoritmus}[!ht]
+    \caption{Dešifrování McEliece}
+    \begin{algorithmic}[1]
+     \Function{desifrujMcEliece[ $c$, $soukromyKlic$, $parametry : \{n,k,t\}$ ]}{}
+        \State $ \{ GoppaKod, invS, invP \} \gets soukromyKlic $
+
+        // Šifrový text $c$ má délku $n$; invertování permutace
+        \State $ \hat{c} \gets Dot[ c, invP, Modulus\to2 ] $
+
+        // Dekódování zprávy; chybový vektor zde není potřeba
+        \State $ \hat{m} \gets dekodujBinarniGoppaKod[ \hat{c}, GoppaKod ][[1]] $
+
+        // invertování matice $S$
+        \State $ m \gets Dot[ \hat{m}, invS, Modulus\to2 ] $
+
+        \State \Return $ m $
+     \EndFunction
+    \end{algorithmic}
+\end{algoritmus}
 
 
 % --------------------------------------------------------------------
-\subsection{Dešifrování}
+\subsection{Ukázka}\label{kap_mceliece_ukazka}
 
+V~této sekci uvádíme krátkou ukázku vygenerování klíčů s~parametry $m = 3$
+a~$t = 2$. Ukázky s~většími parametry i~s~příkladem použití jsou připravené
+v~souboru \texttt{mceliece.nb}.
+
+\paragraph{Příklad:} \hfil \\
+Mějme \emph{ireducibilní binární Goppa kód} $\Gamma$ s~parametry
+$(n,k,t)=(8,2,2)$ s~generující maticí~$G$:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    G = \left(
+        \begin{array}{*{8}{c}}
+            0 & 1 & 1 & 1 & 0 & 1 & 0 & 1 \\
+            1 & 0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+        \end{array}
+    \right)
+$$
+
+\paragraph{Generování klíčů:} Při generování klíčů vygenerujeme náhodnou
+regulární matici~$S$ a~náhodnou permutační matici~$P$:
+$$
+\arraycolsep=3pt
+\def\arraystretch{0.8}
+    S = \left(
+        \begin{array}{*{2}{c}}
+            1 & 0 \\
+            1 & 1 \\
+        \end{array}
+    \right)
+    \quad
+    P = \left(
+        \begin{array}{*{8}{c}}
+            0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        \end{array}
+    \right)
+$$
+
+\emph{Veřejný klíč} -- matici $\hat{G}$ -- sestrojíme vynásobením těchto tří
+matic:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    \hat{G} = S G P  = \left(
+        \begin{array}{*{8}{c}}
+            1 & 0 & 0 & 1 & 1 & 0 & 1 & 1 \\
+            1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 \\
+        \end{array}
+    \right)
+$$
+
+\emph{Soukromým klíčem} pak je kód $\Gamma$, a~předpočítané matice~$S^{-1}$
+a~$P^{-1}$.
+$$
+\arraycolsep=3pt
+\def\arraystretch{0.8}
+    S^{-1} = \left(
+        \begin{array}{*{2}{c}}
+            1 & 0 \\
+            1 & 1 \\
+        \end{array}
+    \right)
+    \quad
+    P^{-1} = \left(
+        \begin{array}{*{8}{c}}
+            0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+        \end{array}
+    \right)
+$$
+
+
+\paragraph{Šifrování:} Mějme otevřený text $m=\left(\;1\;1\;\right)$. Při
+šifrování vygenerujeme náhodný chybový vektor~$z$ délky $n=8$
+a~\emph{váhy}~$t=2$ a~zašifrujeme dle předpisu:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    c = m \hat{G} + z
+      = \left(
+        \begin{array}{*{2}{c}}
+            1 & 1 \\
+        \end{array}
+    \right) \left(
+        \begin{array}{*{8}{c}}
+            1 & 0 & 0 & 1 & 1 & 0 & 1 & 1 \\
+            1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 \\
+        \end{array}
+    \right) + \left(
+        \begin{array}{*{8}{c}}
+            1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        \end{array}
+    \right)
+$$
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    c = \left(
+        \begin{array}{*{8}{c}}
+            1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 \\
+        \end{array}
+    \right)
+$$
+
+
+\paragraph{Dešifrování:} Pro dešifrování zprávy~$c$ nejdříve provedeme inverzi
+permutace:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    \hat{c} = c P^{-1} = \left(
+        \begin{array}{*{8}{c}}
+            0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 \\
+        \end{array}
+    \right)
+$$
+a~tento vektor dekódujeme kódem $\Gamma$:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    \hat{m} = D_{\Gamma}(\hat{c}) = \left(
+        \begin{array}{*{2}{c}}
+            0 & 1 \\
+        \end{array}
+    \right)
+$$
+
+Takto dekódovanou zprávu již jen vynásobíme inverzí~$S$ a~získáme tak původní
+otevřený text~$m$:
+$$
+\arraycolsep=2pt
+\def\arraystretch{0.8}
+    m = m S^{-1} = \left(
+        \begin{array}{*{2}{c}}
+            0 & 1 \\
+        \end{array}
+    \right) \left(
+        \begin{array}{*{2}{c}}
+            1 & 0 \\
+            1 & 1 \\
+        \end{array}
+    \right) = \left(
+        \begin{array}{*{2}{c}}
+            1 & 1 \\
+        \end{array}
+    \right)
+$$
+
+
+% --------------------------------------------------------------------
+\subsection{Možná zlepšení}\label{kap_mceliece_zlepseni}
+
+Pro zrychlení výpočtů, zvýšení zabezpečení implementace a~snížení velikosti
+klíčů by bylo vhodné se věnovat jistým zlepšením, které popíšeme v~následujících
+odstavcích.
+
+
+\paragraph{Generování ireducibilního polynomu} \hfil \\
+Ač jsme již tuto skutečnost popsali v~kapitole věnující se implementaci
+\emph{Goppa kódů}~\ref{kap_implementace_goppa_kody}, je vhodné kvůli bezpečnosti
+znovu zdůraznit. V~této implementaci používáme předgenerované ireducibilní
+polynomy, které definují použitý \emph{Goppa} kód. Pro praktické použití je
+třeba implementovat algoritmus, který bude ireducibilní polynomy generovat
+náhodně.
+
+
+\paragraph{Generování regulární matice} \hfil \\
+Při generování klíčů je potřeba náhodná regulární matice~$S$. Tuto matici
+získáme tak, že generujeme náhodné matice, dokud nenalezneme matici regulární.
+Jak jsme již popsali v~kapitole~\ref{kap_generovani_klicu}, existují algoritmy,
+které dokáží vygenerovat regulární matici efektivnějším způsobem~\cite{Randall}.
+Nicméně měření tohoto primitivního způsobu generování matice potvrdilo tvrzení
+z~\cite{Heyse}, že v~průměru je třeba vygenerovat přibližně 3 náhodné matice,
+abychom nad $GF(2)$ nalezli matici regulární.
+
+
+\paragraph{Permutační matice} \hfil \\
+Matici~$P$ (respektive její inverzi) lze uchovat mnohem kompaktnějším způsobem
+-- jak jsme zmínili hned v~\ref{kap_mceliece}~kapitole. Nicméně pro demonstrační
+účely jsme ponechali tuto permutaci ve formě řídké $n \times n$ matice.
+V~softwaru \emph{Mathematica} bychom permutaci mohli efektivněji uložit ve formě
+seznamu permutovaných prvků $1$ až $n$ či ve formě tzv. \emph{cyklů}.
+Vygenerovat takovou formu permutace je možné pomocí funkcí \texttt{RandomSample}
+a~\texttt{PermutationCycles} a~aplikaci této permutace provedeme funkcí
+\texttt{Permute} místo použitého maticového násobení.
+
+
+\paragraph{Systematická forma veřejného klíče} \hfil \\
+Nejjednodušší snížení velikosti \emph{veřejného} klíče je převést
+matici~$\hat{g}$ do tzv. systematického tvaru. Touto metodou jsme se zabývali
+v~kapitole~\ref{kap_snizeni_velikosti_klicu}. Pokud převedeme matici do tohoto
+tvaru, tak prvních $k$~sloupců matice~$\hat{G}$ tvoří jednotkovou matici
+$\mathbb{I}_k$ a~není třeba tuto část matice vůbec uvádět. Je tedy možné ušetřit
+$k^2$\;hodnot -- bitů. Aby však nebyla snížena bezpečnost \emph{kryptosystému},
+je nutné tuto variantu zkombinovat s~\emph{CCA2} odolnou konverzí.
+
+
+\paragraph{CCA2 odolná konverze} \hfil \\
+Jak bylo detailně ukázáno v~kapitole~\ref{kap_slabiny}, základní varianta
+použití kryptosystému \emph{McEliece} obsahuje mnoho slabin, které lze zneužít
+při útoku s~voleným šifrovým textem. Pro praktické použití při šifrování je
+potřeba implementovat šifrování dle \emph{CCA2 odolné} konverze, jakou je
+například konverze \emph{Kobara-Imai}~$\gamma$, které jsme se věnovali
+v~kapitole~\ref{kap_cca2}. Cílem této práce bylo přinést pouze ukázkovou
+implementaci pro získání představy o~\emph{kryptosystému} a~proto nebyl kladen
+důraz na implementaci této konverze.
 
 
 
@@ -2642,12 +3165,12 @@ Analyticky
 
 % ====================================================================
 \section{Způsob měření}
-Při měřen
+Při měření
 
 
 
 % ====================================================================
-\section{Naměřená data}
+\section{Výsledky měření}
 Použitý git -- ve větvi \texttt{mereni} \url{...}. Na Přiloženém disku je umístěno
 v~podadresáři \texttt{implementace/mereni}.
 
@@ -3165,15 +3688,15 @@ Galois}).
 
 Jak ukážeme dále, je vhodné prvky konečného tělesa $GF(p^n)$ reprezentovat jako
 \emph{polynomy} s~koeficienty z~množiny $\mathbb{Z}_p=\{0,1,\ldots,p-1\}$, tedy
-prvek $A \in GF(p^n)$ lze zapsat:
+prvek $a \in GF(p^n)$ lze zapsat:
 $$
-    A(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p
+    a(x) = \sum_{i=0}^{n-1} a_i x^i, a_i \in \mathbb{Z}_p
 $$
 O~takovém polynomu říkáme, že je to \emph{polynom nad tělesem $GF(p)$ (stupně
 maximálně $n-1$)}. Na prvek~$a$ je možné dívat se též jako na vektor či $n$-tici
 koeficientů~$a_i$:
 $$
-    A(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong
+    a(x) \cong a \cong (a_{n-1} a_{n-2} \ldots a_0) \cong
     a_{n-1} a_{n-2} \ldots a_0
 $$
 
@@ -3204,7 +3727,7 @@ Sčítání v~tělese $GF(p^n)$ je definováno stejně jako sčítání polynom�
 sčítání jednotlivých koeficientů je prováděno \emph{modulo $p$} (v~tělese
 $GF(p)$:
 $$
-    A(x) + B(x) = \sum a_i x^i + \sum b_i x^i =
+    a(x) + b(x) = \sum a_i x^i + \sum b_i x^i =
     \sum \left|a_i + b_i\right|_p x^i
 $$
 
@@ -3219,7 +3742,7 @@ u~sčítání. U~takto definované operace by většina prvků neměla (multipli
 Při násobení prvků opět využijeme jejich reprezentace pomocí polynomů.
 Výsledkem násobení pak je:
 $$
-    A(x) \cdot B(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
+    a(x) \cdot b(x) = \sum_{i=0}^{n-1} a_i x^i \cdot \sum_{i=0}^{n-1} b_i x^i =
     \sum_{i=0}^{2n-2} \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i
 $$
 
@@ -3227,16 +3750,16 @@ Jak je naznačeno, násobení i sčítání koeficientů se provádí \emph{modu
 (respektive v~tělese~$\mathbb{F}$).
 
 Kvůli uzavřenosti násobení v~tělese je nutné zavést operaci \uv{zbytek po dělení
-polynomu} $A(x)$ polynomem $P(x)$, neboli $A(x) \mod P(x)$. Navíc pro pro
+polynomu} $a(x)$ polynomem $p(x)$, neboli $a(x) \mod p(x)$. Navíc pro pro
 jednoznačné určení tělesa $GF(p^n)$ je třeba určit příslušný \emph{ireducibilní}
-polynom $P(x)$, který bude použitý při operaci násobení modulo $P(x)$.
+polynom $p(x)$, který bude použitý při operaci násobení modulo $p(x)$.
 
 \begin{definice}
-    Polynom $P(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
-    pro každé dva polynomy $A(x)$ a $B(x)$ nad $GF(p)$ platí:
+    Polynom $p(x)$ nad tělesem $GF(p)$ je \emph{ireducibilní} právě tehdy, když
+    pro každé dva polynomy $a(x)$ a $b(x)$ nad $GF(p)$ platí:
     $$
-        A(x) \cdot B(x) = P(x) \Rightarrow \left( deg(A(x)) = 0 \right) \lor
-        \left( deg(B(x)) = 0 \right)
+        a(x) \cdot b(x) = p(x) \Rightarrow \left( deg(a(x)) = 0 \right) \lor
+        \left( deg(b(x)) = 0 \right)
     $$
 \end{definice}
 
@@ -3252,12 +3775,12 @@ $$ (x+1)\cdot(x+1) = x^2 + \left|1+1\right|_2x + 1 = x^2+1 $$
 Nyní je možné zavést operaci násobení dvou prvků tělesa jako násobení dvou
 polynomů \emph{modulo} \emph{zadaný ireducibilní} polynom:
 $$
-    A(x) \cdot B(x) = \sum a_i x^i \cdot \sum b_i x^i =
-    \sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod P(x)
+    a(x) \cdot b(x) = \sum a_i x^i \cdot \sum b_i x^i =
+    \sum \left|\sum_{j+k=i} a_j \cdot b_k\right|_p x^i \mod p(x)
 $$
 
 
-\paragraph{Poznámka:} Pokud by zvolený $P(x)$ nebyl \emph{ireducibilní}, jednalo
+\paragraph{Poznámka:} Pokud by zvolený $p(x)$ nebyl \emph{ireducibilní}, jednalo
 by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
 \emph{multiplikativní inverze} pro některé prvky a~navíc by i~existovaly tzv.
 \emph{dělitelé nuly}.
@@ -3300,7 +3823,7 @@ provádí operací $\cdot$ v~daném tělese $F$.
 Inverze v~\emph{aditivní grupě} značíme znaménkem minus \uv{$-$} a~je z~definice
 velmi triviální:
 $$
-    \left| A(x) + (-A(x)) \right|_p = 0 \Rightarrow -A(x) =
+    \left| a(x) + (-a(x)) \right|_p = 0 \Rightarrow -a(x) =
     \sum \left|-a_i\right|_p x^i
 $$
 
@@ -3312,8 +3835,8 @@ Neboli je to aditivní inverze jednotlivých koeficientů \emph{modulo}~$p$
 Inverze v~\emph{multiplikativní grupě} značíme záporným exponentem~\uv{$^{-1}$}
 či symbolem dělení.
 $$
-    \left| A(x) \cdot A(x)^{-1} \right|_{P(x)} =
-    \left| \frac{A(x)}{A(x)} \right|_{P(x)} =
+    \left| a(x) \cdot a(x)^{-1} \right|_{p(x)} =
+    \left| \frac{a(x)}{a(x)} \right|_{p(x)} =
     \mathbf{1}
 $$
 
@@ -3428,11 +3951,11 @@ obrázku~\ref{obr_kodovani}):
     $+$     &   binární bitová operace \emph{XOR} \\
     $-$     &   inverzní operace k~$+$, tedy též \emph{XOR} \\
     $a$     &   zpráva délky $k$ \\
-    $K()$   &   operace \emph{zakódování} \\
+    $K_{\mathcal{K}}(\cdot)$ &   operace \emph{zakódování} kódem $\mathcal{K}$ \\
     $b$     &   zakódovaná zpráva délky $n$; $b=K(a)$ a zpravidla platí $n>k$ \\
     $e$     &   chybový vektor délky $n$ vzniklý při přenosu $b$ \\
     $c$     &   přijatá zpráva ($c=b+e$) \\
-    $D()$   &   operace dekódování \\
+    $D_{\mathcal{K}}(\cdot)$ &   operace dekódování kódem $\mathcal{K}$ \\
     $d$     &   \emph{dekódovaná} zpráva; $d=D(c)$ \\
     $s$     &   \emph{syndrom} přijaté zprávy/chyby (viz dále) délky $r$;
                 zpravidla platí $r=n-k$ \\
@@ -3603,7 +4126,7 @@ z~prostoru (všech) zpráv do prostoru kódových slov
 
 Operace zakódování~$K$ zprávy~$a$ potom u~\emph{lineárního} kódu odpovídá
 násobení vektoru s~generující maticí:
-$$ K_G(a) : b = aG $$
+$$ K_\mathcal{K}(a) : b = aG $$
 
 Toto maticové násobení odpovídá sečtení řádků matice~$G$, které jsou určené
 vektorem~$a$ (sečtení vektorů~$g_i$).
@@ -3611,7 +4134,7 @@ vektorem~$a$ (sečtení vektorů~$g_i$).
 \begin{definice}{Systematický kód:}
     Pokud je \emph{generující} matice kódu~$\mathcal{K}$ ve tvaru \\
     $G=(\mathbb{I}_k|F)$, kde $\mathbb{I}_k$ je jednotková matice $k \times k$
-    a~$F$ je matice $r \times k$, říkáme, že kód~$\mathcal{K}$ je
+    a~$F$ je matice $k \times r$, říkáme, že kód~$\mathcal{K}$ je
     \emph{systematický}.
 \end{definice}
 
@@ -3825,6 +4348,7 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
+    \item[AG-kódy]  \emph{Algebraicko-Geometrické} (alias \emph{Goppa}) kódy
     \item[BCH]      \emph{Bose-Chaudhuri-Hocquenghem} kódy
     \item[CPA]      \emph{Chosen Plaintext Attack} -- útok s~voleným otevřeným textem
     \item[CCA]      (\textbf{CCA1}) \emph{Chosen Ciphertext Attack} -- útok s~voleným šifrovým textem
