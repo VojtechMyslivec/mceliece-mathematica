@@ -184,31 +184,48 @@ a~teorii kódování v~příloze~\ref{app_kodovani}.
 % ====================================================================
 \chapter{Kryptosystém McEliece}\label{kap_mceliece}
 
+V~této kapitole popisujeme kryptosystém \emph{McEliece}, jak byl definován
+v~\cite{McEliece}.  Tento \emph{kryptosystém} je první asymetrický šifrovací
+algoritmus založený na samoopravných kódech a je považován za hlavního
+představitele této kategorie šifer. Jako součást šifrování se používá úmyslného
+zanesení chyby do \emph{zakódované} zprávy, čímž je informace přenášená ve
+zprávě ve své podstatě zničena, ale vlastník \emph{soukromého klíče} je však
+schopný tyto chyby správným dekódováním odstranit a~obnovit tak původní
+zašifrovanou zprávu.
 
-% v teto kapiotle popisujeme
-V~následujících podkapitolách je popsán kryptosystém \emph{McEliece}, jak byl
-definován v~\cite{McEliece}. V~této kapitole jsou použité základní termíny
-z~oblasti kódování, které jsou případně ujasněné v~příloze~\ref{app_kodovani}.
+Nejdříve v~podkapitole~\ref{kap_generovani_klicu} definujeme \emph{klíče}
+a~parametry \emph{kryptosystému}, které potom použijeme v~algoritmech pro
+\emph{šifrování} a~\emph{dešifrování} v~\ref{kap_mceliece_algoritmy}. Dále
+v~podkapitole~\ref{kap_mceliece_vlastnosti} popíšeme základní vlastnosti
+\emph{kryptosystému} a~nakonec v~\ref{kap_bezpecnost} zdůrazníme výpočetní
+problém, na kterém stojí základy \emph{bezpečnosti} tohoto \emph{kryptosystému}.
+
+% todo pozice
+\vfil
 
 
-\paragraph{Poznámka:} V~této kapitole nadále předpokládáme počítání
-s~hodnotami z~tělesa $GF(2)$, respektive s~\emph{bity}.
+\paragraph{Poznámka:} V~této kapitole jsou použité základní termíny z~oblasti
+kódování a~obecné algebry, které jsou případně ujasněné
+v~příloze~\ref{app_kodovani} a~respektive~\ref{app_kodovani}. Též nadále
+předpokládáme operace s~hodnotami z~tělesa $GF(2)$ -- respektive s~\emph{bity}.
 
+% todo pozice
+\vfil
 
 
 % ====================================================================
 \section{Generování klíčů}\label{kap_generovani_klicu}
 
-Generování klíčů probíhá následovně:
+Generování potřebných klíčů je zajištěno následovně:
 
 \begin{enumerate}
     \item Zvolíme \emph{lineární kód}~$\mathcal{K}$ s~parametry~$(n,k,t)$
-        (opravující~$t$ chyb) a~$k \times n$ \emph{generující mati\-cí}~$G$,
+        (opravující~$t$ chyb) a~$k \times n$ \emph{generující maticí}~$G$,
         pro který je znám efektivní dekódovací algoritmus\footnote{
-            V~článku je kryptosystém definovaný pro libovolný \emph{lineární
-            kód} opravující zvolený počet chyb a jsou zmíněny \emph{Goppa} kódy
-            jako vhodný příklad k~použití. Jak ukážeme dále, ne všechny lineární
-            kódy jsou pro \emph{McEliece} vhodné.
+            V~původním článku~\cite{McEliece} je kryptosystém definovaný pro
+            libovolný \emph{lineární kód} opravující zvolený počet chyb a jsou
+            zmíněny \emph{Goppa} kódy jako vhodný příklad k~použití. Jak ukážeme
+            dále, ne všechny lineární kódy jsou pro \emph{McEliece} vhodné.
         }.
     \item Vygenerujeme \emph{náhodnou} $k \times k$ \emph{regulární} matici~$S$.
     \item Vygenerujeme \emph{náhodnou} $n \times n$ \emph{permutační} matici~$P$.
@@ -216,8 +233,8 @@ Generování klíčů probíhá následovně:
 \end{enumerate}
 
 Potom čísla $k$, $n$ a $t$ jsou \emph{veřejné parametry} systému, matice
-$\hat{G}$ je \emph{veřejný klíč} a~kód s~maticí $G$ včetně matic $S$ a~$P$ je
-\emph{soukromý klíč}.
+$\hat{G}$ je \emph{veřejný klíč} a~kód s~\emph{generující} maticí~$G$ včetně
+matic $S$ a~$P$ jsou \emph{soukromým klíčem}.
 
 
 \paragraph{Poznámka:} Při generování klíčů je třeba vygenerovat regulární matici
@@ -232,10 +249,10 @@ možné matice generovat například dle~\cite{Randall}.
 % ====================================================================
 \section{Algoritmy pro šifrování a dešifrování}\label{kap_mceliece_algoritmy}
 
-V~této podkapitole uvedeme algoritmy pro šifrování a~dešifrování tak, jak
-byly definovány \emph{Robertem McEliece} v~\cite{McEliece}. Na závěr podkapitoly
-uvedeme důkaz dešifrování, neboli vysvětlení, že dešifrovacím algoritmem je
-získána původní zašifrovaná zpráva.
+V~této podkapitole uvedeme algoritmy pro šifrování a~dešifrování tak, jak byly
+definovány \emph{Robertem McEliece} v~\cite{McEliece}. Na závěr podkapitoly
+uvedeme ověření platnosti dešifrování, neboli ukážeme, že dešifrovacím
+algoritmem je opravdu získána původní zašifrovaná zpráva.
 
 
 \paragraph{Šifrování} \hfil \\
@@ -266,15 +283,15 @@ Obdrženou zašifrovanou zprávu $c$ (délky $n$) dešifrujeme následujícím z
 \end{enumerate}
 
 
-\paragraph{Důkaz dešifrování} \hfil \\
-Důkaz, že výsledkem dešifrování je opět původní zpráva je následující:
+\paragraph{Ověření správnosti dešifrovacího algoritmu} \hfil \\
+Správnost dešifrování můžeme ověřit následujícím způsobem:
 
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné rozepsat původní
         zprávu~$m$:
         $$
             \hat{c} = c P^{-1} = \left( m \hat{G} + z \right) P^{-1} =
-            \left(m S G P + z \right) P^{-1} = \hat{c} = m S G + z P^{-1}
+            \left(m S G P + z \right) P^{-1} = m S G + z P^{-1}
         $$
 
     \item Zavedeme substituci $\hat{m} = m S$ a $\hat{z} = z P^{-1}$, potom
@@ -295,7 +312,7 @@ Dešifrováním je tedy získána původní zpráva $m$.
 
 
 % ====================================================================
-\section{Základní vlastnosti kryptosystému}
+\section{Základní vlastnosti kryptosystému}\label{kap_mceliece_vlastnosti}
 
 V~této kapitole probereme základní fakta a~vlastnosti \emph{kryptosystému}.
 Popíšeme způsoby uložení a~velikost klíčů a~hlavní výhody a~nevýhody použití
@@ -315,10 +332,11 @@ matice $S^{-1}$ a~matice~$P^{-1}$.
 \subsection{Velikost klíčů}\label{kap_velikost_klicu}
 
 Největší nevýhodou \emph{kryptosystému McEliece} je velikost klíčů. Již
-v~původním článku jsou navrhovány parametry $n=1024$, $k=524$ a $t=50$\footnote{
+v~původním článku jsou navrhovány parametry $n=1024$, $k=524$ a
+$t=50$.\footnote{
     Jak bude zmíněno dále, velikost těchto parametrů je pro dnešní použití
     nedostatečná.
-}. Za použití těchto parametrů má matice $S$ (respektive její inverze)
+} Za použití těchto parametrů má matice $S$ (respektive její inverze)
 $274576$\;b $\approx 268$\;kb a~(inverze) matice $P$ $1048576$\;b $= 1$\;Mb.
 
 Matice $P$ je ve skutečnosti velmi \emph{řídká} -- každý \emph{řádek}
@@ -329,9 +347,9 @@ $=10$\;kb.
 
 % TODO odkaz na velikost kódu
 % $3 m 2^m + (1-m)mt + m + 1 $
-Při použití \emph{binárních Goppa kódů} s~těmito parametry je potřeba k~uložení
-informace o~použitém kódu $\approx 26$\;kb. Celkem se jedná o~přibližně
-$300$\;kb dat pro uložení soukromého klíče
+Při konkrétním použití doporučovaných \emph{binárních Goppa kódů} s~těmito
+parametry je potřeba k~uložení informace o~použitém kódu $\approx 26$\;kb.
+Celkem se jedná o~přibližně $300$\;kb dat pro uložení soukromého klíče
 
 Pro uložení \emph{veřejného klíče} (matice $\hat{G}$) je třeba $536576$\;b
 $=524$\;kb dat.
@@ -476,10 +494,8 @@ $S$ a~$P$ jsou \emph{soukromým klíč}.
 % --------------------------------------------------------------------
 \subsection{Algoritmy pro šifrování a dešifrování}
 
-V~této podkapitole uvedeme algoritmy pro šifrování a dešifrování
-z~\cite{Niederreiter} a~důkaz toho, že dešifrovacím algoritmem je získána
-původní zpráva.
-
+V~této podkapitole uvedeme algoritmy pro šifrování a~dešifrování
+z~\cite{Niederreiter} a~ověření správnosti dešifrovacího algoritmu.
 
 
 \paragraph{Šifrování} \hfill \\
@@ -523,8 +539,8 @@ jelikož se jedná o~permutaci. Soukromý klíč je tak trojice kód s~kontroln�
 maticí $H$, matice $\left(P^T\right)^{-1}$ a matice $\left(S^T\right)^{-1}$.
 
 
-\paragraph{Důkaz dešifrování} \hfill \\
-Důkaz, že výsledkem dešifrování je opět původní zpráva je následující:
+\paragraph{Ověření správnosti dešifrovacího algoritmu} \hfill \\
+Postup ověření správnosti dešifrování je následující:
 
 \begin{itemize}
     \item V~prvním kroku dešifrovacího algoritmu je možné výpočet rozepsat
@@ -542,10 +558,12 @@ Důkaz, že výsledkem dešifrování je opět původní zpráva je následujíc
         a pomocí dekódovacího algoritmu získáme $\hat{m}$ jako \emph{chybový
         vektor}.
 
-    \item Nakonec se jen vynásobí inverzí matice $P^T$
+    \item Nakonec se jen $\hat{m}$ vynásobí inverzí matice $P^T$
+        $$ \hat{m} \left(P^{T}\right)^{-1} = m P^{T} \left(P^{T}\right)^{-1} = m $$
 
 \end{itemize}
 
+Dešifrováním jsme tedy získali původní zprávu $m$.
 
 % --------------------------------------------------------------------
 \subsection{Vlastnosti kryptosystému}
@@ -1236,26 +1254,7 @@ pro dosažení požadované míry bezpečnosti dle \cite{Bernstein1} a~tabulka
 \ref{tab_Repka} dle \cite{Repka}. Tyto tabulky obsahují informaci o~velikosti
 \emph{veřejného klíče} v~\emph{systematické formě}. Tabulka \ref{tab_Engelbert}
 inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické složitosti šifrování
-a dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
-
-\emph{Míra bezpečnosti} původního navrženého kryptosystému
-$\left(1024,524,50\right)$ se dle~\cite{Canteaut,Repka} pohybuje mezi $50$-$60$
-\emph{bity bezpečnosti} a~tyto parametry jsou tedy pro praktické použití
-nedostatečné.
-
-
-
-% ====================================================================
-\section{Slabiny kryptosystému}\label{kap_slabiny}
-
-V~této kapitole shrneme známé slabiny kryptosystému \emph{McEliece}, se
-kterými je nutné počítat a~praktické použití šifrování pomocí \emph{McEliece}
-náležitě upravit. Většina z~těchto slabin umožňuje útok pomocí (adaptivně)
-voleného šifrového textu -- tzv. \emph{CCA2} útok,
-
-Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
-šifrového textu, kterou popíšeme v~kapitole \ref{kap_cca2}.
-
+a~dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
 
 % TODO pozice tabulek
 \begin{table}[t]
@@ -1310,6 +1309,38 @@ Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
     \label{tab_Engelbert}
     \end{center}
 \end{table}
+
+Z~těchto tabulek je vidět, že pro dosažení rozumné míry bezpečnosti je velikost
+veřejného klíče v~řádech stovek \emph{kilobajtů} až jednotek \emph{megabajtů}.
+Ač je v~dnešní době disková kapacita prakticky neomezená, tak hlavní problém je
+v~přenosu tohoto klíče při navazování komunikace. Při běžné komunikaci se
+nejdříve (bezpečným) způsobem vyměňují klíče. V~této fázi se při použití
+\emph{McEliece} musí vyměnit klíče často větší než poté samotná data.
+Navíc v~porovnání s~\emph{RSA} -- používanou asymetrickou \emph{šifrou} s~jinak
+řádově největšími klíči -- je vidět, že tato čísla jsou prakticky nepřijatelná.
+
+Na druhou stranu je vidět, že časová složitost algoritmů pro šifrování
+a~dešifrování je naopak řádově menší. Kryptosystém \emph{McEliece} má tedy
+v~porovnání s~\emph{RSA} dobré vlastnosti co se týče propustnosti šifrování
+i~dešifrování dat.
+
+\emph{Míra bezpečnosti} původního navrženého kryptosystému
+$\left(1024,524,50\right)$ se dle~\cite{Canteaut,Repka} pohybuje mezi $50$-$60$
+\emph{bity bezpečnosti} a~tyto parametry jsou tedy pro praktické použití
+nedostatečné.
+
+
+
+% ====================================================================
+\section{Slabiny kryptosystému}\label{kap_slabiny}
+
+V~této kapitole shrneme známé slabiny kryptosystému \emph{McEliece}, se
+kterými je nutné počítat a~praktické použití šifrování pomocí \emph{McEliece}
+náležitě upravit. Většina z~těchto slabin umožňuje útok pomocí (adaptivně)
+voleného šifrového textu -- tzv. \emph{CCA2} útok,
+
+Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
+šifrového textu, kterou popíšeme v~kapitole \ref{kap_cca2}.
 
 
 % --------------------------------------------------------------------
@@ -1402,7 +1433,7 @@ lze rozdělit (dle dimenzí):
 \end{align*}
 
 
-Stačí tedy út očit na dimenze určené množinou $\mathcal{J}$ a~velikost
+Stačí tedy útočit na dimenze určené množinou $\mathcal{J}$ a~velikost
 \emph{informační množiny} je tak zkrácena z~$k$ na velikost množiny
 $\mathcal{J}$.
 
@@ -1589,7 +1620,7 @@ konverze nejsou \emph{CCA2}-odolné a~stále tak umožňují např. \emph{reakč
 útok} (viz kapitola~\ref{kap_slabiny}). Sami pak navrhli 3~možné
 \emph{CCA2}-odolné konverze, z~nichž třetí -- označená jako \emph{Kobara-Imai
 $\gamma$ konverze} -- je nejúčinější. Tato konverze $\gamma$ je popsána
-algoritmem níže a~ilustrována obrázkem~\ref{obr_cca2}.
+algoritmem~\ref{alg_cca2} a~ilustrována obrázkem~\ref{obr_cca2}.
 
 
 \paragraph{Značení} \hfil \\
@@ -1647,7 +1678,7 @@ V~následujícím algoritmu použijeme toto značení:
 \vfill
 
 \begin{algoritmus}[!ht]
-    \caption{Konverze Kobara-Imai $\gamma$}
+    \caption{Konverze Kobara-Imai $\gamma$}\label{alg_cca2}
     \begin{algorithmic}[1]
         \Function{encrypt}{ $m$, $r$, $const$ }
         \State $\bar{m} \gets prep(m) $
@@ -1767,12 +1798,11 @@ polynomy od \emph{nejnižšího} členu po \emph{nejvyšší} (např. $1+x^2+x^4
 což je obrácený zápis, než je v~technické literatuře zvykem.
 
 
-\subsubsection{Balík \texttt{FiniteFields}}
+\subsubsection{Rozšiřující balík \texttt{FiniteFields}}
 
-
-\paragraph{Balík} \emph{Balík} v~softwaru \emph{Mathematica} je soubor
-obsahující rozšiřující funkce, které standardně nejsou k~dispozici. Balík je
-možné načíst pomocí funkcí \texttt{Needs}, či případně \emph{Get}.
+\emph{Balík} v~softwaru \emph{Mathematica} je soubor obsahující rozšiřující
+funkce, které standardně nejsou k~dispozici. Balík je možné načíst pomocí funkcí
+\texttt{Needs}, či případně \texttt{Get}.
 
 Balík \texttt{FiniteFields} obsahuje základní operace pro práci s~tělesy
 $GF(p^n)$. Prvky konečných těles jsou pak určené \emph{seznamem}\footnote{
@@ -2146,7 +2176,7 @@ $1101$):
 
 \begin{center}
     \begin{tabular}{r|r r}
-               Podíl &                      Zbytek &            Koeficienty \\
+               Podíl &                      Zbytek &             Koeficient \\
             \hline
             \hline
                      & $(001)(011)(011)(001)(011)$ & $               (000)$ \\
@@ -4385,7 +4415,7 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
 %TODO
 \begin{figure}
     \dirtree{%
-        .1 readme.txt
+        .1 README.md
             \DTcomment{stručný popis obsahu disku}.
         .1 implementace
             \DTcomment{adresář s~implementací v~softwaru \emph{Mathematica}}.
