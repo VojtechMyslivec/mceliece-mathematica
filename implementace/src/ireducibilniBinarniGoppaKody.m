@@ -396,6 +396,16 @@ generujBinarniGoppaKod::para  = "Nekompatibilni parametry: n = \!\(\*Superscript
 generujBinarniGoppaKod::polyG = "Nepodarilo se najit polynom G v `1` krocich.";
 generujBinarniGoppaKod::matG  = "Nepodarilo se sestrojit matici G spravnych rozmeru ([ n, k ] = [ `1`, `2` ] != [ `3`, `4` ]).";
 
+(* pomocna funkce pro vypis *)
+(* prevede matici prvku z GF(2^m) do seznamu Gridu *)
+maticeDoMrizky[mat_List] :=
+    (* Grid aplikovany na vnitrni prvky *)
+    Map[
+        Grid[{#}, Spacings -> 0] &,
+         mat,
+        {2}
+    ]
+
 generujBinarniGoppaKod[
         m_Integer /; m >= 2,
         t_Integer /; t >= 2,
@@ -435,15 +445,41 @@ generujBinarniGoppaKod[
     matH = DeleteCases[ RowReduce[ matHnadGF2, Modulus->2 ], {a__Integer} /; a == 0 ];
     matG = NullSpace[ matH, Modulus->2 ];
 
+    (* predpocitane dilci syndromy := {1/(x-Subscript[L, i]) mod G(x)}*)
+    polyX     = { jednotkovyPolynom[ p, m ], nulovyPolynom[ p, m ] };
+    syndromyL = inverze[ plus[ polyX, {#}, p ], modul ]& /@ podporaL;
+
     If[ verbose,
-        Print[ "L = ", {podporaL } // MatrixForm ];
-        (*Print["K = ",Map[MatrixForm,matK/.{nulovyPolynom[p,m]->" "},{2}]//MatrixForm];*)
-        Print[ "V = ", matV // MatrixForm ];
-        Print[ "D = ", Map[ MatrixForm, matD /. { nulovyPolynom[ p, m ]->" " }, {2} ] // MatrixForm ];
-        (*Print["H = K.V.D = ",matHnadFF//MatrixForm];*)
-        Print[ "H = V.D = ", matHnadFF // MatrixForm ];
-        Print[ "H = ", matH // MatrixForm ];
-        Print[ "G = ", matG // MatrixForm ];
+        Module[{
+                grG, grPodporaL, grSyndromyL,
+                grMatV, grMatD, grMatHnadFF
+            },
+
+            grG         = MatrixForm[{ MatrixForm[{#}]& /@ polyG }];
+            grPodporaL  = Grid[ maticeDoMrizky[{podporaL}] ];
+            grSyndromyL = Grid[{ maticeDoMrizky[syndromyL] }];
+
+            grMatV = MatrixForm[ maticeDoMrizky[matV] ];
+            grMatD = MatrixForm[
+                maticeDoMrizky[
+                    (* nulovy polynom nahradi prazdnym seznamem *)
+                    matD /. {nulovyPolynom[p, m] -> {}}
+                ],
+                TableSpacing -> {0, 0.1}
+            ];
+            grMatHnadFF = MatrixForm[ maticeDoMrizky[matHnadFF] ];
+
+            Print[ "polynom G = ", grG ];
+            Print[ "L = ( ", grPodporaL,  " )" ];
+            Print[ "syndromy L = ( ", grSyndromyL, " )" ];
+            (*Print["K = ",Map[MatrixForm,matK/.{nulovyPolynom[p,m]->" "},{2}]//MatrixForm];*)
+            Print[ "V = ", grMatV ];
+            Print[ "D = ", grMatD ];
+            (*Print["H = K.V.D = ",matHnadFF//MatrixForm];*)
+            Print[ "H = V.D = ", grMatHnadFF ];
+            Print[ "H = ", matH // MatrixForm ];
+            Print[ "G = ", matG // MatrixForm ];
+        ];
     ];
 
     (* kontrola rozmeru *)
@@ -451,10 +487,6 @@ generujBinarniGoppaKod[
         Message[ generujBinarniGoppaKod::matG, n, k, Dimensions[matG][[2]], Dimensions[matG][[1]]];
         Return[];
     ];
-
-    (* predpocitane dilci syndromy := {1/(x-Subscript[L, i]) mod G(x)}*)
-    polyX = { jednotkovyPolynom[ p, m ], nulovyPolynom[ p, m ] };
-    syndromyL = inverze[ plus[ polyX, {#}, p ], modul ]& /@ podporaL;
 
     (* vraci nasledujici hodnoty: *)
     { matG, modul, podporaL, syndromyL }
