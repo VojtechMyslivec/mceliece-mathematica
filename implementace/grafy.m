@@ -108,7 +108,7 @@ listSifr   = Reverse[ Transpose /@ Transpose[{ mereniT[[All,All,1]], mereniT[[Al
 listDesifr = Reverse[ Transpose /@ Transpose[{ mereniT[[All,All,1]], mereniT[[All,All,2,3,1]] }]      ];
 
 (* format pro graf *)
-legenda  = Style[ #, styl ]& /@ ( StringTemplate["m = `1`"][#]& /@ m );
+legenda  = Reverse[ Style[ #, styl ]& /@ ( StringTemplate["m = `1`"][#]& /@ m )];
 moznosti = Sequence[ PlotLegends->Placed[legenda,Below], moznostiPlot ];
 
 plGen    = ListPlot[ listGen,    moznosti, AxesLabel->{ osaXt, osaYs  } ]
