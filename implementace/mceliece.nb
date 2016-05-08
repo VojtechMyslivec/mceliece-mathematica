@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      8964,        285]
-NotebookOptionsPosition[      7909,        242]
-NotebookOutlinePosition[      8244,        257]
-CellTagsIndexPosition[      8201,        254]
+NotebookDataLength[      9135,        289]
+NotebookOptionsPosition[      8081,        246]
+NotebookOutlinePosition[      8414,        261]
+CellTagsIndexPosition[      8371,        258]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -200,18 +200,20 @@ Cell["\[CapitalSHacek]ifrov\[AAcute]ni", "Subsection",
  CellChangeTimes->{{3.671359808829418*^9, 3.671359830772794*^9}}],
 
 Cell[BoxData[{
- RowBox[{"zprava", "=", 
-  RowBox[{"nahodnyPolynom", "[", 
-   RowBox[{"2", ",", 
-    RowBox[{
-    "parametry", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
-   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"zprava", "=", 
+   RowBox[{"nahodnyPolynom", "[", 
+    RowBox[{"2", ",", 
+     RowBox[{
+     "parametry", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"c", "=", 
   RowBox[{"sifrujMcEliece", "[", 
-   RowBox[{"zprava", ",", "verejnyKlic", ",", "parametry"}], 
+   RowBox[{"zprava", ",", "verejnyKlic", ",", "parametry", ",", "True"}], 
    "]"}]}]}], "Input",
  CellChangeTimes->{{3.67135912928223*^9, 3.671359195706626*^9}, 
-   3.671375686215321*^9, {3.671375905077162*^9, 3.6713759053076153`*^9}}]
+   3.671375686215321*^9, {3.671375905077162*^9, 3.6713759053076153`*^9}, {
+   3.671708413217113*^9, 3.6717084195855827`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -220,10 +222,11 @@ Cell["De\[SHacek]ifrov\[AAcute]ni", "Subsection",
  CellChangeTimes->{{3.671359808829418*^9, 3.6713598257486258`*^9}}],
 
 Cell[BoxData[{
- RowBox[{"m", "=", 
-  RowBox[{"desifrujMcEliece", "[", 
-   RowBox[{"c", ",", "soukromyKlic", ",", "parametry"}], 
-   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"m", "=", 
+   RowBox[{"desifrujMcEliece", "[", 
+    RowBox[{"c", ",", "soukromyKlic", ",", "parametry", ",", "True"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"m", "\[Equal]", "zprava"}]}], "Input",
  CellChangeTimes->{{3.653650655283976*^9, 3.653650685163961*^9}, 
    3.65365072911593*^9, {3.653650918519286*^9, 3.653650993237533*^9}, {
@@ -235,13 +238,14 @@ Cell[BoxData[{
    3.653813052903908*^9}, {3.653813140654736*^9, 3.6538131899731216`*^9}, {
    3.65492940311578*^9, 3.654929403266553*^9}, {3.664470503975278*^9, 
    3.664470535252441*^9}, {3.6713594391382627`*^9, 3.671359460319346*^9}, {
-   3.6713597604935427`*^9, 3.671359782726632*^9}}]
+   3.6713597604935427`*^9, 3.671359782726632*^9}, {3.671708413737895*^9, 
+   3.671708424433823*^9}}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1440, 864},
-WindowMargins->{{0, Automatic}, {-30, Automatic}},
+WindowSize->{1440, 809},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"10.2 for Linux x86 (64-bit) (July 29, 2015)",
 StyleDefinitions->"Default.nb"
 ]
@@ -279,11 +283,11 @@ Cell[5543, 180, 518, 13, 77, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[6098, 198, 120, 1, 47, "Subsection"],
-Cell[6221, 201, 498, 12, 55, "Input"]
+Cell[6221, 201, 586, 14, 55, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6756, 218, 117, 1, 47, "Subsection"],
-Cell[6876, 221, 993, 16, 55, "Input"]
+Cell[6844, 220, 117, 1, 47, "Subsection"],
+Cell[6964, 223, 1077, 18, 55, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

@@ -100,7 +100,7 @@ generujMcEliece[
         m_Integer /; m >= 2,
         t_Integer /; t >= 2,
         verbose_Symbol : False
-    ] /; BooleanQ[ verbose ] := Module[ {
+    ] /; BooleanQ[verbose] := Module[ {
         p = 2, n, k,
         GoppaKod, matG, matS, matP, hatG,
         soukromyKlic, verejnyKlic, parametry
@@ -120,7 +120,7 @@ generujMcEliece[
     If[ verbose == True,
         Print[
             "\!\(\*OverscriptBox[ \(G\), \(^\) ]\) = SGP = ", matS // MatrixForm, matG // MatrixForm, matP // MatrixForm ,
-            "\n\!\(\*OverscriptBox[ \(G\), \(^\) ]\) =", hatG // MatrixForm
+            "\n\!\(\*OverscriptBox[ \(G\), \(^\) ]\) = ", hatG // MatrixForm
         ];
     ];
 
@@ -152,12 +152,12 @@ Unprotect[ sifrujMcEliece ];
 ClearAll[ sifrujMcEliece ];
 sifrujMcEliece::delkam = McEliece::delkam;
 
-
 sifrujMcEliece[
         m_List,
         verejnyKlic : { hatG_List },
-        parametry : { n_Integer, k_Integer, t_Integer }
-    ] := Module[ {
+        parametry : { n_Integer, k_Integer, t_Integer },
+        verbose_Symbol : False
+    ] /; BooleanQ[verbose] := Module[ {
         p = 2, c,
         z = nahodnyChybovyVektor[ n, t ]
     },
@@ -166,6 +166,19 @@ sifrujMcEliece[
         Return[]
     ];
     c = plus[ dotNad2[ m, hatG ], z, p ];
+
+    If[ verbose == True,
+        Print[
+            "c = m\!\(\*OverscriptBox[ \(G\), \(^\) ]\) + z = ",
+            {m} // MatrixForm,
+            hatG // MatrixForm,
+            " + ",
+            {z} // MatrixForm,
+            "\nc = ",
+            {c} // MatrixForm
+        ];
+    ];
+
     c
 ]
 
@@ -195,8 +208,9 @@ desifrujMcEliece::delkac = McEliece::delkac;
 desifrujMcEliece[
         c_List,
         soukromyKlic : { GoppaKod_List, invS_List, invP_List },
-        parametry : { n_Integer, k_Integer, t_Integer }
-    ] := Module[ {
+        parametry : { n_Integer, k_Integer, t_Integer },
+        verbose_Symbol : False
+    ] /; BooleanQ[verbose] := Module[ {
         hatc, hatm, m
     },
     If[ Length[c] != n,
@@ -206,6 +220,24 @@ desifrujMcEliece[
     hatc = dotNad2[ c, invP ];
     hatm = dekodujBinarniGoppaKod[ hatc, GoppaKod ][[1]];
     m = dotNad2[ hatm, invS ];
+
+    If[ verbose == True,
+        Print[
+            "\!\(\*OverscriptBox[ \(c\), \(^\) ]\) = c\!\(\*SuperscriptBox[\(P\), \(-1\)]\) = ",
+            {c} // MatrixForm,
+            invP // MatrixForm,
+            " = ",
+            {hatc} // MatrixForm,
+            "\n\!\(\*OverscriptBox[ \(m\), \(^\) ]\) = \!\(\*SubscriptBox[\(D\), \(\[CapitalGamma]\)]\)(\!\(\*OverscriptBox[ \(c\), \(^\) ]\)) = ",
+            {hatm} // MatrixForm,
+            "\nm = \!\(\*OverscriptBox[ \(m\), \(^\) ]\)\!\(\*SuperscriptBox[\(S\), \(-1\)]\) = ",
+            {hatm} // MatrixForm,
+            invS // MatrixForm,
+            " = ",
+            {m} // MatrixForm
+        ];
+    ];
+
     m
 ]
 
