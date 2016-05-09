@@ -111,7 +111,7 @@ For[ m = mMin, m <= mMax, m++,
 
         (* export dat do souboru *)
         list = { t, { prumerGen, prumerSifr, prumerDesifr } };
-        soubor = StringTemplate[ "mereni/data_m`1`_t`2`.txt" ][m,t];
+        soubor = StringTemplate[ "data/data_m`1`_t`2`.txt" ][m,t];
         Export[ soubor, {list} ];
 
         AppendTo[ mereniT, list ];

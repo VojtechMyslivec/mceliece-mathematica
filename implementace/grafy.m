@@ -193,8 +193,8 @@ moznostiDesifr = Sequence[ ChartLegends->Placed[legendaDesifr,Below], stitky, mo
 chartGen    = BarChart[ tGen,    moznostiGen    ]
 chartDesifr = BarChart[ tDesifr, moznostiDesifr ]
 
-(* nanestesti blbne vystup do pdf -- mizi popisky osy y *)
-soubor = StringTemplate[ "grafy/chart_m8_`1`.png"];
+(* pozor -- v nekterych verzich blbne vystup do pdf: chybi popisky os *)
+soubor = StringTemplate[ "grafy/chart_m8_`1`.pdf"];
 
 Export[ soubor["generovani"],   chartGen,    ImageResolution->150 ];
 Export[ soubor["desifrovani"],  chartDesifr, ImageResolution->150 ];
