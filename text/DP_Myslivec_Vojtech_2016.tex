@@ -1547,7 +1547,7 @@ klíče}.
 \subsection{Kvazi-dyadické Goppa kódy}\label{kap_kvazi}
 
 Jako jedna z~úspěšných metod na zkrácení klíčů se v~posledních letech jeví
-použití \emph{kvazi-dyadických Goppa kódů}~\cite{Misoczki1}.
+použití \emph{kvazi-dyadických} (\emph{QD}) \emph{Goppa kódů}~\cite{Misoczki1}.
 
 \begin{definice}{Dyadická matice:}
     \begin{itemize}
@@ -3298,7 +3298,65 @@ primitivního prvku.
 % ====================================================================
 % ====================================================================
 \begin{conclusion}
-    %Zdůraznit dřinu, která byla odvedena, rozumně se pochválit
+
+    %TODO
+Toto je draft, komentáře jsou vítané
+
+\vspace{1cm}
+
+Cílem práce byla snaha získat a~přinést co nejvíce ucelený pohled na
+kryptosystému \emph{McEliece} a~problematiku kryptografie založené na
+lineárních kódech obecně. Této oblasti kryptografie je v~běžné výuce zatím
+vymezeno málo prostoru. Drtivá většina témat probraná v~hlavní části této
+práce je tak novým přínosem (minimálně pro autora této práce, ne-li i~pro
+fakultu --- \uv{to tu být nemusí, jen to tak ze mě vypadlo}). %todo
+
+V~přílohách jsme připravili základní definice a~pojmy z~oblasti obecné
+algebry a~teorie kódování. Tato teorie je nezbytná pro pochopení obsahu této
+práce.
+
+\section*{Splnění zadání}
+
+Prezentovali jsme algoritmy pro asymetrické šifrování \emph{McEliece} a~též
+schéma pro sestrojení digitálního podpisu za pomoci příbuzného kryptosystému
+\emph{Niederreiter}. Též jsme uvedli problematiku zabývající se
+\emph{ireducibilními binárními Goppa kódy}. Z~těchto kódů kryptografie
+založená na kódech dodnes vychází.
+
+Zabývali jsme se širokou, až nad rámec práce přesahující rešerší
+existujících analýz tohoto \emph{kryptosystému} a~též praktickým aspektům
+v~moderních implementacích. Dále jsme diskutovali metody na zkrácení klíčů
+u~základní varianty \emph{McEliece} s~\emph{binárními Goppa kódy} tak
+i~v~moderních variantách za použití alternativních kódů (jako jsou třeba
+\emph{QD} \emph{Goppa} kódy nebo \emph{QC-MDPC} kódy).
+
+Pro praktické ukázky \emph{kryptosystému McEliece} byla implementována
+varianta -- dle původní definice \emph{Roberta McEliece} -- v~softwaru
+\emph{Wolfram Mathematica}. Byly připraveny příklady použití (šifrování)
+a~demonstrace charakteru klíčů, průběhu jejich generování a~též průběhu
+algoritmů pro šifrování a dešifrování, Na této implementaci bylo provedeno
+základní měření časových složitostí algoritmů a~v~této oblasti zbývá jistě
+mnoho prostoru pro hlubší analýzu. Na základě tohoto měření je vidět, na
+které podproblémy je dobré soustředit další studium a~navrhli jsme konkrétní
+zlepšení této implementace. Velikost klíčů v~této implementaci jsme určili
+analyticky a přinesli jsme návrhy na snížení velikosti dle již známých
+postupů. Ač zbylo hodně prostoru pro zlepšení této implementace, tak pro
+ukázkové účely, kterým měla sloužit, je jistě dostačující.
+
+\section*{Přínos práce}
+
+V~rámci implementace vznikly \emph{balíky} (knihovny) pro výpočty s~tzv.
+\emph{rozšířenými tělesy}, na nich postavené \emph{ireducibilní binární
+Goppa} kódy a~tyto kódy využívající implementace \emph{McEliece}. Každý
+z~těchto tří balíků je možné využít pro další zkoumání kryptosystému
+\emph{McEliece}, ale také v~jiných aplikacích a~třeba i~ve výuce obecné
+algebry či teorie kódování.
+
+Přínos této práce je v~neposlední řadě v~širokém přehledu poznatků
+i~zkušeností z~praktické implementace. Jistě může sloužit jako výchozí bod
+pro pokračování studování této oblasti asymetrických šifer, na kterém se
+jako autor této práce budu rád účastnit.
+
 \end{conclusion}
 
 
@@ -4396,6 +4454,7 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
     \item[OAEP]     \emph{Optimal Asymmetric Encryption Padding} -- schéma pro asymetrické šifrování
     \item[PKC]      \emph{Public-Key Cryptography} -- asymetrická kryptografie s~veřejným klíčem
     \item[QC-MDPC]  \emph{Quasi-Cyclic MDPC} kódy
+    \item[QD]       \emph{Quasi-Dyadic} -- \emph{kvazi-dyadické} -- \emph{Goppa} kódy
     \item[RSA]      Algoritmus \emph{RSA} -- \emph{Rivest}, \emph{Shamir}, \emph{Adleman}
     \item[S\&M]     Algoritmus \emph{Square-and-Multiply}
     %\item[TLS]     Three Letter Shortcut
