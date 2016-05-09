@@ -49,14 +49,14 @@
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 
 % Tady to musí být bez odsazení za závorkou '{', což nevypadá dobře :-(
-%\acknowledgements{Předně bych chtěl poděkovat Róbertu Lórenczovi za konstruktivní kritiku při
-%    vedení této práce a~hlavně za velmi zajímavé téma, které mi nabídl
-%    k~vypracování. Nejvíce děkuji své rodině za podporu, veškerou pomoc a~hlavně
-%    trpělivost. Bez nich by tato práce nevznikla. Děkuji Tomáši Kalvodovi, za
-%    časté konzultace v~oblasti matematiky a~Jaroslavu Kotilovi za radu ohledně
-%    Goppa kódů. Nakonec bych rád poděkoval Ondřeji Guthovi za vytvoření použité
-%    šablony pro \LaTeX.
-%} %TODO
+\acknowledgements{Předně bych chtěl poděkovat Róbertu Lórenczovi za
+    konstruktivní kritiku při vedení této práce a~hlavně za velmi zajímavé téma,
+    které mi nabídl k~vypracování. Nejvíce děkuji své rodině za podporu,
+    veškerou pomoc a~hlavně trpělivost. Bez nich by tato práce nevznikla. Děkuji
+    Tomáši Kalvodovi, za časté konzultace v~oblasti matematiky a~Jaroslavu
+    Kotilovi za radu ohledně Goppa kódů. Nakonec bych rád poděkoval Ondřeji
+    Guthovi za vytvoření použité šablony pro \LaTeX.
+}
 
 \abstractCS{
     V~této práci se zabýváme asymetrickým kryptosystémem \emph{McEliece}, který
@@ -73,8 +73,8 @@
     \emph{McEliece} which is one of the candidates for post-quantum
     cryptography. We provide a~definition of the cryptosystem, its variant for
     digital signature scheme, and we focus on the practical aspects of this
-    cryptosystem and its cryptanalysis. We evaluate the time complexity of
-    the algorithms using an illustrative implementation in Mathematica.
+    cryptosystem and its cryptanalysis. We evaluate the time complexity of the
+    algorithms using an illustrative implementation in Wolfram Mathematica.
 }
 
 \keywordsCS{
@@ -160,8 +160,8 @@ v~kapitole~\ref{kap_upravy}.
 
 Kapitola~\ref{kap_implementace} se zabývá ukázkovou implementací tohoto
 kryptosystému v~softwaru \emph{Wolfram Mathematica} a~v~poslední
-kapitole~\ref{kap_mereni} jsou demonstrovány výsledky z~provedených měření
-složitostí algoritmů na této implementaci.
+kapitole~\ref{kap_analyza_slozitosti} jsou demonstrovány výsledky z~provedených
+měření složitostí algoritmů na této implementaci.
 
 \vfil
 
@@ -1267,7 +1267,9 @@ a~dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
         $128$\;b    & $\left(2960,2288,56\right)$   & $1502$\;kb    \\
         $256$\;b    & $\left(6624,5129,115\right)$  & $7488$\;kb    \\
     \end{tabular}
-    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Bernstein1}}
+    \caption[Míra bezpečnosti]{
+        Míra bezpečnosti \emph{McEliece} dle \cite{Bernstein1}
+    }
     \label{tab_Bernstein}
     \end{center}
 \end{table}
@@ -1284,7 +1286,9 @@ a~dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
         $128$\;b    & $\left(4096,3604,41\right)$   & $1732$\;kb    \\
         $256$\;b    & $\left(6944,5208,136\right)$  & $8829$\;kb    \\
     \end{tabular}
-    \caption{Míra bezpečnosti \emph{McEliece} dle \cite{Repka}}
+    \caption[Míra bezpečnosti]{
+        Míra bezpečnosti \emph{McEliece} dle \cite{Repka}
+    }
     \label{tab_Repka}
     \end{center}
 \end{table}
@@ -1305,7 +1309,9 @@ a~dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
             & $ \left(2048,1278,70\right)$  & $\sim 110$\;b &  $961$\;kb & $2^{20}$ & $2^{24}$  \\
             & $ \left(4096,2056,170\right)$ & $\sim 184$\;b & $4096$\;kb & $2^{22}$ & $2^{26}$  \\
     \end{tabular}
-    \caption{Porovnání \emph{McEliece} a \emph{RSA} dle \cite{Engelbert,Paar}}
+    \caption[Porovnání \emph{McEliece} a \emph{RSA}]{
+        Porovnání \emph{McEliece} a \emph{RSA} dle \cite{Engelbert,Paar}
+    }
     \label{tab_Engelbert}
     \end{center}
 \end{table}
@@ -1518,7 +1524,7 @@ třeba udávat prvních $k$~sloupců -- je jasné, že odpovídají \emph{jednot
 matici} $\mathbb{I}_k$. Při použití matice $\hat{G}$ v~\emph{systematické formě}
 se tedy ušetří $k^2$ bitů, což při rozumných parametrech odpovídá až $75$\;\%
 velikosti matice $\hat{G}$. Aby byla zachována bezpečnost kryptosystému při
-použití takové matice, je nutné použít \emph{CCA2-odolnou} konverzi (viz
+použití takové matice, je nutné použít \emph{CCA2 odolnou} konverzi (viz
 kapitola~\ref{kap_cca2}).
 
 
@@ -1602,7 +1608,7 @@ $80$ bitům bezpečnosti.
 
 
 % ====================================================================
-\section{CCA2-odolná konverze}\label{kap_cca2}
+\section{CCA2 odolná konverze}\label{kap_cca2}
 
 V~kapitole~\ref{kap_slabiny} jsme se zmínili, že základní varianta algoritmu
 \emph{McEliece} trpí některými slabinami. Kvůli těmto slabinám by nebylo možné
@@ -1624,53 +1630,65 @@ algoritmem~\ref{alg_cca2} a~ilustrována obrázkem~\ref{obr_cca2}.
 
 
 \paragraph{Značení} \hfil \\
-V~následujícím algoritmu použijeme toto značení:
-\begin{center}
-\begin{tabular}{l p{10cm}}
-    $(a|b)$         &   zřetězení vektorů $a$ a $b$ \\
-    $m$             &   otevřený text \\
-    $const$         &   veřejně známá konstanta \\
-    $r$             &   náhodné číslo (\emph{seed}) \\
-    $prep(m)$       &   funkce na doplnění zprávy na požadovanou délku
-                        (jednoznačný \emph{padding}) \\
-    $hash(l)$       &   kryptograficky bezpečná \emph{hashovací} funkce
-                        s~výstupem délky $\log_2 \binom{n}{t}$\;bitů \\
-    $rand(r)$       &   kryptograficky bezpečná funkce inicializovaná
-                        \emph{seedem} $r$, která vrací (pseudonáhodný) vektor
-                        (\emph{CSPRNG}) \\
-    $conv$          &   invertibilní konverze čísla $\leq \binom{n}{t}$ na
-                        odpovídající vektor délky~$n$ a~váhy~$t$ (viz též
-                        kapitola~\ref{kap_schema_pro_podpis}) \\
-    $E_{\hat{G}}(m,e)$
-                    &   šifrovací algoritmus \emph{McEliece} (vstupem je
-                        zpráva $m$ a chybový vektor $z$) \\
-    $D_{SK}(c)$     &   dešifrovací algoritmus \emph{McEliece} se soukromým
-                        klíčem $SK$ \\
-    $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
-    $LSB_n(l)$      &   $n$ nejméně významných (pravých) bitů vektoru $l$ \\
-\end{tabular}
-\end{center}
+V~následujícím algoritmu použijeme značení uvedené
+v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2}.
 
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{l p{10cm}}
+        Symbol          &   Význam \\
+        \hline
+        $(a|b)$         &   zřetězení vektorů $a$ a $b$ \\
+        $m$             &   otevřený text \\
+        $const$         &   veřejně známá konstanta \\
+        $r$             &   náhodné číslo (\emph{seed}) \\
+        $prep(m)$       &   funkce na doplnění zprávy na požadovanou délku
+                            (jednoznačný \emph{padding}) \\
+        $hash(l)$       &   kryptograficky bezpečná \emph{hashovací} funkce
+                            s~výstupem délky $\log_2 \binom{n}{t}$\;bitů \\
+        $rand(r)$       &   kryptograficky bezpečná funkce inicializovaná
+                            \emph{seedem} $r$, která vrací (pseudonáhodný) vektor
+                            (\emph{CSPRNG}) \\
+        $conv$          &   invertibilní konverze čísla $\leq \binom{n}{t}$ na
+                            odpovídající vektor délky~$n$ a~váhy~$t$ (viz též
+                            kapitola~\ref{kap_schema_pro_podpis}) \\
+        $E_{\hat{G}}(m,e)$
+                        &   šifrovací algoritmus \emph{McEliece} (vstupem je
+                            zpráva $m$ a chybový vektor $z$) \\
+        $D_{SK}(c)$     &   dešifrovací algoritmus \emph{McEliece} se soukromým
+                            klíčem $SK$ \\
+        $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
+        $LSB_n(l)$      &   $n$ nejméně významných (pravých) bitů vektoru $l$ \\
+    \end{tabular}
+    \caption[Značení v~CCA2 odolné konverzi $\gamma$]{
+        Použité značení v~algoritmu Kobara-Imai $\gamma$
+    }
+    \label{tab_znaceni_cca2}
+\end{table}
 
-\paragraph{Délky vektorů}
-\begin{center}
-\begin{tabular}{l l}
-    Vektor      & Délka                                 \\
-    \hline
-    $y_1$       & $max(|rand|, n+|const|)$              \\
-    $y_2$       & $max(|r|,|hash|$                      \\
-    $y_3$       & $k$                                   \\
-    $y_4$       & $\log_2 \binom{n}{t}$                 \\
-    $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
-\end{tabular}
-\end{center}
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{l l}
+        Vektor      & Délka                                 \\
+        \hline
+        $y_1$       & $max(|rand|, n+|const|)$              \\
+        $y_2$       & $max(|r|,|hash|$                      \\
+        $y_3$       & $k$                                   \\
+        $y_4$       & $\log_2 \binom{n}{t}$                 \\
+        $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
+    \end{tabular}
+    \caption[Délky vektorů v~CCA2 odolné konverzi $\gamma$]{
+        Délky vektorů v~algoritmu Kobara-Imai $\gamma$
+    }
+    \label{tab_delky_cca2}
+\end{table}
 
 \vfill
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{materialy/kobara-imai-cca2.png}
-    \caption{Diagram CCA2-odolné konverze \emph{Kobara-Imai}
+    \caption[CCA2 odolná konverze]{Diagram CCA2 odolné konverze \emph{Kobara-Imai}
     $\gamma$~\cite{Repka,Kobara}}
     \label{obr_cca2}
 \end{figure}
@@ -1919,7 +1937,9 @@ V~níže uvedených pseudokódech se používá některých prvků ze syntaxe so
         \texttt{foo[bar]}   & Volání funkce \emph{foo} s~argumentem \emph{bar}  \\
         \texttt{ham[[i]]}   & \emph{i}-tý prvek seznamu (pole) \emph{ham}       \\
     \end{tabular}
-    \caption{Prvky syntaxe jazyka softwaru \emph{Mathematica}}
+    \caption[Syntaxe Wolfram Mathematica]{
+        Prvky syntaxe jazyka softwaru \emph{Mathematica}
+    }
 \end{table}
 
 
@@ -1972,7 +1992,9 @@ rovnal nule (viz příklad níže).
 Pro $GF(p^n)$ se používá interní funkce \texttt{PolynomialMod}
 
 \begin{algoritmus}[!ht]
-    \caption{Redukce prvku v~tělese s~charakteristikou $2$}
+    \caption[Redukce prvku]{
+        Redukce prvku v~tělese s~charakteristikou $2$
+    }
     \begin{algorithmic}[1]
      \Function{redukuj[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
         \State $ l_a \gets stupen[a] + 1 $
@@ -2134,7 +2156,9 @@ Inverze v~$GF(p^n)$ je implementovaná pomocí interní funkce
 \texttt{Polynomial\-ExtendedGCD}.
 
 \begin{algoritmus}[!ht]
-    \caption{Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}}
+    \caption[Rozšířený Euklidův algoritmus]{
+        Inverze prvků -- \emph{Rozšířený Euklidův algoritmus}
+    }
     \begin{algorithmic}[1]
      \Function{inverze[ $prvek$, $modul:\left\{ m, modul_{vnitrni} \right\}$ ]}{}
         \State $ A \gets m $; $ B \gets prvek $
@@ -2215,7 +2239,9 @@ triviální:
 
 
 \begin{algoritmus}[!htb]
-    \caption{Umocňování na druhou v~tělese s~charakteristikou $2$}
+    \caption[Umocňování na druhou]{
+        Umocňování na druhou v~tělese s~charakteristikou $2$
+    }
     \begin{algorithmic}[1]
      \Function{naDruhou[ $a$, $\left\{m, modul_{vnitrni}\right\}$ ]}{}
         \For{$ i \gets 1 \ldots Length[i]$}
@@ -2267,7 +2293,9 @@ je odpovídající bit exponentu $1$, přinásobí se původní číslo $a$.
 
 
 \begin{algoritmus}[!ht]
-    \caption{Umocňování prvku $a^e \mod modul$ -- \emph{Square-and-Multiply}}
+    \caption[Square-and-Multiply]{
+        Umocňování prvku $a^e \mod modul$ -- \emph{Square-and-Multiply}
+    }
     \begin{algorithmic}[1]
      \Function{umocni[ $a$, $e$, $modul$ ]}{}
         \If{$ e = 0 $}
@@ -2864,7 +2892,7 @@ a~$P$.
 \end{algoritmus}
 
 Použitým lineárním kódem jsou \emph{ireducibilní binární Goppa kódy}, kterými
-jsme se věnovali v~minulé kapitole. Díky tomu jsou parametry
+jsme se zabývali v~minulé kapitole. Díky tomu jsou parametry
 \emph{kryptosystému} (respektive kódu) jednoznačně určené volbou parametrů~$m$
 a~$t$, tedy $(n,k,t) = (2^m, 2^m - tm, t)$.
 
@@ -3131,11 +3159,11 @@ odstavcích.
 
 \paragraph{Generování ireducibilního polynomu} \hfil \\
 Ač jsme již tuto skutečnost popsali v~kapitole věnující se implementaci
-\emph{Goppa kódů}~\ref{kap_implementace_goppa_kody}, je vhodné kvůli bezpečnosti
-znovu zdůraznit. V~této implementaci používáme předgenerované ireducibilní
-polynomy, které definují použitý \emph{Goppa} kód. Pro praktické použití je
-třeba implementovat algoritmus, který bude ireducibilní polynomy generovat
-náhodně.
+\emph{Goppa kódů}~\ref{kap_implementace_goppa_kody}, je vhodné ji kvůli
+bezpečnosti znovu zdůraznit. V~této implementaci používáme předgenerované
+ireducibilní polynomy, které definují použitý \emph{Goppa} kód. Pro praktické
+použití je třeba implementovat algoritmus, který bude ireducibilní polynomy
+generovat náhodně.
 
 
 \paragraph{Generování regulární matice} \hfil \\
@@ -3181,40 +3209,181 @@ důraz na implementaci této konverze.
 
 
 
-% ====================================================================
-% ====================================================================
-% ====================================================================
-\chapter{Měření}\label{kap_mereni}
-
-
 
 % ====================================================================
-\section{Velikosti klíčů}
-Analyticky
-
-
 % ====================================================================
-\section{Způsob měření}
-Při měření
+% ====================================================================
+\chapter{Analýza složitosti}\label{kap_analyza_slozitosti}
 
+
+V~této poslední kapitole se věnujeme analýzou naší implementace kryptosystému
+\emph{McEliece}, kterou jsme popsali v~\ref{kap_implementace}.~kapitole.
+V~podkapitole~\ref{kap_mereni_velikost} provedeme analytické odvození
+(přibližných) velikostí vygenerovaných klíčů v~závislosti na zadaných
+parametrech~$m$ a~$t$. V~podkapitole~\ref{kap_mereni_experiment} uvedeme
+výsledky a~závěry z~experimentálního měření časových složitostí algoritmů
+použitých v~kryptosystému \emph{McEliece}.
 
 
 % ====================================================================
-\section{Výsledky měření}
-Použitý git -- ve větvi \texttt{mereni} \url{...}. Na Přiloženém disku je umístěno
-v~podadresáři \texttt{implementace/mereni}.
+\section{Velikosti klíčů}\label{kap_mereni_velikost}
+
+Velikost klíčů (respektive počet jejich hodnot) je možné velmi přesně určit
+analyticky. Veřejným klíčem je matice $\hat{G}$ a soukromým klíčem je kód
+$\Gamma$ a~inverze matic~$P$ a~$S$. Veřejnými parametry je pouze trojice
+čísel~$(n,k,t)$, které jsou i~pro reálné implementace reprezentovány v~řádu
+desítek bitů, a~v~porovnání s~velikostí matic jsou tedy zanedbatelné.
+
+Velikosti budeme vyjadřovat v~počtu bitů určujících dané proměnné. Tyto hodnoty
+jsou ale v~naší implementaci objekty typu \texttt{Integer}, jelikož v~softwaru
+\emph{Mathematica} nejsme schopni (pohodlně) pracovat s~jinými datovými typy.
+Dále budeme tedy mluvit v~jednotkách hodnot, čímž budeme rozumět objekt typu
+\texttt{Integer}.
 
 
-Jistě je vhodné implementovat Chien search či počítání násobení a mocnin pomocí
-primitivního prvku.
+% --------------------------------------------------------------------
+\subsection{Veřejný klíč}
 
+Veřejný klíč je v~naší implementaci tvořen $k \times n$ maticí $\hat{G}$. Tato
+matice má tedy $nk$ hodnot, kde~$n=2^m$ a~$k=2^m-tm$. V~reálných aplikacích
+algoritmu se hodnota~$k$ pohybuje okolo poloviny hodnoty~$n$ a~tedy počet hodnot
+této matice je přibližně
+$$ \left|\hat{G}\right| = O\left( 2^{2m-1} \right) $$
+
+% todo pozice
+\vfil
+
+\paragraph{Snížení velikosti} \hfil \\
+Jak již bylo několikrát zmíněno , tuto matici je možné efektivně
+uložit v~\emph{systematické} formě a~velikost klíče tak klesne o~$k$~sloupců
+této matice na $(n-k) k$. V~kapitole~\ref{kap_snizeni_velikosti_klicu} jsme
+uvedli, že lze tímto způsobem ušetřit $50$-$75$\;\% velikosti veřejného klíče.
+
+% --------------------------------------------------------------------
+\subsection{Soukromý klíč}
+
+Soukromý klíč se skládá z~\emph{Goppa kódu}~$\Gamma$ a~matice~$S^{-1}$
+a~$P^{-1}$. Matice~$S^{-1}$ má $k^2$~hodnot a~matice~$P^{-1}$ $n^2$~hodnot.
+
+\emph{Goppa kód} $\Gamma$ se skládá z~generující matice~$G$ \emph{Goppova}
+polynomu~$g$, \emph{podpory}~$L$ a~předpočítaných \emph{dílčích syndromů}~$S_L$.
+Matice~$G$ zabírá stejný prostor jako $\hat{G}$. Polynom~$g$ je stupně~$t$ nad
+konečným tělesem $GF(2^m)$, které je určeno ireducibilním polynomem stupně~$m$.
+Polynom~$g$ je složen z~$m(t+1)$ hodnot a~vnitřní polynom z~$m+1$. Podpora~$L$
+je posloupnost $n$~prvků z~tělesa $GF(2^m)$ a~zabírá tedy $n m$ hodnot.
+Syndromy~$S_L$ je posloupnost $n$~prvků z~tělesa $GF(2^m)^t$ a~zabírá tedy
+$n t m$ hodnot. Celkový součet velikosti \emph{Goppa kódu} je
+\begin{align*}
+    \left|\Gamma\right| &= O\left( (nk) + ( m(t+1) + (m+1) ) + (nm) + (ntm) \right) = \\
+                        &= O\left(  nk + ( mt + m ) + ntm  \right) = \\
+                        &= O\left(  nk + tnm \right) \\
+\end{align*}
+
+Por běžné parametry platí $n > k \gg t > m$ a~tak nejvýznamnější část určeného
+Goppa kódu zabírá \emph{generující} matice~$G$ a~\emph{dílčí syndromy}~$L$.
+
+Velikost soukromého klíče je tak celkově:
+\begin{align*}
+    \left|SK\right| &= O(\left|\Gamma\right| + \left|S^{-1}\right| + \left|P^{-1}\right| ) = \\
+                    &= O( nk + tnm + k^2 + n^2 ) \\
+\end{align*}
+
+
+
+\paragraph{Snížení velikosti} \hfil \\
+Velikost uloženého \emph{Goppa kódu} jsme detailně diskutovali
+v~kapitole~\ref{kap_goppa_zlepseni}. V~soukromém klíči by navíc nebylo nutné
+ukládat celou matici~$G$, která je zde jen kvůli provedení invertování
+zakódování, které -- jak jsme zdůvodnili ve výše zmíněné kapitole -- by stačilo
+provést na základě výběru správných dimenzí. Tento výběr je možné předpočítat
+a~mohli bychom ho v~soukromém klíči uložit místo celé matice~$G$.
+
+Dalším významným ušetřením velikosti klíče je uložení \emph{permutační}
+matice~$P$ ve formě \emph{permutace} (viz \ref{kap_mceliece_zlepseni}). Touto
+změnou bychom místo $n^2$ hodnot matice~$P$ používali~$n$ prvkovou permutaci
+(neboli $n$~hodnot).
+
+
+% ====================================================================
+\section{Experimentální výsledky}\label{kap_mereni_experiment}
+
+V~rámci analýzy naší implementace bylo provedeno měření časových složitostí
+jednotlivých algoritmů pro \emph{generování klíčů}, \emph{šifrování}
+i~\emph{dešifrování}.
+
+Jelikož generování klíčů i~dešifrování jsou komplexní algoritmy, skládající se
+z~několika podproblémů, provedli jsme měření i~těchto jednotlivých kroků.
+Měřením těchto podproblémů jsme byli schopni lokalizovat nejnáročnější části
+výpočtu a~diskutovat možná zlepšení.
+
+Aby bylo možné získat přehled o~časové náročnosti dílčích výpočtů, bylo nutné
+lehce upravit zdrojové kódy některých algoritmů. To obsahuje především přidání
+funkcí \texttt{AbsoluteTiming} a~navrácení hodnot takto spočítaných časů
+společně s~původními návratovými hodnotami.
+
+% todo
+\paragraph{Poznámka o~umístění souborů:} Z~důvodu přehlednosti a~zachování
+původního kódu byly tyto úpravy prováděny ve~vlastní \emph{větvi}
+\texttt{mereni} ve verzovacím systému \emph{git}. Na přiloženém disku jsou
+soubory z~této větve umístěny do~podadresáře \texttt{mereni}.
+
+
+% --------------------------------------------------------------------
+\subsection{Způsob měření}
+
+Pro měření časových závislostí jsme měřili dobu trvání jednotlivých částí
+výpočtu pro různé parametry~$m$ a~$t$. Jak je vidět například na
+obrázku~\ref{obr_mereni_t_gen}, generování klíčů pro $m=8$ trvá až 260\;sekund
+a~proto bylo měření prováděno pro hodnoty $m = 3$ až $m=8$. Pro tyto hodnoty~$m$
+bylo provedeno měření pro všechny hodnoty~$t$ od $t=2$ až po $t_{max}$, kde
+$t_{max}$ je největší platné~$t$ -- tedy pro které platí, že
+$k > 0 \Rightarrow 2^m - mt > 0$. Z~tohoto předpisu je vidět, že
+hodnota~$t_{max}$ roste řádově exponenciálně v~závislosti na parametru~$m$.
+
+Pro každou dvojici parametrů~$m$ a~$t$ bylo opakovaně provedeno \emph{generování
+klíčů}, \emph{šifrování} i~\emph{dešifrování}. Výsledná uložená hodnota
+naměřeného času dané části algoritmu je určena jako průměr z~opakovaně
+naměřených hodnot.
+
+Logika tohoto prováděného experimentu je zachycena ve zdrojovém kódu
+\texttt{mereni.m}. Výsledná data z~prováděného měření se ukládají na disk (do
+podadresáře \texttt{data}). Naměřená data jsou tak k~dispozici i~po ukončení
+výpočtu (programu) a~je tedy možné tento \emph{balík} spouštět dávkově.
+
+Měření bylo provedeno na stolním počítači s~čtyřjádrovým procesorem \emph{Intel
+i5-6500} na frekvenci \emph{3.2\;Ghz} a~\emph{16\;GB RAM}. Výpočetní kapacita
+této konfigurace nebyla při měření plně využita, protože implementace využívá
+pouze jedno vlákno (respektive jádro procesoru) a~proces výpočetního jádra
+\emph{Wolfram Mathematica} -- \emph{WolframKernel} -- zabíral i~při
+nejnáročnějších výpočtech řádově 130\;MB paměti.
+
+
+% --------------------------------------------------------------------
+\subsection{Naměřená data}
+
+Naměřená data jsou ve formátu pro software \emph{Mathematica} uložená v~souboru
+\texttt{data/data.txt}. Z~těchto dat jsme vykreslili grafy závislosti času na
+parametru~$t$ a~na parametru~$m$. Poslední skupina grafů naznačuje procentuální
+poměr času strávený na dílčích krocích jednotlivých algoritmů.
+
+
+\paragraph{Závislost na parametru $t$} \hfil \\
+První skupina grafů ukazuje časovou závislost na parametru~$t$ pro zadanou
+hodnotu~$m$ pro generování klíčů (obrázek~\ref{obr_mereni_t_gen}), šifrování
+(obrázek \ref{obr_mereni_t_sifr}) a~dešifrování
+(obrázek~\ref{obr_mereni_t_desifr}). V~grafech jsou znázorněny jen hodnoty pro
+$m>=6$, protože platných hodnot~$t$ je pro menší~$m$ málo a~ani by v~grafech
+nebyly vidět.
+
+%todo pozice
+\vfil
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_generovani.pdf}
-    \caption{
-        Závislost doby generování klíčů na parametru~$t$ (při různých
-        volbách~$m$
+    \caption[Časová složitost generování klíčů]{
+        Závislost doby generování klíčů na parametru~$t$
+        (při různých volbách~$m$)
     }
     \label{obr_mereni_t_gen}
 \end{figure}
@@ -3222,9 +3391,9 @@ primitivního prvku.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_sifrovani.pdf}
-    \caption{
-        Závislost doby šifrování zprávy na parametru~$t$ (při různých
-        volbách~$m$
+    \caption[Časová složitost šifrování]{
+        Závislost doby šifrování zprávy na parametru~$t$
+        (při různých volbách~$m$)
     }
     \label{obr_mereni_t_sifr}
 \end{figure}
@@ -3232,19 +3401,49 @@ primitivního prvku.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_m6-8_desifrovani.pdf}
-    \caption{
-        Závislost doby dešifrování zprávy na parametru~$t$ (při různých
-        volbách~$m$
+    \caption[Časová složitost dešifrování]{
+        Závislost doby dešifrování zprávy na parametru~$t$
+        (při různých volbách~$m$)
     }
     \label{obr_mereni_t_desifr}
 \end{figure}
 
+%todo pozice
+\clearpage
+
+\paragraph{Závislost na parametru $m$} \hfil \\
+Ve druhé skupině grafů jsme znázornili časovou závislost na parametru~$m$. Pro
+každé~$m$ jsou platné stále větší hodnoty~$t$ a~v~praxi se často volí~$t$ tak,
+aby hodnota~$k$ byla řádově poloviční vůči~$n$. Z~těchto důvodů jsme v~tomto
+grafu vybrali hodnoty~$t$ odpovídající polovině maximální platné
+hodnoty~$t_{max}$.
+
+Na obrázku~\ref{obr_mereni_m_gen} je znázorněna časová závislost pro
+\emph{generování klíčů}, na obrázku~\ref{obr_mereni_m_sifr} pro šifrování a~na
+obrázku~\ref{obr_mereni_m_desifr} pro dešifrování.
+
+
+\paragraph{Poměr významných částí výpočtu} \hfil \\
+Jelikož algoritmy pro generování klíčů a~dešifrování trvají velmi dlouho,
+provedli jsme v~poslední skupině grafů demonstraci doby trvání dílčích výpočtů
+těchto komplexních algoritmů. Pro tyto grafy jsme vybrali hodnoty časů pro
+parametr $m=8$ a~znázornili závislost na parametru $t$.
+
+V~obrázku~\ref{obr_mereni_pomer_gen} je vyjádřen poměr částí výpočtu při
+generování klíčů a to konkrétně diagonální matice~$D$, spočítání matice~$H$
+a~předpočítání dílčích syndromů $S_L$. V~obrázku~\ref{obr_mereni_pomer_desifr}
+je vyjádřen tento poměr při dešifrování pro vypočítání polynomu~$R$ a~pro
+výsledné hledání kořenů.
+
+% todo pozice
+\vfil
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_generovani.pdf}
-    \caption{
-        Závislost doby generování klíčů na parametru~$m$ (parametr~$t$ je
-        zvolen jako polovina maximální možné hodnoty~$t$)
+    \caption[Časová složitost generování klíčů]{
+        Závislost doby generování klíčů na parametru~$m$
+        (parametr~$t$ je zvolen jako polovina maximální možné hodnoty~$t$)
     }
     \label{obr_mereni_m_gen}
 \end{figure}
@@ -3252,9 +3451,9 @@ primitivního prvku.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_sifrovani.pdf}
-    \caption{
-        Závislost doby šifrování zprávy na parametru~$m$ (parametr~$t$ je zvolen
-        jako polovina maximální možné hodnoty~$t$)
+    \caption[Časová složitost šifrování]{
+        Závislost doby šifrování zprávy na parametru~$m$
+        (parametr~$t$ je zvolen jako polovina maximální možné hodnoty~$t$)
     }
     \label{obr_mereni_m_sifr}
 \end{figure}
@@ -3262,17 +3461,18 @@ primitivního prvku.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/listplot_tPul_desifrovani.pdf}
-    \caption{
-        Závislost doby dešifrování zprávy na parametru~$m$ (parametr~$t$ je
-        zvolen jako polovina maximální možné hodnoty~$t$)
+    \caption[Časová složitost dešifrování]{
+        Závislost doby dešifrování zprávy na parametru~$m$
+        (parametr~$t$ je zvolen jako polovina maximální možné hodnoty~$t$)
     }
     \label{obr_mereni_m_desifr}
 \end{figure}
 
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_generovani.pdf}
-    \caption{
+    \caption[Poměr částí výpočtu při generování klíčů]{
         Poměr významných částí výpočtu při generování klíčů v~závislosti na
         parametru~$t$ (při $m=8$)
     }
@@ -3282,13 +3482,56 @@ primitivního prvku.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_desifrovani.pdf}
-    \caption{
+    \caption[Poměr částí výpočtu při dešifrování]{
         Poměr významných částí výpočtu při dešifrování zprávy v~závislosti na
         parametru~$t$ (při $m=8$)
     }
     \label{obr_mereni_pomer_desifr}
 \end{figure}
 
+% todo pozice
+\clearpage
+
+\subsection{Závěry z~měření}
+
+V~následujících odstavcích se budeme věnovat diskuzi k~výsledkům měření
+jednotlivých algoritmů a~představeným grafům.
+
+\paragraph{Závislost na parametru $m$} \hfill \\
+Počet různých hodnot parametru~$m$ není mnoho a~proto není rozumné z~těchto
+grafů vyvozovat silné závěry, nicméně závislost doby výpočtu na tomto
+parametru~$m$ vykazuje exponenciální charakter. Tato skutečnost je zapříčiněna
+tím, že hodnota $t$ byla volena jako $t_{max}/2$ a~jak jsme zmínili výše,
+$t_{max}$ s~rostoucím~$m$ roste \emph{exponenciálně}. Navíc parametr~$m$ určuje
+velikost vnitřního tělesa $GF(2^m)$ a~řád tohoto tělesa (počet prvků) roste též
+exponenciálně.  U~praktických variant algoritmu však tento parametr~$m$
+nepřesahuje hodnoty~$13$ a pohybuje se spíše mezi $11$ až $12$
+(viz~\ref{kap_bezpecne_parametry}).  Důležitější je tedy analyzovat závislost na
+parametru~$t$.
+
+\paragraph{Šifrování} \hfill \\
+U~grafů týkajících se šifrování je nutné zdůraznit, že osa grafů pro šifrování
+je v~jednotkách \emph{milisekund}, zatímco u~ostatních v~jednotkách
+\emph{sekund}. Šifrování je u~kryptosystému \emph{McEliece} řádově rychlejší (to
+potvrzují i~tabulky v~kapitole~\ref{kap_bezpecne_parametry}), jelikož se jedná
+o~prosté násobení matice vektorem a~sečtení dvou vektorů. Malé výkyvy v~naměřené
+závislosti mohou být způsobeny tím, že při určitých rozměrech matice se může
+lépe využívat prostorová lokalita hodnot v~paměti počítače či cache procesoru.
+
+Doba šifrování klesá v~závislosti na parametru~$t$, což je očekávaný výsledek,
+protože počet řádků šifrovací matice $\hat{G}$ klesá s~rostoucím~$t$ -- počet
+řádků~$k$ je přesně $n - tm$.
+
+\paragraph{Dešifrování} \hfill \\
+implementovat Chien search a počítání násobení mocnin  pomocí
+primitivního prvku.
+
+TODO
+
+\paragraph{Generování klíčů} \hfill \\
+Násobení matic -- diagonala, primitivni prvek
+
+TODO
 
 
 
@@ -3306,7 +3549,7 @@ kódech obecně. Struktura práce reflektuje jednotlivé položky zadání.
 \vspace{0.5cm}
 
 Prezentovali jsme algoritmy pro asymetrické šifrování \emph{McEliece} a~též
-schéma pro sestrojení digitálního podpisu za pomoci příbuzného kryptosystému
+sché\-ma pro sestrojení digitálního podpisu za pomoci příbuzného kryptosystému
 \emph{Niederreiter}. Uvedli jsme problematiku zabývající se
 \emph{ireducibilními binárními Goppa kódy}, ze kterých kryptografie
 založená na lineárních kódech dodnes vychází.
@@ -3335,7 +3578,8 @@ V~rámci implementace vznikly \emph{balíky} -- knihovny -- pro výpočty s~tzv.
 \emph{rozšířenými tělesy}, na nich postavené \emph{ireducibilní binární Goppa}
 kódy a~tyto kódy využívající implementace \emph{McEliece}. Každý z~těchto tří
 balíků je možné využít pro další zkoumání kryptosystému \emph{McEliece}, ale
-také v~jiných aplikacích a~třeba i~ve výuce obecné algebry či teorie kódování.
+také v~jiných aplikacích a~rovněž jako podpůrné materiály ve výuce obecné
+algebry či teorie kódování.
 
 V~přílohách jsme připravili základní definice a~pojmy z~oblasti obecné
 algebry a~teorie kódování. Tyto teoretické poznatky jsou nezbytné pro pochopení
@@ -4046,7 +4290,7 @@ obrázku~\ref{obr_kodovani}):
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{materialy/aak-kodovani.png}
-    \caption{Použité značení při kódování~\cite{FIT_AAK}}
+    \caption[Značení v~teorii kódování]{Použité značení v~teorii kódování~\cite{FIT_AAK}}
     \label{obr_kodovani}
 \end{figure}
 
@@ -4134,7 +4378,9 @@ možné rozhodnout, na které kódové slovo by se měl vektor~$c$ dekódovat.
     \subbottom[Příklad liché $kvzd$\label{obr_kvzd_licha}]{\includegraphics[width=0.45\textwidth]{materialy/kvzd_licha.png}}
     \quad
     \subbottom[Příklad sudé $kvzd$\label{obr_kvzd_suda}]{\includegraphics[width=0.38\textwidth]{materialy/kvzd_suda.png}}
-    \caption{Ilustrace problému nalezení nejbližšího kódového slova \label{obr_kvzd}}
+    \caption[Ilustrace kódové vzdálenosti]{
+        Ilustrace problému nalezení nejbližšího kódového slova \label{obr_kvzd}
+    }
 \end{figure}
 
 Existuje několik kategorií \emph{samoopravných} kódů. Definice kategorie kódu ve
