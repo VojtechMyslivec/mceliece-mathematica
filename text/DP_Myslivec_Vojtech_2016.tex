@@ -124,7 +124,7 @@ běžných počítačích~\cite{Dinh}. Mezi kandidáty pro tzv. postkvantovou do
 uveden např. v~publikaci \emph{Post-Quantum Cryptography} autorů \emph{Bernstein
 a~spol.}~\cite{Post-Quantum_Cryptography}. Dále varianta \emph{kryptosystému}
 s~kvazi-cyklickými \emph{MDPC} kódy se vyskytla v~draftu z~roku \emph{2016}
-společnosti \emph{IEEE} mezi doporučenými \emph{postkvantovými} asymetrickými
+společnosti \emph{IETF} mezi doporučenými \emph{postkvantovými} asymetrickými
 kryptosystémy~\cite{Schanck}.
 
 V~posledních letech se tomuto \emph{kryptosystému} (jako i~dalším post-kvantovým
@@ -2654,7 +2654,7 @@ v~souboru \texttt{ireducibilniBinarniGoppaKody.nb}.
 
 \paragraph{Příklad:} \hfil \\
 Máme ireducibilní \emph{Goppův} polynom $g(x) = (001)x^2 + (100)x + (001)$ nad
-tělesem $GF(2^m)$ s~ireducibilním polynomem $1011$.
+tělesem $GF(2^3)$ s~ireducibilním polynomem $1011$.
 
 Vygenerujeme podporu~$L$, což je posloupnost~o~$2^m = 8$~prvcích z~vnitřního
 tělesa $GF(2^m)$, neboli náhodná permutace všech prvků z~tohoto tělesa.
@@ -3271,7 +3271,7 @@ primitivního prvku.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_generovani.png}
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_generovani.pdf}
     \caption{
         Poměr významných částí výpočtu při generování klíčů v~závislosti na
         parametru~$t$ (při $m=8$)
@@ -3281,7 +3281,7 @@ primitivního prvku.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_desifrovani.png}
+    \includegraphics[width=0.8\textwidth]{../implementace/grafy/chart_m8_desifrovani.pdf}
     \caption{
         Poměr významných částí výpočtu při dešifrování zprávy v~závislosti na
         parametru~$t$ (při $m=8$)
@@ -3299,63 +3299,56 @@ primitivního prvku.
 % ====================================================================
 \begin{conclusion}
 
-    %TODO
-Toto je draft, komentáře jsou vítané
+Cílem práce bylo dle zadání získat a~přinést co nejvíce ucelený pohled na
+kryptosystém \emph{McEliece} a~problematiku kryptografie založené na lineárních
+kódech obecně. Struktura práce reflektuje jednotlivé položky zadání.
 
-\vspace{1cm}
-
-Cílem práce byla snaha získat a~přinést co nejvíce ucelený pohled na
-kryptosystému \emph{McEliece} a~problematiku kryptografie založené na
-lineárních kódech obecně. Této oblasti kryptografie je v~běžné výuce zatím
-vymezeno málo prostoru. Drtivá většina témat probraná v~hlavní části této
-práce je tak novým přínosem (minimálně pro autora této práce, ne-li i~pro
-fakultu --- \uv{to tu být nemusí, jen to tak ze mě vypadlo}). %todo
-
-V~přílohách jsme připravili základní definice a~pojmy z~oblasti obecné
-algebry a~teorie kódování. Tato teorie je nezbytná pro pochopení obsahu této
-práce.
-
-\section*{Splnění zadání}
+\vspace{0.5cm}
 
 Prezentovali jsme algoritmy pro asymetrické šifrování \emph{McEliece} a~též
 schéma pro sestrojení digitálního podpisu za pomoci příbuzného kryptosystému
-\emph{Niederreiter}. Též jsme uvedli problematiku zabývající se
-\emph{ireducibilními binárními Goppa kódy}. Z~těchto kódů kryptografie
-založená na kódech dodnes vychází.
+\emph{Niederreiter}. Uvedli jsme problematiku zabývající se
+\emph{ireducibilními binárními Goppa kódy}, ze kterých kryptografie
+založená na lineárních kódech dodnes vychází.
 
-Zabývali jsme se širokou, až nad rámec práce přesahující rešerší
-existujících analýz tohoto \emph{kryptosystému} a~též praktickým aspektům
-v~moderních implementacích. Dále jsme diskutovali metody na zkrácení klíčů
-u~základní varianty \emph{McEliece} s~\emph{binárními Goppa kódy} tak
-i~v~moderních variantách za použití alternativních kódů (jako jsou třeba
-\emph{QD} \emph{Goppa} kódy nebo \emph{QC-MDPC} kódy).
+Provedli jsme hlubokou rešerši publikovaných analýz tohoto \emph{kryptosystému}
+i~existujících útoků. Dále jsme se též věnovali praktickým aspektům v~moderních
+implementacích a~metodám na zkrácení klíčů u~základní varianty \emph{McEliece}
+s~\emph{binárními Goppa kódy}, tak i~v~moderních variantách za použití
+alternativních kódů.
 
 Pro praktické ukázky \emph{kryptosystému McEliece} byla implementována
 varianta -- dle původní definice \emph{Roberta McEliece} -- v~softwaru
 \emph{Wolfram Mathematica}. Byly připraveny příklady použití (šifrování)
 a~demonstrace charakteru klíčů, průběhu jejich generování a~též průběhu
-algoritmů pro šifrování a dešifrování, Na této implementaci bylo provedeno
-základní měření časových složitostí algoritmů a~v~této oblasti zbývá jistě
-mnoho prostoru pro hlubší analýzu. Na základě tohoto měření je vidět, na
-které podproblémy je dobré soustředit další studium a~navrhli jsme konkrétní
-zlepšení této implementace. Velikost klíčů v~této implementaci jsme určili
-analyticky a přinesli jsme návrhy na snížení velikosti dle již známých
-postupů. Ač zbylo hodně prostoru pro zlepšení této implementace, tak pro
-ukázkové účely, kterým měla sloužit, je jistě dostačující.
+algoritmů pro šifrování a~dešifrování.
 
-\section*{Přínos práce}
+Na této implementaci bylo provedeno základní měření časových složitostí
+algoritmů a~v~této oblasti zbývá jistě mnoho prostoru pro hlubší analýzu.
+Z~výsledků tohoto měření je vidět, na které podproblémy je dobré soustředit
+další studium a~navrhli jsme konkrétní zlepšení této implementace. Velikost
+klíčů v~této implementaci jsme určili analyticky a~přinesli jsme návrhy na
+snížení velikosti dle již známých postupů. Tyto poznatky poslouží při budoucím
+pokračování ve zlepšování implementace.
 
-V~rámci implementace vznikly \emph{balíky} (knihovny) pro výpočty s~tzv.
-\emph{rozšířenými tělesy}, na nich postavené \emph{ireducibilní binární
-Goppa} kódy a~tyto kódy využívající implementace \emph{McEliece}. Každý
-z~těchto tří balíků je možné využít pro další zkoumání kryptosystému
-\emph{McEliece}, ale také v~jiných aplikacích a~třeba i~ve výuce obecné
-algebry či teorie kódování.
+V~rámci implementace vznikly \emph{balíky} -- knihovny -- pro výpočty s~tzv.
+\emph{rozšířenými tělesy}, na nich postavené \emph{ireducibilní binární Goppa}
+kódy a~tyto kódy využívající implementace \emph{McEliece}. Každý z~těchto tří
+balíků je možné využít pro další zkoumání kryptosystému \emph{McEliece}, ale
+také v~jiných aplikacích a~třeba i~ve výuce obecné algebry či teorie kódování.
 
-Přínos této práce je v~neposlední řadě v~širokém přehledu poznatků
-i~zkušeností z~praktické implementace. Jistě může sloužit jako výchozí bod
-pro pokračování studování této oblasti asymetrických šifer, na kterém se
-jako autor této práce budu rád účastnit.
+V~přílohách jsme připravili základní definice a~pojmy z~oblasti obecné
+algebry a~teorie kódování. Tyto teoretické poznatky jsou nezbytné pro pochopení
+problematiky týkající se \emph{kryptografie} založené na lineárních kódech.
+Pro případná ujasnění některých témat jsou k~práci přiloženy.
+
+\vspace{0.5cm}
+
+Přínos této práce je v~neposlední řadě v~širokém přehledu poznatků i~zkušeností
+z~praktické implementace. Práce tak může sloužit jako výchozí bod pro
+pokračování studování této oblasti asymetrických šifer. Dle našeho názoru tak
+bylo zadání splněno v~plném rozsahu.
+
 
 \end{conclusion}
 
