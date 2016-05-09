@@ -41,7 +41,7 @@
 \chapterstyle{madsen}
 
 \RequirePackage{babel}[2008/07/06]
-\RequirePackage{hyperref}
+\RequirePackage[pdfusetitle]{hyperref}
 
 \RequirePackage{chngcntr}
 \counterwithout*{footnote}{chapter}
