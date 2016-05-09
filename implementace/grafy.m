@@ -84,6 +84,8 @@ moznostiZaklad = Sequence[
 moznostiPlot   = Sequence[
     AxesOrigin->0,
     PlotStyle->AbsolutePointSize[Medium],
+    GridLines->Automatic,
+    GridLinesStyle->Directive[{Dotted,Gray}],
     moznostiZaklad
 ];
 moznostiChart  = Sequence[
@@ -136,7 +138,9 @@ listGen    = Transpose[{ m, mereniT[[All,2,1,1]]      }];
 listSifr   = Transpose[{ m, mereniT[[All,2,2,1]]*1000 }];
 listDesifr = Transpose[{ m, mereniT[[All,2,3,1]]      }];
 
-moznosti = Sequence[ PlotRange->All, moznostiPlot ];
+barva    = RGBColor[0.880722`,0.611041`,0.142051`];
+styl     = PlotStyle->Directive[{barva,AbsolutePointSize[Medium]}];
+moznosti = Sequence[ PlotRange->All, styl, moznostiPlot ];
 
 plGen    = ListPlot[ listGen,    moznosti, AxesLabel->{ osaXm, osaYs  } ]
 plSifr   = ListPlot[ listSifr,   moznosti, AxesLabel->{ osaXm, osaYms } ]
