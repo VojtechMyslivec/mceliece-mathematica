@@ -65,8 +65,8 @@
     asymetrickou postkvantovou kryptografii. V~práci uvádíme základní definici
     tohoto kryptosystému, variantu pro digitální podpis a~věnujeme se též
     existujícím kryptoanalýzám a~praktickým aspektům tohoto systému. V~rámci
-    práce vznikla ukázková implementace v~softwaru Wolfram Mathematica, na které
-    bylo provedeno měření časových závislostí algoritmů.
+    práce vznikla ukázková implementace v~softwaru \emph{Wolfram Mathematica},
+    na které bylo provedeno měření časových závislostí algoritmů.
 }
 
 % stejně jako s poděkováním :-(
@@ -75,7 +75,8 @@
     cryptography. We provide a~definition of the cryptosystem, its variant for
     digital signature scheme, and we focus on the practical aspects of this
     cryptosystem and its cryptanalysis. We evaluate the time complexity of the
-    algorithms using an illustrative implementation in Wolfram Mathematica.
+    algorithms using an illustrative implementation in \emph{Wolfram
+    Mathematica}.
 }
 
 \keywordsCS{
@@ -110,7 +111,7 @@ jedna z~nejstarších asymetrických šifer a je první šifrou využívající 
 kódování respektive samoopravné lineární kódy.
 
 Tento algoritmus není v~praxi využíván a to hlavně kvůli velikosti klíčů, které
-jsou mnohonásobně větší, než klíče u~aktuálně používaných šifer (\emph{ECDSA},
+jsou mnohonásobně větší, než klíče u~aktuálně používaných šifer (\emph{EC\-DSA},
 \emph{RSA}, \ldots). Nicméně popularita tohoto kryptosystému v~poslední době
 roste, a~to především díky tomu, že je to jeden z~kandidátů pro postkvantovou
 asymetrickou kryptografii.
@@ -128,7 +129,7 @@ s~kvazi-cyklickými \emph{MDPC} kódy se vyskytla v~draftu z~roku \emph{2016}
 společnosti \emph{IETF} mezi doporučenými \emph{postkvantovými} asymetrickými
 kryptosystémy~\cite{Schanck}.
 
-V~posledních letech se tomuto \emph{kryptosystému} (jako i~dalším post-kvantovým
+V~posledních letech se tomuto \emph{kryptosystému} (jako i~dalším postkvantovým
 algoritmům) věnuje čím dál více pozornosti. Cílem práce je získat ucelený pohled
 na tento \emph{kryptosystém} a demonstrovat použití tohoto algoritmu na ukázkové
 implementaci. Dále je důležité prozkoumat existující kryptoanalýzy tohoto
@@ -211,7 +212,7 @@ v~příloze~\ref{app_kodovani} a~respektive~\ref{app_kodovani}. Též nadále
 předpokládáme operace s~hodnotami z~tělesa $GF(2)$ -- respektive s~\emph{bity}.
 
 % todo pozice
-\vfil
+\vfill
 
 
 % ====================================================================
@@ -238,12 +239,13 @@ $\hat{G}$ je \emph{veřejný klíč} a~kód s~\emph{generující} maticí~$G$ v�
 matic $S$ a~$P$ jsou \emph{soukromým klíčem}.
 
 
-\paragraph{Poznámka:} Při generování klíčů je třeba vygenerovat regulární matici
-$S$. Pravděpodobnost, že náhodná čtvercová matice nad $GF(2)$ je regulární, je
-přibližně $33$\;\%.  Toto tvrzení nebylo dokázáno, nicméně numerické výpočty
-tomu nasvědčují~\cite{Heyse}. Pro získání této matice je tak v~průměru potřeba
-vygenerovat $3$~náhodné matice, což znamená $3\times n^2$\;bitů. Efektivněji je
-možné matice generovat například dle~\cite{Randall}.
+\paragraph{Poznámka:} Při generování klíčů je třeba vygenerovat regulární
+matici~$S$. Pravděpodobnost, že náhodná čtvercová matice nad $GF(2)$ je
+regulární, je přibližně $33$\;\%. Toto tvrzení nebylo dokázáno, nicméně
+numerické výpočty tomu nasvědčují~\cite{Heyse}. Pro získání této matice je tak
+v~průměru potřeba vygenerovat $3$~náhodné matice, což znamená
+$3\times n^2$\;bitů. Efektivněji je možné matice generovat například
+dle~\cite{Randall}.
 
 
 
@@ -1007,9 +1009,10 @@ stupeň \uv{zbytku} klesne pod $\lfloor\frac{t}{2}\rfloor$.
 
 
 \paragraph{Nalezení kořenů polynomu} \hfil \\
-Tento krok algoritmu je asymptoticky nejnáročnější. Základní způsob pro nalezení
-kořenů polynomu je hrubou silou vypočítat hodnotu $\sigma(L_i)$ pro všechny
-koeficienty $L_i$ z~podpory $L$.
+Tento krok algoritmu je dle~\cite{Engelbert} asymptoticky nejnáročnější.
+Základní způsob pro nalezení kořenů polynomu je hrubou silou vypočítat hodnotu
+$\sigma(L_i)$ pro všechny koeficienty $L_i$ z~podpory~$L$. Toto dosazení do
+polynomu lze provést pomocí tzv. \emph{Hornerova} schématu.
 
 Efektivnější algoritmem je tzv. \emph{Chienův způsob} hledání kořenů\footnote{
     Tento algoritmus byl původně navržený pro \emph{BCH} kódy~v~\cite{Chien}
@@ -1025,8 +1028,7 @@ prvku) platí:
 Z~posledního řádku je vidět, jak lze tohoto faktu při výpočtu všech kořenů
 využít. Vypočteme-li tedy hodnotu $\sigma(\alpha)$, tak další hodnoty
 $\sigma\left(\alpha^i\right)$ vypočteme pomocí $s-1$ operací násobení a~$s-1$
-sčítání $\Rightarrow O(t)$ násobení. Prostým dosazením všech prvků do polynomu
-$\sigma$ musíme pro \emph{každý} prvek vypočítat $\sim s-2$~mocnin navíc.
+sčítání $\Rightarrow O(s)$ násobení.
 
 Druhým způsobem, jak nalézt kořeny polynomu $\sigma$ je \emph{rozložení} tohoto
 polynomu na faktory ve tvaru $(x-L_i)$. Toho se dá docílit \emph{Berklekampovým}
@@ -1322,9 +1324,9 @@ veřejného klíče v~řádech stovek \emph{kilobajtů} až jednotek \emph{megab
 Ač je v~dnešní době disková kapacita prakticky neomezená, tak hlavní problém je
 v~přenosu tohoto klíče při navazování komunikace. Při běžné komunikaci se
 nejdříve (bezpečným) způsobem vyměňují klíče. V~této fázi se při použití
-\emph{McEliece} musí vyměnit klíče často větší než poté samotná data.
-Navíc v~porovnání s~\emph{RSA} -- používanou asymetrickou \emph{šifrou} s~jinak
-řádově největšími klíči -- je vidět, že tato čísla jsou prakticky nepřijatelná.
+\emph{McEliece} musí vyměnit klíče často větší než poté samotná data. Navíc
+v~porovnání s~\emph{RSA} -- používanou asymetrickou \emph{šifrou} s~jinak řádově
+největšími klíči -- je vidět, že tato čísla jsou prakticky nepřijatelná.
 
 Na druhou stranu je vidět, že časová složitost algoritmů pro šifrování
 a~dešifrování je naopak řádově menší. Kryptosystém \emph{McEliece} má tedy
@@ -1627,12 +1629,32 @@ konverze nejsou \emph{CCA2}-odolné a~stále tak umožňují např. \emph{reakč
 útok} (viz kapitola~\ref{kap_slabiny}). Sami pak navrhli 3~možné
 \emph{CCA2}-odolné konverze, z~nichž třetí -- označená jako \emph{Kobara-Imai
 $\gamma$ konverze} -- je nejúčinější. Tato konverze $\gamma$ je popsána
-algoritmem~\ref{alg_cca2} a~ilustrována obrázkem~\ref{obr_cca2}.
+algoritmem~\ref{alg_cca2} a~ilustrována obrázkem~\ref{obr_cca2}. Algoritmus
+obsahuje v~komentářích číselné odkazy do zmíněného obrázku.
 
 
 \paragraph{Značení} \hfil \\
 V~následujícím algoritmu použijeme značení uvedené
 v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2}.
+
+\vfil
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{l l}
+        Vektor      & Délka                                 \\
+        \hline
+        $y_1$       & $max(|rand|, n+|const|)$              \\
+        $y_2$       & $max(|r|,|hash|$                      \\
+        $y_3$       & $k$                                   \\
+        $y_4$       & $\log_2 \binom{n}{t}$                 \\
+        $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
+    \end{tabular}
+    \caption[Délky vektorů v~CCA2 odolné konverzi $\gamma$]{
+        Délky vektorů v~algoritmu Kobara-Imai $\gamma$
+    }
+    \label{tab_delky_cca2}
+\end{table}
 
 \begin{table}[!ht]
     \centering
@@ -1667,25 +1689,6 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
     \label{tab_znaceni_cca2}
 \end{table}
 
-\begin{table}[!ht]
-    \centering
-    \begin{tabular}{l l}
-        Vektor      & Délka                                 \\
-        \hline
-        $y_1$       & $max(|rand|, n+|const|)$              \\
-        $y_2$       & $max(|r|,|hash|$                      \\
-        $y_3$       & $k$                                   \\
-        $y_4$       & $\log_2 \binom{n}{t}$                 \\
-        $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
-    \end{tabular}
-    \caption[Délky vektorů v~CCA2 odolné konverzi $\gamma$]{
-        Délky vektorů v~algoritmu Kobara-Imai $\gamma$
-    }
-    \label{tab_delky_cca2}
-\end{table}
-
-\vfill
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{materialy/kobara-imai-cca2.png}
@@ -1693,8 +1696,6 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
     $\gamma$~\cite{Repka,Kobara}}
     \label{obr_cca2}
 \end{figure}
-
-\vfill
 
 \begin{algoritmus}[!ht]
     \caption{Konverze Kobara-Imai $\gamma$}\label{alg_cca2}
@@ -1779,7 +1780,7 @@ zmíníme existující řešení v~softwaru \emph{Mathematica}
 a~v~\ref{kap_zvolene_reseni} odůvodníme a~představíme zvolené řešení
 implementace. Dále se v~podkapitole~\ref{kap_implementace_operaci} detailně
 věnujeme implementovanými algoritmy a~též jsou zde uvedené příklady výpočtů.
-Nakonec v~\ref{kap_telesa_mozna_zlepseni} zmíníme některá možná zlepšení
+Nakonec v~\ref{kap_telesa_zlepseni} zmíníme některá možná zlepšení
 implementovaných operací.
 
 \paragraph{Poznámka:} Potřebná teorie z~oblasti obecné algebry a~především
@@ -2361,7 +2362,7 @@ $
 
 
 % --------------------------------------------------------------------
-\subsection{Možná zlepšení}\label{kap_telesa_mozna_zlepseni}
+\subsection{Možná zlepšení}\label{kap_telesa_zlepseni}
 
 V~této kapitole nastíníme možná zlepšení implementace, která zrychlují
 výpočet některých operací.
@@ -3496,43 +3497,92 @@ výsledné hledání kořenů.
 \subsection{Závěry z~měření}
 
 V~následujících odstavcích se budeme věnovat diskuzi k~výsledkům měření
-jednotlivých algoritmů a~představeným grafům.
+jednotlivých algoritmů a~uvedeným grafům.
 
 \paragraph{Závislost na parametru $m$} \hfill \\
-Počet různých hodnot parametru~$m$ není mnoho a~proto není rozumné z~těchto
-grafů vyvozovat silné závěry, nicméně závislost doby výpočtu na tomto
-parametru~$m$ vykazuje exponenciální charakter. Tato skutečnost je zapříčiněna
-tím, že hodnota $t$ byla volena jako $t_{max}/2$ a~jak jsme zmínili výše,
-$t_{max}$ s~rostoucím~$m$ roste \emph{exponenciálně}. Navíc parametr~$m$ určuje
-velikost vnitřního tělesa $GF(2^m)$ a~řád tohoto tělesa (počet prvků) roste též
-exponenciálně.  U~praktických variant algoritmu však tento parametr~$m$
-nepřesahuje hodnoty~$13$ a pohybuje se spíše mezi $11$ až $12$
-(viz~\ref{kap_bezpecne_parametry}).  Důležitější je tedy analyzovat závislost na
-parametru~$t$.
+Závislost doby výpočtu na parametru~$m$ vykazuje u~\emph{generování klíčů}
+a~\emph{dešifrování} exponenciální charakter. Exponenciální skutečnost je
+zapříčiněna tím, že hodnota~$t$ byla volena jako $t_{max}/2$ a~jak jsme zmínili
+výše, $t_{max}$ s~rostoucím~$m$ roste \emph{exponenciálně}. Navíc parametr~$m$
+určuje velikost vnitřního tělesa $GF(2^m)$ a~\emph{řád} tohoto tělesa (odpovídá
+počtu prvků \emph{podpory}~$L$) roste s~$m$ též exponenciálně. U~praktických
+variant algoritmu tento parametr~$m$ nepřesahuje hodnoty~$13$ a~pohybuje se
+spíše mezi $11$ až $12$ (viz~\ref{kap_bezpecne_parametry}).
+
+% todo?!
+%Počet různých hodnot parametru~$m$ však není k~dispozici mnoho a~proto není
+%rozumné z~těchto grafů vyvozovat konečné závěry.
 
 \paragraph{Šifrování} \hfill \\
-U~grafů týkajících se šifrování je nutné zdůraznit, že osa grafů pro šifrování
-je v~jednotkách \emph{milisekund}, zatímco u~ostatních v~jednotkách
-\emph{sekund}. Šifrování je u~kryptosystému \emph{McEliece} řádově rychlejší (to
-potvrzují i~tabulky v~kapitole~\ref{kap_bezpecne_parametry}), jelikož se jedná
-o~prosté násobení matice vektorem a~sečtení dvou vektorů. Malé výkyvy v~naměřené
-závislosti mohou být způsobeny tím, že při určitých rozměrech matice se může
-lépe využívat prostorová lokalita hodnot v~paměti počítače či cache procesoru.
+U~grafů týkajících se šifrování~\ref{obr_mereni_t_sifr}
+a~\ref{obr_mereni_m_sifr} je nutné zdůraznit, že osa grafů pro šifrování je
+v~jednotkách \emph{milisekund}, zatímco u~ostatních v~jednotkách \emph{sekund}.
+Šifrování je u~kryptosystému \emph{McEliece} řádově rychlejší (to potvrzují
+i~tabulky v~kapitole~\ref{kap_bezpecne_parametry}), jelikož se jedná o~prosté
+násobení matice vektorem -- respektive sečtení odpovídajících řádků matice
+$\hat{G}$ -- a~sečtení dvou vektorů. Malé výkyvy v~naměřené závislosti mohou být
+způsobeny tím, že při určitých rozměrech matice se může lépe využívat prostorová
+lokalita hodnot v~\emph{paměti} počítače či \emph{cache} procesoru.
 
 Doba šifrování klesá v~závislosti na parametru~$t$, což je očekávaný výsledek,
 protože počet řádků šifrovací matice $\hat{G}$ klesá s~rostoucím~$t$ -- počet
 řádků~$k$ je přesně $n - tm$.
 
 \paragraph{Dešifrování} \hfill \\
-implementovat Chien search a počítání násobení mocnin  pomocí
-primitivního prvku.
+Z~grafu závislosti doby dešifrování na
+parametru~$t$~\ref{obr_mereni_pomer_desifr} je jasně vidět \emph{polynomiální}
+složitost tohoto algoritmu. V~grafu~\ref{obr_mereni_pomer_desifr} je pak
+zobrazený poměr času výpočtů dílčích kroků dešifrování. Samotné dešifrování --
+neboli násobení matic~$P^{-1}$ a~$P^{-1}$ -- není asymptoticky významné. Nejvíce
+času trvá dekódování slova~$\hat{c}$ a~to konkrétně vypočítání polynomu~$R$
+a~hledáním kořenů.
 
-TODO
+Dle~\cite{Engelbert} má být nejnáročnějším krokem \emph{Pattersonova}
+dekódovacího algoritmu právě hledání kořenů ale z~druhého grafu vyplývá, že
+vypočítání odmocniny (polynomu~$R$) v~našem případě trvá (pro rozumně velká~$t$)
+mnohem déle. V~další práci je tedy vhodné se soustředit kromě implementování
+efektivnějšího hledání kořenů (viz kapitola~\ref{kap_goppa_dekodovani}) též
+rychlejším výpočtům druhé odmocniny prvku v~konečném tělese. Na tento krok
+algoritmu nebyl kladen důraz v~žádné z~publikací, ze kterých jsme čerpali a~tak
+je tento poznatek z~měření rozhodně přínosný.
+
+Výpočet druhé mocniny polynomu z~$GF(2^m)^t$ může zrychlit počítání s~prvky
+vnitřního tělesa~$GF(2^m)$ jako \emph{mocninami primitivního prvku tělesa}.
+Tomuto možnému zlepšení jsme se věnovali v~kapitole~\ref{kap_telesa_zlepseni}.
+
 
 \paragraph{Generování klíčů} \hfill \\
-Násobení matic -- diagonala, primitivni prvek
+Při porovnání hodnot z~prezentovaných grafů je vidět, že algoritmus pro
+\emph{generování klíčů} je jasně nejpomalejší z~prezentovaných algoritmů.
+V~grafu~\ref{obr_mereni_t_gen} je patrná polynomiální (dalo by se říci
+i~lineární) závislost doby generování klíčů na parametru~$t$. Při detailnějším
+pohledu na poměr jednotlivých kroků algoritmu
+v~obrázku~\ref{obr_mereni_pomer_gen} vidíme, že nejdelším dílčím výpočtem je
+výpočet matice~$H$. Druhý zajímavý poznatek je rostoucí procentuální zastoupení
+výpočtu syndromů $S_L$. Opět se jedná o~dílčí výpočty při generování \emph{Goppa
+kódu} a~ukázalo se tak, že generování matic~$P$ a~$S$ nezastupuje ve výpočtu --
+při těchto naměřených parametrech~$m$ a~$t$ -- významnou část.
 
-TODO
+Matice~$D$ má pro dané~$m$ konstantní velikost $n \times n \Rightarrow 2^m
+\times 2^m$ prvků. Počet řádků matice~$V$ je~$t$ a~velikost této matice tak
+roste \emph{lineárně} s~parametrem~$t$. Výpočet syndromů $S_L$ je výpočet
+\emph{inverzí} v~tělese $GF(2^m)^t$, kde~$t$ tedy určuje počet koeficientů
+polynomů v~tomto tělese (respektive \emph{řád} tělesa).
+
+Matici~$H$ počítáme prostým násobením dvou matic~$D$ a~$V$. Jelikož jednotlivé
+prvky matic jsou z~tělesa~$GF(2^m)$, nebylo možné využít vnitřní implementace
+maticového násobení softwaru \emph{Mathematica} a~museli jsme implementovat toto
+násobení \emph{naivní} metodou pomocí tří \emph{cyklů}. Existují asymptoticky
+rychlejší algoritmy pro (obecné) násobení matic\footnote{
+    Například \emph{Strassenův} algoritmus.
+}, nicméně v~tomto konkrétním případě se násobí matice~$V$ \emph{diagonální}
+maticí~$D$ -- každý řádek~$V$ je vždy násoben pouze jedním nenulovým prvkem
+z~$D$. Za této podmínky je možné násobení implementovat jednodušším způsobem.
+
+Výpočet matice~$H$ nad tělesem~$GF(2^m)$, stejně jako výpočet inverze
+\emph{syndromů}~$S_L$, můžeme opět zrychlit počítáním s~prvky
+vnitřního tělesa~$GF(2^m)$ jako \emph{mocninami primitivního prvku} -- viz
+kapitola~\ref{kap_telesa_zlepseni}.
 
 
 
@@ -3612,8 +3662,8 @@ bylo zadání splněno v~plném rozsahu.
 
     \bibitem{McEliece}
         Robert J. \textsc{McEliece}, A~Public-Key Cryptosystem Based on
-        Algebraic Coding Theory v~\emph{JPL Deep Space Network Progress Report
-        42-44} Jenuary and February 1978, strany 114–116. Dostupné online
+        Algebraic Coding Theory v~\emph{JPL Deep Space Network Progress Report},
+        strany 114-116. 1978. Dostupné online
         \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
 
     \bibitem{Adamek}
