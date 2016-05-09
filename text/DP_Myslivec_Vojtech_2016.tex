@@ -202,7 +202,6 @@ v~podkapitole~\ref{kap_mceliece_vlastnosti} popíšeme základní vlastnosti
 \emph{kryptosystému} a~nakonec v~\ref{kap_bezpecnost} zdůrazníme výpočetní
 problém, na kterém stojí základy \emph{bezpečnosti} tohoto \emph{kryptosystému}.
 
-% todo pozice
 \vfil
 
 
@@ -211,7 +210,6 @@ kódování a~obecné algebry, které jsou případně ujasněné
 v~příloze~\ref{app_kodovani} a~respektive~\ref{app_kodovani}. Též nadále
 předpokládáme operace s~hodnotami z~tělesa $GF(2)$ -- respektive s~\emph{bity}.
 
-% todo pozice
 \vfill
 
 
@@ -348,8 +346,6 @@ to permutační matice a~lze ji reprezentovat prostou \emph{permutací}, tedy ve
 formě $\log_2 n$ $n$-bitových indexů. Pro výše zmíněné hodnoty je to $10240$\;b
 $=10$\;kb.
 
-% TODO odkaz na velikost kódu
-% $3 m 2^m + (1-m)mt + m + 1 $
 Při konkrétním použití doporučovaných \emph{binárních Goppa kódů} s~těmito
 parametry je potřeba k~uložení informace o~použitém kódu $\approx 26$\;kb.
 Celkem se jedná o~přibližně $300$\;kb dat pro uložení soukromého klíče
@@ -400,9 +396,6 @@ ale množství jednotlivých matic je pro velká $n$ a $k$ obrovské, a získat 
 původní matice hrubou silou je \emph{neschůdné}\footnote{
     Např. jen počet možných \emph{permutačních matic} je $n!$. Počet
     \emph{generujících} matic závisí na zvoleném kódu.
-    % TODO citace?  Počet regulárních matic nad $GF(2)$ je
-    % $ \prod\limits_{i=0}^{k-1}(2^k - 2^i) $, což je přibližně jedna ze tří
-    % $k \cdot k$ matic.
 }.
 
 
@@ -429,7 +422,6 @@ Za použití šifrovacího algoritmu \emph{McEliece} je vektor $c$ \uv{zakrytý}
 náhodným chybovým vektorem $z$ \emph{Hammingovy váhy} $t$. Potom
 pravděpodobnost, že $c_{\mathcal{D}}$ (ve výběru $k$ dimenzí) je bez chyby je
 $\left(1-\frac{t}{n}\right)^k$ \cite{McEliece}. Pro $O\left(k^3\right)$ operací
-% TODO je ta pravděpodobnost správně?
 pro vyřešení jedné soustavy rovnic je to přibližně:
 $$
     O\left( \frac{n^3}{\left(1-\frac{t}{n}\right)^k} \right) =
@@ -615,7 +607,6 @@ Konkrétně pro navrhované parametry $n=1024$, $t=50$ (a $k=524$) je počet vek
 do \emph{Hammingovy vzdálenosti} $50$ od všech kódových slov:
 $$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808} $$
 
-% todo pozice
 \newpage
 
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
@@ -769,7 +760,6 @@ pro použití \emph{Goppa} kódů, které jsou k~nalezení
 v~\cite{Berlekamp2,Engelbert}. Další informace o~těchto kódech jsou k~nalezení
 například v~\cite{McEliece_coding}.
 
-% todo pozice
 \vfil
 
 
@@ -793,7 +783,6 @@ Obecné \emph{Goppa} kódy jsou definovány pomocí
 }, nicméně v~této práci se budeme zabývat pouze podkategorií, tzv.
 \emph{binárními Goppa kódy}.
 
-% todo pozice
 \vfil
 
 
@@ -846,7 +835,6 @@ Takový kód má tedy paramtery $(n,k,t) = ( 2^m, 2^m - mt, t )$, a jsou tedy
 jednoznačně určené parametrem~$m$ (\uv{velikostí vnitřního tělesa}) a~stupněm
 polynomu~$g$, neboli počtem opravitelných chyb~$t$.
 
-% todo pozice
 \vfill
 
 
@@ -914,12 +902,6 @@ Z~každé řádky nad $GF(2^m)$ tedy vznikne $m$ řádků nad $GF(2)$ a~tato
 matic u~\emph{lineárních kódů}\footnote{
     Pro úplnost tento postup uvádíme v~příloze~\ref{app_linearni_kody}.
 }.
-
-
-
-% ====================================================================
-%\section{Kódování}
-%Jedná se o~lineární kódy, ... %TODO
 
 
 
@@ -1259,7 +1241,6 @@ pro dosažení požadované míry bezpečnosti dle \cite{Bernstein1} a~tabulka
 inspirovaná z~\cite{Engelbert,Paar} porovnává asymptotické složitosti šifrování
 a~dešifrování kryptosystému \emph{McEliece} a \emph{RSA}.
 
-% TODO pozice tabulek
 \begin{table}[t]
     \begin{center}
     \begin{tabular}{r|l|r}
@@ -1547,9 +1528,6 @@ Ač byl \emph{kryptosystém} navržený s~maticemi $S$ a~$P$ pro \emph{ukrytí}
 nemá žádný bezpečnostní účel pro skrytí matice $G$. Naopak matice $P$ je velmi
 důležitá a~prozrazení této permutace by znamenalo prozrazení \emph{soukromého
 klíče}.
-%Existují implementace \emph{kryptosystému}, které matici $S$ ve
-%výpočtech vůbec nezahrnují.
-%todo citace?
 
 
 % --------------------------------------------------------------------
@@ -1969,7 +1947,6 @@ modulo $p$.
     \end{algorithmic}
 \end{algoritmus}
 
-%todo pozice
 \vfil
 
 
@@ -2096,7 +2073,6 @@ Pro $GF(p^n)$ se používá obyčejného násobení dvou \emph{polynomů} a~nás
     \end{algorithmic}
 \end{algoritmus}
 
-% todo pozice
 \vfil
 
 
@@ -2328,7 +2304,6 @@ odběrové a~časové analýze. Pro odolnou implementaci je nutné počítat ná
 \emph{vždy} a~pokud je daný bit exponentu $1$, přiřadit násobek do mezi výpočtu.
 Pseudokód i~reálná implementace je prováděna tímto (bezpečným) způsobem.
 
-% todo pozice
 \vfil
 
 \paragraph{Příklad} Algoritmus \emph{Square-and-Multiply} pro výpočet
@@ -2453,7 +2428,6 @@ $k_b$ (viz \emph{EEA} -- alg. \ref{alg_eea}) nastavena na hodnotu $a$.
 Výsledkem algoritmu pak bude inverze prvku $b$ vynásobená $a$, což přesně
 odpovídá výrazu $a/b$.
 
-% todo pozice
 \newpage
 
 
@@ -2638,7 +2612,6 @@ v~kapitole~\ref{kap_goppa_dekodovani}.
     \end{algorithmic}
 \end{algoritmus}
 
-% todo pozice
 \vfill
 
 
@@ -2672,7 +2645,6 @@ zprávu~$d$.\footnote{
     dimenze~$\mathcal{K}$, že~$G_\mathcal{K}$ je jednotková matice.
 }
 
-% todo pozice
 \vfil
 
 % --------------------------------------------------------------------
@@ -2723,7 +2695,6 @@ $$
     \right)
 $$
 
-% todo pozice
 \newpage
 
 Vynásobením těchto dvou matic získáme \emph{kontrolní} matici~$H$ (nad
@@ -2825,7 +2796,6 @@ abychom nalezli odmocninu -- je možné pro zrychlení výpočtu též uložit m
 parametry definující kód. Oproti ostatním operacím se však jedná o~minoritní
 výpočet a~tak toto zrychlení by nebylo nijak významné.
 
-% todo pozice
 \newpage
 
 
@@ -3231,7 +3201,7 @@ použitých v~kryptosystému \emph{McEliece}.
 \section{Velikosti klíčů}\label{kap_mereni_velikost}
 
 Velikost klíčů (respektive počet jejich hodnot) je možné velmi přesně určit
-analyticky. Veřejným klíčem je matice $\hat{G}$ a soukromým klíčem je kód
+analyticky. Veřejným klíčem je matice $\hat{G}$ a~soukromým klíčem je kód
 $\Gamma$ a~inverze matic~$P$ a~$S$. Veřejnými parametry je pouze trojice
 čísel~$(n,k,t)$, které jsou i~pro reálné implementace reprezentovány v~řádu
 desítek bitů, a~v~porovnání s~velikostí matic jsou tedy zanedbatelné.
@@ -3239,8 +3209,8 @@ desítek bitů, a~v~porovnání s~velikostí matic jsou tedy zanedbatelné.
 Velikosti budeme vyjadřovat v~počtu bitů určujících dané proměnné. Tyto hodnoty
 jsou ale v~naší implementaci objekty typu \texttt{Integer}, jelikož v~softwaru
 \emph{Mathematica} nejsme schopni (pohodlně) pracovat s~jinými datovými typy.
-Dále budeme tedy mluvit v~jednotkách hodnot, čímž budeme rozumět objekt typu
-\texttt{Integer}.
+Dále budeme tedy mluvit v~jednotkách \emph{hodnot}, čímž budeme rozumět objekt
+typu \texttt{Integer}.
 
 
 % --------------------------------------------------------------------
@@ -3252,37 +3222,39 @@ algoritmu se hodnota~$k$ pohybuje okolo poloviny hodnoty~$n$ a~tedy počet hodno
 této matice je přibližně
 $$ \left|\hat{G}\right| = O\left( 2^{2m-1} \right) $$
 
-% todo pozice
 \vfil
 
 \paragraph{Snížení velikosti} \hfil \\
-Jak již bylo několikrát zmíněno , tuto matici je možné efektivně
-uložit v~\emph{systematické} formě a~velikost klíče tak klesne o~$k$~sloupců
-této matice na $(n-k) k$. V~kapitole~\ref{kap_snizeni_velikosti_klicu} jsme
+Jak již bylo několikrát zmíněno, tuto matici je možné efektivně uložit
+v~\emph{systematické} formě a~velikost klíče tak klesne o~$k$~sloupců této
+matice na $(n-k) k$ hodnot. V~kapitole~\ref{kap_snizeni_velikosti_klicu} jsme
 uvedli, že lze tímto způsobem ušetřit $50$-$75$\;\% velikosti veřejného klíče.
 
 % --------------------------------------------------------------------
 \subsection{Soukromý klíč}
 
-Soukromý klíč se skládá z~\emph{Goppa kódu}~$\Gamma$ a~matice~$S^{-1}$
-a~$P^{-1}$. Matice~$S^{-1}$ má $k^2$~hodnot a~matice~$P^{-1}$ $n^2$~hodnot.
+Soukromý klíč je určen \emph{Goppa kódem}~$\Gamma$ a~maticí~$S^{-1}$
+a~$P^{-1}$. Matice~$S^{-1}$ je reprezentována $k^2$~hodnotami a~matice~$P^{-1}$
+$n^2$~hodnotami.
 
-\emph{Goppa kód} $\Gamma$ se skládá z~generující matice~$G$ \emph{Goppova}
-polynomu~$g$, \emph{podpory}~$L$ a~předpočítaných \emph{dílčích syndromů}~$S_L$.
-Matice~$G$ zabírá stejný prostor jako $\hat{G}$. Polynom~$g$ je stupně~$t$ nad
-konečným tělesem $GF(2^m)$, které je určeno ireducibilním polynomem stupně~$m$.
-Polynom~$g$ je složen z~$m(t+1)$ hodnot a~vnitřní polynom z~$m+1$. Podpora~$L$
-je posloupnost $n$~prvků z~tělesa $GF(2^m)$ a~zabírá tedy $n m$ hodnot.
-Syndromy~$S_L$ je posloupnost $n$~prvků z~tělesa $GF(2^m)^t$ a~zabírá tedy
-$n t m$ hodnot. Celkový součet velikosti \emph{Goppa kódu} je
+\emph{Goppa kód} $\Gamma$ je určen generující maticí~$G$ \emph{Goppovým}
+polynomem~$g$, \emph{podporou}~$L$ a~předpočítanými \emph{dílčími
+syndromy}~$S_L$.  Matice~$G$ zabírá stejný prostor jako $\hat{G}$. Polynom~$g$
+je stupně~$t$ nad konečným tělesem $GF(2^m)$, které je určeno ireducibilním
+polynomem stupně~$m$.  Polynom~$g$ je tedy reprezentován $m(t+1)$~hodnotami
+a~vnitřní polynom $m+1$~hodnotami. Podpora~$L$ je posloupnost $n$~prvků z~tělesa
+$GF(2^m)$ a~zabírá tedy $n m$ hodnot. Syndromy~$S_L$ jsou posloupnost $n$~prvků
+z~tělesa $GF(2^m)^t$ a~zabírají tedy $n t m$ hodnot. Celkový součet velikosti
+\emph{Goppa kódu} je
 \begin{align*}
     \left|\Gamma\right| &= O\left( (nk) + ( m(t+1) + (m+1) ) + (nm) + (ntm) \right) = \\
                         &= O\left(  nk + ( mt + m ) + ntm  \right) = \\
                         &= O\left(  nk + tnm \right) \\
 \end{align*}
 
-Por běžné parametry platí $n > k \gg t > m$ a~tak nejvýznamnější část určeného
-Goppa kódu zabírá \emph{generující} matice~$G$ a~\emph{dílčí syndromy}~$L$.
+Pro běžné parametry platí $n > k \gg t > m$ a~tak nejvýznamnější část určeného
+Goppa kódu představuje \emph{generující} matice~$G$ a~\emph{dílčí
+syndromy}~$S_L$.
 
 Velikost soukromého klíče je tak celkově:
 \begin{align*}
@@ -3323,7 +3295,6 @@ lehce upravit zdrojové kódy některých algoritmů. To obsahuje především p
 funkcí \texttt{AbsoluteTiming} a~navrácení hodnot takto spočítaných časů
 společně s~původními návratovými hodnotami.
 
-% todo
 \paragraph{Poznámka o~umístění souborů:} Z~důvodu přehlednosti a~zachování
 původního kódu byly tyto úpravy prováděny ve~vlastní \emph{větvi}
 \texttt{mereni} ve verzovacím systému \emph{git}. Na přiloženém disku jsou
@@ -3377,7 +3348,6 @@ hodnotu~$m$ pro generování klíčů (obrázek~\ref{obr_mereni_t_gen}), šifrov
 $m>=6$, protože platných hodnot~$t$ je pro menší~$m$ málo a~ani by v~grafech
 nebyly vidět.
 
-%todo pozice
 \vfil
 
 \begin{figure}[!ht]
@@ -3410,7 +3380,6 @@ nebyly vidět.
     \label{obr_mereni_t_desifr}
 \end{figure}
 
-%todo pozice
 \clearpage
 
 \paragraph{Závislost na parametru $m$} \hfil \\
@@ -3437,7 +3406,6 @@ a~předpočítání dílčích syndromů $S_L$. V~obrázku~\ref{obr_mereni_pomer
 je vyjádřen tento poměr při dešifrování pro vypočítání polynomu~$R$ a~pro
 výsledné hledání kořenů.
 
-% todo pozice
 \vfil
 
 \begin{figure}[!ht]
@@ -3491,7 +3459,6 @@ výsledné hledání kořenů.
     \label{obr_mereni_pomer_desifr}
 \end{figure}
 
-% todo pozice
 \clearpage
 
 \subsection{Závěry z~měření}
@@ -3508,10 +3475,6 @@ určuje velikost vnitřního tělesa $GF(2^m)$ a~\emph{řád} tohoto tělesa (od
 počtu prvků \emph{podpory}~$L$) roste s~$m$ též exponenciálně. U~praktických
 variant algoritmu tento parametr~$m$ nepřesahuje hodnoty~$13$ a~pohybuje se
 spíše mezi $11$ až $12$ (viz~\ref{kap_bezpecne_parametry}).
-
-% todo?!
-%Počet různých hodnot parametru~$m$ však není k~dispozici mnoho a~proto není
-%rozumné z~těchto grafů vyvozovat konečné závěry.
 
 \paragraph{Šifrování} \hfill \\
 U~grafů týkajících se šifrování~\ref{obr_mereni_t_sifr}
@@ -3546,7 +3509,7 @@ rychlejším výpočtům druhé odmocniny prvku v~konečném tělese. Na tento k
 algoritmu nebyl kladen důraz v~žádné z~publikací, ze kterých jsme čerpali a~tak
 je tento poznatek z~měření rozhodně přínosný.
 
-Výpočet druhé mocniny polynomu z~$GF(2^m)^t$ může zrychlit počítání s~prvky
+Výpočet druhé mocniny polynomu z~$GF(2^m)^t$ může zrychlit počítání s~prv\-ky
 vnitřního tělesa~$GF(2^m)$ jako \emph{mocninami primitivního prvku tělesa}.
 Tomuto možnému zlepšení jsme se věnovali v~kapitole~\ref{kap_telesa_zlepseni}.
 
@@ -3871,9 +3834,6 @@ bylo zadání splněno v~plném rozsahu.
         based on Quasi-Dyadic Goppa Codes. Diplomová práce. Ruhr-University
         Bochum, 2010.
 
-%    todo?
-%    \bibitem{Pointcheval}
-
     \bibitem{Patterson}
         Nicholas J. \textsc{Patterson}, The algebraic decoding of Goppa codes
         v~\emph{IEEE Transactions on Information Theory}, vol. 21, strany
@@ -3957,7 +3917,6 @@ bylo zadání splněno v~plném rozsahu.
         České vysoké učení technické v~Praze, Fakulta informačních technologií,
         2013.
 
-% todo pozice
 % skripta
 
     \bibitem{Mares}
@@ -4761,7 +4720,6 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
 
 %upravte podle skutecnosti
 
-%TODO
 \begin{figure}
     \dirtree{%
         .1 README.md
@@ -4775,7 +4733,7 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
         .1 materialy
             \DTcomment{adresář s~dodatečnými soubory a skripty}.
         .1 mereni
-            \DTcomment{adresář se soubory s~měřením}.
+            \DTcomment{adresář se soubory z~měření}.
         .1 text
             \DTcomment{text práce}.
             .2 DP\_Myslivec\_Vojtech\_2016.tex
