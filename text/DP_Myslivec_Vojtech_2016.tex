@@ -3463,84 +3463,84 @@ výsledné hledání kořenů.
 
 \subsection{Závěry z~měření}
 
-V~následujících odstavcích se budeme věnovat diskuzi k~výsledkům měření
-jednotlivých algoritmů a~uvedeným grafům.
+V~následujících odstavcích se budeme věnovat diskuzi složitostí dle~výsledků
+měření jednotlivých algoritmů a~uvedeným grafům.
 
 \paragraph{Závislost na parametru $m$} \hfill \\
 Závislost doby výpočtu na parametru~$m$ vykazuje u~\emph{generování klíčů}
-a~\emph{dešifrování} exponenciální charakter. Exponenciální skutečnost je
-zapříčiněna tím, že hodnota~$t$ byla volena jako $t_{max}/2$ a~jak jsme zmínili
-výše, $t_{max}$ s~rostoucím~$m$ roste \emph{exponenciálně}. Navíc parametr~$m$
-určuje velikost vnitřního tělesa $GF(2^m)$ a~\emph{řád} tohoto tělesa (odpovídá
-počtu prvků \emph{podpory}~$L$) roste s~$m$ též exponenciálně. U~praktických
-variant algoritmu tento parametr~$m$ nepřesahuje hodnoty~$13$ a~pohybuje se
-spíše mezi $11$ až $12$ (viz~\ref{kap_bezpecne_parametry}).
+(obrázek~\ref{obr_mereni_m_gen}) a~\emph{dešifrování}
+(obrázek~\ref{obr_mereni_m_desifr}) exponenciální charakter. Exponenciální
+závislost je zapříčiněna tím, že hodnota~$t$ byla volena jako $t_{max}/2$ a~jak
+jsme zmínili výše, $t_{max}$ roste s~$m$ \emph{exponenciálně}. Navíc
+parametr~$m$ určuje velikost vnitřního tělesa $GF(2^m)$ a~\emph{řád} tohoto
+tělesa (odpovídá počtu prvků \emph{podpory}~$L$) roste s~$m$ též exponenciálně.
+U~praktických variant algoritmu tento parametr~$m$ nepřesahuje hodnoty~$13$
+a~pohybuje se spíše mezi $11$ až $12$ (viz kapitola~\ref{kap_bezpecne_parametry}).
 
 \paragraph{Šifrování} \hfill \\
-U~grafů týkajících se šifrování~\ref{obr_mereni_t_sifr}
-a~\ref{obr_mereni_m_sifr} je nutné zdůraznit, že osa grafů pro šifrování je
-v~jednotkách \emph{milisekund}, zatímco u~ostatních v~jednotkách \emph{sekund}.
-Šifrování je u~kryptosystému \emph{McEliece} řádově rychlejší (to potvrzují
-i~tabulky v~kapitole~\ref{kap_bezpecne_parametry}), jelikož se jedná o~prosté
-násobení matice vektorem -- respektive sečtení odpovídajících řádků matice
-$\hat{G}$ -- a~sečtení dvou vektorů. Malé výkyvy v~naměřené závislosti mohou být
-způsobeny tím, že při určitých rozměrech matice se může lépe využívat prostorová
-lokalita hodnot v~\emph{paměti} počítače či \emph{cache} procesoru.
+U~grafů zobrazující časovou závislost \emph{šifrování}
+(obrázky~\ref{obr_mereni_t_sifr} a~\ref{obr_mereni_m_sifr}) je nutné zdůraznit,
+že časová osa grafů pro šifrování je v~jednotkách \emph{milisekund}, zatímco
+u~ostatních grafů je v~jednotkách \emph{sekund}. Šifrování je u~kryptosystému
+\emph{McEliece} řádově rychlejší (to potvrzují i~tabulky
+v~kapitole~\ref{kap_bezpecne_parametry}), jelikož se jedná o~prosté násobení
+matice vektorem -- respektive sečtení odpovídajících řádků matice $\hat{G}$ --
+a~sečtení dvou vektorů. Malé výkyvy v~naměřené závislosti mohou být způsobeny
+tím, že při určitých rozměrech matice se může lépe využívat prostorová lokalita
+paměťového systému počítače.
 
-Doba šifrování klesá v~závislosti na parametru~$t$, což je očekávaný výsledek,
-protože počet řádků šifrovací matice $\hat{G}$ klesá s~rostoucím~$t$ -- počet
-řádků~$k$ je přesně $n - tm$.
+Je zřejmé, že doba šifrování klesá v~závislosti na parametru~$t$, protože počet
+řádků šifrovací matice $\hat{G}$ klesá s~rostoucím~$t$ ($k = n - tm$).
 
 \paragraph{Dešifrování} \hfill \\
-Z~grafu závislosti doby dešifrování na
-parametru~$t$~\ref{obr_mereni_pomer_desifr} je jasně vidět \emph{polynomiální}
-složitost tohoto algoritmu. V~grafu~\ref{obr_mereni_pomer_desifr} je pak
+Z~grafu závislosti doby dešifrování na parametru~$t$
+(obrázek~\ref{obr_mereni_t_desifr}) je zřejmá \emph{polynomiální}
+složitost tohoto algoritmu. V~obrázku~\ref{obr_mereni_pomer_desifr} je pak
 zobrazený poměr času výpočtů dílčích kroků dešifrování. Samotné dešifrování --
-neboli násobení matic~$P^{-1}$ a~$P^{-1}$ -- není asymptoticky významné. Nejvíce
+neboli násobení matic~$P^{-1}$ a~$S^{-1}$ -- není asymptoticky významné. Nejvíce
 času trvá dekódování slova~$\hat{c}$ a~to konkrétně vypočítání polynomu~$R$
 a~hledáním kořenů.
 
 Dle~\cite{Engelbert} má být nejnáročnějším krokem \emph{Pattersonova}
-dekódovacího algoritmu právě hledání kořenů ale z~druhého grafu vyplývá, že
-vypočítání odmocniny (polynomu~$R$) v~našem případě trvá (pro rozumně velká~$t$)
-mnohem déle. V~další práci je tedy vhodné se soustředit kromě implementování
-efektivnějšího hledání kořenů (viz kapitola~\ref{kap_goppa_dekodovani}) též
-rychlejším výpočtům druhé odmocniny prvku v~konečném tělese. Na tento krok
-algoritmu nebyl kladen důraz v~žádné z~publikací, ze kterých jsme čerpali a~tak
-je tento poznatek z~měření rozhodně přínosný.
+dekódovacího algoritmu právě hledání kořenů ale ze znázorněného poměru
+v~obrázku~\ref{obr_mereni_pomer_desifr} vyplývá, že vypočítání odmocniny
+(polynomu~$R$) v~našem případě trvá (pro rozumně velká~$t$) mnohem déle. Na
+tento krok algoritmu nebyl kladen důraz v~žádné z~publikací, ze kterých jsme
+čerpali a~tak je tento poznatek může sloužit jako podnět pro další zkoumání.
 
-Výpočet druhé mocniny polynomu z~$GF(2^m)^t$ může zrychlit počítání s~prv\-ky
-vnitřního tělesa~$GF(2^m)$ jako \emph{mocninami primitivního prvku tělesa}.
-Tomuto možnému zlepšení jsme se věnovali v~kapitole~\ref{kap_telesa_zlepseni}.
+V~kapitole~\ref{kap_telesa_zlepseni} jsme se věnovali možnou implementací
+operací s~koeficienty z~tělesa~$GF(2^m)$ pomocí \emph{mocnin primitivního prvku}
+tohoto tělesa. Toto vylepšení může zkrátit výpočet druhé odmocniny polynomu~$R$
+z~$GF(2^m)^t$.
 
 
 \paragraph{Generování klíčů} \hfill \\
-Při porovnání hodnot z~prezentovaných grafů je vidět, že algoritmus pro
-\emph{generování klíčů} je jasně nejpomalejší z~prezentovaných algoritmů.
-V~grafu~\ref{obr_mereni_t_gen} je patrná polynomiální (dalo by se říci
-i~lineární) závislost doby generování klíčů na parametru~$t$. Při detailnějším
-pohledu na poměr jednotlivých kroků algoritmu
-v~obrázku~\ref{obr_mereni_pomer_gen} vidíme, že nejdelším dílčím výpočtem je
-výpočet matice~$H$. Druhý zajímavý poznatek je rostoucí procentuální zastoupení
-výpočtu syndromů $S_L$. Opět se jedná o~dílčí výpočty při generování \emph{Goppa
-kódu} a~ukázalo se tak, že generování matic~$P$ a~$S$ nezastupuje ve výpočtu --
-při těchto naměřených parametrech~$m$ a~$t$ -- významnou část.
+Při porovnání složitostí prezentovaných grafů na obrázcích v~této kapitole je
+vidět, že algoritmus pro \emph{generování klíčů} je jasně nejpomalejší
+z~prezentovaných algoritmů.  V~grafu~na obrázku~\ref{obr_mereni_t_gen} je patrná
+polynomiální (dalo by se s~dominancí lineární složky) závislost doby generování
+klíčů na parametru~$t$. Při detailnějším pohledu na poměr jednotlivých kroků
+algoritmu v~obrázku~\ref{obr_mereni_pomer_gen} vidíme, že nejdelším dílčím
+výpočtem je výpočet matice~$H$. Druhý zajímavý poznatek je rostoucí procentuální
+zastoupení výpočtu syndromů $S_L$. Opět se jedná o~dílčí výpočty při generování
+\emph{Goppa kódu} a~ukázalo se tak, že generování matic~$P$ a~$S$ nezastupuje ve
+výpočtu -- při těchto naměřených parametrech~$m$ a~$t$ -- významnou část.
 
-Matice~$D$ má pro dané~$m$ konstantní velikost $n \times n \Rightarrow 2^m
-\times 2^m$ prvků. Počet řádků matice~$V$ je~$t$ a~velikost této matice tak
-roste \emph{lineárně} s~parametrem~$t$. Výpočet syndromů $S_L$ je výpočet
-\emph{inverzí} v~tělese $GF(2^m)^t$, kde~$t$ tedy určuje počet koeficientů
-polynomů v~tomto tělese (respektive \emph{řád} tělesa).
+Matici~$H$ počítáme prostým násobením dvou matic~$D$ a~$V$. Matice~$D$ má pro
+dané~$m$ konstantní velikost $n \times n \Rightarrow 2^m \times 2^m$ prvků.
+Počet řádků matice~$V$ je~$t$ a~velikost této matice tak roste \emph{lineárně}
+s~parametrem~$t$. Jelikož jednotlivé prvky matic jsou z~tělesa~$GF(2^m)$, nebylo možné využít
+vnitřní implementace maticového násobení softwaru \emph{Mathematica} a~museli
+jsme implementovat toto násobení \emph{prostou} metodou pomocí tří \emph{cyklů}.
+Existují asymptoticky rychlejší algoritmy pro (obecné) násobení matic\footnote{
+Například \emph{Strassenův} algoritmus.  }, nicméně v~tomto konkrétním případě
+se násobí matice~$V$ \emph{diagonální} maticí~$D$ -- každý řádek~$V$ je vždy
+násoben pouze jedním nenulovým prvkem z~$D$. Za této podmínky je možné násobení
+implementovat jednodušším způsobem.
 
-Matici~$H$ počítáme prostým násobením dvou matic~$D$ a~$V$. Jelikož jednotlivé
-prvky matic jsou z~tělesa~$GF(2^m)$, nebylo možné využít vnitřní implementace
-maticového násobení softwaru \emph{Mathematica} a~museli jsme implementovat toto
-násobení \emph{naivní} metodou pomocí tří \emph{cyklů}. Existují asymptoticky
-rychlejší algoritmy pro (obecné) násobení matic\footnote{
-    Například \emph{Strassenův} algoritmus.
-}, nicméně v~tomto konkrétním případě se násobí matice~$V$ \emph{diagonální}
-maticí~$D$ -- každý řádek~$V$ je vždy násoben pouze jedním nenulovým prvkem
-z~$D$. Za této podmínky je možné násobení implementovat jednodušším způsobem.
+Výpočet syndromů $S_L$ je výpočet \emph{inverzí} v~tělese
+$GF(2^m)^t$, kde~$t$ tedy určuje počet koeficientů polynomů v~tomto tělese
+(respektive \emph{řád} tělesa).
 
 Výpočet matice~$H$ nad tělesem~$GF(2^m)$, stejně jako výpočet inverze
 \emph{syndromů}~$S_L$, můžeme opět zrychlit počítáním s~prvky
