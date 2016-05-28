@@ -110,8 +110,8 @@ poprvé v~roce \emph{1978} \emph{Robertem McEliece}~\cite{McEliece}. Je to tedy
 jedna z~nejstarších asymetrických šifer a je první šifrou využívající teorii
 kódování respektive samoopravné lineární kódy.
 
-Tento algoritmus není v~praxi využíván a to hlavně kvůli velikosti klíčů, které
-jsou mnohonásobně větší, než klíče u~aktuálně používaných šifer (\emph{EC\-DSA},
+Tento algoritmus není v~praxi využíván, a to hlavně kvůli velikosti klíčů, které
+jsou mnohonásobně větší než klíče u~aktuálně používaných šifer (\emph{EC\-DSA},
 \emph{RSA}, \ldots). Nicméně popularita tohoto kryptosystému v~poslední době
 roste, a~to především díky tomu, že je to jeden z~kandidátů pro postkvantovou
 asymetrickou kryptografii.
@@ -121,7 +121,7 @@ asymetrickou kryptografii.
 \section*{Motivace a cíl práce}
 
 Za téměř 40 let, co je algoritmus veřejně znám, nebyl nalezený algoritmus pro
-kvantový počítač, který by dokázal \emph{kryptosystém} prolomit rychleji, než na
+kvantový počítač, který by dokázal \emph{kryptosystém} prolomit rychleji než na
 běžných počítačích~\cite{Dinh}. Mezi kandidáty pro tzv. postkvantovou dobu je
 uveden např. v~publikaci \emph{Post-Quantum Cryptography} autorů \emph{Bernstein
 a~spol.}~\cite{Post-Quantum_Cryptography}. Dále varianta \emph{kryptosystému}
@@ -483,7 +483,7 @@ Generování klíčů probíhá následovně:
 
 Potom čísla $k$, $n$ a~$t$ jsou \emph{veřejné parametry} systému, matice
 $\hat{H}$ je \emph{veřejný klíč} a~kód s~\emph{kontrolní} maticí $H$ a~matice
-$S$ a~$P$ jsou \emph{soukromým klíč}.
+$S$ a~$P$ jsou \emph{soukromý klíč}.
 
 
 % --------------------------------------------------------------------
@@ -571,7 +571,7 @@ skrytého lineárního kódu.
 
 V~\cite{XingLi} byla dokázána ekvivalence složitosti prolomení tohoto
 kryptosystému s~kryptosystémem \emph{McEliece}. Útočník, který dokáže prolomit
-jeden ze systémů dokáže prolomit i~druhý. Další informace jsou k~nalezení
+jeden ze systémů, dokáže prolomit i~druhý. Další informace jsou k~nalezení
 v~\cite{Niederreiter,Courtois}.
 
 
@@ -610,7 +610,7 @@ $$ 2^{524}\sum_{i = 0}^{50}\binom{1024}{i} \approx 2^{808} $$
 \newpage
 
 Počet všech vektorů délky $1024$ je $2^{1024}$. Tedy pravděpodobnost, že vektor
-délky $1024$ půjde algoritmem \emph{dekódovat} je přibližně
+délky $1024$ půjde algoritmem \emph{dekódovat}, je přibližně
 $2^{-216}$~\cite{McEliece}.
 
 Algoritmus \emph{Niederreiter} selhává naprosto stejným způsobem
@@ -622,7 +622,7 @@ Algoritmus \emph{Niederreiter} selhává naprosto stejným způsobem
 
 Autoři \emph{Courtois a spol.} v~článku~\cite{Courtois} dokázali vzorec
 pravděpodobnosti, že náhodný \emph{syndrom} délky~$n-k$ (a při použití
-\emph{Goppa kódů}) je možné dekódovat je
+\emph{Goppa kódů}) je možné dekódovat, je
 $$
     \mathcal{P} = \frac{N_{\text{dekódovatelné}}}{N_{\text{celkem}}} \approx
     \frac{\frac{n^t}{t!}}{n^t} = \frac{1}{t!}
@@ -965,7 +965,7 @@ kód~$\Gamma$.
 
 \paragraph{Výpočet odmocniny} \hfil \\
 Odmocninu v~rozšířeném binárním tělese můžeme jednoduše odvodit. Prvek $r$ je
-\emph{odmocninou} prvku $b$ (z~tělesa $\mathbb{F}$, pokud platí:
+\emph{odmocninou} prvku $a$ (z~tělesa $\mathbb{F}$, pokud platí:
 $$ r^2 = a \quad \Rightarrow r = \sqrt{a} $$
 
 Nechť $N$ je počet prvků \emph{multiplikativní grupy} tělesa $\mathbb{F}$, potom
@@ -1163,7 +1163,7 @@ rovnic -- pokud je řešitelná.
 
 Autoři uvádí, že pro minimalizaci $W_j$ je rozumné -- při rozumných velikostech
 kódů -- volit $j=2$. Tento útok v~době publikování snížil složitost útoku na
-\emph{kryptosystém McEliece} přibližně $2^11$-krát~\cite{Lee}.
+\emph{kryptosystém McEliece} přibližně $2^{11}$-krát~\cite{Lee}.
 
 
 % --------------------------------------------------------------------
@@ -1338,7 +1338,7 @@ Těmto slabinám se dá vyhnout díky použití \emph{CCA2} bezpečné konverzi
 
 Použití šifrování tak, jak je definováno v~kapitole~\ref{kap_mceliece_algoritmy}
 umožňuje deterministickým způsobem změnit (neznámou) zašifrovanou zprávu -- tzv.
-\emph{mealleability}.
+\emph{malleability}.
 
 Zašifrovanou zprávu $c_1$ veřejným klíčem $\hat{G}$ jsme zkonstruovali (dle
 definice) $c_1 = m_1\hat{G} + z$, kde $z$ je náhodný chybový vektor. Pokud
@@ -1495,7 +1495,8 @@ použití zatím nebylo prolomeno, jsou \emph{kvazi-dyadické Goppa kódy}, kter
 zmíníme v~kapitole~\ref{kap_kvazi} a~\emph{MDPC} kódy v~kapitole~\ref{kap_MDPC}.
 
 Kromě definovaného kódu jsou v~\emph{soukromém klíči} obsažené též dvě velké
-matice $S$ a~$P$. Snížením velikosti těchto matic se zabýváme v~podkapitole~.
+matice $S$ a~$P$. Snížením velikosti těchto matic se zabýváme
+v~podkapitole~\ref{kap_vyznam_matic_S_a_P}.
 
 
 % --------------------------------------------------------------------
@@ -1513,7 +1514,7 @@ kapitola~\ref{kap_cca2}).
 
 
 % --------------------------------------------------------------------
-\subsection{Význam matic $S$ a $P$}
+\subsection{Význam matic $S$ a $P$}\label{kap_vyznam_matic_S_a_P}
 
 Jak jsme již zmínili v~kapitole \ref{kap_velikost_klicu}, \emph{permutační}
 matici $P$ není nutné ukládat jako matici bitů, ale pouze jako \emph{indexy}
@@ -1622,11 +1623,11 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
     \begin{tabular}{l l}
         Vektor      & Délka                                 \\
         \hline
-        $y_1$       & $max(|rand|, n+|const|)$              \\
-        $y_2$       & $max(|r|,|hash|$                      \\
+        $y_1$       & $max(|PRNG|, n+|const|)$              \\
+        $y_2$       & $max(|rand|,|hash|$                   \\
         $y_3$       & $k$                                   \\
         $y_4$       & $\log_2 \binom{n}{t}$                 \\
-        $y_5$       & $n + |const| + |r| - |y_4| - |y_3|$   \\
+        $y_5$       & $n + |const| + |rand| - |y_4| - |y_3|$   \\
     \end{tabular}
     \caption[Délky vektorů v~CCA2 odolné konverzi $\gamma$]{
         Délky vektorů v~algoritmu Kobara-Imai $\gamma$
@@ -1636,26 +1637,26 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{l p{10cm}}
+    \begin{tabular}{l p{9.5cm}}
         Symbol          &   Význam \\
         \hline
         $(a|b)$         &   zřetězení vektorů $a$ a $b$ \\
         $m$             &   otevřený text \\
         $const$         &   veřejně známá konstanta \\
-        $r$             &   náhodné číslo (\emph{seed}) \\
+        $rand$          &   náhodné číslo (\emph{seed}) \\
         $prep(m)$       &   funkce na doplnění zprávy na požadovanou délku
                             (jednoznačný \emph{padding}) \\
         $hash(l)$       &   kryptograficky bezpečná \emph{hashovací} funkce
                             s~výstupem délky $\log_2 \binom{n}{t}$\;bitů \\
-        $rand(r)$       &   kryptograficky bezpečná funkce inicializovaná
-                            \emph{seedem} $r$, která vrací (pseudonáhodný) vektor
-                            (\emph{CSPRNG}) \\
-        $conv$          &   invertibilní konverze čísla $\leq \binom{n}{t}$ na
+        $PRNG(r)$       &   kryptograficky bezpečná funkce inicializovaná
+                            \emph{seedem} $r$ ($rand$), která vrací
+                            (pseudonáhodný) vektor (\emph{CSPRNG}) \\
+        $conv(y)$       &   invertibilní konverze čísla $y \leq \binom{n}{t}$ na
                             odpovídající vektor délky~$n$ a~váhy~$t$ (viz též
                             kapitola~\ref{kap_schema_pro_podpis}) \\
         $E_{\hat{G}}(m,e)$
                         &   šifrovací algoritmus \emph{McEliece} (vstupem je
-                            zpráva $m$ a chybový vektor $z$) \\
+                            zpráva $m$ a~chybový vektor $z$) \\
         $D_{SK}(c)$     &   dešifrovací algoritmus \emph{McEliece} se soukromým
                             klíčem $SK$ \\
         $MSB_n(l)$      &   $n$ nejvíce významných (levých) bitů vektoru $l$ \\
@@ -1678,11 +1679,11 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
 \begin{algoritmus}[!ht]
     \caption{Konverze Kobara-Imai $\gamma$}\label{alg_cca2}
     \begin{algorithmic}[1]
-        \Function{encrypt}{ $m$, $r$, $const$ }
+        \Function{encrypt}{ $m$, $rand$, $const$ }
         \State $\bar{m} \gets prep(m) $
-        \State $ y_1 \gets rand(r) + (\bar{m}|const) $
+        \State $ y_1 \gets PRNG(rand) + (\bar{m}|const) $
             \Comment{1.}
-        \State $ y_2 \gets r + hash(y_1) $
+        \State $ y_2 \gets rand + hash(y_1) $
             \Comment{2.}
         \State $ (y_5|y_4|y_3) \gets (y_2|y_1) $
 
@@ -1697,16 +1698,16 @@ v~tabulce~\ref{tab_znaceni_cca2} a~délky vektorů v~tabulce~\ref{tab_delky_cca2
 
     \begin{algorithmic}[1]
         \Function{decrypt}{ $c$, $const$ }
-        \State $ y_5 \gets MSB_{|c|-n} $
+        \State $ y_5 \gets MSB_{|c|-n}(c) $
         \State $ (y_3,e) \gets D_{SK}(LSB_n(c)) $
             \Comment{4.}
         \State $ y_4 \gets conv^{-1}(e) $
             \Comment{3.}
         \State $ (y_2|y_1) \gets (y_5|y_4|y_3) $
 
-        \State $ r \gets y_2 + hash(y_1) $
+        \State $ rand \gets y_2 + hash(y_1) $
             \Comment{2.}
-        \State $ (\bar{m}|\bar{const}) \gets y_1 + rand(r) $
+        \State $ (\bar{m}|\bar{const}) \gets y_1 + PRNG(rand) $
             \Comment{1.}
 
         \If{$\bar{const} = const$}
@@ -1757,7 +1758,7 @@ včetně jejich \emph{rozšíření}. V~podkapitole~\ref{kap_existujici_reseni}
 zmíníme existující řešení v~softwaru \emph{Mathematica}
 a~v~\ref{kap_zvolene_reseni} odůvodníme a~představíme zvolené řešení
 implementace. Dále se v~podkapitole~\ref{kap_implementace_operaci} detailně
-věnujeme implementovanými algoritmy a~též jsou zde uvedené příklady výpočtů.
+zabýváme implementovanými algoritmy a~též jsou zde uvedené příklady výpočtů.
 Nakonec v~\ref{kap_telesa_zlepseni} zmíníme některá možná zlepšení
 implementovaných operací.
 
@@ -2458,7 +2459,7 @@ a~parametr~$t$ stupeň (ireducibilního) \emph{Goppova} polynomu~$g$. Parametr~$
 \emph{všechny} prvky z~tělesa $GF(2^m)$. Redundance takového kódu je $r=mt$,
 jelikož vygenerovaná matice~$H$ má $t$~řádků nad tělesem $GF(2^m)$, neboli
 $mt$~řádků nad tělesem $GF(2)$. Parametr~$k$ je pak jednoznačně určený
-z~definice kódu jako $n-k$ tedy $2^m-mt$.
+z~definice kódu jako $n-r$ tedy $2^m-mt$.
 
 Pro sestrojení \emph{kontrolní} matice~$H$ potřebujeme vygenerovat
 \emph{podporu} kó\-du~$L$ a~matice $V$ a~$D$. Pro sestrojení těchto objektů je též
@@ -3624,7 +3625,7 @@ bylo zadání splněno v~plném rozsahu.
 % články, knihy
 
     \bibitem{McEliece}
-        Robert J. \textsc{McEliece}, A~Public-Key Cryptosystem Based on
+        Robert J. \textsc{McEliece}. A~Public-Key Cryptosystem Based on
         Algebraic Coding Theory v~\emph{JPL Deep Space Network Progress Report},
         strany 114-116. 1978. Dostupné online
         \url{http://ipnpr.jpl.nasa.gov/progress_report2/42-44/44N.PDF}
@@ -3680,7 +3681,7 @@ bylo zadání splněno v~plném rozsahu.
 
     \bibitem{Canteaut}
         Anne \textsc{Canteaut}, Florent \textsc{Chabaud}. Improvements of
-        the Attacks on Cryptosystems Based on Error-Correcting Codes,
+        the Attacks on Cryptosystems Based on Error-Correcting Codes
         v~\emph{Research Report LIENS-95-21}. École Normale Supérieure, 1995
         Dostupné online
         \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.1645}
@@ -3873,7 +3874,7 @@ bylo zadání splněno v~plném rozsahu.
         \url{https://www.researchgate.net/publication/250969195\_On\_insecurity\_of\_cryptosystems\_based\_on\_generalized\_Reed-Solomon\_codes}
 
     \bibitem{Stern}
-        Jacques \textsc{Stern}. A~method for finding code words of small weight,
+        Jacques \textsc{Stern}. A~method for finding code words of small weight
         v~\emph{Coding Theory and Applications}, 3rd International Colloquium,
         strany 106-113. Springer Berlin Heidelberg, 1988. Dostupné online
         \url{http://link.springer.com/chapter/10.1007/BFb0019850}
@@ -4013,7 +4014,7 @@ Pro ujasnění je uvedena definice tělesa:
 Číslo $p$ se nazývá \emph{charakteristika}. Navíc platí, že \emph{všechna
 konečná tělesa} se stejným počtem prvků jsou navzájem \emph{izomorfní}.
 \emph{Konečné těleso} řádu $p^n$ je tedy dále označováno jako $GF(p^n)$
-(z~anglického \emph{Gallois field}, dle francouzského matematika \emph{Évariste
+(z~anglického \emph{Galois field}, dle francouzského matematika \emph{Évariste
 Galois}).
 
 
@@ -4117,7 +4118,7 @@ $$
 
 \paragraph{Poznámka:} Pokud by zvolený $p(x)$ nebyl \emph{ireducibilní}, jednalo
 by se o~\emph{okruh}, nikoliv o~\emph{těleso}, protože by neexistovala
-\emph{multiplikativní inverze} pro některé prvky a~navíc by i~existovaly tzv.
+\emph{multiplikativní inverze} pro některé prvky, a~navíc by i~existovaly tzv.
 \emph{dělitelé nuly}.
 
 
@@ -4205,7 +4206,7 @@ nás ale budou ve své podstatě zajímat pouze tělesa $GF(2^n)^m$.
 \paragraph{Polynomy jako rozšířená tělesa} \hfil \\
 Na konečná tělesa $GF(p^n)$ realizované polynomy, jak byly představeny v~minulé
 kapitole je možné se dívat jako na \emph{rozšíření} tělesa $GF(2)$. Stejně tak,
-jako jsme sestrojily polynomy nad $GF(2^n)$ (\uv{polynomy nad polynomy}).
+jako jsme sestrojili polynomy nad $GF(2^n)$ (\uv{polynomy nad polynomy}).
 
 \begin{definice}{Okruh polynomů:}
     Nechť $\mathbb{F}$ je těleso. Množinu okruhu polynomů $R = \mathbb{F}[x]$
@@ -4324,7 +4325,7 @@ Z~definice prostého zobrazení vyplývá, že existuje \emph{kódové slovo} pr
 \emph{všechny} zprávy a~že existuje \emph{inverzní} zobrazení
 $\mathcal{K}^{-1}$. Množina všech kódových slov je jednoznačně určena zobrazením
 množiny zpráv $\mathcal{B} = \mathcal{K}(GF(2)^k) = \mathcal{K}(\mathcal{A})$.
-Vektory délky $n$, které nepatří do množiny $\mathcal{B}$ nazveme jako
+Vektory délky $n$, které nepatří do množiny $\mathcal{B}$, nazveme jako
 \emph{nekódová slova} (vektory). Operací \emph{zakódování} budeme rozumět
 aplikaci zobrazení $\mathcal{K}$ a~operací dekódování aplikaci
 $\mathcal{K}^{-1}$, tedy získání původní zprávy z~(\emph{kódového}) slova.
@@ -4414,7 +4415,7 @@ Jinými slovy \emph{kódová slova} kódu $\mathcal{K}$ tvoří \emph{lineární
 prostor} -- přesněji \emph{lineární podprostor} vektorového prostoru $GF(2)^n$.
 V~tomto prostoru definujeme klasické operace sčítání dvou vektorů jako operaci
 \emph{XOR} a~násobení skaláru s~vektorem jako operaci násobení po jednotlivých
-složkách vektoru. Je jasné, že v~případě násobení skalárem $0$ je výsledek
+složkách vektoru. Je jasné, že v~případě násobení skalárem $0$, je výsledek
 operace násobení skalárem \emph{nulový vektor} ($0 \cdot \mathbf{v} = \mathbf{0}$)
 a~násobením skalárem $1$ získáme původní (nezměněný) vektor
 ($1 \cdot \mathbf{v} = \mathbf{v}$).
@@ -4696,7 +4697,7 @@ odpovídat původnímu a~ani není možné tuto situaci nijak \emph{detekovat}.
     \item[EEA]      \emph{Extended Euclidean Algorithm} -- rozšířený Euklidův algoritmus
     \item[GCD]      \emph{Greatest Common Divisor} -- největší společný dělitel
     \item[GRS]      \emph{Generalised Reed-Solomon code} -- zobecněný Reed-Solomon kód
-    \item[GF]       \emph{Gallois Field} -- konečné těleso
+    \item[GF]       \emph{Galois Field} -- konečné těleso
     \item[LSB]      \emph{Least Significant Bit}/\emph{Byte} -- nejméně významný bit/bajt
     \item[MDPC]     \emph{Moderate Density Parity-Check} kódy
     \item[MSB]      \emph{Most Significant Bit}/\emph{Byte} -- nejvíce významný bit/bajt
