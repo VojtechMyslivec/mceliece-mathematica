@@ -128,12 +128,15 @@ Export[ soubor["desifrovani"], plDesifr, ImageResolution->150 ];
 (*Casova zavislost na parametru m pro t = tMax/2*)
 
 
-tPul   = Ceiling[ (Length/@mereniM[[All,2]])/2 ];
-range  = Range[Length[mereniM]];
+(* m pouze do velikosti mMax *)
+mereniMRozsah   = mereniM[[1;;mMax-mMin+1]];
+
+tPul   = Ceiling[ (Length/@mereniMRozsah[[All,2]])/2 ];
+range  = Range[Length[mereniMRozsah]];
 indexy = Transpose[{ range, 2 &/@ range, tPul }];
 m      = range+mMin-1;
 
-mereniT    = Part[ mereniM, #/.List->Sequence ]& /@ indexy;
+mereniT    = Part[ mereniMRozsah, #/.List->Sequence ]& /@ indexy;
 listGen    = Transpose[{ m, mereniT[[All,2,1,1]]      }];
 listSifr   = Transpose[{ m, mereniT[[All,2,2,1]]*1000 }];
 listDesifr = Transpose[{ m, mereniT[[All,2,3,1]]      }];
@@ -151,7 +154,6 @@ soubor = StringTemplate[ "grafy/listplot_tPul_`1`.pdf"];
 Export[ soubor["generovani"],  plGen,    ImageResolution->150 ];
 Export[ soubor["sifrovani"],   plSifr,   ImageResolution->150 ];
 Export[ soubor["desifrovani"], plDesifr, ImageResolution->150 ];
-
 
 
 (* ::Text:: *)
