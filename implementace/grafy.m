@@ -153,17 +153,6 @@ Export[ soubor["sifrovani"],   plSifr,   ImageResolution->150 ];
 Export[ soubor["desifrovani"], plDesifr, ImageResolution->150 ];
 
 
-(* ::Text:: *)
-(*Extrapolace casove zavislosti na parametru m pro t = tMax/2*)
-
-
-ClearAll[x];
-f[x_]   = Fit[ listGen, {E^x}, x ];
-plExtra = Plot[ f[x], {x,3,12}, AxesOrigin->{2.5,0}, AxesLabel->{osaXm,osaYs}, Evaluate[moznostiPlot] ];
-
-plShow  = Show[ plExtra, plGen ];
-Export[ "grafy/extrapolace_generovani.pdf", plShow, ImageResolution->150 ];
-
 
 (* ::Text:: *)
 (*Pomer casu straveny na jednotlivych operaci (pro m = 8)*)
