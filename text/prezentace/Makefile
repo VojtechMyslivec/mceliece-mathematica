@@ -9,7 +9,6 @@ $(target): $(source)
 	vlna $^
 	pdflatex $^
 	pdflatex $^
-	pdflatex $^
 
 .PHONY: clean
 clean:
