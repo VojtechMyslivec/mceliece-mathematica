@@ -20,5 +20,5 @@ $(target): $(source)
 
 .PHONY: clean
 clean:
-	rm -f $(name).aux $(name).loa $(name).lof $(name).log $(name).lot $(name).out $(name).te~ $(name).toc
+	rm -f $(name).aux $(name).loa $(name).lof $(name).log $(name).lot $(name).nav $(name).out $(name).snm $(name).te~ $(name).toc
 
