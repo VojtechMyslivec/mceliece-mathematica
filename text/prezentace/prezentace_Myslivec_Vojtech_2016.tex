@@ -45,14 +45,14 @@ Bc. Vojtěch Myslivec \\
 
 % ==============================================================================
 % ==============================================================================
-\section{Úvod}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% \section{Úvod}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
-\begin{frame}{Postkvantová kryptografie}
+\begin{frame}{Motivace}
     \begin{itemize}
 
         \item Kvantové počítače -- \alert{Shorův algoritmus} 1994
@@ -77,14 +77,16 @@ Bc. Vojtěch Myslivec \\
 % ==============================================================================
 % ==============================================================================
 \section{Kryptosystém McEliece}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
 \begin{frame}{Kryptosystém McEliece}
     \begin{itemize}
+
+            \pause
 
         \item \structure{Asymetrický šifrovací algoritmus}
             \begin{itemize}
@@ -324,18 +326,75 @@ $$
 
 \end{frame}
 
+% ------------------------------------------------------------------------------
+\begin{frame}{Kryptoanalýza systému McEliece}
+
+    \begin{alertblock}{Známé útoky na McEliece}
+        \begin{itemize}
+
+                \pause
+            \item Útoky na strukturu použitého kódu
+                \begin{itemize}
+                    \item prolomeny \emph{GRS} a další
+                \end{itemize}
+
+            \item Nalezení \emph{kódového slova s~nízkou vahou}
+                \begin{itemize}
+                    \item \structure{Canteaut a Chabaud}~\cite{Canteaut}
+                \end{itemize}
+
+            \item Útok s~\emph{informační množinou}, \emph{Support Spliting Algorithm}, \ldots
+
+        \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+\begin{frame}{Kryptoanalýza systému McEliece}
+
+    \begin{exampleblock}{Bezpečné parametry}
+
+        \begin{table}
+            \begin{center}
+            \begin{tabular}{l|l|r|r|r|l}
+                \multirow{2}{*}{Kryptosystém} & \multirow{2}{*}{Parametry} & \multirow{2}{*}{\shortstack{Míra \\ bezpečnosti}} & \multirow{2}{*}{\shortstack{Velikost \\ klíče}} & \multicolumn{2}{c}{\shortstack{Složitost}} \\
+                & & & & šifr. & dešifr. \\
+                    \hline
+                \multirow{3}{*}{\emph{RSA}}
+                    & $1024$b modul                 & $\sim  80$\;b &    $1$\;kb & $2^{30}$ & $2^{30}$  \\
+                    & $2048$b modul                 & $\sim 112$\;b &    $2$\;kb & $2^{33}$ & $2^{33}$  \\
+                    & $4096$b modul                 & $\sim 145$\;b &    $4$\;kb & $2^{36}$ & $2^{36}$  \\
+                    \hline
+                \multirow{3}{*}{\emph{McEliece}}
+                    & $ \left(2048,1608,40\right)$  & $\sim  98$\;b &  $691$\;kb & $2^{20}$ & $2^{23}$  \\
+                    & $ \left(2048,1278,70\right)$  & $\sim 110$\;b &  $961$\;kb & $2^{20}$ & $2^{24}$  \\
+                    & $ \left(4096,2056,170\right)$ & $\sim 184$\;b & $4096$\;kb & $2^{22}$ & $2^{26}$  \\
+            \end{tabular}
+            \caption[Porovnání \emph{McEliece} a \emph{RSA}]{
+                Porovnání \emph{McEliece} a \emph{RSA} dle \cite{Engelbert,Paar}
+            }
+            \end{center}
+        \end{table}
+
+    \end{exampleblock}
+
+\end{frame}
+
 
 % ==============================================================================
 % ==============================================================================
 \section{Binární Goppa kódy}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
 \begin{frame}{Binární Goppa kódy}
     \begin{itemize}
+
+            \pause
 
         \item Základ pro \emph{code-based} kryptografii
 
@@ -435,15 +494,19 @@ $$
     \begin{block}{Dekódování}
         \pause
         \emph{Pattersonův algoritmus}~\cite{Patterson}
+
             \pause
         \begin{itemize}
             \item Opravuje až $t$ chyb
             \item Kritická místa:
                 \begin{itemize}
                     \item Výpočet odmocniny
+                    \item Upravený \emph{EEA} algoritmus
+                    \item Sestrojení lokátoru chyb
                     \item Hledání kořenů
                 \end{itemize}
-            \pause
+
+                \pause
             \item Detaily v~práci
         \end{itemize}
 
@@ -454,77 +517,11 @@ $$
 
 % ==============================================================================
 % ==============================================================================
-\section{Kryptoanalýza}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
-
-% ------------------------------------------------------------------------------
-\begin{frame}{Kryptoanalýza systému McEliece}
-
-    \begin{alertblock}{Známé útoky na McEliece}
-        \begin{itemize}
-
-                \pause
-            \item Útoky na strukturu použitého kódu
-                \begin{itemize}
-                    \item \emph{GRS} a další
-                \end{itemize}
-
-                \pause
-            \item Nalezení \emph{kódového slova s~nízkou vahou}
-                \begin{itemize}
-                    \item \structure{Canteaut a Chabaud}~\cite{Canteaut}
-                \end{itemize}
-
-                \pause
-            \item Útok s~\emph{informační množinou}, \emph{Support Spliting Algorithm}, \ldots
-
-        \end{itemize}
-    \end{alertblock}
-
-\end{frame}
-
-% ------------------------------------------------------------------------------
-\begin{frame}{Kryptoanalýza systému McEliece}
-
-    \begin{exampleblock}{Bezpečné parametry}
-
-        \begin{table}
-            \begin{center}
-            \begin{tabular}{l|l|r|r|r|l}
-                \multirow{2}{*}{Kryptosystém} & \multirow{2}{*}{Parametry} & \multirow{2}{*}{\shortstack{Míra \\ bezpečnosti}} & \multirow{2}{*}{\shortstack{Velikost \\ klíče}} & \multicolumn{2}{c}{\shortstack{Složitost}} \\
-                & & & & šifr. & dešifr. \\
-                    \hline
-                \multirow{3}{*}{\emph{RSA}}
-                    & $1024$b modul                 & $\sim  80$\;b &    $1$\;kb & $2^{30}$ & $2^{30}$  \\
-                    & $2048$b modul                 & $\sim 112$\;b &    $2$\;kb & $2^{33}$ & $2^{33}$  \\
-                    & $4096$b modul                 & $\sim 145$\;b &    $4$\;kb & $2^{36}$ & $2^{36}$  \\
-                    \hline
-                \multirow{3}{*}{\emph{McEliece}}
-                    & $ \left(2048,1608,40\right)$  & $\sim  98$\;b &  $691$\;kb & $2^{20}$ & $2^{23}$  \\
-                    & $ \left(2048,1278,70\right)$  & $\sim 110$\;b &  $961$\;kb & $2^{20}$ & $2^{24}$  \\
-                    & $ \left(4096,2056,170\right)$ & $\sim 184$\;b & $4096$\;kb & $2^{22}$ & $2^{26}$  \\
-            \end{tabular}
-            \caption[Porovnání \emph{McEliece} a \emph{RSA}]{
-                Porovnání \emph{McEliece} a \emph{RSA} dle \cite{Engelbert,Paar}
-            }
-            \end{center}
-        \end{table}
-
-    \end{exampleblock}
-
-\end{frame}
-
-
-% ==============================================================================
-% ==============================================================================
 \section{Implementace}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
 \begin{frame}{Implementace}
@@ -583,13 +580,15 @@ $$
 % ==============================================================================
 % ==============================================================================
 \section{Výsledky měření}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
 \begin{frame}{Výsledky měření}
+
+            \pause
 
     \begin{itemize}
         \item Měření prováděno v~\emph{GPU laboratoři} (T9:350)
@@ -677,20 +676,20 @@ $$
 % ==============================================================================
 % ==============================================================================
 \section{Závěr}
-% ------------------------------------------------------------------------------
-\begin{frame}{Obsah}
-    \tableofcontents[currentsection]
-\end{frame}
+% % ------------------------------------------------------------------------------
+% \begin{frame}{Obsah}
+%     \tableofcontents[currentsection]
+% \end{frame}
 
 % ------------------------------------------------------------------------------
 \begin{frame}{Závěr}
 
-    \begin{itemize}
-        \item Zadání splněno
+        \pause
 
-            \pause
-        \item Hluboká rešerše kryptosystému nad rámec této prezentace
+    \begin{itemize}
+        \item Rešerše kryptosystému
             \begin{itemize}
+                \item Základní varianta a schéma pro podpis
                 \item Kryptoanalýzy systému
                 \item Metody zkrácení klíčů
                 \item Slabiny a moderní varianty
@@ -702,7 +701,7 @@ $$
             \pause
         \item Experimentálně ověřené složitosti
             \begin{itemize}
-                \item Kritické části výpočtu
+                \item Izolovány kritické části výpočtu
             \end{itemize}
 
     \end{itemize}
